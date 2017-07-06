@@ -24,8 +24,10 @@ class CreateSolicitacoesTable extends Migration
 
             //------------------------FOREIGN--------------------------------
             $table->integer('servico_id')->unsigned()->nullable();
+            $table->integer('solicitante_id')->unsigned()->nullable();
 
             $table->foreign('servico_id')->references('id')->on('servicos')->onDelete('cascade');
+            $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
             //---------------------------------------------------------------
 
 
