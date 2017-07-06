@@ -19,6 +19,17 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
+
+
+            $table->char('cpf',11)                          ->nullable();
+            $table->unsignedInteger('matricula')            ->nullable();
+            $table->string('cargo',30)                      ->nullable();
+
+            //------------------------FOREIGN--------------------------------
+            $table->integer('secretaria_id')->unsigned()->nullable();
+            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
+            //---------------------------------------------------------------
+
             $table->timestamps();
         });
     }
