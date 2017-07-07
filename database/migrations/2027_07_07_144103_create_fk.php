@@ -15,7 +15,7 @@ class CreateFk extends Migration
         });
 
 
-        Schema::table('Solicitacoes', function($table){
+        Schema::table('solicitacoes', function($table){
             $table->foreign('servico_id')->references('id')->on('servicos')->onDelete('cascade');
             $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
         });
@@ -52,7 +52,7 @@ class CreateFk extends Migration
         });
 
 
-        Schema::table('Solicitacoes', function($table){
+        Schema::table('solicitacoes', function($table){
             $table->dropForeign('solicitacoes_servico_id_foreign');
             $table->dropForeign('solicitacoes_solicitante_id_foreign');   
         });
