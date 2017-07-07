@@ -13,7 +13,7 @@ class CreateSolicitantesTable extends Migration
      */
     public function up()
     {
-        Schema::create('Solicitantes', function (Blueprint $table) {
+        Schema::create('solicitantes', function (Blueprint $table) {
             $table->increments('id');
 
 
