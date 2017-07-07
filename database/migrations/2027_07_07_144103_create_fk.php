@@ -45,7 +45,40 @@ class CreateFk extends Migration
 
     public function down()
     {
-        //Schema::disableForeignKeyConstraints();
+
+
+        Schema::table('servicos', function($table){
+            $table->dropForeign('servicos_setor_id_foreign');   
+        });
+
+
+        Schema::table('Solicitacoes', function($table){
+            $table->dropForeign('solicitacoes_servico_id_foreign');
+            $table->dropForeign('solicitacoes_solicitante_id_foreign');   
+        });
+
+
+        Schema::table('enderecos', function($table){
+            $table->dropForeign('enderecos_secretaria_id_foreign');
+            $table->dropForeign('enderecos_solicitacao_id_foreign');
+            $table->dropForeign('enderecos_solicitante_id_foreign');
+        });
+
+        
+        Schema::table('users', function($table){
+           $table->dropForeign('users_secretaria_id_foreign');
+        });
+
+        Schema::table('mensagens', function($table){
+            $table->dropForeign('mensagens_solicitacao_id_foreign');           
+        });
+
+        Schema::table('setores', function($table){
+            $table->dropForeign('setores_secretaria_id_foreign');   
+        });
+
+
+        
     }
 
 }
