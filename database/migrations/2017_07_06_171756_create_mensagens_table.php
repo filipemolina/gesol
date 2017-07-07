@@ -14,16 +14,15 @@ class CreateMensagensTable extends Migration
     public function up()
     {
         Schema::create('mensagens', function (Blueprint $table) {
-            $table->increments('id');
+            $table->BigIncrements('id');
 
             $table->string('mensagem',30);
             $table->boolean('encerramento')->nullable();
+            $table->boolean('lida')->default(false);
 
 
             //------------------------FOREIGN--------------------------------
-            $table->integer('solicitacao_id')->unsigned()->nullable();
-
-            $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
+            $table->integer('solicitacao_id')->unsigned();
             //---------------------------------------------------------------
             $table->timestamps();
         });

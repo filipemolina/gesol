@@ -24,9 +24,6 @@ class CreateSecretariasTable extends Migration
             $table->time('inicio_atendimento')              ->nullable();
             $table->time('termino_atendimento')             ->nullable();
 
-
-           
-
             $table->softDeletes();
 
             $table->timestamps();

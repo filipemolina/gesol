@@ -23,11 +23,8 @@ class CreateSolicitacoesTable extends Migration
             $table->unsignedInteger('prioridade')           ->nullable();
 
             //------------------------FOREIGN--------------------------------
-            $table->integer('servico_id')->unsigned()->nullable();
-            $table->integer('solicitante_id')->unsigned()->nullable();
-
-            $table->foreign('servico_id')->references('id')->on('servicos')->onDelete('cascade');
-            $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
+            $table->integer('servico_id')->unsigned();
+            $table->integer('solicitante_id')->unsigned();
             //---------------------------------------------------------------
 
 

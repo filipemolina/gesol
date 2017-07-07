@@ -30,12 +30,6 @@ class CreateEnderecosTable extends Migration
             $table->integer('solicitante_id')->unsigned()->nullable();
             $table->integer('solicitacao_id')->unsigned()->nullable();
             $table->integer('secretaria_id')->unsigned()->nullable();
-            
-
-
-            $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
-            $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
-            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
             //---------------------------------------------------------------
 
             $table->softDeletes();

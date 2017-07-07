@@ -26,8 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('cargo',30)                      ->nullable();
 
             //------------------------FOREIGN--------------------------------
-            $table->integer('secretaria_id')->unsigned()->nullable();
-            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
+            $table->integer('secretaria_id')->unsigned();
             //---------------------------------------------------------------
 
             $table->timestamps();
