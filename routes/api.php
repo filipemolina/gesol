@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +22,6 @@ use Socialite;
 Route::middleware('api')->post("/user", function(Request $request){
 
 	// Obter o usuário do facebook
-
-	$user = Socialite::driver('facebook')->userFromToken($request->token);
 
 	// Procurar no banco de dados por um solicitante que possua a UID fornecida
 
