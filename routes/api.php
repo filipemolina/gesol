@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Models\solicitante;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,20 +22,31 @@ use Illuminate\Http\Request;
 
 Route::middleware('api')->post("/user", function(Request $request){
 
-	// Obter o usuário do facebook
+	// Obter os dados enviados, incluindo o Token do facebook
+
+	$dados = $request->all();
 
 	// Procurar no banco de dados por um solicitante que possua a UID fornecida
 
-	// $user->id
+	$solicitante = solicitante::where('uid', $request->uid)->get();
 
-	// Caso o usuário não exista, criar um usando nome, email e token do usuário e uma senha aleatória
+	if($solicitante->count() < 1)
+	{
+		// Caso o usuário não exista, criar um usando nome, email e token do usuário e uma senha aleatória
 
-	// $user->name
-	// $user->email
-	// $user->token
-	// bcrypt(time().name.email.token)
+		// $user->name
+		// $user->email
+		// $user->token
+		// bcrypt(time().name.email.token)
 
-	// Caso o usuário já exista, retornar o username e password
+		return json_encode([ 'erro' => $solicitante->count()]);
+
+	} else {
+
+		// Caso o usuário já exista, retornar o username e password
+		return json_encode([ 'sucesso' => 'Usuário encontrado. Logando']);
+
+	}
 
 	// return json_encode({ "username" => $user->email, "password" => $user->password })
 
