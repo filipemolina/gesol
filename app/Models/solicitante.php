@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class solicitante extends Model
+class Solicitante extends Model
 {
  	protected $table = "solicitantes";
 
@@ -50,11 +50,11 @@ class solicitante extends Model
 
     public function endereco()
 	{
-		return $this->hasOne('App\Models\endereco');
+		return $this->hasOne('App\Models\Endereco');
 	}
 
 	public function solicitacoes()
     {
-        return $this->hasMany('App\Models\solicitacao');
+        return $this->hasMany('App\Models\Solicitacao');
     }
 }

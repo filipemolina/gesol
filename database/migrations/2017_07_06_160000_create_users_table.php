@@ -20,15 +20,12 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
 
-
-            $table->char('cpf',11)                          ->nullable();
-            $table->unsignedInteger('matricula')            ->nullable();
-            $table->string('cargo',30)                      ->nullable();
-
             //------------------------FOREIGN--------------------------------
-            $table->integer('secretaria_id')->unsigned();
-            //---------------------------------------------------------------
+            $table->integer('funcionario_id')->nullable()->unsigned();
+            $table->integer('solicitante_id')->nullable()->unsigned();
+            //------------------------FOREIGN--------------------------------
 
+            
             $table->timestamps();
         });
     }

@@ -16,23 +16,23 @@ class solicitacao extends Model
     ];
 
 
-    public function servico()
+    public function Servico()
     {
-    	return $this->belongsTo('App\Models\servico');
+    	return $this->belongsTo('App\Models\Servico');
     }
 
 	public function solicitante()
     {
-    	return $this->belongsTo('App\Models\solicitante');
+    	return $this->belongsTo('App\Models\Solicitante');
     }
 
     public function endereco()
 	{
-		return $this->hasOne('App\Models\endereco');
+		return $this->hasOne('App\Models\Endereco');
 	}
 
 	public function mensagens()
     {
-        return $this->hasMany('App\Models\mensagem');
+        return $this->hasMany('App\Models\Mensagem');
     }
 }
