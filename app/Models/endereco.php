@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class endereco extends Model
+class Endereco extends Model
 {
  	protected $table = "enderecos";
 
@@ -22,17 +22,17 @@ class endereco extends Model
 
     public function secretaria()
     {
-    	return $this->belongsTo('App\Models\secretaria', 'secretaria_id');
+    	return $this->belongsTo('App\Models\Secretaria', 'secretaria_id');
     }
 
     public function solicitacao()
     {
-    	return $this->belongsTo('App\Models\solicitacao', 'solicitacao_id');
+    	return $this->belongsTo('App\Models\Solicitacao', 'solicitacao_id');
     }
 
     public function solicitante()
     {
-    	return $this->belongsTo('App\Models\solicitante', 'solicitante_id');
+    	return $this->belongsTo('App\Models\Solicitante', 'solicitante_id');
     }
 
 

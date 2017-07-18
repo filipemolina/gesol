@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class secretaria extends Model
+class Secretaria extends Model
 {
 
  	protected $table = "secretarias";
@@ -22,12 +22,12 @@ class secretaria extends Model
 
 
 
-    public function endereco()
+    public function Endereco()
 	{
 		return $this->hasOne('App\Models\endereco');
 	}
 
-    public function setores()
+    public function Setores()
     {
         return $this->hasMany('App\Models\setor');
     }

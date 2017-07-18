@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class servico extends Model
+class Servico extends Model
 {
 	protected $table = "servicos";
 
@@ -16,11 +16,11 @@ class servico extends Model
 
     public function setor()
     {
-    	return $this->belongsTo('App\Models\setor');
+    	return $this->belongsTo('App\Models\Setor');
     }
 
 	public function solicitacoes()
     {
-        return $this->hasMany('App\Models\solicitacao');
+        return $this->hasMany('App\Models\Solicitacao');
     }
 }

@@ -30,7 +30,7 @@ class CreateSolicitantesTable extends Migration
                                 ])                          ->nullable();
 
             $table->string('telefone', 15)                  ->nullable();
-            $table->binary('foto')                          ->nullable();
+            $table->string('foto')                          ->nullable();
 
             $table->string('status', 15)                    ->nullable();
 
@@ -100,9 +100,6 @@ class CreateSolicitantesTable extends Migration
                 'Doutorado - Incompleto',
                 'Doutorado - Completo'
                                         ])                  ->nullable();
-
-
-
 
 
 

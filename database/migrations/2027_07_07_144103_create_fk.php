@@ -28,9 +28,10 @@ class CreateFk extends Migration
         });
 
         
-        Schema::table('users', function($table){
+        Schema::table('funcionarios', function($table){
             $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
         });
+        
 
         Schema::table('mensagens', function($table){
             $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
@@ -39,22 +40,23 @@ class CreateFk extends Migration
         Schema::table('setores', function($table){
             $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
         });
+
+        Schema::table('users', function($table){
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
+            $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
+        });
             
+        Schema::enableForeignKeyConstraints();
     }
 
 
     public function down()
     {
 
+        Schema::disableForeignKeyConstraints();
 
-        Schema::table('servicos', function($table){
-            $table->dropForeign('servicos_setor_id_foreign');   
-        });
-
-
-        Schema::table('solicitacoes', function($table){
-            $table->dropForeign('solicitacoes_servico_id_foreign');
-            $table->dropForeign('solicitacoes_solicitante_id_foreign');   
+/*        Schema::table('setores', function($table){
+            $table->dropForeign('setores_secretaria_id_foreign'); 
         });
 
 
@@ -63,6 +65,9 @@ class CreateFk extends Migration
             $table->dropForeign('enderecos_solicitacao_id_foreign');
             $table->dropForeign('enderecos_solicitante_id_foreign');
         });
+
+
+
 
         
         Schema::table('users', function($table){
@@ -77,101 +82,22 @@ class CreateFk extends Migration
             $table->dropForeign('setores_secretaria_id_foreign');   
         });
 
-
-        
-    }
-
-}
-
-
-
-
-// ======================================================================
-
-class FkTables extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-
-        Schema::table('irmao', function($table){
-            $table->foreign('fk_loja_iniciacao')->references('id')->on('loja');
-            $table->foreign('fk_loja_elevacao')->references('id')->on('loja');
-            $table->foreign('fk_loja_exaltacao')->references('id')->on('loja');
-            $table->foreign('fk_loja_instalacao')->references('id')->on('loja');
+        Schema::table('users', function($table){
+            $table->dropForeign('users_funcionarios_id_foreign'); 
+            $table->dropForeign('users_solicitantes_id_foreign'); 
         });
 
 
-
-        Schema::table('dependente', function($table){
-
-            $table->foreign('fk_id_irmao')->references('id')->on('irmao');
+        Schema::table('servicos', function($table){
+            $table->dropForeign('servicos_setor_id_foreign');   
         });
 
 
-        Schema::table('email', function($table){
-
-            $table->foreign('fk_id_irmao')->references('id')->on('irmao');
-            $table->foreign('fk_id_loja')->references('id')->on('loja');
-            $table->foreign('fk_id_dependente')->references('id')->on('dependente');
-            $table->foreign('fk_id_visitante')->references('id')->on('visitante');
+        Schema::table('solicitacoes', function($table){
+            $table->dropForeign('solicitacoes_servico_id_foreign');
+            $table->dropForeign('solicitacoes_solicitante_id_foreign');   
         });
-
-        Schema::table('endereco', function($table){
-
-            $table->foreign('fk_id_pais')->references('id')->on('pais');
-            $table->foreign('fk_id_uf')->references('id')->on('uf');
-            $table->foreign('fk_id_municipio')->references('id')->on('municipio');
-            $table->foreign('fk_id_bairro')->references('id')->on('bairro');
-            $table->foreign('fk_id_irmao')->references('id')->on('irmao');
-            $table->foreign('fk_id_loja')->references('id')->on('loja');
-            $table->foreign('fk_id_visitante')->references('id')->on('visitante');
-        });
-
-        Schema::table('ocupacao_cargo', function($table){
-            $table->foreign('fk_id_irmao')->references('id')->on('irmao');
-            $table->foreign('fk_id_cargo')->references('id')->on('cargo');
-        });
-
-        Schema::table('presenca_sessao', function($table){
-            $table->foreign('fk_id_sessao')->references('id')->on('sessao');
-            $table->foreign('fk_id_irmao')->references('id')->on('irmao');
-            $table->foreign('fk_id_cargo')->references('id')->on('cargo');
-        });
-
-
-        Schema::table('telefone', function($table){
-            $table->foreign('fk_id_irmao')->references('id')->on('irmao');
-            $table->foreign('fk_id_loja')->references('id')->on('loja');
-            $table->foreign('fk_id_dependente')->references('id')->on('dependente');
-            $table->foreign('fk_id_visitante')->references('id')->on('visitante');
-        });
-
-        Schema::table('visita', function($table){
-            $table->foreign('fk_id_visitante')->references('id')->on('visitante');
-        });
-
-
-        Schema::table('visitante', function($table){
-            $table->integer('fk_id_loja')->unsigned();
-            $table->foreign('fk_id_loja')->references('id')->on('loja');
-
-
-        });
-
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        //
+*/
     }
 }
+
