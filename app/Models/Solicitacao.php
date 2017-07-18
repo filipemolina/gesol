@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class solicitacao extends Model
+class Solicitacao extends Model
 {
    protected $table = "solicitacoes";
 
@@ -16,7 +16,7 @@ class solicitacao extends Model
     ];
 
 
-    public function Servico()
+    public function servico()
     {
     	return $this->belongsTo('App\Models\Servico');
     }

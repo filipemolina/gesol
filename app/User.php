@@ -27,4 +27,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // Relacionamentos
+
+    public function funcionario()
+    {
+        return $this->belongsTo('App\Models\Funcionario');
+    }
+
+    public function solicitante()
+    {
+        return $this->belongsTo('App\Models\Solicitante');
+    }
 }

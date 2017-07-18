@@ -57,4 +57,9 @@ class Solicitante extends Model
     {
         return $this->hasMany('App\Models\Solicitacao');
     }
+
+    public function user()
+    {
+        return $this->hasOne('App\User');
+    }
 }
