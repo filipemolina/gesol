@@ -30,13 +30,13 @@ Tip 3: you can change the color of the sidebar with data-background-color="white
                 <div class="collapse" id="collapseExample">
                     <ul class="nav">
                         <li>
-                            <a href="#">My Profile</a>
+                            <a href="#">Meu Perfil</a>
                         </li>
                         <li>
-                            <a href="#">Edit Profile</a>
+                            <a href="#">Editar Perfil</a>
                         </li>
                         <li>
-                            <a href="#">Settings</a>
+                            <a href="#">COnfigurações</a>
                         </li>
                     </ul>
                 </div>
