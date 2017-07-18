@@ -21,7 +21,7 @@ class CreateSolicitantesTable extends Migration
             $table->string('email',100)                         ->unique();
             $table->string('uid')                           ->unique();
             $table->string('token')                         ->unique();
-            $table->string('celular',15)                    ->unique();
+            $table->string('celular',15)                    ->nullable();
 
             $table->enum('sexo',[
                                     'Feminino', 
@@ -30,7 +30,7 @@ class CreateSolicitantesTable extends Migration
                                 ])                          ->nullable();
 
             $table->string('telefone', 15)                  ->nullable();
-            $table->binary('foto')                          ->nullable();
+            $table->string('foto')                          ->nullable();
 
             $table->string('status', 15)                    ->nullable();
 
@@ -100,9 +100,6 @@ class CreateSolicitantesTable extends Migration
                 'Doutorado - Incompleto',
                 'Doutorado - Completo'
                                         ])                  ->nullable();
-
-
-
 
 
 

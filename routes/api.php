@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use App\Models\Solicitante;
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,22 +24,40 @@ use Illuminate\Http\Request;
 
 Route::middleware('api')->post("/user", function(Request $request){
 
-	// Obter o usuário do facebook
+	// Obter os dados enviados, incluindo o Token do facebook
+
+	$dados = $request->all();
 
 	// Procurar no banco de dados por um solicitante que possua a UID fornecida
 
-	// $user->id
+	$solicitante = Solicitante::where('uid', $request->uid)->get();
 
-	// Caso o usuário não exista, criar um usando nome, email e token do usuário e uma senha aleatória
+	if($solicitante->count() < 1)
+	{
+		// Caso o solicitante não exista, criar um usando nome, email e token do usuário e uma senha aleatória
 
-	// $user->name
-	// $user->email
-	// $user->token
-	// bcrypt(time().name.email.token)
+		$novo_solicitante = Solicitante::create([
+			'nome'  => $request->name,
+			'email' => $request->email,
+			'token' => $request->token,
+			'uid'   => $request->uid,
+		]);
 
-	// Caso o usuário já exista, retornar o username e password
+		$novo_user = User::create([
+			'name'           => $request->name,
+			'email'          => $request->email,
+			'password'       => Hash::make(time()),
+			'solicitante_id' => $novo_solicitante->id;
+		]);
 
-	// return json_encode({ "username" => $user->email, "password" => $user->password })
+		return json_encode([ 'sucesso' => 'Usuário não encontrado. Cadastrado no banco de dados.']);
+
+	} else {
+
+		// Caso o usuário já exista, retornar o username e password
+		return json_encode([ 'sucesso' => 'Usuário encontrado. Logando']);
+
+	}
 
 });
 

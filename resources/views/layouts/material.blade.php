@@ -1,147 +1,92 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Welcome To | Bootstrap Based Admin Template - Material Design</title>
-    <!-- Favicon-->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
-
-    <!-- Bootstrap Core Css -->
-    <link href="{{ asset('plugins/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
-
-    <!-- Waves Effect Css -->
-    <link href="{{ asset('plugins/node-waves/waves.css') }}" rel="stylesheet" />
-
-    <!-- Animation Css -->
-    <link href="{{ asset('plugins/animate-css/animate.css') }}" rel="stylesheet" />
-
-    <!-- Morris Chart Css-->
-    <link href="{{ asset('plugins/morrisjs/morris.css') }}" rel="stylesheet" />
-
-    <!-- Custom Css -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-
-    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
-    <link href="{{ asset('css/themes/all-themes.css') }}" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/apple-icon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title> @section('titulo') @show </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <!-- Bootstrap core CSS     -->
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+    <!--  Material Dashboard CSS    -->
+    <link href="{{ asset('css/material-dashboard.css') }}" rel="stylesheet" />
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
 </head>
 
-<body class="theme-red">
-    <!-- Page Loader -->
-    <div class="page-loader-wrapper">
-        <div class="loader">
-            <div class="preloader">
-                <div class="spinner-layer pl-red">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div>
-                    <div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
+<body>
+    <div class="wrapper">
+
+        {{-- Menu Lateral --}}
+        
+        @include('includes.layouts.sidebar')
+
+        <div class="main-panel">
+
+            {{-- Menu Superior --}}
+            
+            @include('includes.layouts.topbar')
+
+            <div class="content">
+                <div class="container-fluid">
+
+                    {{-- Conteúdo Principal --}}
+    
+                    @yield('content')
+
                 </div>
             </div>
-            <p>Please wait...</p>
+
+            {{-- Rodapé --}}
+
+            @include('includes.layouts.footer')
+            
         </div>
     </div>
-    <!-- #END# Page Loader -->
-    <!-- Overlay For Sidebars -->
-    <div class="overlay"></div>
-    <!-- #END# Overlay For Sidebars -->
-    
-    @include('includes.componentes.topbar')
-
-    @include('includes.componentes.sidebar')
-
-    <section class="content">
-        <div class="container-fluid">
-
-
-            <div class="block-header">
-                <h2>DASHBOARD</h2>
-            </div>
-
-            
-            @include('includes.componentes.infoboxes')
-
-            <div class="row clearfix">
-
-                @include('includes.componentes.card-basic')
-
-                @include('includes.componentes.card-colored')
-
-            </div>
-
-            @include('includes.componentes.cpu')
-
-            <div class="row clearfix">
-                
-                @include('includes.componentes.visitors')
-
-                @include('includes.componentes.social-trends')
-                
-                @include('includes.componentes.tickets')
-
-            </div>
-
-            <div class="row clearfix">
-                
-                @include('includes.componentes.task-infos')
-
-                @include('includes.componentes.browser-usage')
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Jquery Core Js -->
-    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-
-    <!-- Bootstrap Core Js -->
-    <script src="{{ asset('plugins/bootstrap/js/bootstrap.js') }}"></script>
-
-    <!-- Select Plugin Js -->
-    <script src="{{ asset('plugins/bootstrap-select/js/bootstrap-select.js') }}"></script>
-
-    <!-- Slimscroll Plugin Js -->
-    <script src="{{ asset('plugins/jquery-slimscroll/jquery.slimscroll.js') }}"></script>
-
-    <!-- Waves Effect Plugin Js -->
-    <script src="{{ asset('plugins/node-waves/waves.js') }}"></script>
-
-    <!-- Jquery CountTo Plugin Js -->
-    <script src="{{ asset('plugins/jquery-countto/jquery.countTo.js') }}"></script>
-
-    <!-- Morris Plugin Js -->
-    <script src="{{ asset('plugins/raphael/raphael.min.js') }}"></script>
-    <script src="{{ asset('plugins/morrisjs/morris.js') }}"></script>
-
-    <!-- ChartJs -->
-    <script src="{{ asset('plugins/chartjs/Chart.bundle.js') }}"></script>
-
-    <!-- Flot Charts Plugin Js -->
-    <script src="{{ asset('plugins/flot-charts/jquery.flot.js') }}"></script>
-    <script src="{{ asset('plugins/flot-charts/jquery.flot.resize.js') }}"></script>
-    <script src="{{ asset('plugins/flot-charts/jquery.flot.pie.js') }}"></script>
-    <script src="{{ asset('plugins/flot-charts/jquery.flot.categories.js') }}"></script>
-    <script src="{{ asset('plugins/flot-charts/jquery.flot.time.js') }}"></script>
-
-    <!-- Sparkline Chart Plugin Js -->
-    <script src="{{ asset('plugins/jquery-sparkline/jquery.sparkline.js') }}"></script>
-
-    <!-- Custom Js -->
-    <script src="{{ asset('js/admin.js') }}"></script>
-    <script src="{{ asset('js/pages/index.js') }}"></script>
-
-    <!-- Demo Js -->
-    <script src="{{ asset('js/demo.js') }}"></script>
-
-    @stack('scripts')
 </body>
+<!--   Core JS Files   -->
+<script src="{{ asset('js/jquery-3.1.1.min.js') }}"  type="text/javascript"></script>
+<script src="{{ asset('js/jquery-ui.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/material.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/perfect-scrollbar.jquery.min.js') }}" type="text/javascript"></script>
+<!-- Forms Validations Plugin -->
+<script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
+<script src="{{ asset('js/moment.min.js') }}"></script>
+<!--  Charts Plugin -->
+<script src="{{ asset('js/chartist.min.js') }}"></script>
+<!--  Plugin for the Wizard -->
+<script src="{{ asset('js/jquery.bootstrap-wizard.js') }}"></script>
+<!--  Notifications Plugin    -->
+<script src="{{ asset('js/bootstrap-notify.js') }}"></script>
+<!-- DateTimePicker Plugin -->
+<script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
+<!-- Vector Map plugin -->
+<script src="{{ asset('js/jquery-jvectormap.js') }}"></script>
+<!-- Sliders Plugin -->
+<script src="{{ asset('js/nouislider.min.js') }}"></script>
+<!--  Google Maps Plugin    -->
+{{-- <script src="https://maps.googleapis.com/maps/api/js"></script> --}}
+<!-- Select Plugin -->
+<script src="{{ asset('js/jquery.select-bootstrap.js') }}"></script>
+<!--  DataTables.net Plugin    -->
+<script src="{{ asset('js/jquery.datatables.js') }}"></script>
+<!-- Sweet Alert 2 plugin -->
+<script src="{{ asset('js/sweetalert2.js') }}"></script>
+<!--	Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+<script src="{{ asset('js/jasny-bootstrap.min.js') }}"></script>
+<!--  Full Calendar Plugin    -->
+<script src="{{ asset('js/fullcalendar.min.js') }}"></script>
+<!-- TagsInput Plugin -->
+<script src="{{ asset('js/jquery.tagsinput.js') }}"></script>
+<!-- Material Dashboard javascript methods -->
+<script src="{{ asset('js/material-dashboard.js') }}"></script>
+{{-- Javascript do Projeto --}}
+<script src="{{ asset('js/scripts.js') }}"></script>
 
 </html>
