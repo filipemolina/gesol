@@ -47,7 +47,7 @@ Route::middleware('api')->post("/user", function(Request $request){
 			'name'           => $request->name,
 			'email'          => $request->email,
 			'password'       => Hash::make(time()),
-			'solicitante_id' => $novo_solicitante->id;
+			'solicitante_id' => $novo_solicitante->id
 		]);
 
 		return json_encode([ 'sucesso' => 'Usuário não encontrado. Cadastrado no banco de dados.']);

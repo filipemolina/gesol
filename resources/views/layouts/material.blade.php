@@ -86,6 +86,8 @@
 <script src="{{ asset('js/jquery.tagsinput.js') }}"></script>
 <!-- Material Dashboard javascript methods -->
 <script src="{{ asset('js/material-dashboard.js') }}"></script>
+{{-- jquery inputmask --}}
+<script src="{{ asset('js/jquery.inputmask.bundle.js') }}"></script>
 {{-- Javascript do Projeto --}}
 <script src="{{ asset('js/scripts.js') }}"></script>
 
