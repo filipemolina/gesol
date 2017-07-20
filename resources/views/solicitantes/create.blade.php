@@ -241,10 +241,6 @@ Equipe de Desenvolvimento de Sistemas
 <script src="{{ asset('js/jquery.tagsinput.js') }}"></script>
 <!-- Material Dashboard javascript methods -->
 <script src="{{ asset('js/material-dashboard.js') }}"></script>
-
-{{-- jquery inputmask --}}
-<script src="{{ asset('js/jquery.inputmask.bundle.js') }}"></script>
-
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="{{ asset('js/demo.js') }}"></script>
 <script type="text/javascript">
