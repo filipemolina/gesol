@@ -18,7 +18,7 @@ class CreateSolicitantesTable extends Migration
 
 
             $table->string('nome',50);
-            $table->string('email')                         ->unique();
+            $table->string('email',100)                         ->unique();
             $table->string('uid')                           ->unique();
             $table->string('token')                         ->unique();
             $table->string('celular',15)                    ->nullable();
