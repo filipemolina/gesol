@@ -18,6 +18,8 @@
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
+
+    
 </head>
 
 <body>
@@ -134,7 +136,7 @@
                                                 <span class="input-group-addon">
                                                     <i class="material-icons">credit_card</i>
                                                 </span>
-                                                <input data-inputmask="'mask': '99-9999999'" type="text" class="form-control" placeholder="CPF">
+                                                <input id="cpf" type="text" class="form-control" placeholder="CPF">
                                             </div>
                                             <div class="input-group">
                                                 <span class="input-group-addon">
@@ -243,6 +245,11 @@ Equipe de Desenvolvimento de Sistemas
 <script src="{{ asset('js/material-dashboard.js') }}"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="{{ asset('js/demo.js') }}"></script>
+
+<script src="{{ asset('js/vanillaMasker.min.js') }}"></script>
+
+<script src="{{ asset('js/scripts.js') }}"></script>
+
 <script type="text/javascript">
     $().ready(function() {
 

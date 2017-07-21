@@ -29,5 +29,6 @@ class AuthServiceProvider extends ServiceProvider
         // Rotas para o Passport (Autenticação via API)
 
         Passport::routes();
+
     }
 }

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\Solicitante;
 use App\User;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +24,7 @@ use App\User;
  * se o usuário já existe no banco de dados ou não.
  */
 
-Route::middleware('auth:api')->post("/user", function(Request $request){
+Route::post("/user", function(Request $request){
 
 	// Obter os dados enviados, incluindo o Token do facebook
 
@@ -67,20 +69,29 @@ Route::middleware('auth:api')->post("/user", function(Request $request){
 
 		}
 
-		// Retonar um JSON com as informações do usuário
+		// Definir a variável para utilizar o solicitante criado
 
-		return $novo_solicitante->user->toJson();
+		$solicitante = $novo_solicitante;
 
 	} else {
 
-		// Retornar um JSON com as informações do usuário
+		// Definir a variável para utilizar o solicitante existente
 
-		return $solicitante[0]->toJson();
+		$solicitante = $solicitante[0];
 
 	}
 
+	// Criar um token de acesso pessoal
+
+	return $solicitante->user->createToken('Token APP');
 });
 
 Route::middleware('auth:api')->get('/profile', function (Request $request) {
     return $request->user();
+});
+
+Route::get("/callback", function(Request $request){
+
+	print_r($request);
+
 });
