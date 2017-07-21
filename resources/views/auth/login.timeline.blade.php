@@ -8,10 +8,15 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>360| Servidor(a) logon</title>
+    <title>teste</title>
 
     <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon.png" />
+    <link rel="icon" type="image/png" href="img/favicon.png" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Material Dashboard Pro by Creative Tim</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
     <!-- Bootstrap core CSS     -->
@@ -24,16 +29,19 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
 
-    <link href="{{ asset('css/animate.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
 </head>
-<body class="fundo_dourado">
-        <nav class="navbar navbar-default navbar-static-top animated fadeInDownBig">
+<body>
+    <div id="app">
+        <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
-                <div class="navbar-header rodar_icone">
-                    <a class="navbar-brand btn btn-dourado btn-simple btn-wd btn-lg" href="{{ url('/') }}" data-toggle="tooltip" title="Trocar para munícipe">
-                        <i class="material-icons">cached</i>
-                        Acesso do(a) Servidor(a)
+                <div class="navbar-header">
+
+
+
+                    <!-- Branding Image -->
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        Trocar
                     </a>
                 </div>
 
@@ -45,10 +53,10 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->   
+                        <!-- Authentication Links -->
                         @if (Auth::guest())
-                            {{-- <li><a href="{{ route('login') }}">Login</a></li> --}}
-                            {{-- <li><a href="{{ route('register') }}">Register</a></li> --}}
+                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -83,7 +91,7 @@
                     <div class="row">
                         <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
                             <form method="#" action="#">
-                                <div class="card card-login card-hidden">
+                                <div class="card card-login card-hidden modal-content">
                                     <div class="logo logo-login-pn"></div>
                                     <div class="card-content">
                                     <br>
@@ -94,7 +102,7 @@
                                             <span class="input-group-addon">
                                                 <i class="material-icons">perm_identity</i>
                                             </span>
-                                            <div class="form-group label-floating has-dourado">
+                                            <div class="form-group label-floating">
                                                 <label class="control-label">Usuário(a)</label>
                                                 <input type="email" class="form-control">
                                             </div>
@@ -103,14 +111,14 @@
                                             <span class="input-group-addon">
                                                 <i class="material-icons">lock_outline</i>
                                             </span>
-                                            <div class="form-group label-floating has-dourado">
+                                            <div class="form-group label-floating">
                                                 <label class="control-label">Senha</label>
                                                 <input type="password" class="form-control">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="footer text-center">
-                                        <button type="submit" class="btn btn-dourado btn-wd btn-lg">Acessar</button>
+                                        <button type="submit" class="btn btn-rose btn-simple btn-wd btn-lg">Acessar</button>
                                     </div>
                                 </div>
                             </form>
@@ -149,67 +157,66 @@
                         <script>
                             document.write(new Date().getFullYear())
                         </script>
-                        <a href="http://tecnologia.mesquita.rj.gov.br" target="_blank">Subsecretaria da Tecnologia da Informação Equipe de Desenvolvimento de Sistemas Prefeitura Municipal de Mesquita RJ - Rua Arthur Oliveira Vecchi, 120 Centro Mesquita - RJ CEP: 26553-080 2017</a>
+                        <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
                     </p>
                 </div>
             </footer>
         </div>
     </div>
 <!--   Core JS Files   -->
-    <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
-    <script src="js/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="js/material.min.js" type="text/javascript"></script>
-    <script src="js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
-    <!-- Forms Validations Plugin -->
-    <script src="js/jquery.validate.min.js"></script>
-    <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
-    <script src="js/moment.min.js"></script>
-    <!--  Charts Plugin -->
-    <script src="js/chartist.min.js"></script>
-    <!--  Plugin for the Wizard -->
-    <script src="js/jquery.bootstrap-wizard.js"></script>
-    <!--  Notifications Plugin    -->
-    <script src="js/bootstrap-notify.js"></script>
-    <!-- DateTimePicker Plugin -->
-    <script src="js/bootstrap-datetimepicker.js"></script>
-    <!-- Vector Map plugin -->
-    <script src="js/jquery-jvectormap.js"></script>
-    <!-- Sliders Plugin -->
-    <script src="js/nouislider.min.js"></script>
-    <!--  Google Maps Plugin    -->
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
-    <!-- Select Plugin -->
-    <script src="js/jquery.select-bootstrap.js"></script>
-    <!--  DataTables.net Plugin    -->
-    <script src="js/jquery.datatables.js"></script>
-    <!-- Sweet Alert 2 plugin -->
-    <script src="js/sweetalert2.js"></script>
-    <!--    Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
-    <script src="js/jasny-bootstrap.min.js"></script>
-    <!--  Full Calendar Plugin    -->
-    <script src="js/fullcalendar.min.js"></script>
-    <!-- TagsInput Plugin -->
-    <script src="js/jquery.tagsinput.js"></script>
-    <!-- Material Dashboard javascript methods -->
-    <script src="js/material-dashboard.js"></script>
-    <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-    <script src="js/demo.js"></script>
-    <script type="text/javascript">
-        $().ready(function() {
-            demo.checkFullPageBackgroundImage();
+<script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+<script src="js/jquery-ui.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script src="js/material.min.js" type="text/javascript"></script>
+<script src="js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+<!-- Forms Validations Plugin -->
+<script src="js/jquery.validate.min.js"></script>
+<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
+<script src="js/moment.min.js"></script>
+<!--  Charts Plugin -->
+<script src="js/chartist.min.js"></script>
+<!--  Plugin for the Wizard -->
+<script src="js/jquery.bootstrap-wizard.js"></script>
+<!--  Notifications Plugin    -->
+<script src="js/bootstrap-notify.js"></script>
+<!-- DateTimePicker Plugin -->
+<script src="js/bootstrap-datetimepicker.js"></script>
+<!-- Vector Map plugin -->
+<script src="js/jquery-jvectormap.js"></script>
+<!-- Sliders Plugin -->
+<script src="js/nouislider.min.js"></script>
+<!--  Google Maps Plugin    -->
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<!-- Select Plugin -->
+<script src="js/jquery.select-bootstrap.js"></script>
+<!--  DataTables.net Plugin    -->
+<script src="js/jquery.datatables.js"></script>
+<!-- Sweet Alert 2 plugin -->
+<script src="js/sweetalert2.js"></script>
+<!--    Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+<script src="js/jasny-bootstrap.min.js"></script>
+<!--  Full Calendar Plugin    -->
+<script src="js/fullcalendar.min.js"></script>
+<!-- TagsInput Plugin -->
+<script src="js/jquery.tagsinput.js"></script>
+<!-- Material Dashboard javascript methods -->
+<script src="js/material-dashboard.js"></script>
+<!-- Material Dashboard DEMO methods, don't include it in your project! -->
+<script src="js/demo.js"></script>
+<script type="text/javascript">
+    $().ready(function() {
+        demo.checkFullPageBackgroundImage();
 
-            setTimeout(function() {
-                // after 1000 ms we add the class animated to the login/register card
-                $('.card').removeClass('card-hidden');
-            }, 700)
-        });
-    </script>
+        setTimeout(function() {
+            // after 1000 ms we add the class animated to the login/register card
+            $('.card').removeClass('card-hidden');
+        }, 700)
+    });
+</script>
+
+    </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-
-    @include('includes.login.scripts')
-
 </body>
 </html>
