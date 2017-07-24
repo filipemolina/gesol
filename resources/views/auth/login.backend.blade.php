@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>360| logon do munícipe</title>
+    <title>360| logon do servidor</title>
 
     <!-- Styles -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -27,13 +27,13 @@
     <link href="{{ asset('css/animate.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
 </head>
-<body class="fundo_roxo">
+<body class="fundo_dourado">
         <nav class="navbar navbar-default navbar-static-top animated fadeInDownBig">
             <div class="container">
                 <div class="navbar-header rodar_icone">
-                    <a class="navbar-brand btn btn-roxo btn-simple btn-wd btn-lg" href="{{ url('/') }}">
+                    <a class="navbar-brand btn btn-dourado btn-simple btn-wd btn-lg" href="{{ url('/') }}">
                         <i class="material-icons">cached</i>
-                        Alterar para servidor
+                        Alterar para munícipe
                     </a>
                 </div>
 
@@ -48,7 +48,7 @@
                         <!-- Authentication Links -->   
                         @if (Auth::guest())
                             {{-- <li><a href="{{ route('login') }}">Login</a></li> --}}
-                            <li><a href="{{ route('register') }}" class="btn btn-roxo btn-simple btn-wd btn-lg">Cadastre-se</a></li>
+                            {{-- <li><a href="{{ route('register') }}">Register</a></li> --}}
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -84,29 +84,23 @@
                         <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
                             <form method="#" action="#">
                                 <div class="card card-login card-hidden">
-                                <div class="logo logo-login-pn"></div>
-                                <div class="card-header text-center" data-background-color="roxo">
+                                    <div class="logo logo-login-pn"></div>
+                                    <div class="card-header text-center" data-background-color="dourado">
                                         <h4 class="card-title">Login</h4>
                                         <div class="social-line">
                                             <br>
                                             <a href="#btn" class="btn btn-just-icon btn-simple">
-                                                <i class="fa fa-facebook-square"></i>
-                                            </a>
-                                            {{-- <a href="#pablo" class="btn btn-just-icon btn-simple">
-                                                <i class="fa fa-twitter"></i>
-                                            </a> --}}
-                                            <a href="#eugen" class="btn btn-just-icon btn-simple">
-                                                <i class="fa fa-google-plus"></i>
+                                                <i class="fa"></i>
                                             </a>
                                         </div>
                                     </div>
                                     <div class="card-content">
                                         <div class="input-group">
                                             <span class="input-group-addon">
-                                                <i class="material-icons">email</i>
+                                                <i class="material-icons">perm_identity</i>
                                             </span>
-                                            <div class="form-group label-floating has-roxo">
-                                                <label class="control-label">E-mail</label>
+                                            <div class="form-group label-floating has-dourado">
+                                                <label class="control-label">Usuário(a)</label>
                                                 <input type="email" class="form-control">
                                             </div>
                                         </div>
@@ -114,14 +108,14 @@
                                             <span class="input-group-addon">
                                                 <i class="material-icons">lock_outline</i>
                                             </span>
-                                            <div class="form-group label-floating has-roxo">
+                                            <div class="form-group label-floating has-dourado">
                                                 <label class="control-label">Senha</label>
                                                 <input type="password" class="form-control">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="footer text-center">
-                                        <button type="submit" class="btn btn-roxo btn-wd btn-lg">Acessar</button>
+                                        <button type="submit" class="btn btn-dourado btn-wd btn-lg">Acessar</button>
                                     </div>
                                 </div>
                             </form>
