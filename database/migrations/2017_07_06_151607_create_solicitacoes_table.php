@@ -17,10 +17,13 @@ class CreateSolicitacoesTable extends Migration
             $table->increments('id');
 
 
-            $table->binary('foto')                          ->nullable();
-            $table->string('conteudo')                      ->nullable();
-            $table->string('status', 15)                    ->nullable();
-            $table->unsignedInteger('prioridade')           ->nullable();
+            $table->binary('foto')                                              ->nullable();
+            $table->string('conteudo')                                          ->nullable();
+            $table->enum('status', ['Aberta','Encaminhada',
+                                    'Aguardando','Pendente',
+                                    'Em execução','Fechada'])                   ->default('Aberta');
+
+            $table->enum('prioridade',['Baixa','Normal','Alta','Urgente'])      ->default('Baixa');
 
             //------------------------FOREIGN--------------------------------
             $table->integer('servico_id')->unsigned();

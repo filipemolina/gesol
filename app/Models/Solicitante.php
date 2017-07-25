@@ -53,6 +53,11 @@ class Solicitante extends Model
 		return $this->hasOne('App\Models\Endereco');
 	}
 
+    public function telefones()
+    {
+        return $this->hasMany('App\Models\Telefone');
+    }
+
 	public function solicitacoes()
     {
         return $this->hasMany('App\Models\Solicitacao');
