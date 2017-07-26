@@ -24,16 +24,21 @@ class Secretaria extends Model
 
     public function endereco()
 	{
-		return $this->hasOne('App\Models\endereco');
+		return $this->hasOne('App\Models\Endereco');
 	}
 
     public function setores()
     {
-        return $this->hasMany('App\Models\setor');
+        return $this->hasMany('App\Models\Setor');
     }
 
 	public function funcionarios()
     {
         return $this->hasMany('App\Models\Funcionario');
+    }
+
+     public function telefones()
+    {
+        return $this->hasMany('App\Models\Telefone');
     }
 }

@@ -18,10 +18,9 @@ class CreateSolicitantesTable extends Migration
 
 
             $table->string('nome',50);
-            $table->string('email',100)                         ->unique();
-            $table->string('uid')                           ->unique();
-            $table->string('token')                         ->unique();
-            $table->string('celular',15)                    ->nullable();
+            $table->string('email',100)                     ->unique();
+            $table->string('fb_uid')                        ->unique();
+            $table->string('fb_token')                      ->unique();
 
             $table->enum('sexo',[
                                     'Feminino', 
@@ -29,10 +28,10 @@ class CreateSolicitantesTable extends Migration
                                     'Outros'
                                 ])                          ->nullable();
 
-            $table->string('telefone', 15)                  ->nullable();
+            
             $table->string('foto')                          ->nullable();
 
-            $table->string('status', 15)                    ->nullable();
+            $table->enum('status', ['Criado', 'Ativo', 'Inativo']) ->default('Criado');
 
 
 
@@ -48,17 +47,12 @@ class CreateSolicitantesTable extends Migration
             $table->float('vr_bolsa')->nullable()           ->nullable();
             $table->integer('codigo_inscricao')             ->nullable();
             
-            //----------------------------SISTEMA CURRICULO---------------
-            $table->string('titulo', 30)                    ->nullable();
-            $table->string('indicacao_politica')            ->nullable();
-
-
             //-----------------------------DOCUMENTOS----------------------            
-            $table->char('cpf',11)                          ->nullable();
+            $table->char('cpf',14)                          ->nullable();
 
-            $table->string('identidade',20)                 ->nullable();
-            $table->date('emissao_idt')                     ->nullable();
-            $table->string('orgao_emissor_idt',10)          ->nullable();
+            $table->string('rg',20)                         ->nullable();
+            $table->date('emissao_rg')                      ->nullable();
+            $table->string('orgao_emissor_rg',30)           ->nullable();
 
             $table->string('titulo_eleitor',10)             ->nullable();
             $table->date('emissao_titulo')                  ->nullable();
@@ -67,8 +61,8 @@ class CreateSolicitantesTable extends Migration
 
             //----------------------------PESSOAIS---------------------------
             $table->date('nascimento')                      ->nullable();
-            $table->string('naturalidade',20)               ->nullable();
-            $table->string('nacionalidade',20)              ->nullable();
+            $table->string('naturalidade',100)               ->nullable();
+            $table->string('nacionalidade',50)              ->nullable();
             $table->string('pai',50)                        ->nullable();
             $table->string('mae',50)                        ->nullable();
             $table->enum('estado_civil', [

@@ -22,3 +22,8 @@ Route::get('/register', function () {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+//resources
+Route::resource('funcionario','FuncionariosController');
+Route::resource('users', 'UsersController');
