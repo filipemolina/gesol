@@ -38,6 +38,8 @@
     
                     @yield('content')
 
+                    <input type="text" class="input-teste">
+
                 </div>
             </div>
 
@@ -72,6 +74,7 @@
 <script src="{{ asset('js/nouislider.min.js') }}"></script>
 <!--  Google Maps Plugin    -->
 {{-- <script src="https://maps.googleapis.com/maps/api/js"></script> --}}
+
 <!-- Select Plugin -->
 <script src="{{ asset('js/jquery.select-bootstrap.js') }}"></script>
 <!--  DataTables.net Plugin    -->
@@ -86,6 +89,10 @@
 <script src="{{ asset('js/jquery.tagsinput.js') }}"></script>
 <!-- Material Dashboard javascript methods -->
 <script src="{{ asset('js/material-dashboard.js') }}"></script>
+
+{{-- Vanilla Masker --}}
+<script src="{{ asset('js/vanillaMasker.min.js') }}"></script>
+
 {{-- Javascript do Projeto --}}
 <script src="{{ asset('js/scripts.js') }}"></script>
 

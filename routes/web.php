@@ -17,4 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/register', function () {
+    return view('solicitantes.create');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
