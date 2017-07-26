@@ -20,4 +20,13 @@ class Telefone extends Model
     	return $this->belongsTo('App\Models\Solicitante', 'solicitante_id');
     }
 
+    public function setor()
+    {
+        return $this->belongsTo('App\Models\Setor', 'setor_id');
+    }
+
+    public function secretaria()
+    {
+        return $this->belongsTo('App\Models\Secretaria', 'secretaria_id');
+    }
 }

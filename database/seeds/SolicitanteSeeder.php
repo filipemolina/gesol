@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use App\Models\Servico;
 
 class SolicitanteSeeder extends Seeder
 {
@@ -11,6 +11,9 @@ class SolicitanteSeeder extends Seeder
 
  		factory(App\Models\Solicitante::class, 50)->create()->each(function($solicitante)
         {
+            // Obter todos os serviços
+
+            $servicos = Servico::all();
           
            //Criar um endereço
             $solicitante->endereco()->save(factory(App\Models\Endereco::class)->make());
@@ -20,9 +23,6 @@ class SolicitanteSeeder extends Seeder
             
             // Criar 1 usuario
             $solicitante->user()->save(factory(App\User::class)->make());
-
-            // Criar solicitações
-            //$solicitante->solicitacoes()->saveMany(factory(App\Models\Solicitacao::class, 2)->make());
 
         });
     }

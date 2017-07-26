@@ -20,7 +20,9 @@ class CreateTelefonesTable extends Migration
             
             $table->enum('tipo_telefone',['Fixo','Celular']);
 
-            $table->integer('solicitante_id')->unsigned();
+            $table->integer('solicitante_id')->unsigned()->nullable();
+            $table->integer('secretaria_id')->unsigned()->nullable();
+            $table->integer('setor_id')->unsigned()->nullable();
 
        
             $table->softDeletes();
