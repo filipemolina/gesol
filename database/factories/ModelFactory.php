@@ -119,12 +119,16 @@ $factory->define(App\Models\Setor::class, function(Faker\Generator $faker) {
 
 $factory->define(App\Models\Solicitacao::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
+
 	return [
 		'foto'					=> $faker->imageUrl(1024, 768, 'nature', true, 'Faker'),
 		'conteudo'             	=> $faker->realText($maxNbChars = 190, $indexSize = 2),
 		'status'				=> $faker->randomElement(['Aberta','Encaminhada','Aguardando','Pendente','Em execução','Fechada']),
 		'prioridade'			=> $faker->randomElement(['Baixa','Normal','Alta','Urgente']),
 		'created_at'            => $faker->dateTimeBetween('-5 weeks', 'now'),
+
+		'servico_id'  			=> App\Models\Servico::all()->random()->id,
+		'solicitante_id'		=> App\Models\Solicitante::all()->random()->id,
 	];
 });
 
