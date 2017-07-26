@@ -14,17 +14,23 @@ $(function(){
 	// Trocar o tipo de acesso
 
 	$('.troca-login-municipe').click(function(){
-			$('#login-municipe').fadeOut(1000)
-			$('#login-servidor').fadeIn(3000)
-			$('body').removeClass('fundo_roxo').addClass('fundo_dourado')
+		$('body').removeClass('fundo_roxo').addClass('fundo_dourado')
+		$('.navbar-header a.btn-roxo').addClass('animated fadeOutUp').fadeOut()
+		$('.navbar-header a.btn-dourado').removeClass('hide fadeOutUp').addClass('animated fadeInDown').fadeIn()
+		$('.navbar-collapse a.btn-roxo').addClass('animated fadeOutUp').removeClass('fadeInDown')
+		$('#login-municipe').removeClass('animated fadeInDown').addClass('animated fadeOutUp').fadeOut()
+		$(function e() { setTimeout(function(){$('#login-servidor').fadeIn().addClass('animated fadeInDown').removeClass('fadeOutUp')}, 1000) })
 	
 	});
 
 	$('.troca-login-servidor').click(function(){
-			$('#login-servidor').fadeOut(3000)
-			$('#login-municipe').fadeIn(1000)
-			$('body').removeClass('fundo_dourado').addClass('fundo_roxo')
-
+		$('body').removeClass('fundo_dourado').addClass('fundo_roxo')
+		$('.navbar-header a.btn-dourado').addClass('animated fadeOutUp').fadeOut()
+		$('.navbar-header a.btn-roxo').removeClass('hide fadeOutUp').addClass('animated fadeInDown').fadeIn()
+		$('.navbar-collapse a.btn-roxo').addClass('animated fadeInDown').removeClass('fadeOutUp')
+		$('#login-servidor').removeClass('animated fadeInDown').addClass('animated fadeOutUp').fadeOut()
+		$(function e() { setTimeout(function(){$('#login-municipe').fadeIn().addClass('animated fadeInDown').removeClass('fadeOutUp')}, 1000) })
+	
 	});
 
 });
