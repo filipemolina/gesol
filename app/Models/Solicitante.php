@@ -11,8 +11,8 @@ class Solicitante extends Model
     protected $fillable =[
 	 	'nome',
         'email',
-        'uid',
-        'token',
+        'fb_uid',
+        'fb_token',
         'celular',
         'sexo',
         'telefone',

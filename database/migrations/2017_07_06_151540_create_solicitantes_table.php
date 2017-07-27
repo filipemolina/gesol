@@ -20,7 +20,7 @@ class CreateSolicitantesTable extends Migration
             $table->string('nome',50);
             $table->string('email',100)                     ->unique();
             $table->string('fb_uid')                        ->unique();
-            $table->string('fb_token')                      ->unique();
+            $table->text('fb_token');
 
             $table->enum('sexo',[
                                     'Feminino', 

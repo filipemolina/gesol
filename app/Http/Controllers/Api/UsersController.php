@@ -30,18 +30,18 @@ class UsersController extends Controller
 
 		// Procurar no banco de dados por um solicitante que possua a UID fornecida
 
-		$solicitante = Solicitante::where('uid', $request->uid)->get();
+		$solicitante = Solicitante::where('fb_uid', $request->uid)->get();
 
 		if($solicitante->count() < 1)
 		{
 			// Caso o solicitante não exista, criar um usando nome, email e token do usuário e uma senha aleatória
 
 			$novo_solicitante = Solicitante::create([
-				'nome'  => $request->nome,
-				'email' => $request->email,
-				'token' => $request->token,
-				'uid'   => $request->uid,
-				'foto'  => $request->foto
+				'nome'     => $request->nome,
+				'email'    => $request->email,
+				'fb_token' => $request->token,
+				'fb_uid'   => $request->uid,
+				'foto'     => $request->foto
 			]);
 
 			// Procurar por um usuário na tabela Users que tenha o email enviardo na request
@@ -53,7 +53,6 @@ class UsersController extends Controller
 				// Caso o usuário não exista, criar um novo usuário relacionado ao solicitante
 
 				$novo_solicitante->user()->create([
-					'name'           => $request->nome,
 					'email'          => $request->email,
 					'password'       => Hash::make(123456)
 				]);
