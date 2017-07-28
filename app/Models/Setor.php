@@ -23,8 +23,13 @@ class Setor extends Model
         return $this->hasMany('App\Models\Servico');
     }
 
-     public function telefones()
+    public function telefones()
     {
         return $this->hasMany('App\Models\Telefone');
+    }
+
+    public function funcionarios()
+    {
+        return $this->hasMany('App\Models\Funcionario');
     }
 }
