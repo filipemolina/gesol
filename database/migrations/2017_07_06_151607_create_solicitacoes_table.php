@@ -17,7 +17,7 @@ class CreateSolicitacoesTable extends Migration
             $table->increments('id');
 
 
-            $table->binary('foto')                                              ->nullable();
+            $table->string('foto')                                              ->nullable();
             $table->string('conteudo')                                          ->nullable();
             $table->enum('status', ['Aberta','Encaminhada',
                                     'Aguardando','Pendente',
