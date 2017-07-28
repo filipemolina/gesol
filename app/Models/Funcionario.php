@@ -17,9 +17,9 @@ class Funcionario extends Model
 
     // Relacionamentos
 
-    public function secretaria()
+    public function setor()
     {
-    	return $this->belongsTo('App\Models\Secretaria');
+    	return $this->belongsTo('App\Models\Setor');
     }
 
     public function user()

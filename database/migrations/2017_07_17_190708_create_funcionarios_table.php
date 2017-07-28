@@ -22,7 +22,7 @@ class CreateFuncionariosTable extends Migration
             $table->string('foto')                          ->nullable();
 
             //------------------------FOREIGN--------------------------------
-            $table->integer('secretaria_id')->unsigned()     ->nullable();
+            $table->integer('setor_id')->unsigned();
             //---------------------------------------------------------------
 
 

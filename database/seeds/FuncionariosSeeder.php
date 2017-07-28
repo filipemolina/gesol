@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Secretaria;
+use App\Models\Setor;
 
 class FuncionariosSeeder extends Seeder
 {
@@ -12,15 +12,15 @@ class FuncionariosSeeder extends Seeder
      */
     public function run()
     {
-        // Obter todas as secretarias
+        // Obter todas as setores
 
-        $secretarias = Secretaria::all();
+        $setores = Setor::all();
 
-        foreach($secretarias as $secretaria)
+        foreach($setores as $setor)
         {
 
         	factory(App\Models\Funcionario::class, rand(1,10))
-        		->create([ 'secretaria_id' => $secretaria->id ])
+        		->create([ 'setor_id' => $setor->id ])
         		->each(function($funcionario){
 
         			$funcionario->user()->save(factory(App\User::class)->make());

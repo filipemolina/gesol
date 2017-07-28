@@ -29,7 +29,7 @@ class CreateFk extends Migration
 
         
         Schema::table('funcionarios', function($table){
-            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
+            $table->foreign('setor_id')->references('id')->on('setores')->onDelete('cascade');
         });
         
 

@@ -13,6 +13,11 @@ class Setor extends Model
     ];
 
 
+    public function funcionarios()
+    {
+        return $this->hasMany('App\Models\Funcionario');
+    }
+
     public function secretaria()
     {
     	return $this->belongsTo('App\Models\Secretaria');

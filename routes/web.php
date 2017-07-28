@@ -11,19 +11,27 @@
 |
 */
 
-Route::get('/', function () {
+
+
+Route::get('/home', 					'HomeController@index')->name('home');
+Route::get ('/logout', 					'Auth\LoginController@logout');
+
+
+Route::middleware('auth')->get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
 
 Route::get('/register', function () {
     return view('solicitantes.create');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+
 
 
 //resources
-Route::resource('funcionario','FuncionariosController');
-Route::resource('users', 'UsersController');
+Route::resource('solicitante','SolicitanteController');
+Route::resource('funcionario','FuncionarioController');
+//Route::resource('users', 'UsersController');
+
+Auth::routes();

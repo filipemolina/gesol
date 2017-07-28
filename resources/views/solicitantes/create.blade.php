@@ -122,7 +122,10 @@
                                         </button>
                                         <h4> Entre com Facebook ou Crie sua Conta!</h4>
                                     </div>
-                                    <form class="form" method="" action="">
+
+
+                                    <form class="form" method="POST" action="{{ route('solicitante.store') }}">
+                                            {{ csrf_field() }}
                                         <div class="card-content">
                                             <div class="input-group">
                                                 <span class="input-group-addon">
@@ -163,7 +166,7 @@
                                             </div>
                                         </div>
                                         <div class="footer text-center">
-                                            <a href="#pablo" class="btn btn-primary btn-round">Começar</a>
+                                            <input class="btn btn-primary btn-round " type="submit" value="Enviar"/>
                                         </div>
                                     </form>
                                 </div>
