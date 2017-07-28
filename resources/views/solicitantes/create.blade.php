@@ -19,11 +19,8 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
 
-<<<<<<< HEAD
-    
-=======
- <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />    
->>>>>>> origin/luciano
+     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />    
+
 </head>
 
 <body>
