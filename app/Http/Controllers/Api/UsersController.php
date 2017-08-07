@@ -152,15 +152,32 @@ class UsersController extends Controller
 
 		if($solicitante != null){
 
-			if(Hash::check($request->senha, $solicitante->user->password))
-			{
+			// Checar a senha
+
+			if(Hash::check($request->senha, $solicitante->user->password)){
+
 				return $solicitante->user->createToken("Token APP");
+
+			}else{
+
+				// Caso a senha esteja errada, criar um objeto de erro e retornar como json
+
+				$resposta = new \stdClass();
+				$resposta->senha = ['Senha não confere'];
+
+				return response()->json($resposta,422);
+
 			}
 
 		}
 		else
 		{
-			return response()->json(['error' => 422, '_body' => ['erro' => 'E-mail não encontrado.']], 422);
+			// Caso o email não seja encontrado, criar um objeto de erro e retornar como json
+
+			$resposta = new \stdClass();
+			$resposta->email = ['Este e-mail não está cadastrado no sistema.'];
+
+			return response()->json($resposta, 422);
 		}
 
 	}
