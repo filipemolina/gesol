@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Solicitacoes;
+use App\Models\Solicitacao;
 
 class SolicitacoesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +20,9 @@ class SolicitacoesController extends Controller
      */
     public function index()
     {
-        //
+        $Solicitacoes = Solicitacao::with('solicitante')->orderBy('created_at', 'desc')->limit(10)->get();
+
+        return $Solicitacoes->toJson();
     }
 
     /**

@@ -105,6 +105,7 @@ class UsersController extends Controller
 			'cpf' => $request->cpf,
 			'nome' => $request->nome,
 			'email' => $request->email,
+			'foto' => "http://lorempixel.com/200/200/people/",
 		]);
 
 		// Procurar por um usuário na tabela Users que tenha o email enviardo na request
@@ -156,7 +157,15 @@ class UsersController extends Controller
 
 			if(Hash::check($request->senha, $solicitante->user->password)){
 
-				return $solicitante->user->createToken("Token APP");
+				$resposta = new \stdClass();
+				$resposta->foto  = $solicitante->foto;
+				$resposta->nome  = $solicitante->nome;
+				$resposta->email = $solicitante->email;
+				$resposta->token = $solicitante->user->createToken("Token APP");
+				$resposta->id    = $solicitante->id;
+
+
+				return json_encode($resposta);
 
 			}else{
 
