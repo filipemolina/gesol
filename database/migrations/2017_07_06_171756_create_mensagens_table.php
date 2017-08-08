@@ -23,6 +23,7 @@ class CreateMensagensTable extends Migration
 
             //------------------------FOREIGN--------------------------------
             $table->integer('solicitacao_id')->unsigned();
+            $table->integer('funcionario_id')->unsigned()->nullable();
             //---------------------------------------------------------------
             $table->timestamps();
         });

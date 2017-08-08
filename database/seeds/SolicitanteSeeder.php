@@ -30,6 +30,10 @@ class SolicitanteSeeder extends Seeder
             factory(App\Models\Solicitacao::class, rand(1,5))->create()->each(function($solicitacao)
             {
                 $solicitacao->endereco()->save(factory(App\Models\Endereco::class)->make());
+
+                // Criar mensagens
+
+                $solicitacao->mensagens()->saveMany(factory(App\Models\Mensagem::class, rand(0, 5))->make());
             });
         });
     }

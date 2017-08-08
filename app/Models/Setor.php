@@ -33,8 +33,4 @@ class Setor extends Model
         return $this->hasMany('App\Models\Telefone');
     }
 
-    public function funcionarios()
-    {
-        return $this->hasMany('App\Models\Funcionario');
-    }
 }
