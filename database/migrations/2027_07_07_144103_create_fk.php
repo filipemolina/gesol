@@ -35,6 +35,7 @@ class CreateFk extends Migration
 
         Schema::table('mensagens', function($table){
             $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
         });
 
         Schema::table('setores', function($table){
