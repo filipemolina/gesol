@@ -33,5 +33,3 @@ Route::get('/register', function () {
 Route::resource('solicitante','SolicitanteController');
 Route::resource('funcionario','FuncionarioController');
 //Route::resource('users', 'UsersController');
-
-Auth::routes();
