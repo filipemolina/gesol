@@ -21,4 +21,8 @@ class Mensagem extends Model
     	return $this->belongsTo('App\Models\Solicitacao', 'solicitacao_id');
     }
 
+	public function funcionario()
+    {
+    	return $this->belongsTo('App\Models\Funcionario', 'funcionario_id');
+    }
 }
