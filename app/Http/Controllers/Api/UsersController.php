@@ -121,16 +121,17 @@ class UsersController extends Controller
 				'password' => bcrypt($request->senha)
 			]);
 
-		} else {
+			return $solicitante->user->createToken('Token App');
 
+		} else {
 
 			// Caso contrário, utilizar o usuário encontrado para relacioar ao solicitante
 
 			$solicitante->user()->save($usuario[0]);
 
-		}
+			return $solicitante->user->createToken('Token APP');
 
-		return $solicitante->user->createToken('Token APP');
+		}
 
 	}
 

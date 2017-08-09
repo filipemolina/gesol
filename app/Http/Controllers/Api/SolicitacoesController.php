@@ -20,7 +20,7 @@ class SolicitacoesController extends Controller
      */
     public function index()
     {
-        $Solicitacoes = Solicitacao::with('solicitante')->orderBy('created_at', 'desc')->limit(10)->get();
+        $Solicitacoes = Solicitacao::with(['solicitante', 'mensagens', 'mensagens.funcionario', 'mensagens.funcionario.setor.secretaria'])->orderBy('created_at', 'desc')->limit(10)->get();
 
         return $Solicitacoes->toJson();
     }
