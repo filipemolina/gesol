@@ -9,7 +9,7 @@ class SolicitanteSeeder extends Seeder
     public function run()
     {
 
- 		factory(App\Models\Solicitante::class, 50)->create()->each(function($solicitante)
+ 		factory(App\Models\Solicitante::class, 20)->create()->each(function($solicitante)
         {
             // Obter todos os serviços
 
