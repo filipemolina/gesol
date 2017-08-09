@@ -16,7 +16,7 @@ class CreateSecretariasTable extends Migration
         Schema::create('secretarias', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('nome',50);
+            $table->string('nome',100);
             $table->string('secretario',50)                 ->nullable();
             $table->string('sigla', 10)                     ->nullable();
             $table->string('email')                         ->nullable();
