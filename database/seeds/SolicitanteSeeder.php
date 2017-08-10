@@ -27,7 +27,7 @@ class SolicitanteSeeder extends Seeder
            /* // Criar solicitacoes
             $solicitante->solicitacoes()->saveMany(factory(App\Models\Solicitacao::class, rand(1,5))->make());*/
 
-            factory(App\Models\Solicitacao::class, rand(1,5))->create()->each(function($solicitacao)
+            factory(App\Models\Solicitacao::class, rand(1,20))->create()->each(function($solicitacao)
             {
                 $solicitacao->endereco()->save(factory(App\Models\Endereco::class)->make());
 
