@@ -9,6 +9,15 @@ use App\Models\Mensagem;
 class MensagensController extends Controller
 {
     /**
+     * Proteger a rota com o middleware de autenticação da api
+     */
+
+    public function __construct()
+    {
+        $this->middleware("auth:api");
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -49,7 +58,7 @@ class MensagensController extends Controller
 
         $mensagem->save();
 
-        return json_encode("ok");
+        return json_encode(["ok" => "ok"]);
     }
 
     /**
