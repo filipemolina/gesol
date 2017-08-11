@@ -135,6 +135,7 @@ $factory->define(App\Models\Solicitacao::class, function(Faker\Generator $faker)
 
 	return [
 		'foto'					=> $faker->imageUrl(1024, 768, 'nature', true, 'Faker'),
+		'moderado'				=>	rand(0, 1),
 		'conteudo'             	=> $faker->realText($maxNbChars = 190, $indexSize = 2),
 		'status'				=> $faker->randomElement(['Aberta','Encaminhada','Aguardando','Pendente','Em execução','Fechada']),
 		'prioridade'			=> $faker->randomElement(['Baixa','Normal','Alta','Urgente']),

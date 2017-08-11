@@ -12,6 +12,7 @@ class Solicitacao extends Model
 		'foto',
         'conteudo',
         'status',
+        'moderado',
         'prioridade',
     ];
 

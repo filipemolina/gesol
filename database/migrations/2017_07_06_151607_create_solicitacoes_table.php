@@ -19,6 +19,7 @@ class CreateSolicitacoesTable extends Migration
 
             $table->string('foto')                                              ->nullable();
             $table->string('conteudo')                                          ->nullable();
+            $table->boolean('moderado')                                         ->default(false);
             $table->enum('status', ['Aberta','Encaminhada',
                                     'Aguardando','Pendente',
                                     'Em execução','Fechada'])                   ->default('Aberta');

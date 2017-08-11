@@ -27,4 +27,9 @@ class Funcionario extends Model
     {
     	return $this->hasOne('App\User');
     }
+
+    public function mensagens()
+    {
+        return $this->hasMany('App\Models\Mensagem');
+    }
 }
