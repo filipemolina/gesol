@@ -17,7 +17,9 @@ class CreateEnderecosTable extends Migration
             $table->increments('id');
 
              //-----------------------------ENDEREÇO-----------------------
-            $table->string('uf', 2)                         ->nullable();
+            $table->enum('uf',['AC','AL','AM','AP','BA','CE','DF','ES','GO','MA','MG','MS','MT','PA','PB','PE','PI','PR','RJ','RN','RO','RR','RS','SC','SE','SP','TO'])                ->default('RJ');
+
+
             $table->string('municipio',30)                  ->nullable();
             $table->string('bairro',20)                     ->nullable();
             $table->string('logradouro',100)                ->nullable();
