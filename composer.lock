@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d30c51b1bcb67ef666723545721d6590",
+    "content-hash": "336020dba6fc03017bf2353555fbdb2c",
     "packages": [
         {
             "name": "barryvdh/laravel-cors",
@@ -540,6 +540,46 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
+        },
+        {
+            "name": "jailtonsc/validador-cpf-laravel",
+            "version": "v4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jailtonsc/validador-cpf-laravel.git",
+                "reference": "2f18ea031f47218631b22478c4b03f850f7033bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jailtonsc/validador-cpf-laravel/zipball/2f18ea031f47218631b22478c4b03f850f7033bd",
+                "reference": "2f18ea031f47218631b22478c4b03f850f7033bd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ValidadorCpf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jailton S. C.",
+                    "email": "jailton.dos.santos.cruz@gmail.com"
+                }
+            ],
+            "description": "Validador de cpf com suporte para laravel 5.*",
+            "keywords": [
+                "cpf",
+                "laravel"
+            ],
+            "time": "2017-04-13T01:15:32+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

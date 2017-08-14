@@ -25,10 +25,11 @@ use GuzzleHttp\Client;
  */
 
 Route::post("/user", "Api\UsersController@retornaToken");
+Route::post('/user/create', "Api\UsersController@create");
+Route::post('/user/login', "Api\UsersController@login");
 
-Route::middleware('auth:api')->get('/profile', function (Request $request) {
-    return $request->user();
-});
+Route::resource('/solicitacoes', 'Api\SolicitacoesController');
+Route::resource('/mensagens', 'Api\MensagensController');
 
 Route::get("/callback", function(Request $request){
 
