@@ -17,7 +17,6 @@ class CreateServicosTable extends Migration
             $table->increments('id');
 
             $table->string('nome',50);
-            $table->string('icone') -> nullable();
 
             //------------------------FOREIGN--------------------------------
             $table->integer('setor_id')->unsigned();
