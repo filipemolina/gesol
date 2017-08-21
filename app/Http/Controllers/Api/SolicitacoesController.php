@@ -97,4 +97,28 @@ class SolicitacoesController extends Controller
     {
         //
     }
+
+    /**
+     * Minhas Solicitações
+     * Retorna apenas as solicitações criadas pelo usuário atualmente logado, independente do status
+     */
+
+    public function minhas(Request $request){
+
+        $solicitacoes = Solicitacao::with([
+            'solicitante', 
+            'mensagens', 
+            'mensagens.funcionario', 
+            'mensagens.funcionario.setor.secretaria',
+            'servico',
+            'servico.setor.secretaria',
+        ])
+        ->where("solicitante_id", $request->id)
+        ->orderBy('created_at', 'desc')
+        ->limit(10)
+        ->get();
+
+        return $solicitacoes->toJson();
+
+    }
 }

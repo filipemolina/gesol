@@ -28,6 +28,8 @@ Route::post("/user", "Api\UsersController@retornaToken");
 Route::post('/user/create', "Api\UsersController@create");
 Route::post('/user/login', "Api\UsersController@login");
 
+Route::get("/solicitacoes/minhas", "Api\SolicitacoesController@minhas");
+
 Route::resource('/solicitacoes', 'Api\SolicitacoesController');
 Route::resource('/mensagens', 'Api\MensagensController');
 
