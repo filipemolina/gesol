@@ -30,7 +30,7 @@ class CreateSolicitantesTable extends Migration
                                 ])                          ->nullable();
 
             
-            $table->string('foto')                          ->nullable();
+            $table->mediumText('foto')                          ->nullable();
 
             $table->enum('status', ['Criado', 'Ativo', 'Inativo']) ->default('Criado');
 
