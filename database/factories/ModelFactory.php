@@ -133,11 +133,12 @@ $factory->define(App\Models\Setor::class, function(Faker\Generator $faker) {
 $factory->define(App\Models\Solicitacao::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
 
-	$foto = $faker->imageUrl(1024, 768, 'nature', true, 'Faker');
+	
+	$foto = 'data:image/jpg;base64,' . base64_encode(file_get_contents($faker->imageUrl(1024, 768, 'nature', true, 'Faker')));
 
 	return [
 		//'foto'					=> $faker->imageUrl(1024, 768, 'nature', true, 'Faker'),
-		'foto'					=> base64_encode(file_get_contents($foto)),
+		'foto'					=> $foto,
 		
 		'moderado'				=>	rand(0, 1),
 		'conteudo'          	=> $faker->realText($maxNbChars = 190, $indexSize = 2),
@@ -206,17 +207,19 @@ $factory->define(App\Models\Solicitante::class, function(Faker\Generator $faker)
     else
     	$tipo = null;
 
+ 	$foto = 'data:image/jpg;base64,' . base64_encode(file_get_contents($faker->imageUrl(120, 150, 'people', true, 'Faker')));
+
 	return [
 
 		'nome'                 		=> $faker->name,
-		'email' 					=> $faker->unique()->email,
+		'email' 							=> $faker->unique()->email,
 
 		'sexo'                    	=> $sexo,
 		
 		'fb_uid'               		=> $faker->numerify('#########'),
-		'fb_token' 					=> $faker->lexify('??????????????????'),
-		'foto'						=> $faker->imageUrl(120, 150, 'people', true, 'Faker'),
-		'status'					=> $faker->randomElement(['Criado', 'Ativo','Inativo']),
+		'fb_token' 						=> $faker->lexify('??????????????????'),
+		'foto'							=> $foto,
+		'status'							=> $faker->randomElement(['Criado', 'Ativo','Inativo']),
 		'mulher_responsavel'      	=> $mulher_responsavel,
 		'renda_familiar'          	=> $faker->randomFloat(2, 800, 9000),
 		'tempo_residencia'        	=> $faker->date('Y-m-d', '-1 year'),
@@ -225,7 +228,7 @@ $factory->define(App\Models\Solicitante::class, function(Faker\Generator $faker)
 		'nis'                     	=> $faker->numerify("###.#####.##-#"), // Número de Dígitos
 		'ctps'                    	=> $faker->numerify("####### ##-#"),
 		'bolsa_familia'           	=> $faker->boolean,
-		'vr_bolsa'					=> $faker->randomFloat(2, 80, 200),
+		'vr_bolsa'						=> $faker->randomFloat(2, 80, 200),
 		'codigo_inscricao'        	=> $faker->randomNumber(4),
 		'cpf'                     	=> $faker->cpf,
 		'rg'              		  	=> $faker->rg,
