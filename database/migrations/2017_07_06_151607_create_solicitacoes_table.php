@@ -17,7 +17,7 @@ class CreateSolicitacoesTable extends Migration
             $table->increments('id');
 
 
-            $table->string('foto')                                              ->nullable();
+            $table->mediumText('foto')                                              ->nullable();
             $table->string('conteudo')                                          ->nullable();
             $table->boolean('moderado')                                         ->default(false);
             $table->enum('status', ['Aberta','Encaminhada',
