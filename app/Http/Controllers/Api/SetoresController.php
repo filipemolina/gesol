@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mensagem;
+use App\Models\Setor;
 
-class MensagensController extends Controller
+class SetoresController extends Controller
 {
     /**
      * Proteger a rota com o middleware de autenticação da api
@@ -24,7 +24,9 @@ class MensagensController extends Controller
      */
     public function index()
     {
-        //
+        $setores = Setor::all();
+
+        return $setores->toJson();
     }
 
     /**
@@ -45,20 +47,7 @@ class MensagensController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar
-
-        $this->validate($request, [
-            'mensagem'       => 'required|min:2',
-            'solicitacao_id' => 'required'
-        ]);
-
-        $mensagem = new Mensagem($request->all());
-
-        $mensagem->solicitacao_id = $request->solicitacao_id;
-
-        $mensagem->save();
-
-        return json_encode(["ok" => "ok"]);
+        //
     }
 
     /**
