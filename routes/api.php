@@ -31,7 +31,7 @@ Route::post('/user/login', "Api\UsersController@login");
 Route::get("/solicitacoes/minhas", "Api\SolicitacoesController@minhas");
 
 Route::resource('/solicitacoes', 'Api\SolicitacoesController');
-Route::resource('/mensagens', 'Api\MensagensController');
+Route::resource('/comentarios', 'Api\ComentariosController');
 Route::resource('/setores', 'Api\SetoresController');
 
 Route::get("/callback", function(Request $request){

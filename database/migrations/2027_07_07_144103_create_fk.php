@@ -33,7 +33,7 @@ class CreateFk extends Migration
         });
         
 
-        Schema::table('mensagens', function($table){
+        Schema::table('comentarios', function($table){
             $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
             $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
         });
@@ -53,6 +53,10 @@ class CreateFk extends Migration
             $table->foreign('setor_id')         ->references('id')->on('setores')       ->onDelete('cascade');
         });
 
+        Schema::table('apoios', function($table){
+            $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
+            $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
+        });
 
         Schema::enableForeignKeyConstraints();
     }
@@ -82,8 +86,8 @@ class CreateFk extends Migration
            $table->dropForeign('users_secretaria_id_foreign');
         });
 
-        Schema::table('mensagens', function($table){
-            $table->dropForeign('mensagens_solicitacao_id_foreign');           
+        Schema::table('comentarios', function($table){
+            $table->dropForeign('comentarios_solicitacao_id_foreign');           
         });
 
         Schema::table('setores', function($table){

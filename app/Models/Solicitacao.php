@@ -32,8 +32,8 @@ class Solicitacao extends Model
 		return $this->hasOne('App\Models\Endereco');
 	}
 
-	public function mensagens()
+	public function comentarios()
     {
-        return $this->hasMany('App\Models\Mensagem');
+        return $this->hasMany('App\Models\Comentario');
     }
 }

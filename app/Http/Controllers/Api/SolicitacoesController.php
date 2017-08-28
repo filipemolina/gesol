@@ -22,9 +22,9 @@ class SolicitacoesController extends Controller
     {
         $Solicitacoes = Solicitacao::with([
             'solicitante', 
-            'mensagens', 
-            'mensagens.funcionario', 
-            'mensagens.funcionario.setor.secretaria',
+            'comentarios', 
+            'comentarios.funcionario', 
+            'comentarios.funcionario.setor.secretaria',
             'servico',
             'servico.setor.secretaria',
         ])->orderBy('created_at', 'desc')->limit(10)->get();
@@ -107,9 +107,9 @@ class SolicitacoesController extends Controller
 
         $solicitacoes = Solicitacao::with([
             'solicitante', 
-            'mensagens', 
-            'mensagens.funcionario', 
-            'mensagens.funcionario.setor.secretaria',
+            'comentarios', 
+            'comentarios.funcionario', 
+            'comentarios.funcionario.setor.secretaria',
             'servico',
             'servico.setor.secretaria',
         ])

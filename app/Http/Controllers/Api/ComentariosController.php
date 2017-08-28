@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Mensagem;
+use App\Models\Comentario;
 
-class MensagensController extends Controller
+class ComentariosController extends Controller
 {
     /**
      * Proteger a rota com o middleware de autenticação da api
@@ -48,15 +48,15 @@ class MensagensController extends Controller
         // Validar
 
         $this->validate($request, [
-            'mensagem'       => 'required|min:2',
+            'comentario'       => 'required|min:2',
             'solicitacao_id' => 'required'
         ]);
 
-        $mensagem = new Mensagem($request->all());
+        $comentario = new Comentario($request->all());
 
-        $mensagem->solicitacao_id = $request->solicitacao_id;
+        $comentario->solicitacao_id = $request->solicitacao_id;
 
-        $mensagem->save();
+        $comentario->save();
 
         return json_encode(["ok" => "ok"]);
     }
