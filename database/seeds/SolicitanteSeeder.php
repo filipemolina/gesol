@@ -31,9 +31,9 @@ class SolicitanteSeeder extends Seeder
             {
                 $solicitacao->endereco()->save(factory(App\Models\Endereco::class)->make());
 
-                // Criar mensagens
+                // Criar comentarios
 
-                $solicitacao->mensagens()->saveMany(factory(App\Models\Mensagem::class, rand(0, 5))->make());
+                $solicitacao->comentarios()->saveMany(factory(App\Models\Comentario::class, rand(0, 5))->make());
             });
         });
     }

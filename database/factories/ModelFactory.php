@@ -34,13 +34,16 @@ $factory->define(App\Models\Endereco::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
 	return [
 
-		'uf'			=> $faker->stateAbbr,
+		'uf'				=> $faker->stateAbbr,
 		'municipio'	 	=> $faker->city,
-		'bairro'		=> $faker->cityPrefix,
-		'logradouro'   	=> $faker->streetName,
+		'bairro'			=> $faker->cityPrefix,
+		'logradouro'   => $faker->streetName,
 		'numero'   		=> $faker->randomNumber(3),
-		'complemento'  	=> $faker->secondaryAddress,
-		'cep'          	=> $faker->randomNumber(5)."-".$faker->randomNumber(3),
+		'complemento'  => $faker->secondaryAddress,
+		'cep'          => $faker->randomNumber(5)."-".$faker->randomNumber(3),
+		'latitude'		=> $faker->latitude($min  = -22.7741, $max = -22.8000),
+		'longitude'		=> $faker->longitude($min = -43.4384, $max = -43.4129)     // 77.147489
+
 
 	];
 });
@@ -65,10 +68,10 @@ $factory->define(App\Models\Funcionario::class, function(Faker\Generator $faker)
 // ========================================================================================================
 // ========================================================================================================
 
-$factory->define(App\Models\Mensagem::class, function(Faker\Generator $faker) {
+$factory->define(App\Models\Comentario::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
 
-	// Decidir se a mensagem é do solicitante ou do funcionário
+	// Decidir se a comentario é do solicitante ou do funcionário
 
 	if(rand(0,1)){
 		$funcionario_id = App\Models\Funcionario::all()->random()->id;
@@ -78,7 +81,7 @@ $factory->define(App\Models\Mensagem::class, function(Faker\Generator $faker) {
 
 
 	return [
-		'mensagem'          => $faker->realText($maxNbChars = 30, $indexSize = 2), 
+		'comentario'          => $faker->realText($maxNbChars = 30, $indexSize = 2), 
 		'encerramento'      => $faker-> boolean($chanceOfGettingTrue = 90),
 		'lida'           	=> $faker-> boolean($chanceOfGettingTrue = 50),
 

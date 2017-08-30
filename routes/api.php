@@ -32,7 +32,7 @@ Route::post('/servicosporsetor', "Api\ServicosController@servicosPorSetor");
 Route::get("/solicitacoes/minhas", "Api\SolicitacoesController@minhas");
 
 Route::resource('/solicitacoes', 'Api\SolicitacoesController');
-Route::resource('/mensagens', 'Api\MensagensController');
+Route::resource('/comentarios', 'Api\ComentariosController');
 Route::resource('/setores', 'Api\SetoresController');
 
 Route::get("/callback", function(Request $request){

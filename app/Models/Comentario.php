@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Mensagem extends Model
+class Comentario extends Model
 {
  
- 	protected $table = "mensagens";
+ 	protected $table = "comentarios";
 
     protected $fillable =[
 
-	  	'mensagem',
+	  	'comentario',
 		'encerramento',
 	    'lida',
  	];
