@@ -34,13 +34,16 @@ $factory->define(App\Models\Endereco::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
 	return [
 
-		'uf'			=> $faker->stateAbbr,
+		'uf'				=> $faker->stateAbbr,
 		'municipio'	 	=> $faker->city,
-		'bairro'		=> $faker->cityPrefix,
-		'logradouro'   	=> $faker->streetName,
+		'bairro'			=> $faker->cityPrefix,
+		'logradouro'   => $faker->streetName,
 		'numero'   		=> $faker->randomNumber(3),
-		'complemento'  	=> $faker->secondaryAddress,
-		'cep'          	=> $faker->randomNumber(5)."-".$faker->randomNumber(3),
+		'complemento'  => $faker->secondaryAddress,
+		'cep'          => $faker->randomNumber(5)."-".$faker->randomNumber(3),
+		'latitude'		=> $faker->latitude($min  = -22.7741, $max = -22.8000),
+		'longitude'		=> $faker->longitude($min = -43.4384, $max = -43.4129)     // 77.147489
+
 
 	];
 });

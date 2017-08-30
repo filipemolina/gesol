@@ -27,6 +27,8 @@ class CreateEnderecosTable extends Migration
             $table->string('complemento',20)                ->nullable();
             $table->char('cep',10)                          ->nullable();
 
+            $table->decimal('latitude',10,8)                ->nullable();
+            $table->decimal('longitude',10,8)               ->nullable();
 
             //------------------------FOREIGN--------------------------------
             $table->integer('solicitante_id')->unsigned()->nullable();
