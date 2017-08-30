@@ -5,16 +5,13 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Setor;
+use App\Models\Servico;
 
-class SetoresController extends Controller
+class ServicosController extends Controller
 {
-    /**
-     * Proteger a rota com o middleware de autenticação da api
-     */
-
     public function __construct()
     {
-        $this->middleware("auth:api");
+        $this->middleware('auth:api');
     }
 
     /**
@@ -24,9 +21,7 @@ class SetoresController extends Controller
      */
     public function index()
     {
-        $setores = Setor::all();
-
-        return $setores->toJson();
+        //
     }
 
     /**
@@ -58,7 +53,7 @@ class SetoresController extends Controller
      */
     public function show($id)
     {
-        return Setor::find($id)->toJson();
+        //
     }
 
     /**
@@ -93,5 +88,18 @@ class SetoresController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Retornar todos os servicos de um determinado setor
+     */
+
+    public function servicosPorSetor(Request $request)
+    {
+        // Obter os servicos de um setor
+        $servicos = Servico::where('setor_id', $request->id)->orderBy('nome')->get();
+
+        return $servicos->toJson();
+
     }
 }

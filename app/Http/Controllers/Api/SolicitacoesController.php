@@ -50,7 +50,7 @@ class SolicitacoesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

@@ -27,6 +27,7 @@ use GuzzleHttp\Client;
 Route::post("/user", "Api\UsersController@retornaToken");
 Route::post('/user/create', "Api\UsersController@create");
 Route::post('/user/login', "Api\UsersController@login");
+Route::post('/servicosporsetor', "Api\ServicosController@servicosPorSetor");
 
 Route::get("/solicitacoes/minhas", "Api\SolicitacoesController@minhas");
 
