@@ -125,7 +125,7 @@ class UsersController extends Controller
 
 		} else {
 
-			// Caso contrário, utilizar o usuário encontrado para relacioar ao solicitante
+			// Caso contrário, utilizar o usuário encontrado para relacionar ao solicitante
 
 			$solicitante->user()->save($usuario[0]);
 
@@ -148,7 +148,7 @@ class UsersController extends Controller
 			'senha' => 'required|min:6'
 		]);
 
-		// Procurar pelo usuário que esteja cadastrado com esse email
+		// Procurar pelo solicitante que esteja cadastrado com esse email
 
 		$solicitante = Solicitante::where('email', $request->email)->first();
 

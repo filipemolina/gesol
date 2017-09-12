@@ -14,7 +14,6 @@
 
 
 Route::get('/home', 					'HomeController@index')->name('home');
-Route::get ('/logout', 					'Auth\LoginController@logout');
 
 
 Route::middleware('auth')->get('/', function () {
@@ -25,8 +24,6 @@ Route::middleware('auth')->get('/', function () {
 Route::get('/register', function () {
     return view('solicitantes.create');
 });
-
-
 
 
 //resources
