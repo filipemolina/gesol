@@ -29,7 +29,7 @@
 
                 {{-------------- Menu do Usuário --------------}}
 
-                <div class="collapse" id="collapseExample">
+                {{-- <div class="collapse" id="collapseExample">
                     <ul class="nav">
                         <li>
                             <a href="#">Meu Perfil</a>
@@ -38,10 +38,10 @@
                             <a href="#">Editar Perfil</a>
                         </li>
                         <li>
-                            <a href="#">COnfigurações</a>
+                            <a href="#">Configurações</a>
                         </li>
                     </ul>
-                </div>
+                </div> --}}
             </div>
         </div>
         
