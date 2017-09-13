@@ -7,12 +7,12 @@
     -->
     
     <div class="logo" style="color: #000000;">
-        <a href="http://www.creative-tim.com" class="simple-text">
+        <a href="#" class="simple-text">
             GESOL
         </a>
     </div>
     <div class="logo logo-mini">
-        <a href="http://www.creative-tim.com" class="simple-text">
+        <a href="#" class="simple-text">
             GS
         </a>
     </div>
