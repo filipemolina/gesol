@@ -38,8 +38,6 @@
     
                     @yield('content')
 
-                    <input type="text" class="input-teste">
-
                 </div>
             </div>
 

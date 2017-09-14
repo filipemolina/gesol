@@ -12,7 +12,7 @@ class SolicitacoesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['index']]);
     }
 
     /**
@@ -28,6 +28,7 @@ class SolicitacoesController extends Controller
             'comentarios.funcionario', 
             'comentarios.funcionario.setor.secretaria',
             'servico',
+            "servico.setor",
             'servico.setor.secretaria',
         ])->orderBy('created_at', 'desc')->limit(10)->get();
 
