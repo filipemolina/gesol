@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="col-md-8 col-md-offset-2">
+<div class="col-md-8 col-md-offset-3">
 	<div class="card card-singup">
 		<form method="get" action="/" class="form-horizontal">
 			
@@ -13,7 +13,7 @@
 
 			{{-- Título --}}
 			<div class="card-content">
-				<h4 class="card-title no-padding">Registro de funcionário</h4>
+				<h4 class="card-title no-padding">Registrar de funcionário</h4>
 			</div>			
 			
 			<div class="row">
@@ -40,7 +40,7 @@
 	                            
 	                            <div class="form-group label-floating has-dourado">
 									<label class="control-label">Email</label>
-									<input type="text" class="form-control error" 
+									<input type="text" name="email" type="email" class="form-control error" 
 									value="">
 								</div>
 							</div>
@@ -83,7 +83,7 @@
 
 								<div class="control form-group label-floating has-dourado">
 									<label class="control-label">Cargo</label>
-									<select class="dourado selectpicker" data-style="select-with-transition has-dourado" data-size="7">
+									<select class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
 										<option disabled selected>Cargo</option>
 										<option value="2">Secretário</option>
 										<option value="3">Subsecretário</option>
@@ -97,7 +97,7 @@
 								</span>
 	                            <div class="form-group label-floating has-dourado">
 									<label class="control-label">Senha</label>
-									<input type="text" class="form-control error" 
+									<input type="password" name="password" class="form-control error" 
 									value="">
 								</div>
 							</div>
@@ -107,7 +107,7 @@
 								</span>
 	                            <div class="form-group label-floating has-dourado">
 									<label class="control-label">Confirmar senha</label>
-									<input type="text" class="form-control error" 
+									<input type="password" name="password" type="password" class="form-control error" 
 									value="">
 								</div>
 	                        </div>
@@ -115,7 +115,7 @@
 				</div>
 
 				{{-- Foto --}}
-				<div class="col-md-4 flt-r">
+				<div class="col-md-4 flt-r no-padding">
 					<div class="fileinput fileinput-new text-center" data-provides="fileinput">
 	                	<div class="fileinput-new thumbnail img-circle">
 	                    	<img src="{{ asset ('img/placeholder.jpg') }}" alt="...">
