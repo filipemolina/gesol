@@ -19,21 +19,32 @@ class Solicitacao extends Model
 
     public function servico()
     {
-    	return $this->belongsTo('App\Models\Servico');
+        return $this->belongsTo('App\Models\Servico');
     }
 
-	public function solicitante()
+    public function solicitante()
     {
-    	return $this->belongsTo('App\Models\Solicitante');
+        return $this->belongsTo('App\Models\Solicitante');
+    }
+
+    public function enderecos()
+    {
+        return $this->hasMany('App\Models\Endereco');
     }
 
     public function endereco()
-	{
-		return $this->hasOne('App\Models\Endereco');
-	}
+    {
+        return $this->hasOne('App\Models\Endereco');
+    }
 
-	public function comentarios()
+
+    public function comentarios()
     {
         return $this->hasMany('App\Models\Comentario');
+    }
+
+    public function apoiadores()
+    {
+        return $this->belongsToMany('App\Models\Solicitante', 'apoios');
     }
 }
