@@ -33,7 +33,7 @@
             
             @include('includes.layouts.topbar')
 
-            <div class="content">
+            <div class="content no-padding">
                 <div class="container-fluid">
 
                     {{-- Conteúdo Principal --}}

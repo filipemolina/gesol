@@ -53,6 +53,7 @@ $(function(){
 
     // Mascarás
     VMasker ($("#cpf")).maskPattern("999.999.999-99");
+    VMasker ($("#matricula")).maskPattern("9999-9");
     VMasker ($(".datepicker")).maskPattern("99/99/9999");
 
     // Apoiar publicação apenas logado

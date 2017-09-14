@@ -33,6 +33,11 @@ background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.4), rgba(0, 0, 0,
 transform: rotateX(90deg) translateZ(-150px);
 z-index: -1;
 }
+
+.select-with-transition.has-dourado {
+  background-image: linear-gradient(#BFA15F, #eddabe), linear-gradient(#D2D2D2, #D2D2D2) !important;
+}
+
 .stage {
   width: 200px;
   height: 200px;
@@ -183,7 +188,23 @@ font-size: 25px;
   box-shadow: none;
 }
 
-.dropdown-menu.has-roxo li a:hover, .dropdown-menu.has-roxo li a:focus, .dropdown-menu.has-roxo li a:active {
+.dropdown-menu.has-roxo li a:hover,
+.dropdown-menu.has-roxo li a:focus,
+.dropdown-menu.has-roxo li a:active {
+  background-color: #3D276B;
+  color: #FFFFFF;
+}
+
+.has-dourado .dropdown-menu li a:hover,
+.has-dourado .dropdown-menu li a:focus,
+.has-dourado .dropdown-menu li a:active {
+  background-color: #BFA15F;
+  color: #FFFFFF;
+}
+
+.has-roxo .dropdown-menu li a:hover,
+.has-roxo .dropdown-menu li a:focus,
+.has-roxo .dropdown-menu li a:active {
   background-color: #3D276B;
   color: #FFFFFF;
 }
@@ -1182,4 +1203,9 @@ figure.highlight .form-group {
   margin: 0;
   padding: 0;
 
+}
+
+.flt-r {
+  float: right;
+  top: -50px;
 }
