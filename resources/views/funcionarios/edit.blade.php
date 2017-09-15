@@ -1,5 +1,11 @@
 @extends("layouts.material")
 
+@section('titulo')
+
+Alterar funcionário
+
+@endsection
+
 @section('content')
 
 <div class="col-md-8 col-md-offset-3">
@@ -28,8 +34,8 @@
 
 								<div class="form-group label-floating has-dourado">
 									<label class="control-label">Nome</label>
-									<input type="text" class="form-control error" 
-									value="">
+									<input name="nome" type="text" class="form-control error" 
+									value="{{-- {{ old('nome') }} --}}">
 								</div>
 							</div>
 
@@ -40,8 +46,8 @@
 	                            
 	                            <div class="form-group label-floating has-dourado">
 									<label class="control-label">Email</label>
-									<input type="text" name="email" type="email" class="form-control error" 
-									value="">
+									<input name="email" type="text" name="email" type="email" class="form-control error" 
+									value="{{-- {{ old('email') }} --}}">
 								</div>
 							</div>
 
@@ -54,8 +60,8 @@
 			                            
 			                            <div class="form-group label-floating has-dourado">
 											<label class="control-label">CPF</label>
-											<input id="cpf" type="text" class="form-control error" 
-											value="">
+											<input name="cpf" id="cpf" type="text" class="form-control error"
+											value="{{-- {{ old('cpf') }} --}}">
 										</div>
 									</div>
 								</div>
@@ -69,8 +75,8 @@
 
 										<div class="form-group label-floating has-dourado">
 											<label class="control-label">Matrícula</label>
-											<input id="matricula" type="text" class="form-control error" 
-											value="">
+											<input id="matricula" name="matricula" type="text" class="form-control error" 
+											value="{{-- {{ old('matricula') }} --}}">
 										</div>
 									</div>
 								</div>
@@ -97,8 +103,8 @@
 								</span>
 	                            <div class="form-group label-floating has-dourado">
 									<label class="control-label">Senha</label>
-									<input type="password" name="password" class="form-control error" 
-									value="">
+									<input name="senha" type="password" name="password" class="form-control error" 
+									value="{{-- {{ old('senha') }} --}}">
 								</div>
 							</div>
 	                        <div class="input-group">
@@ -107,8 +113,8 @@
 								</span>
 	                            <div class="form-group label-floating has-dourado">
 									<label class="control-label">Confirmar senha</label>
-									<input type="password" name="password" type="password" class="form-control error" 
-									value="">
+									<input name="confirma-senha" type="password" name="password" type="password" class="form-control error" 
+									value="{{-- {{ old('confirma-senha') }} --}}">
 								</div>
 	                        </div>
 						</div>
@@ -118,7 +124,7 @@
 				<div class="col-md-4 flt-r no-padding">
 					<div class="fileinput fileinput-new text-center" data-provides="fileinput">
 	                	<div class="fileinput-new thumbnail img-circle">
-	                    	<img src="{{ asset ('img/placeholder.jpg') }}" alt="...">
+	                    	<img src="{{-- {{ asset ('img/placeholder.jpg') }} --}}" alt="...">
 	                   	</div>
 
 	                    <div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
@@ -126,7 +132,7 @@
 		                    <span class="btn btn-round btn-dourado btn-file">
 			                    <span class="fileinput-new">Adicionar</span>
 			                    <span class="fileinput-exists">Alterar</span>
-			                    <input type="file" name="..." />
+			                    <input name="foto" type="file" name="..." value="{{-- {{ old('foto') }} --}}"/>
 		                    </span>
 							<br />
 		                    <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
@@ -144,3 +150,7 @@
 </div>
     
 @endsection
+
+@push('scripts')
+
+@endpush

@@ -1,5 +1,11 @@
 @extends("layouts.material")
 
+@section('titulo')
+
+Criar funcionário
+
+@endsection
+
 @section('content')
 
 <div class="col-md-8 col-md-offset-3">
@@ -144,3 +150,7 @@
 </div>
     
 @endsection
+
+@push('scripts')
+
+@endpush

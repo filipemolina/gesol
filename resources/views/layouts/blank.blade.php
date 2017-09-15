@@ -8,7 +8,6 @@ Informe o Título
 
 @section('content')
 
-
 <div class="row">
 
 </div> {{-- FIM ROW --}}
