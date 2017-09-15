@@ -19,7 +19,7 @@ Criar funcionário
 
 			{{-- Título --}}
 			<div class="card-content">
-				<h4 class="card-title no-padding">Registrar de funcionário</h4>
+				<h4 class="card-title no-padding">Registrar funcionário(a)</h4>
 			</div>			
 			
 			<div class="row">

@@ -16,7 +16,7 @@ class SolicitanteController extends Controller
 
     public function create()
     {
-        //
+        return view ('solicitantes.create');
     }
 
     public function store(Request $request)

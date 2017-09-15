@@ -1207,5 +1207,11 @@ figure.highlight .form-group {
 
 .flt-r {
   float: right;
-  top: -50px;
+  top: 10px;
+  right: -20px;
+  position: absolute;
+}
+
+.input-group .bootstrap-select.dourado button.btn.select-with-transition {
+  top: -10px;
 }

@@ -19,7 +19,7 @@ Alterar funcionário
 
 			{{-- Título --}}
 			<div class="card-content">
-				<h4 class="card-title no-padding">Registrar de funcionário</h4>
+				<h4 class="card-title no-padding">Alterar dados do(a) funcionário(a)</h4>
 			</div>			
 			
 			<div class="row">
