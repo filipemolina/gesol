@@ -95,6 +95,9 @@
 {{-- Vanilla Masker --}}
 <script src="{{ asset('js/vanillaMasker.min.js') }}"></script>
 
+{{-- Scripts personalizados nos templates --}}
+@stack('scripts')
+
 {{-- Javascript do Projeto --}}
 <script src="{{ asset('js/scripts.js') }}"></script>
 
