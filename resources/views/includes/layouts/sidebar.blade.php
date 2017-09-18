@@ -51,7 +51,7 @@
             <li>
                 <a href="{{ url("/") }}">
                     <i class="material-icons">dashboard</i>
-                    <p>Dashboard</p>
+                    <p>Painel de Controle</p>
                 </a>
             </li>
 
