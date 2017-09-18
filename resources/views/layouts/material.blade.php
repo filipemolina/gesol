@@ -13,6 +13,8 @@
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
     <!--  Material Dashboard CSS    -->
     <link href="{{ asset('css/material-dashboard.css') }}" rel="stylesheet" />
+     <!--  Material styles CSS    -->
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
@@ -38,7 +40,7 @@
     
                     @yield('content')
 
-                    <input type="text" class="input-teste">
+                   {{--  <input type="text" class="input-teste"> --}}
 
                 </div>
             </div>

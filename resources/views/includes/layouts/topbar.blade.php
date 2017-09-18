@@ -1,4 +1,4 @@
-<nav class="navbar navbar-transparent navbar-absolute">
+<nav class="navbar navbar-absolute" style="background: #ad9a75;">
     <div class="container-fluid">
         <div class="navbar-minimize">
             <button id="minimizeSidebar" class="btn btn-round btn-white btn-fill btn-just-icon">
@@ -18,12 +18,12 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="#pablo" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#pablo" class="dropdown-toggle" data-toggle="dropdown" style="color: #000000; font-weight: bold;">
                         <i class="material-icons">dashboard</i>
                         <p class="hidden-lg hidden-md">Dashboard</p>
                     </a>
                 </li>
-                <li class="dropdown">
+               {{--  <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="material-icons">notifications</i>
                         <span class="notification">5</span>
@@ -49,16 +49,32 @@
                             <a href="#">Another One</a>
                         </li>
                     </ul>
-                </li>
-                <li>
-                    <a href="#pablo" class="dropdown-toggle" data-toggle="dropdown">
+                </li> --}}
+                <li class="dropdown">
+                    <a href="#pablo" class="dropdown-toggle" data-toggle="dropdown" style="color: #000000; font-weight: bold">
                         <i class="material-icons">person</i>
                         <p class="hidden-lg hidden-md">Profile</p>
                     </a>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#">
+                                <i class="material-icons">lock_outline</i>
+                                Alterar Senha
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="material-icons">input</i>
+                                Sair
+                            </a>
+                        </li>
+                        
+                    </ul>
                 </li>
                 <li class="separator hidden-lg hidden-md"></li>
             </ul>
-            <form class="navbar-form navbar-right" role="search">
+            {{-- <form class="navbar-form navbar-right" role="search">
                 <div class="form-group form-search is-empty">
                     <input type="text" class="form-control" placeholder="Search">
                     <span class="material-input"></span>
@@ -67,7 +83,7 @@
                     <i class="material-icons">search</i>
                     <div class="ripple-container"></div>
                 </button>
-            </form>
+            </form> --}}
         </div>
     </div>
 </nav>

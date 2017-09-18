@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Solicitacao;
+use App\Models\Solicitante;
+use App\Models\Endereco;
 
 class SolicitacoesController extends Controller
 {
@@ -50,7 +52,29 @@ class SolicitacoesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validar a requisição
+
+        $this->validate($request, [
+            'conteudo'       => 'required',
+            'logradouro'     => 'required',
+            'numero'         => 'required',
+            'bairro'         => 'required',
+            'municipio'      => 'required',
+            'uf'             => 'required',
+            'latitude'       => 'required',
+            'longitude'      => 'required',
+            'foto'           => 'required',
+            'solicitante_id' => 'required',
+            'servico_id'     => 'required'
+        ]);
+
+        $solicitante = Solicitante::find($request->solicitante_id);
+
+        $solicitacao = $solicitante->solicitacoes()->create($request->all());
+
+        $solicitacao->endereco()->create($request->all());
+
+        return $solicitacao->toJson();
     }
 
     /**

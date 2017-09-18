@@ -58,7 +58,7 @@ class SetoresController extends Controller
      */
     public function show($id)
     {
-        //
+        return Setor::find($id)->toJson();
     }
 
     /**

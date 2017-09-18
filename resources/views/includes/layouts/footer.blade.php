@@ -1,35 +1,15 @@
 <footer class="footer">
     <div class="container-fluid">
-        <nav class="pull-left">
-            <ul>
-                <li>
-                    <a href="#">
-                        Home
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        Company
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        Portfolio
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        Blog
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <p class="copyright pull-right">
+        <p class="copyright pull-right" style="font-size: 13px">
             &copy;
             <script>
                 document.write(new Date().getFullYear())
             </script>
-            <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+            Equipe de Desenvolvimento de Sistemas<br>
+            <a href="http://tecnologia.mesquita.rj.gov.br" target="_blank" >
+                Subsecretaria da Tecnologia da Informação - Prefeitura Municipal de Mesquita - RJ<br>
+            </a>
+            Rua Arthur Oliveira Vecchi, 120 -  Centro - Mesquita - RJ - CEP: 26553-080 
         </p>
     </div>
 </footer>

@@ -12,24 +12,18 @@
 */
 
 
+// Login e Registro
 
-Route::get('/home', 					'HomeController@index')->name('home');
-Route::get ('/logout', 					'Auth\LoginController@logout');
-
-
-Route::middleware('auth')->get('/', function () {
-    return view('welcome');
-});
-
-
+Route::get("/login", "AuthController@login")->name('login');
+Route::post('/login', "AuthController@entrar");
 Route::get('/register', function () {
     return view('solicitantes.create');
 });
 
-
-
+Route::get('/', 'HomeController@index')->name('home');
 
 //resources
 Route::resource('solicitante','SolicitanteController');
 Route::resource('funcionario','FuncionarioController');
+Route::resource('solicitacao','SolicitacaoController');
 //Route::resource('users', 'UsersController');

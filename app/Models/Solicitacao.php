@@ -14,6 +14,7 @@ class Solicitacao extends Model
         'status',
         'moderado',
         'prioridade',
+        'servico_id'
     ];
 
 

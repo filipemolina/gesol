@@ -7,15 +7,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-	use Notifiable;
-	
+    use HasApiTokens, Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'acesso','avatar'
+        'name', 'email', 'password', 'solicitante_id'
     ];
 
     /**
@@ -27,10 +27,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function solicitante()
-    {
-        return $this->belongsTo('App\Models\Solicitante');
-    }
+    // Relacionamentos
 
+    public function funcionario()
+    {
+        return $this->belongsTo('App\Models\Funcionario');
+    }
 }
 
