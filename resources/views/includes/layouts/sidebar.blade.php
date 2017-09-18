@@ -24,7 +24,7 @@
             <div class="info">
                 <a data-toggle="collapse" href="#collapseExample" class="collapsed">
                     Tania Andrew
-                    <b class="caret"></b>
+                    {{-- <b class="caret"></b> --}}
                 </a>
 
                 {{-------------- Menu do Usuário --------------}}

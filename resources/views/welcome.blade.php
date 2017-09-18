@@ -39,9 +39,9 @@
                                     <td>33</td>
                                     <td>2008/11/28</td>
                                     <td class="text-right">
-                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">favorite</i></a>
-                                        <a href="{{ url("solicitacao/id") }}" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">dvr</i></a>
-                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">close</i></a>
+                                        <a href="{{ url("solicitacao/1/edit") }}" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">edit</i></a>
+                                        <a href="{{ url("solicitacao/id") }}" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">visibility</i></a>
+                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr><tr role="row" class="even">
                                     <td class="sorting_1" tabindex="0">Angelica Ramos</td>
@@ -50,9 +50,9 @@
                                     <td>47</td>
                                     <td>2009/10/09</td>
                                     <td class="text-right">
-                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">favorite</i></a>
-                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">dvr</i></a>
-                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">close</i></a>
+                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">edit</i></a>
+                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">visibility</i></a>
+                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr><tr role="row" class="odd">
                                     <td tabindex="0" class="sorting_1">Ashton Cox</td>
@@ -61,9 +61,9 @@
                                     <td>66</td>
                                     <td>2009/01/12</td>
                                     <td class="text-right">
-                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">favorite</i></a>
-                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">dvr</i></a>
-                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">close</i></a>
+                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">edit</i></a>
+                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">visibility</i></a>
+                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr><tr role="row" class="even">
                                     <td class="sorting_1" tabindex="0">Bradley Greer</td>
@@ -72,9 +72,9 @@
                                     <td>41</td>
                                     <td>2012/10/13</td>
                                     <td class="text-right">
-                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">favorite</i></a>
-                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">dvr</i></a>
-                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">close</i></a>
+                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">edit</i></a>
+                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">visibility</i></a>
+                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr><tr role="row" class="odd">
                                     <td class="sorting_1" tabindex="0">Brenden Wagner</td>
@@ -83,9 +83,9 @@
                                     <td>28</td>
                                     <td>2011/06/07</td>
                                     <td class="text-right">
-                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">favorite</i></a>
-                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">dvr</i></a>
-                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">close</i></a>
+                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">edit</i></a>
+                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">visibility</i></a>
+                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr><tr role="row" class="even">
                                     <td tabindex="0" class="sorting_1">Brielle Williamson</td>
@@ -94,9 +94,9 @@
                                     <td>61</td>
                                     <td>2012/12/02</td>
                                     <td class="text-right">
-                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">favorite</i></a>
-                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">dvr</i></a>
-                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">close</i></a>
+                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">edit</i></a>
+                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">visibility</i></a>
+                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr><tr role="row" class="odd">
                                     <td class="sorting_1" tabindex="0">Caesar Vance</td>
@@ -105,9 +105,9 @@
                                     <td>21</td>
                                     <td>2011/12/12</td>
                                     <td class="text-right">
-                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">favorite</i></a>
-                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">dvr</i></a>
-                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">close</i></a>
+                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">edit</i></a>
+                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">visibility</i></a>
+                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr><tr role="row" class="even">
                                     <td tabindex="0" class="sorting_1">Cedric Kelly</td>
@@ -116,9 +116,9 @@
                                     <td>22</td>
                                     <td>2012/03/29</td>
                                     <td class="text-right">
-                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">favorite</i></a>
-                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">dvr</i></a>
-                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">close</i></a>
+                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">edit</i></a>
+                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">visibility</i></a>
+                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr><tr role="row" class="odd">
                                     <td class="sorting_1" tabindex="0">Charde Marshall</td>
@@ -127,9 +127,9 @@
                                     <td>36</td>
                                     <td>2008/10/16</td>
                                     <td class="text-right">
-                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">favorite</i></a>
-                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">dvr</i></a>
-                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">close</i></a>
+                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">edit</i></a>
+                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">visibility</i></a>
+                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr><tr role="row" class="even">
                                     <td tabindex="0" class="sorting_1">Colleen Hurst</td>
@@ -138,9 +138,9 @@
                                     <td>39</td>
                                     <td>2009/09/15</td>
                                     <td class="text-right">
-                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">favorite</i></a>
-                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">dvr</i></a>
-                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">close</i></a>
+                                        <a href="#" class="btn btn-simple btn-info btn-icon like"><i class="material-icons">edit</i></a>
+                                        <a href="#" class="btn btn-simple btn-warning btn-icon edit"><i class="material-icons">visibility</i></a>
+                                        <a href="#" class="btn btn-simple btn-danger btn-icon remove"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr></tbody>
                         </table></div></div><div class="row"><div class="col-sm-5"><div class="dataTables_info" id="datatables_info" role="status" aria-live="polite">Showing 1 to 10 of 40 entries</div></div><div class="col-sm-7"><div class="dataTables_paginate paging_full_numbers" id="datatables_paginate"><ul class="pagination"><li class="paginate_button first disabled" id="datatables_first"><a href="#" aria-controls="datatables" data-dt-idx="0" tabindex="0">First</a></li><li class="paginate_button previous disabled" id="datatables_previous"><a href="#" aria-controls="datatables" data-dt-idx="1" tabindex="0">Previous</a></li><li class="paginate_button active"><a href="#" aria-controls="datatables" data-dt-idx="2" tabindex="0">1</a></li><li class="paginate_button "><a href="#" aria-controls="datatables" data-dt-idx="3" tabindex="0">2</a></li><li class="paginate_button "><a href="#" aria-controls="datatables" data-dt-idx="4" tabindex="0">3</a></li><li class="paginate_button "><a href="#" aria-controls="datatables" data-dt-idx="5" tabindex="0">4</a></li><li class="paginate_button next" id="datatables_next"><a href="#" aria-controls="datatables" data-dt-idx="6" tabindex="0">Next</a></li><li class="paginate_button last" id="datatables_last"><a href="#" aria-controls="datatables" data-dt-idx="7" tabindex="0">Last</a></li></ul></div></div></div></div>

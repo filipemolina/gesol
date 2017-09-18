@@ -754,7 +754,7 @@ h4.card-title {
 }
 
 label.nome-secretaria{  font-size:  12px; margin-right: 10px; }
-label.nome-solicitante{ font-size:  12px; margin-right: 10px; }
+label.nome-solicitante{ font-size:  12px; margin-right: 10px; margin-top: 0px; }
 
 div.nome-solicitante-card{ 
   font-size:  14px; 
@@ -1387,7 +1387,7 @@ z-index: -1;
 
 .icon-secretaria{
     background-color: #696969 !important;
-    margin: -5px 65px !important;
+    margin: -5px 68px !important;
     padding: 10px 10px !important;
     width: 50px !important;
     height: 50px !important;
