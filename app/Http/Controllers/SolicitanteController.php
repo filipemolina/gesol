@@ -11,7 +11,7 @@ class SolicitanteController extends Controller
 {
     public function index()
     {
-        //
+        return view ('solicitantes.index');
     }
 
     public function create()
