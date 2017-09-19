@@ -16,11 +16,11 @@
 
 Route::get("/login", "AuthController@login")->name('login');
 Route::post('/login', "AuthController@entrar");
-Route::get('/register', function () {
-    return view('solicitantes.create');
-});
+Route::get('/register', function () {return view('solicitantes.create');});
 
 Route::get('/', 'HomeController@index')->name('home');
+// Rota para o dataTables
+Route::get('solicitacao/datatables', 'HomeController@dados');
 
 //resources
 Route::resource('solicitante','SolicitanteController');

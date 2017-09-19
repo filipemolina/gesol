@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="utf-8" />
@@ -52,6 +52,8 @@
         </div>
     </div>
 </body>
+
+
 <!--   Core JS Files   -->
 <script src="{{ asset('js/jquery-3.1.1.min.js') }}"  type="text/javascript"></script>
 <script src="{{ asset('js/jquery-ui.min.js') }}" type="text/javascript"></script>
@@ -97,5 +99,7 @@
 
 {{-- Javascript do Projeto --}}
 <script src="{{ asset('js/scripts.js') }}"></script>
+
+@stack('scripts')
 
 </html>

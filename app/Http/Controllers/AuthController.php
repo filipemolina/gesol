@@ -46,14 +46,19 @@ class AuthController extends Controller
     		}
     		else
     		{
-    			echo "Não é um funcionário<br/>";	
+    			return redirect("/login")->withErrors(['erros' => 'Não é um funcionário']); //echo "Não é um funcionário<br/>";	
     		}
 
-    		echo "<h2>Senha Confere</h2>";
-    	} else {
-    		echo "<h2>Senha Não Confere</h2>";
-    	}
+    		return redirect("/"); //echo "<h2>Senha Confere</h2>";
 
+    	} else {
+            if ($usuario)
+            {
+                return redirect("/login")->withErrors(['erros' => 'Senha não confere']);
+            }else{
+                return redirect("/login")->withErrors(['erros' => 'Email não cadastrado']);    
+            }
+    	}
 
     }
 }
