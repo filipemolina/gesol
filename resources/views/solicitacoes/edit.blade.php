@@ -12,7 +12,7 @@
 
     <div class="row">
 
-        <div class="col-md-8" style="left: 15%;">
+        <div class="col-md-8" style="left: 16%;">
             <div class="card card-plain">
                 <div class="card-content">
                     <ul class="timeline">
