@@ -20,7 +20,7 @@ Route::get('/register', function () {return view('solicitantes.create');});
 
 Route::get('/', 'HomeController@index')->name('home');
 // Rota para o dataTables
-Route::get('solicitacao/datatables', 'HomeController@dados');
+Route::get('solicitacao/datatables/{liberado}', 'HomeController@dados');
 
 //resources
 Route::resource('solicitante','SolicitanteController');

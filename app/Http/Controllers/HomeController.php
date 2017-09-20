@@ -44,11 +44,18 @@ class HomeController extends Controller
 
 
 
-    public function dados()
+    public function dados($liberado)
     {
+        // Obter o usuário atualmente logado
+
+        $usuario = User::find(Auth::user()->id);
+
+        //dd($liberado);
         // Obter todos os dados de todos os solicitacoes;
 
-        $solicitacoes = Solicitacao::with('solicitante','servico','servico.setor','endereco')->get();
+        $solicitacoes = Solicitacao::where('moderado','=', $liberado)
+                                    /*->whereHas('servico.setor.nome','=', 'Semáforo')*/
+                                    ->with('solicitante','servico','servico.setor','endereco')->get();
 
         // Montar a coleção que irá popular a tabela
 
@@ -74,17 +81,19 @@ class HomeController extends Controller
             else
                 $moderado = "Não";
 
-            $colecao->push([
-                'foto'      => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
-                'setor'     => $solicitacao->servico->setor->nome,
-                'status'    => $solicitacao->status,
+            if($solicitacao->servico->setor->secretaria->id == $usuario->funcionario->setor->secretaria->id)
+            { 
 
-                'moderado'  => $moderado,
-
-                
-                'abertura'               => \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y h:m'),
-                'acoes'                  => $acoes,
-            ]);
+                $colecao->push([
+                    'foto'          => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
+                    'conteudo'      => $solicitacao->conteudo, 
+                    'servico'       => $solicitacao->servico->nome,
+                    'status'        => $solicitacao->status,
+                    'moderado'      => $moderado,
+                    'abertura'      => \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y h:m'),
+                    'acoes'         => $acoes,
+                ]);
+            }
         }
 
         return DataTables::of($colecao)
