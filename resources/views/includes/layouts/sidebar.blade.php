@@ -19,11 +19,11 @@
     <div class="sidebar-wrapper">
         <div class="user">
             <div class="photo">
-                <img src="{{ asset('img/faces/avatar.jpg') }}" />
+                <img src="{{ $funcionario->foto }}" />
             </div>
             <div class="info">
                 <a data-toggle="collapse" href="#collapseExample" class="collapsed">
-                    Tania Andrew
+                   {{ $funcionario->nome }}
                     <b class="caret"></b>
                 </a>
 

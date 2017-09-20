@@ -55,11 +55,13 @@ $factory->define(App\Models\Endereco::class, function(Faker\Generator $faker) {
 $factory->define(App\Models\Funcionario::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
 	return [
-		'nome'             	=> $faker->name,
-		'matricula'         => $faker->numberBetween($min = 1111, $max = 99999),
+		'nome'            => $faker->name,
+		'matricula'       => $faker->numberBetween($min = 1111, $max = 99999),
 		'cpf'           	=> $faker->cpf,
-		'cargo'			    => $faker->jobTitle,
+		'cargo'			   => $faker->jobTitle,
 		'foto'				=> $faker->imageUrl(120, 150, 'people', true, 'Faker'),
+		'acesso'				=> $faker->randomElement(["TI","Prefeito","Ouvidor", "Secretario",
+																	"Funcionario","Moderador","Desativado"]),
 	];
 });
 

@@ -3,9 +3,12 @@
 @section('titulo')
 Página Principal
 @endsection
+{{-- 
+@section('nome-funcionario')
+   {{ $funcionario->nome }}
+@endsection --}}
 
 @section('content')
-
    <div class="container-fluid">
       <div class="row">
          <div class="col-md-12">
@@ -53,57 +56,52 @@ Página Principal
       </div>
    </div>
 
-
    <div class="container-fluid">
-   <div class="row">
-      <div class="col-md-12">
-         <div class="card">
-            <div class="card-header card-header-icon" data-background-color="green" style="color: #fff;">
-               <i class="material-icons">assignment</i>
-            </div>
-            <div class="card-content">
-               <h4 class="card-title">Solicitações LIBERADAS</h4>
-               <div class="toolbar">
-                  <!--        Here you can write extra buttons/actions for the toolbar              -->
+      <div class="row">
+         <div class="col-md-12">
+            <div class="card">
+               <div class="card-header card-header-icon" data-background-color="green" style="color: #fff;">
+                  <i class="material-icons">assignment</i>
                </div>
+               <div class="card-content">
+                  <h4 class="card-title">Solicitações LIBERADAS</h4>
+                  <div class="toolbar">
+                     <!--        Here you can write extra buttons/actions for the toolbar              -->
+                  </div>
 
-               <div class="material-datatables">
-                  <div id="datatables_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                     <div class="col-sm-13">
-                        <table id="tabela-solicitacoes-liberadas" 
-                              class="table table-striped table-no-bordered table-hover dataTable dtr-inline" 
-                              cellspacing="0" width="100%" 
-                              role="grid" aria-describedby="datatables_info"
-                              style="width: 100%; font-size: 12px;" >
-                     <thead>
-                        <tr>
-                           <th>Foto</th>
-                           <th>Serviço</th>
-                           <th>Conteúdo</th>
-                           <th>Status</th>
-                           <th>Moderado</th>
-                           <th>Abertura</th>
-                           <th>Ações</th>
-                        </tr>                           
-                     </thead>
+                  <div class="material-datatables">
+                     <div id="datatables_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="col-sm-13">
+                           <table id="tabela-solicitacoes-liberadas" 
+                                 class="table table-striped table-no-bordered table-hover dataTable dtr-inline" 
+                                 cellspacing="0" width="100%" 
+                                 role="grid" aria-describedby="datatables_info"
+                                 style="width: 100%; font-size: 12px;" >
+                        <thead>
+                           <tr>
+                              <th>Foto</th>
+                              <th>Serviço</th>
+                              <th>Conteúdo</th>
+                              <th>Status</th>
+                              <th>Moderado</th>
+                              <th>Abertura</th>
+                              <th>Ações</th>
+                           </tr>                           
+                        </thead>
 
-                    {{-- preenchido com datatables --}}               
+                       {{-- preenchido com datatables --}}               
 
-                  </table>
+                     </table>
+                  </div>
+                  <!-- end content-->
                </div>
-               <!-- end content-->
+               <!--  end card  -->
             </div>
-            <!--  end card  -->
+            <!-- end col-md-12 -->
          </div>
-         <!-- end col-md-12 -->
+         <!-- end row -->
       </div>
-      <!-- end row -->
    </div>
-</div>
-
-
-
-
 
 
 

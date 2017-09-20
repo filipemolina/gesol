@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Solicitacao;
 use App\Models\Solicitante;
+use App\Models\Funcionario;
 use App\Models\Endereco;
 use App\Models\User;
 use Carbon\Carbon;
@@ -27,6 +28,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+        $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+        
+        //dd(Auth::user()->funcionario_id);
+
         if( Solicitacao::count() > 0)
         {
             $solicitacoes = Solicitacao::withCount('apoiadores')
@@ -35,7 +41,21 @@ class HomeController extends Controller
                                         ->orderBy('created_at', 'desc')
                                         ->paginate(10);
 
-            return view('welcome', compact('solicitacoes'));
+            switch($funcionario->acesso)
+            {
+                case "Moderador":
+                    return view('dashboard.dash-moderador', compact('solicitacoes','funcionario'));
+                    break;
+
+                case "Funcionario":
+                    return view('dashboard.dash-funcionario', compact('solicitacoes','funcionario'));
+                    break;
+
+            }
+
+
+
+
         
         }else{
             dd("Nenhuma solicitação cadastrada");
@@ -63,14 +83,19 @@ class HomeController extends Controller
 
         // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
 
-        $acoes = "<a data-title='Visualizar' class='btn btn-cor-padrao  btn-pn-circulo' data-toggle='modal' data-target='#modal_pessoas_show' data-id='{id}' href='#'><i class='fa fa-eye'></i></a>";
+        $padrao = "  <a href='" .url('solicitacao/{id}/edit')    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a>
+                    <a href='" .url('solicitacao/{id}')         ."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
 
-        $supervisor_master = "<a title='Visualizar' class='btn btn-cor-padrao  btn-pn-circulo' data-toggle='modal' data-target='#modal_pessoas_show' data-id='{id}' href='#'><i class='fa fa-eye'></i></a><a title='Editar' class='btn btn-cor-padrao  btn-pn-circulo' href='".url("pessoas/{id}/edit")."'><i class='fa fa-pencil'></i></a><a title='Excluir' class='btn btn-cor-perigo btn-excluir btn-pn-circulo'  href='#'' data-nome='{nome}' data-id='{id}'><i class='fa fa-times'></i></a>";
+        /*$supervisor_master = '<a title='Visualizar' class='btn btn-cor-padrao  btn-pn-circulo' data-toggle='modal' data-target='#modal_pessoas_show' data-id='{id}' href='#'><i class='fa fa-eye'></i></a><a title='Editar' class='btn btn-cor-padrao  btn-pn-circulo' href=''.url('pessoas/{id}/edit').''><i class='fa fa-pencil'></i></a><a title='Excluir' class='btn btn-cor-perigo btn-excluir btn-pn-circulo'  href='#'' data-nome='{nome}' data-id='{id}'><i class='fa fa-times'></i></a>';
+*/
+
+       
 
         foreach($solicitacoes as $solicitacao)
         {
             // Preparar a string de ações
 
+            $acoes = str_replace(['{id}'], [$solicitacao->id], $padrao);
             /*if(Auth::user()->admin == "Padrão")
                 $acoes = str_replace(['{id}', '{nome}'], [$participante->id, str_replace("'", "'", $participante->nome)], $padrao);
             else

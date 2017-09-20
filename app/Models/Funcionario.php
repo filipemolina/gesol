@@ -14,6 +14,7 @@ class Funcionario extends Model
     	'matricula',
     	'cargo',
     	'foto',
+        'acesso',
     ];
 
     // Relacionamentos
