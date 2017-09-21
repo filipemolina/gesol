@@ -41,6 +41,7 @@ class HomeController extends Controller
                                         ->orderBy('created_at', 'desc')
                                         ->paginate(10);
 
+            // chama a view de acordo com o tipo de acesso do usuario logado
             switch($funcionario->acesso)
             {
                 case "Moderador":
@@ -50,13 +51,8 @@ class HomeController extends Controller
                 case "Funcionario":
                     return view('dashboard.dash-funcionario', compact('solicitacoes','funcionario'));
                     break;
-
             }
 
-
-
-
-        
         }else{
             dd("Nenhuma solicitação cadastrada");
         }
@@ -67,34 +63,43 @@ class HomeController extends Controller
     public function dados($liberado)
     {
         // Obter o usuário atualmente logado
-
         $usuario = User::find(Auth::user()->id);
 
-        //dd($liberado);
-        // Obter todos os dados de todos os solicitacoes;
 
-        $solicitacoes = Solicitacao::where('moderado','=', $liberado)
-                                    /*->whereHas('servico.setor.nome','=', 'Semáforo')*/
-                                    ->with('solicitante','servico','servico.setor','endereco')->get();
+        //faz a buscas das solicitações de acordo com o filtro selecionado
+        switch($liberado)
+        {
+            case 0:
+                // Obter todos os dados de todos os solicitacoes que NÃO estão moderadas;
+                $solicitacoes = Solicitacao::where('moderado','=', $liberado)
+                                ->with('solicitante','servico','servico.setor','endereco')->get();
+                break;
 
+            case 1:
+                // Obter todos os dados de todos os solicitacoes que JÁ ESTÃO moderadas;
+                $solicitacoes = Solicitacao::where('moderado','=', $liberado)
+                                ->with('solicitante','servico','servico.setor','endereco')->get();
+                break;
+
+            case 2:
+                // Obter todos os dados de todos os solicitacoes ;
+                $solicitacoes = Solicitacao::with('solicitante','servico','servico.setor','endereco')->get();
+                break;
+        }
+
+        
         // Montar a coleção que irá popular a tabela
-
         $colecao = collect();
 
         // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
-
         $padrao = "  <a href='" .url('solicitacao/{id}/edit')    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a>
                     <a href='" .url('solicitacao/{id}')         ."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
 
-        /*$supervisor_master = '<a title='Visualizar' class='btn btn-cor-padrao  btn-pn-circulo' data-toggle='modal' data-target='#modal_pessoas_show' data-id='{id}' href='#'><i class='fa fa-eye'></i></a><a title='Editar' class='btn btn-cor-padrao  btn-pn-circulo' href=''.url('pessoas/{id}/edit').''><i class='fa fa-pencil'></i></a><a title='Excluir' class='btn btn-cor-perigo btn-excluir btn-pn-circulo'  href='#'' data-nome='{nome}' data-id='{id}'><i class='fa fa-times'></i></a>';
-*/
-
-       
+        
 
         foreach($solicitacoes as $solicitacao)
         {
             // Preparar a string de ações
-
             $acoes = str_replace(['{id}'], [$solicitacao->id], $padrao);
             /*if(Auth::user()->admin == "Padrão")
                 $acoes = str_replace(['{id}', '{nome}'], [$participante->id, str_replace("'", "'", $participante->nome)], $padrao);

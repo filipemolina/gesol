@@ -36,7 +36,6 @@
                               <th>Serviço</th>
                               <th>Conteúdo</th>
                               <th>Status</th>
-                              <th>Moderado</th>
                               <th>Abertura</th>
                               <th>Ações</th>
                            </tr>                           
@@ -84,12 +83,11 @@
                { data : 'servico',      name : 'servico' },
                { data : 'conteudo',   name : 'conteudo' },
                { data : 'status',     name : 'status' },
-               { data : 'moderado',   name : 'moderado' },
                { data : 'abertura',   name : 'abertura' },
                { data : 'acoes',      name : 'acoes' },
             ],
 
-            order: [[ 5, 'desc' ]],
+            order: [[ 4, 'desc' ]],
             
             language : 
             {
@@ -98,8 +96,9 @@
                "thousands":   "."
             }, 
 
-            stateSave: true,
+            /*stateSave: true,*/
             stateDuration: -1,
+            
 
 
             columnDefs: 

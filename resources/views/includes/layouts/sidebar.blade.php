@@ -25,6 +25,7 @@
                 <a data-toggle="collapse" href="#collapseExample" class="collapsed">
                    {{ $funcionario->nome }}
                     <b class="caret"></b>
+                    <p style="font-size: 10px;">({{ $funcionario->acesso }})</p>
                 </a>
 
                 {{-------------- Menu do Usuário --------------}}
