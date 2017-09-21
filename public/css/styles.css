@@ -655,6 +655,7 @@ h4.card-title {
   padding: 10px 15px;
   background-color: transparent;
   position: relative;
+  z-index: 10;
 }
 
 .card .card-header.card-header-icon.avatar img {
@@ -794,13 +795,14 @@ div.data-inclusao-card{
 }
 
 span.endereco{ 
-  font-size:  12px; 
-  margin-left: 65px; 
-  color: #999999;
-  cursor: pointer;
+  font-size:  14px; 
+    cursor: pointer;
   max-width: 310px;
-  width: 67%;
+}
 
+span.endereco:hover {
+    
+    text-shadow: 0px 0px 0px black, 0 0 20px #AD9A75;
 }
 
 div.mapa{
@@ -1395,4 +1397,26 @@ z-index: -1;
 
 body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
   font-family: sans-serif;
+}
+
+.cartao-principal {
+/*  margin-top: 60px !important;*/
+}
+
+.botoes-acao{
+  font-size: 12px;
+  padding-left:   10px;
+  padding-right:  20px;
+  padding-top:    5px;
+  padding-bottom: 5px;
+
+}
+
+.info-solictante {
+  padding-left: 30px;
+}
+
+#linha {
+  width: 100%;
+  border-bottom: 1px solid #000000;
 }

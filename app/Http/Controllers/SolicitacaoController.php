@@ -2,7 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+
+use App\Models\Solicitacao;
+use App\Models\Solicitante;
+use App\Models\Funcionario;
+use App\Models\Endereco;
+use App\Models\User;
 
 class SolicitacaoController extends Controller
 {
@@ -56,7 +64,27 @@ class SolicitacaoController extends Controller
      */
     public function edit($id)
     {
-        //
+        //busca o funcionario
+        $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+
+        //busca a solicitação que será editada
+        /*$solicitacao = Solicitacao::with('endereco','solicitante','servico','servico.setor')->find($id);*/
+        $solicitacao = Solicitacao::find($id);
+
+        //dd($solicitacao);
+
+        // chama a view de acordo com o tipo de acesso do usuario logado
+        switch($funcionario->acesso)
+        {
+            case "Moderador":
+                return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario'));
+                break;
+
+            case "Funcionario":
+                return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario'));
+                break;
+        }
+
     }
 
     /**

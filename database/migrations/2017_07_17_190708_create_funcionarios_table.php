@@ -21,7 +21,7 @@ class CreateFuncionariosTable extends Migration
 
             $table->enum('acesso',
                     ["TI","Prefeito","Ouvidor", "Secretario",
-                    "Funcionario","Moderador","Desativado"])->default("Desativado");        
+                    "Funcionario","SAC","Moderador","Desativado"])->default("Desativado");        
 
             $table->string('cargo',30)                      ->nullable();
             $table->mediumtext('foto')                      ->nullable();

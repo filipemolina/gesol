@@ -58,21 +58,39 @@ class HomeController extends Controller
         }
     }
 
-
-
+    /**
+    * Retorna os dados para montar o datatables
+    * @param $liberado int: Determina o tipo de dados ....
+    * 0 =  Obter todos os dados de todos os solicitacoes que NÃO estão moderadas / MODERADOR
+    * 1 =  Obter todos os dados de todos os solicitacoes que JÁ ESTÃO moderadas
+    * 2 =  Obter todos os dados de todos os solicitacoes 
+    */
     public function dados($liberado)
     {
         // Obter o usuário atualmente logado
         $usuario = User::find(Auth::user()->id);
 
 
+        // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
+        // Aqui  os botões PADRÃO serão criados, de acordo com a role do usuario será
+        // atearada no SWITCH abaixo
+        $padrao = "  <a href='" .url('solicitacao/{id}/edit')    
+                    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a><a href='" 
+                    .url('solicitacao/{id}')         
+                    ."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
+
+
+
         //faz a buscas das solicitações de acordo com o filtro selecionado
         switch($liberado)
         {
             case 0:
-                // Obter todos os dados de todos os solicitacoes que NÃO estão moderadas;
+                // Obter todos os dados de todos os solicitacoes que NÃO estão moderadas / MODERADOR;
                 $solicitacoes = Solicitacao::where('moderado','=', $liberado)
                                 ->with('solicitante','servico','servico.setor','endereco')->get();
+                // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
+                $padrao = "  <a href='" .url('solicitacao/{id}/edit')    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a>";
+
                 break;
 
             case 1:
@@ -91,10 +109,7 @@ class HomeController extends Controller
         // Montar a coleção que irá popular a tabela
         $colecao = collect();
 
-        // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
-        $padrao = "  <a href='" .url('solicitacao/{id}/edit')    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a>
-                    <a href='" .url('solicitacao/{id}')         ."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
-
+       
         
 
         foreach($solicitacoes as $solicitacao)

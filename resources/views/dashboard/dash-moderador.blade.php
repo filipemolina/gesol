@@ -96,7 +96,7 @@
                "thousands":   "."
             }, 
 
-            /*stateSave: true,*/
+            stateSave: true,
             stateDuration: -1,
             
 
