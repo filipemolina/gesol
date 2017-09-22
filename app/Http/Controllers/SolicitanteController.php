@@ -26,7 +26,7 @@ class SolicitanteController extends Controller
 
     public function show($id)
     {
-        //
+        return view ('solicitantes.show');
     }
 
     public function edit($id)

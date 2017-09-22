@@ -2,14 +2,14 @@
 
 @section('titulo')
 
-Registrar Solicitante
+Visualizar solicitante
 
 @endsection
 
 @section('content')
 
 <div class="row">
-   <div class="container">            
+	<div class="container">            
       {{-- Dados pessoas --}}
       <div class="col-md-10">
          <div class="card card-singup">
@@ -25,7 +25,7 @@ Registrar Solicitante
 
                {{-- Título --}}
                <div class="card-content">
-                  <h4 class="card-title no-padding">Dados</h4>
+                  <h4 class="card-title no-padding">Nome do solicitante</h4>
                </div>         
                
                <div class="row">
@@ -317,74 +317,14 @@ Registrar Solicitante
 
       {{-- Botão Salvar --}}
       <div class="col-md-4 col-md-offset-4">
-         <button type="submit" class="btn btn-dourado btn-lg">Salvar</button>
+         <a href="{{ url( "solicitante" ) }}" class="btn btn-dourado btn-lg">Voltar</a>
       </div>
    </div> {{-- Fim container --}}
+
 </div> {{-- FIM ROW --}}
 
 @endsection
 
 @push('scripts')
-
-{{-- Atualiza os campos do endereço de acordo com o cep digitado --}}
-   <script src="{{ asset("js/endereco.js") }}"></script>
-
-   <!-- DateTimePicker Plugin -->
-   <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
-
-   <script type="text/javascript">
-      $(document).ready(function() {
-         VMasker ($("#cep")).maskPattern("99999-999");
-         VMasker ($("#telefone_fixo")).maskPattern("(99) 9999-9999");
-         VMasker ($("#telefone_celular")).maskPattern("(99) 99999-9999");
-
-
-         //para adicionar a foto 
-         $("body").on("change.bs.fileinput", function(e){ 
-            var base64 = $(".fileinput-preview img").attr('src');
-            $("input[name=foto]").val(base64);
-         });
-
-
-
-         var tempo = 0;
-         var incremento = 500;
-
-        // Testar se há algum erro, e mostrar a notificação
-
-         @if ($errors->any())
-            
-             @foreach ($errors->all() as $error)
-
-                setTimeout(function(){
-                    demo.notificationRight("top", "right", "rose", "{{ $error }}");   
-                }, tempo);
-
-                tempo += incremento;
-
-             @endforeach
-                
-        @endif
-         demo.initFormExtendedDatetimepickers();
-      });
-   </script>
-
-   <script type="text/javascript">
-   
-   // javascript for init
-   $('.datetimepicker').datetimepicker({
-      icons: {
-         time: "fa fa-clock-o",
-         date: "fa fa-calendar",
-         up: "fa fa-chevron-up",
-         down: "fa fa-chevron-down",
-         previous: 'fa fa-chevron-left',
-         next: 'fa fa-chevron-right',
-         today: 'fa fa-screenshot',
-         clear: 'fa fa-trash',
-         close: 'fa fa-remove'
-      }
-   });
-   </script>
 
 @endpush
