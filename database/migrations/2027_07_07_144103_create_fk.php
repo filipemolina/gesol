@@ -58,6 +58,13 @@ class CreateFk extends Migration
             $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
         });
 
+        Schema::table('movimentos', function($table){
+            $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
+            $table->foreign('servico_id')->references('id')->on('servicos')->onDelete('cascade');            
+            $table->foreign('comentario_id')->references('id')->on('comentarios')->onDelete('cascade');            
+        });
+
         Schema::enableForeignKeyConstraints();
     }
 
