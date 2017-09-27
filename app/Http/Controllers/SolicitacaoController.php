@@ -97,7 +97,31 @@ class SolicitacaoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Validar
+        $this->validate($request, [
+            'conteudo' => 'required'
+        ]);
+
+        // Salvar as alterações
+
+        // Obter a solicitação
+
+        $solicitacao = Solicitacao::find($id);
+
+        // Gravar o valor antigo do conteúdo da solicitação para utilizar na trilha de auditoria que o marcelo
+
+        $valor_antigo = $solicitacao->conteudo;
+
+        // Atualizar os dados
+
+        $solicitacao->fill($request->all());
+        $solicitacao->save();
+
+        trilha($solicitacao->id, 'conteudo', $valor_antigo ,"Alterou");
+        
+        return json_encode("AE");
+
+
     }
 
     /**
@@ -128,26 +152,22 @@ class SolicitacaoController extends Controller
     * 2 =  
     * 3 =  
     */
-    public function modera($id, $acao)
+    public function modera(Request $request)
     {
         // Obter o usuário atualmente logado
-        $solicitacao = Solicitacao::find($id);
-
-        $funcionario = Funcionario::find(Auth::user()->funcionario_id);
+        $solicitacao = Solicitacao::find($request->solicitacao_id);
 
         //executa a ação de acordo com o informado na chamada
-        switch($acao)
+        switch($request->acao)
         {
             case 1:
                 $solicitacao->moderado = 1;
                 $solicitacao->save();
 
-                $movimento = new Movimento(['solicitacao_id' => $id, 'funcionario_id' => $funcionario->id]);
-                $movimento->andamento = 'Liberou';
-
-                $movimento->save();
-
-                return redirect('/');
+                if (trilha($solicitacao->id, null , null ,"Liberou"))
+                {
+                    return redirect('/');
+                }
 
                 break;
 

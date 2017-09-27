@@ -293,3 +293,25 @@ var helper = {
     
 
 }; //Fim Helper
+
+//////////////////////////////////////////////////////////////////////////////////////// GESOL
+
+function trocaTexto(elemento, novo_texto) // javascript
+{
+
+  // obtain the object reference for the textarea>
+  var txtarea = document.getElementById(elemento);
+  // obtain the index of the first selected character
+  var start = txtarea.selectionStart;
+  // obtain the index of the last selected character
+  var finish = txtarea.selectionEnd;
+  //obtain all Text
+  var allText = txtarea.value;
+
+  // obtain the selected text
+  var sel = allText.substring(start, finish);
+  //append te text;
+  var newText=allText.substring(0, start)+novo_texto+allText.substring(finish, allText.length);
+
+  txtarea.value=newText;
+}

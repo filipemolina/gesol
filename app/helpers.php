@@ -1,5 +1,16 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+
+use App\Models\Solicitacao;
+use App\Models\Solicitante;
+use App\Models\Funcionario;
+use App\Models\Movimento;
+use App\Models\Endereco;
+use App\Models\User;
+
 
 //pega os valores enum em um campo
 if (! function_exists('pegaValorEnum')) {
@@ -34,6 +45,25 @@ if (! function_exists('camelcase')) {
     }
      
     return implode(' ', $return);
+  }
+
+  if (! function_exists('trilha')) {
+    function trilha($solicitacao, $campo, $valor,$andamento)
+    {
+      
+      $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+
+        $movimento = new Movimento([
+          'funcionario_id'  => $funcionario->id,
+          'solicitacao_id'  => $solicitacao,
+          'campo_alterado'  => $campo,
+          'valor_antigo'    => $valor,
+          'andamento'       => $andamento,
+        ]);
+
+        return $movimento->save();
+
+    }
   }
 }
 

@@ -15,13 +15,17 @@ class CreateMovimentosTable extends Migration
     {
         Schema::create('movimentos', function (Blueprint $table) {
             $table->increments('id');
+
+            $table->string('campo_alterado')    ->nullable();
+            $table->text('valor_antigo')      ->nullable();
             
             $table->enum('andamento',[
                                 'Liberou', 
                                 'Bloqueou', 
                                 'Encaminhou',
                                 'Fechou',
-                                'Respondeu'
+                                'Respondeu',
+                                'Alterou'
 
                             ]);
 
@@ -29,7 +33,6 @@ class CreateMovimentosTable extends Migration
             //------------------------FOREIGN--------------------------------
             $table->integer('solicitacao_id')   ->unsigned();
             $table->integer('funcionario_id')   ->unsigned();
-            $table->integer('servico_id')       ->unsigned()    ->nullable();
             $table->bigInteger('comentario_id') ->unsigned()    ->nullable();
             //---------------------------------------------------------------
 

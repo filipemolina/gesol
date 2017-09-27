@@ -8,6 +8,11 @@ class Movimento extends Model
 {
    protected $fillable = [
  		'andamento',
+    'solicitacao_id',
+    'funcionario_id',
+    'comentario_id',
+    'valor_antigo',
+    'campo_alterado'
  	];
 
 

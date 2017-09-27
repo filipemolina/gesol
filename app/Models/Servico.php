@@ -23,9 +23,5 @@ class Servico extends Model
     {
         return $this->hasMany('App\Models\Solicitacao');
     }
-    
-    public function movimentos()
-    {
-        return $this->hasMany('App\Models\movimento');
-    }        
+       
 }

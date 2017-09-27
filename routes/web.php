@@ -25,7 +25,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('solicitacao/datatables/{liberado}', 'HomeController@dados');
 
 // Rota para o controle de moderação
-Route::get('modera/{id}/{acao}',	'SolicitacaoController@modera');
+Route::post('modera',	'SolicitacaoController@modera');
 
 //resources
 Route::resource('solicitante','SolicitanteController');
