@@ -18,7 +18,7 @@ class CreateMovimentosTable extends Migration
             
             $table->enum('andamento',[
                                 'Liberou', 
-                                'Bloqueaou', 
+                                'Bloqueou', 
                                 'Encaminhou',
                                 'Fechou',
                                 'Respondeu'

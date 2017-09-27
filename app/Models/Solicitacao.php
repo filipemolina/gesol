@@ -48,4 +48,9 @@ class Solicitacao extends Model
     {
         return $this->belongsToMany('App\Models\Solicitante', 'apoios');
     }
+
+    public function movimentos()
+    {
+        return $this->hasMany('App\Models\movimento');
+    }    
 }

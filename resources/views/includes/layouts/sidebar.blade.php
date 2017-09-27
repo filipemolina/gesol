@@ -19,7 +19,7 @@
     <div class="sidebar-wrapper">
         <div class="user">
             <div class="photo">
-                <img src="{{ $funcionario->foto }}" />
+                <img src="{{ $funcionario->user->avatar }}" />
             </div>
             <div class="info">
                 <a data-toggle="collapse" href="#collapseExample" class="collapsed">

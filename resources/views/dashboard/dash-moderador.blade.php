@@ -80,7 +80,7 @@
             columns   : [
 
                { data : 'foto',       name : 'foto' },
-               { data : 'servico',      name : 'servico' },
+               { data : 'servico',    name : 'servico' },
                { data : 'conteudo',   name : 'conteudo' },
                { data : 'status',     name : 'status' },
                { data : 'abertura',   name : 'abertura' },

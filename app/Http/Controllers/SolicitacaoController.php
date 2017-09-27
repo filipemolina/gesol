@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Solicitacao;
 use App\Models\Solicitante;
 use App\Models\Funcionario;
+use App\Models\Movimento;
 use App\Models\Endereco;
 use App\Models\User;
 
@@ -108,5 +109,48 @@ class SolicitacaoController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    /*
+    =======================================================================================================
+    ===============================                  AJAX                    ==============================
+    =======================================================================================================
+    */
+
+
+
+    /**
+    * Exacuta as ações do moderador
+    * param    $id     int: ID da solicitação
+    *           $acao   int: ação que será executada 
+    * 1 =  Libera a solicitação
+    * 2 =  
+    * 3 =  
+    */
+    public function modera($id, $acao)
+    {
+        // Obter o usuário atualmente logado
+        $solicitacao = Solicitacao::find($id);
+
+        $funcionario = Funcionario::find(Auth::user()->funcionario_id);
+
+        //executa a ação de acordo com o informado na chamada
+        switch($acao)
+        {
+            case 1:
+                $solicitacao->moderado = 1;
+                $solicitacao->save();
+
+                $movimento = new Movimento(['solicitacao_id' => $id, 'funcionario_id' => $funcionario->id]);
+                $movimento->andamento = 'Liberou';
+
+                $movimento->save();
+
+                return redirect('/');
+
+                break;
+
+        }
     }
 }

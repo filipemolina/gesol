@@ -129,26 +129,6 @@
  <script src="js/material-dashboard.js"></script>
  <!-- Material Dashboard DEMO methods, don't include it in your project! -->
  <script src="js/demo.js"></script>
- <script type="text/javascript">
-   $().ready(function() {
-      demo.checkFullPageBackgroundImage();
-
-      setTimeout(function() {
-                // after 1000 ms we add the class animated to the login/register card
-                $('.card').removeClass('card-hidden');
-             }, 700)
-
-      @if ($errors->any())
-         console.log('erro');
-         @foreach ($errors->all() as $error)
-            demo.notificationRight("top", "right", "rose", "{{ $error }}");     
-            demo.initFormExtendedDatetimepickers();
-         @endforeach
-      @endif
-   
-      demo.initFormExtendedDatetimepickers();
-   });
-</script>
 
 <!-- Scripts -->
 {{-- <script src="{{ asset('js/app.js') }}"></script> --}}

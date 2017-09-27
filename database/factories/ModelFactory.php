@@ -17,9 +17,9 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
     return [
         
-        'email' 			=> $faker->unique()->safeEmail,
-        'password' 			=> $password ?: $password = bcrypt('secret'),
-        'remember_token' 	=> str_random(10),
+        'email' 		=> $faker->unique()->safeEmail,
+        'password' 	=> $password ?: $password = bcrypt('secret'),
+        'avatar' 		=> $faker->imageUrl(120, 150, 'people', true, 'Faker'),
     ];
 });
 
@@ -101,9 +101,9 @@ $factory->define(App\Models\Secretaria::class, function(Faker\Generator $faker) 
 	return [
 		'nome'             		=> $faker->company,
 		'secretario'      		=> $faker->name,
-		'sigla'      			=> $faker->lexify('SEM????'),
-		'email' 				=> $faker->unique()->email,
-		'inicio_atendimento'	=> $faker->time('H:i:s','10:00:00'),
+		'sigla'      				=> $faker->lexify('SEM????'),
+		'email' 						=> $faker->unique()->email,
+		'inicio_atendimento'		=> $faker->time('H:i:s','10:00:00'),
 		'termino_atendimento'	=> $faker->time('H:i:s','19:00:00'),
 	];
 });
@@ -116,7 +116,7 @@ $factory->define(App\Models\Servico::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
 	return [
 		'nome'             		=> $faker->jobTitle,
-		'icone'					=> $faker->imageUrl(100, 100, 'abstract', true, 'Faker'),
+		'icone'						=> $faker->imageUrl(100, 100, 'abstract', true, 'Faker'),
 	];
 });
 

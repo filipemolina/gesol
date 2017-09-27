@@ -30,11 +30,10 @@ class HomeController extends Controller
     {
 
         $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
-        
-        //dd(Auth::user()->funcionario_id);
-
+        //dd($funcionario->user->avatar);
         if( Solicitacao::count() > 0)
         {
+
             $solicitacoes = Solicitacao::withCount('apoiadores')
                                         ->withCount('comentarios')
                                         ->with('endereco')
@@ -57,6 +56,7 @@ class HomeController extends Controller
             dd("Nenhuma solicitação cadastrada");
         }
     }
+
 
     /**
     * Retorna os dados para montar o datatables
@@ -145,13 +145,4 @@ class HomeController extends Controller
         ->rawColumns(['foto','acoes'])
         ->make(true);
     }
-
-
-
-
-
-
-
-
-
 }

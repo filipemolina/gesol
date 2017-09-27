@@ -97,23 +97,28 @@
                         <div style="text-align:center">
                            
                            <button class="botoes-acao btn btn-round btn-success libera-solicitacao">
-                              <span class="mdi mdi-send"></span>
-                              Liberar
+                              <span class="icone-botoes-acao mdi mdi-send"></span>
+                              <span sclass="texto-botoes-acao"> Liberar </span>
                            </button>
-                           
-                           <button class="botoes-acao btn btn-round btn-danger recusa-solicitacao">
-                              <span class="mdi mdi-close"></span>
-                              Recusar
+
+                           <button class="botoes-acao btn btn-round" style="background: #1d1617;">
+                              <span class="icone-botoes-acao mdi mdi-comment-remove-outline"></span>
+                              <span sclass="texto-botoes-acao">  Editar </span>
                            </button>
                            
                            <button class="botoes-acao btn btn-round btn-warning">
-                              <span class="mdi mdi-redo-variant"></span>
-                              Redirecionar
+                              <span class="icone-botoes-acao mdi mdi-redo-variant"></span>
+                              <span sclass="texto-botoes-acao"> Redirecionar </span>
+                           </button>
+
+                           <button class="botoes-acao btn btn-round btn-danger recusa-solicitacao">
+                              <span class="icone-botoes-acao mdi mdi-delete-sweep"></span>
+                              <span sclass="texto-botoes-acao"> Recusar </span>
                            </button>
                               
                            <button class="botoes-acao btn btn-round btn-primary">
-                              <span class="mdi mdi-backburger"></span>   
-                              Voltar
+                              <span class="icone-botoes-acao mdi mdi-backburger"></span>   
+                              <span sclass="texto-botoes-acao"> Voltar </span>
                            </button>
                         </div>
                      </div>
@@ -143,6 +148,7 @@
            cancelButtonColor: '#d33',
            confirmButtonText: 'Sim, está ok!'
          }).then(function () {
+            {{ url('/modera/datatables/0') }}
            swal(
              'Solicitação liberada!',
              '',

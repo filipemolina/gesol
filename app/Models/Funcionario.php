@@ -33,4 +33,9 @@ class Funcionario extends Model
     {
         return $this->hasMany('App\Models\Comentario');
     }
+    
+    public function movimentos()
+    {
+        return $this->hasMany('App\Models\movimento');
+    }        
 }
