@@ -12,144 +12,182 @@ Solicitações
 
 @section('content')
 
-<div class="container-fluid">
-   <div class="row">
-      <div class="col-md-12">
-         <div class="card card-plain">
-            <div class="card-content">
-               {{-- O cartão começa aqui --}}
-               <div class="col-md-12 gesol-panel card card-product" style="padding: 35px;">
-                  {{-- Topo do cartão--}}
-                  <div class="row">
-                     {{-- Lado Esquerdo --}}
-                     <div class="col-md-6 ">
-                        {{-- Avatar pequeno --}}
-                        <div>
-                           <div class="card-header card-header-icon avatar-fixo-pn foto-user">
-                              <img class="img" src="{{ $solicitacao->solicitante->foto }}"/>
-                           </div>
-                        </div>
 
-                        <div class="nome-solicitante-card info-solictante" style="margin-top: -17px;">
-                           {{ $solicitacao->solicitante->nome}}
-                        </div>
-
-                        <div class="data-inclusao-card info-solictante">
-                           Adicionado {{ $solicitacao->created_at->diffForHumans() 
-                              .' - ' 
-                              .'('. $solicitacao->created_at->format('h:m - j/m/Y').')'}}  
-                           </div>
-
-                           <div class="row">
-                              <div class="timeline-body">
-                                 <div class="card-header icon-secretaria avatar-status pull-right" data-background-color="purple">
-
-                                    <span class="material-icons" style="font-size: 30px">build</span>
-                                 </div>
-
-                                 <div data-lightbox="foto-solicitacao"  class="card-image" style="width: 75%; margin-left: 36px; top:-34px;">
-                                    <a href="{{ $solicitacao->foto }}">
-                                       <img class="img" src="{{ $solicitacao->foto }}">
-                                    </a>
-                                 </div>
-                              </div>
-
-                           </div>
-
-                        </div>
-
-                        {{-- Lado Direito --}}
-
-                        <div class="col-md-6">
-
-                           <h4>Endereço</h4>
-
-                           <span class="endereco" 
-                           onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
-                           <i class="material-icons" style="font-size: 20px; margin-top: 5px;">place</i>  
-
-                           {{ $solicitacao->endereco->logradouro }} 
-                           {{ $solicitacao->endereco->numero }} -
-                           {{ $solicitacao->endereco->bairro }} -
-                           {{ $solicitacao->endereco->cep }} 
-                        </span>
-
-                        <br><br>
-                        <div id="linha"></div>
-                        <h4>Conteúdo</h4>
-
-                        <div id="conteudo">
-                           {{ $solicitacao->conteudo }}
-                        </div>
-
-                        <div id="conteudo-edicao" style="visibility: hidden">
-                           <textarea id="textarea-edicao" rows="5" cols="60" name="conteudo">{!! $solicitacao->conteudo !!}</textarea>
-                        </div>
-
-                     </div>
-                  </div> {{-- Fim da Primeira Linha --}}
-
-                  <div id="LocalMapa_{{ $solicitacao->id }}" class=" row mapa"></div>
-
-
-
-                  <div class="row">
-
-                     {{-- Linha de Botões --}}
-                     {{-------------------------- BOTAO PADRAO ------------------------}}
-                     <div id="botao-padrao" style="text-align:center">
-                        <button class="botoes-acao btn btn-round btn-success libera-solicitacao">
-                           <span class="icone-botoes-acao mdi mdi-send"></span>
-                           <span sclass="texto-botoes-acao"> Liberar </span>
-                        </button>
-
-                        <button style="background: #1d1617;" class="botoes-acao btn btn-round edita-solicitacao" >
-                           <span class="icone-botoes-acao mdi mdi-comment-remove-outline"></span>
-                           <span sclass="texto-botoes-acao">  Editar </span>
-                        </button>
-
-                        <button class="botoes-acao btn btn-round btn-warning">
-                           <span class="icone-botoes-acao mdi mdi-redo-variant"></span>
-                           <span sclass="texto-botoes-acao"> Redirecionar </span>
-                        </button>
-
-                        <button class="botoes-acao btn btn-round btn-danger recusa-solicitacao">
-                           <span class="icone-botoes-acao mdi mdi-delete-sweep"></span>
-                           <span sclass="texto-botoes-acao"> Recusar </span>
-                        </button>
-
-                        <button class="botoes-acao btn btn-round btn-primary">
-                           <span class="icone-botoes-acao mdi mdi-backburger"></span>   
-                           <span sclass="texto-botoes-acao"> Voltar </span>
-                        </button>
-                     </div>
-
-                     {{-------------------------- BOTAO CONTEUDO ------------------------}}
-                     <div id="botao-conteudo" style="text-align:center; visibility: hidden">
-                        <button class="botoes-acao btn btn-round btn-success salva-conteudo">
-                           <span class="icone-botoes-acao mdi mdi-send"></span>
-                           <span sclass="texto-botoes-acao"> Salvar </span>
-                        </button>
-                        
-                        <button class="botoes-acao btn btn-round btn-danger impropria">
-                           <span class="icone-botoes-acao mdi mdi-emoticon-poop"></span>   
-                           <span sclass="texto-botoes-acao"> Palavra impropria </span>
-                        </button>
-
-                        <button class="botoes-acao btn btn-round btn-primary cancela-conteudo">
-                           <span class="icone-botoes-acao mdi mdi-backburger"></span>   
-                           <span sclass="texto-botoes-acao"> Voltar </span>
-                        </button>
-                     </div>
+<div class="row">
+   <div class="col-md-12">
+      {{-- O cartão começa aqui --}}
+      <div class="col-md-12 gesol-panel card card-product" style="padding: 35px;">
+         {{-- Topo do cartão--}}
+         <div class="row">
+            {{-- Lado Esquerdo --}}
+            <div class="col-md-6 ">
+               {{-- Avatar pequeno --}}
+               <div>
+                  <div class="card-header card-header-icon avatar-fixo-pn foto-user">
+                     <img class="img" src="{{ $solicitacao->solicitante->foto }}"/>
                   </div>
+               </div>
+
+               <div class="nome-solicitante-card info-solictante" style="margin-top: -17px;">
+                  {{ $solicitacao->solicitante->nome}}
+               </div>
+
+               <div class="data-inclusao-card info-solictante">
+                  Adicionado {{ $solicitacao->created_at->diffForHumans() 
+                     .' - ' 
+                     .'('. $solicitacao->created_at->format('h:m - j/m/Y').')'}}  
+               </div>
+
+               <div class="row">
+                  <div class="timeline-body">
+                     <div id="setor-cor" class="card-header card-header-icon icon-secretaria avatar-status pull-right" data-background-color 
+                           style="background-color: {{ $solicitacao->servico->setor->cor }};">
+                        <span id="setor-icone" class="mdi {{ $solicitacao->servico->setor->icone }}" style="font-size: 30px">build</span>
+                     </div>
+
+                     <div data-lightbox="foto-solicitacao"  class="card-image" style="width: 75%; margin-left: 36px; top:-34px;">
+                        <a href="{{ $solicitacao->foto }}">
+                           <img class="img" src="{{ $solicitacao->foto }}">
+                        </a>
+                     </div>
 
                   </div>
                </div>
+            </div>
+
+            {{-- Lado Direito --}}
+
+            <div class="col-md-6">
+
+               <div id="servico">
+                  <h4> Destino da Solicitação: </h4>
+                  <div id="servico-texto">
+                     {{ $solicitacao->servico->setor->secretaria->sigla }} - 
+                     {{ $solicitacao->servico->setor->nome }} - 
+                     {{ $solicitacao->servico->nome }}       
+                  </div>    
+               </div>
+
+               <div id="servico-edicao" style="display: none;">
+                  <h4> Selecione novo destino </h4>    
+                  {{-- Categoria selecionada --}}
+
+                     <div class="label-floating " style="border-style: dotted; padding: 6px;">
+                        <select id="select-servico" class="js-example-data-array" data-live-search="true" > 
+                           <option value="" selected>Selecione uma opção</option>
+                           @foreach($setores as $setor)
+                              <optgroup label="{{ $setor->nome }}">
+                                 @foreach($setor->servicos as $servico)
+                                    <option value="{{$servico->id}}">{{$servico->nome}}</option>  
+                                 @endforeach
+                              </optgroup>
+                           @endforeach
+                        </select>
+                     </div>
+
+
+               </div>
+
+               <br>
+               <div id="linha"></div>
+               
+               <h4>Endereço</h4>
+
+               <span class="endereco" 
+                  onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
+                  <i class="material-icons" style="font-size: 20px; margin-top: 5px;">place</i>  
+
+                  {{ $solicitacao->endereco->logradouro }} 
+                  {{ $solicitacao->endereco->numero }} -
+                  {{ $solicitacao->endereco->bairro }} -
+                  {{ $solicitacao->endereco->cep }} 
+               </span>
+
+               <br><br>
+               <div id="linha"></div>
+               <h4>Conteúdo</h4>
+
+               <div id="conteudo">
+                  {!! $solicitacao->conteudo !!}
+               </div>
+
+               <div id="conteudo-edicao" style="display: none;">
+                  <!-- <textarea id="textarea-edicao" rows="5" cols="60" name="conteudo">{! $solicitacao->conteudo !!}</textarea> -->
+                  <div id="textarea-edicao" name="conteudo" contenteditable="true" style="border-style: dotted; padding: 6px;">
+                        {!! $solicitacao->conteudo !!}
+                  </div>
+               </div>
+            </div>
+         </div> {{-- Fim da Primeira Linha --}}
+
+         <div id="LocalMapa_{{ $solicitacao->id }}" class=" row mapa"></div>
+
+         <div class="row">
+
+            {{-- Linha de Botões --}}
+            {{-------------------------- BOTAO PADRAO ------------------------}}
+            <div id="botao-padrao" style="text-align:center; margin-top: 20px;">
+               <button class="botoes-acao btn btn-round btn-success libera-solicitacao">
+                  <span class="icone-botoes-acao mdi mdi-send"></span>
+                  <span sclass="texto-botoes-acao"> Liberar </span>
+               </button>
+
+               <button style="background: #1d1617;" class="botoes-acao btn btn-round edita-solicitacao" >
+                  <span class="icone-botoes-acao mdi mdi-comment-remove-outline"></span>
+                  <span sclass="texto-botoes-acao">  Editar </span>
+               </button>
+
+               <button class="botoes-acao btn btn-round btn-warning redireciona-solicitacao">
+                  <span class="icone-botoes-acao mdi mdi-redo-variant"></span>
+                  <span sclass="texto-botoes-acao"> Redirecionar </span>
+               </button>
+
+               <button class="botoes-acao btn btn-round btn-danger recusa-solicitacao">
+                  <span class="icone-botoes-acao mdi mdi-delete-sweep"></span>
+                  <span sclass="texto-botoes-acao"> Recusar </span>
+               </button>
+
+               <a class="botoes-acao btn btn-round btn-primary" href="{{ URL::previous() }}">
+                  <span class="icone-botoes-acao mdi mdi-backburger"></span>   
+                  <span sclass="texto-botoes-acao"> Voltar </span>
+               </a>
+            </div>
+
+            {{-------------------------- BOTAO EDIÇÂO ------------------------}}
+            <div id="botao-conteudo" style="text-align:center; display: none; margin-top: 20px;">
+               <button class="botoes-acao btn btn-round btn-success salva-conteudo">
+                  <span class="icone-botoes-acao mdi mdi-send"></span>
+                  <span sclass="texto-botoes-acao"> Salvar </span>
+               </button>
+               
+               <button class="botoes-acao btn btn-round btn-danger impropria">
+                  <span class="icone-botoes-acao mdi mdi-emoticon-poop"></span>   
+                  <span sclass="texto-botoes-acao"> Palavra impropria </span>
+               </button>
+
+               <button class="botoes-acao btn btn-round btn-primary cancela-conteudo">
+                  <span class="icone-botoes-acao mdi mdi-backburger"></span>   
+                  <span sclass="texto-botoes-acao"> Cancelar </span>
+               </button>
+            </div>
+
+            {{-------------------------- BOTAO SERVICO ------------------------}}
+            <div id="botao-servico" style="text-align:center; display: none; margin-top: 20px;">
+               <button class="botoes-acao btn btn-round btn-success salva-servico">
+                  <span class="icone-botoes-acao mdi mdi-send"></span>
+                  <span sclass="texto-botoes-acao"> Salvar </span>
+               </button>
+               
+               <button class="botoes-acao btn btn-round btn-primary cancela-servico">
+                  <span class="icone-botoes-acao mdi mdi-backburger"></span>   
+                  <span sclass="texto-botoes-acao"> Cancelar </span>
+               </button>
             </div>
          </div>
       </div>
    </div>
 </div>
+
 
 <form action="{{ url("/modera") }}" method="POST" id="form-hidden" style="visibility: hidden">
   {{ csrf_field() }}
@@ -194,18 +232,18 @@ Solicitações
       event.preventDefault();
 
       $("#conteudo").hide(); 
-      $("#conteudo-edicao").css('visibility', 'visible'); 
+      $("#conteudo-edicao").css('display', 'block'); 
       $("#botao-padrao").hide();
-      $("#botao-conteudo").css('visibility', 'visible'); 
+      $("#botao-conteudo").css('display', 'block'); 
   });
 
    $(".cancela-conteudo").click(function(){
       event.preventDefault();
 
       $("#conteudo").show(); 
-      $("#conteudo-edicao").css('visibility', 'hidden'); 
+      $("#conteudo-edicao").css('display', 'none'); 
       $("#botao-padrao").show();
-      $("#botao-conteudo").css('visibility', 'hidden'); 
+      $("#botao-conteudo").css('display', 'none'); 
    });
 
    $(".salva-conteudo").click(function(){
@@ -228,7 +266,8 @@ Solicitações
 
             // Estética
 
-            let conteudo = $("#conteudo-edicao textarea").val();
+  
+            let conteudo = $("#textarea-edicao").html().trim();
 
             $("#conteudo").html( conteudo );
             $("#conteudo-edicao").css('visibility', 'hidden');
@@ -253,16 +292,133 @@ Solicitações
     $(".impropria").click(function(){
       event.preventDefault();
 
-      trocaTexto("textarea-edicao", "<span style='color: red;'> [EDITADO - palavra imprópria] </span>");
+      trocaTexto("textarea-edicao", " [EDITADO - palavra imprópria] ");
       
    });
    
    
-   /*================================ EDITAR =========================================*/
+  /*================================ REDIRECIONAR =========================================*/
+   $(".redireciona-solicitacao").click(function(){
+      event.preventDefault();
+      $("#servico").hide(); 
+      $("#servico-edicao").css('display', 'block'); 
+      $("#botao-padrao").hide();
+      $("#botao-servico").css('display', 'block'); 
+   });
+
+   $(".cancela-servico").click(function(){
+      event.preventDefault();
+
+      $("#servico").show(); 
+      $("#servico-edicao").css('display', 'none'); 
+      $("#botao-padrao").show();
+      $("#botao-servico").css('display', 'none'); 
+   });
+
+   $(".salva-servico").click(function(){
+      event.preventDefault();
+
+      swal({
+         title: 'Salvar a alteração no Destino da Solicitação?',
+         type: 'question',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Sim',
+         cancelButtonText: 'Não',
+      }).then(function () {
+         swal(
+            'Destino alterado!',
+            '',
+            'success'
+         ).then(function(){
+
+            // Estética
+
+            let id_servico = $("#select-servico").val();
+
+            let textoSelecionado = $("#select-servico option:selected").text();
+
+
+            //$("#servico-texto").html( textoSelecionado );
+            $("#servico").show(); 
+            $("#servico-edicao").css('display', 'none'); 
+            $("#botao-padrao").show();
+            $("#botao-servico").css('display', 'none');  
+
+            // Levantamento de peso
+
+            $.post('/solicitacao/{{ $solicitacao->id }}', {
+               _token :    '{{ csrf_token() }}',
+               _method:    'PUT',
+               servico_id: id_servico
+            }, function(res){
+               let resposta = JSON.parse(res);
+
+               $("#servico-texto").html(  resposta.sigla +' - ' + 
+                                          resposta.servico +' - ' +
+                                          resposta.setor );
+
+               $("#setor-icone").removeClass().addClass('mdi '+ resposta.icone);
+               $("#setor-cor").css('background-color', resposta.cor + " !important");
+
+
+               console.log("Resposta", resposta);
+            });
+         });
+      })
+   });
+
+   /*================================ RECUSAR =========================================*/
+   $(".recusa-solicitacao").click(function(){
+      event.preventDefault();
+
+      swal({
+         title: 'Escolha o motivo da recusa',
+         input: 'select',
+         inputOptions: {
+            'Imagem impropria':                       'Imagem impropria',
+            'Solicitação em duplicidade':             'Solicitação em duplicidade',
+            'Não é de resposabilidade da Prefeitura': 'Não é de resposabilidade da Prefeitura'
+         },
+         inputPlaceholder: 'Selecione um motivo',
 
 
 
+8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
 
+      criar um campo de motivo na tabela de movimentos para receber o texto do motivo 
+      das movimentações(ex. os redirecionamentos)
+
+8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
+
+
+         type: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Recusar',
+         showLoaderOnConfirm: true
+      }).then(function () {
+         swal(
+            'Solicitação recusada!',
+            '',
+            'success'
+         ).then(function(){
+
+            $("input#hidden_acao").val('1');
+
+            $("form#form-hidden").submit();
+         });
+      })
+   });
 
 
 </script>

@@ -18,11 +18,11 @@ class CreateSolicitacoesTable extends Migration
 
 
             $table->mediumText('foto')                                          ->nullable();
-            $table->text('conteudo')                                          ->nullable();
+            $table->text('conteudo')                                            ->nullable();
             $table->boolean('moderado')                                         ->default(false);
             $table->enum('status', ['Aberta','Encaminhada',
                                     'Aguardando','Pendente',
-                                    'Em execução','Fechada'])                   ->default('Aberta');
+                                    'Em execução','Fechada','Recusada'])        ->default('Aberta');
 
             $table->enum('prioridade',['Baixa','Normal','Alta','Urgente'])      ->default('Baixa');
 

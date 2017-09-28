@@ -301,17 +301,20 @@ function trocaTexto(elemento, novo_texto) // javascript
 
   // obtain the object reference for the textarea>
   var txtarea = document.getElementById(elemento);
+  // console.log("Elemento", txtarea);
   // obtain the index of the first selected character
-  var start = txtarea.selectionStart;
+  var start = document.getSelection().anchorOffset;
+  // console.log("Início", start);
   // obtain the index of the last selected character
-  var finish = txtarea.selectionEnd;
+  var finish = document.getSelection().focusOffset;
+  // console.log("Finício", finish);
   //obtain all Text
-  var allText = txtarea.value;
+  var allText = txtarea.innerHTML;
+  // console.log("Todo Texto", allText);
 
-  // obtain the selected text
-  var sel = allText.substring(start, finish);
   //append te text;
   var newText=allText.substring(0, start)+novo_texto+allText.substring(finish, allText.length);
+  // console.log("Novo texto", newText);
 
-  txtarea.value=newText;
+  txtarea.innerHTML=newText;
 }

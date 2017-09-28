@@ -11,6 +11,7 @@ use App\Models\Solicitante;
 use App\Models\Funcionario;
 use App\Models\Movimento;
 use App\Models\Endereco;
+use App\Models\Setor;
 use App\Models\User;
 
 class SolicitacaoController extends Controller
@@ -78,7 +79,10 @@ class SolicitacaoController extends Controller
         switch($funcionario->acesso)
         {
             case "Moderador":
-                return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario'));
+                // Obter todos os setores
+                $setores = Setor::with('servicos')->get();
+
+                return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario','setores'));
                 break;
 
             case "Funcionario":
@@ -97,30 +101,51 @@ class SolicitacaoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Validar
+/*        // Validar
         $this->validate($request, [
             'conteudo' => 'required'
         ]);
+*/
 
         // Salvar as alterações
 
         // Obter a solicitação
-
         $solicitacao = Solicitacao::find($id);
 
-        // Gravar o valor antigo do conteúdo da solicitação para utilizar na trilha de auditoria que o marcelo
+        if(isset($request->servico_id))
+        {
 
-        $valor_antigo = $solicitacao->conteudo;
+            // Gravar o valor antigo do ID do SERVIÇO da solicitação para utilizar na trilha de auditoria
+            $valor_antigo = $solicitacao->servico->id;
+
+            //salva na trilha
+            trilha($solicitacao->id, 'servico_id', $valor_antigo ,"Redirecionou");
+
+        }elseif (isset($request->comentario)) {
+            // Gravar o valor antigo do conteúdo da solicitação para utilizar na trilha de auditoria que o marcelo
+            $valor_antigo = $solicitacao->conteudo;
+
+            //salva na trilha
+            trilha($solicitacao->id, 'conteudo', $valor_antigo ,"Alterou");
+
+        }
 
         // Atualizar os dados
-
         $solicitacao->fill($request->all());
-        $solicitacao->save();
+        $alterou = $solicitacao->save();
 
-        trilha($solicitacao->id, 'conteudo', $valor_antigo ,"Alterou");
+        // Criar um objeto para a resposta
+        $solicitacao = Solicitacao::find($id);
         
-        return json_encode("AE");
+        $resposta = new \stdClass();
+        $resposta->cor      = $solicitacao->servico->setor->cor;
+        $resposta->icone    = $solicitacao->servico->setor->icone;
+        $resposta->sigla    = $solicitacao->servico->setor->secretaria->sigla;
+        $resposta->servico  = $solicitacao->servico->setor->nome;
+        $resposta->setor    = $solicitacao->servico->nome;
 
+
+        return json_encode($resposta);
 
     }
 

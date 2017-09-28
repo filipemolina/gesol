@@ -142,7 +142,7 @@ class HomeController extends Controller
         }
 
         return DataTables::of($colecao)
-        ->rawColumns(['foto','acoes'])
+        ->rawColumns(['foto','acoes', 'conteudo'])
         ->make(true);
     }
 }

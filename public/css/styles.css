@@ -653,7 +653,7 @@ h4.card-title {
   box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
   margin: -20px -30px 0 15px;
   padding: 10px 15px;
-  background-color: transparent;
+/*   background-color: transparent; */
   position: relative;
   z-index: 10;
 }
@@ -1388,7 +1388,7 @@ z-index: -1;
 }
 
 .icon-secretaria{
-    background-color: #696969 !important;
+/*     background-color: #696969 !important; */
     margin: -5px 65px !important;
     padding: 10px 10px !important;
     width: 50px !important;
