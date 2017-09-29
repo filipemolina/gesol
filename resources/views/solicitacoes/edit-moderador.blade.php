@@ -73,6 +73,7 @@ Solicitações
                   {{-- Categoria selecionada --}}
 
                      <div class="label-floating " style="border-style: dotted; padding: 6px;">
+                        {{-- novo destino --}}
                         <select id="select-servico" class="js-example-data-array" data-live-search="true" > 
                            <option value="" selected>Selecione uma opção</option>
                            @foreach($setores as $setor)
@@ -83,6 +84,15 @@ Solicitações
                               </optgroup>
                            @endforeach
                         </select>
+
+                        {{-- motivo --}}
+                        <select id="select-servico-motivo" class="js-example-data-array" data-live-search="true" > 
+                           <option value="" selected>Selecione uma opção</option>
+                           @foreach($motivos as $motivo)
+                              <option value="{{$motivo}}">{{$motivo}}</option>  
+                           @endforeach
+                        </select>
+
                      </div>
 
 
@@ -281,7 +291,8 @@ Solicitações
             $.post('/solicitacao/{{ $solicitacao->id }}', {
                _token : '{{ csrf_token() }}',
                _method: 'PUT',
-               conteudo: conteudo
+               conteudo: conteudo,
+               acao:    2
             }, function(resposta){
                console.log(resposta);
             });
@@ -300,18 +311,20 @@ Solicitações
   /*================================ REDIRECIONAR =========================================*/
    $(".redireciona-solicitacao").click(function(){
       event.preventDefault();
-      $("#servico").hide(); 
+      $("#servico").css('display', 'none');
+      $("#botao-padrao").css('display', 'none');
+
       $("#servico-edicao").css('display', 'block'); 
-      $("#botao-padrao").hide();
       $("#botao-servico").css('display', 'block'); 
    });
 
    $(".cancela-servico").click(function(){
       event.preventDefault();
 
-      $("#servico").show(); 
+      $("#servico").css('display', 'block'); 
+      $("#botao-padrao").css('display', 'block'); 
+
       $("#servico-edicao").css('display', 'none'); 
-      $("#botao-padrao").show();
       $("#botao-servico").css('display', 'none'); 
    });
 
@@ -339,11 +352,10 @@ Solicitações
 
             let textoSelecionado = $("#select-servico option:selected").text();
 
-
-            //$("#servico-texto").html( textoSelecionado );
-            $("#servico").show(); 
-            $("#servico-edicao").css('display', 'none'); 
-            $("#botao-padrao").show();
+            $("#servico").css('display', 'block'); 
+            $("#botao-padrao").css('display', 'block'); 
+            
+            $("#servico-edicao").css('display', 'none');             
             $("#botao-servico").css('display', 'none');  
 
             // Levantamento de peso
@@ -351,7 +363,8 @@ Solicitações
             $.post('/solicitacao/{{ $solicitacao->id }}', {
                _token :    '{{ csrf_token() }}',
                _method:    'PUT',
-               servico_id: id_servico
+               servico_id: id_servico,
+               acao:       3
             }, function(res){
                let resposta = JSON.parse(res);
 
@@ -382,40 +395,37 @@ Solicitações
             'Não é de resposabilidade da Prefeitura': 'Não é de resposabilidade da Prefeitura'
          },
          inputPlaceholder: 'Selecione um motivo',
-
-
-
-8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-
-      criar um campo de motivo na tabela de movimentos para receber o texto do motivo 
-      das movimentações(ex. os redirecionamentos)
-
-8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
-
-
-
          type: 'warning',
          showCancelButton: true,
          confirmButtonColor: '#3085d6',
          cancelButtonColor: '#d33',
          confirmButtonText: 'Recusar',
-         showLoaderOnConfirm: true
-      }).then(function () {
+         showLoaderOnConfirm: true,
+
+         inputValidator: function (value) {
+            return new Promise(function (resolve, reject) {
+               if (value) {
+                  resolve()
+               } else {
+                  reject('Selecione um motivo')
+               }
+            })
+         }
+      }).then(function (result) {
          swal(
             'Solicitação recusada!',
             '',
             'success'
          ).then(function(){
-
-            $("input#hidden_acao").val('1');
-
-            $("form#form-hidden").submit();
+            $.post('/solicitacao/{{ $solicitacao->id }}', {
+               _token : '{{ csrf_token() }}',
+               _method: 'PUT',
+               motivo: result,
+               status: "Recusada",
+               acao:    4
+            }, function(resposta){
+               console.log(resposta);
+            });
          });
       })
    });
@@ -423,3 +433,5 @@ Solicitações
 
 </script>
 @endpush
+
+

@@ -17,7 +17,8 @@ class CreateMovimentosTable extends Migration
             $table->increments('id');
 
             $table->string('campo_alterado')    ->nullable();
-            $table->text('valor_antigo')      ->nullable();
+            $table->text('valor_antigo')        ->nullable();
+            $table->text('motivo')              ->nullable();
             
             $table->enum('andamento',[
                                 'Liberou', 
@@ -25,7 +26,8 @@ class CreateMovimentosTable extends Migration
                                 'Redirecionou',
                                 'Fechou',
                                 'Respondeu',
-                                'Alterou'
+                                'Alterou',
+                                'Recusou',
 
                             ]);
 

@@ -22,7 +22,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 
 // Rota para o dataTables da dashboard
-Route::get('solicitacao/datatables/{liberado}', 'HomeController@dados');
+Route::get('solicitacao/datatables/{liberado}', 'SolicitacaoController@dados');
 
 // Rota para o controle de moderação
 Route::post('modera',	'SolicitacaoController@modera');

@@ -12,7 +12,8 @@ class Movimento extends Model
     'funcionario_id',
     'comentario_id',
     'valor_antigo',
-    'campo_alterado'
+    'campo_alterado',
+    'motivo'
  	];
 
 

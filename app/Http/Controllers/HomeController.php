@@ -34,17 +34,17 @@ class HomeController extends Controller
         if( Solicitacao::count() > 0)
         {
 
-            $solicitacoes = Solicitacao::withCount('apoiadores')
+            /*$solicitacoes = Solicitacao::withCount('apoiadores')
                                         ->withCount('comentarios')
                                         ->with('endereco')
                                         ->orderBy('created_at', 'desc')
-                                        ->paginate(10);
+                                        ->paginate(10);*/
 
             // chama a view de acordo com o tipo de acesso do usuario logado
             switch($funcionario->acesso)
             {
                 case "Moderador":
-                    return view('dashboard.dash-moderador', compact('solicitacoes','funcionario'));
+                    return view('dashboard.dash-moderador', compact(/*'solicitacoes',*/'funcionario'));
                     break;
 
                 case "Funcionario":
@@ -57,92 +57,4 @@ class HomeController extends Controller
         }
     }
 
-
-    /**
-    * Retorna os dados para montar o datatables
-    * @param $liberado int: Determina o tipo de dados ....
-    * 0 =  Obter todos os dados de todos os solicitacoes que NÃO estão moderadas / MODERADOR
-    * 1 =  Obter todos os dados de todos os solicitacoes que JÁ ESTÃO moderadas
-    * 2 =  Obter todos os dados de todos os solicitacoes 
-    */
-    public function dados($liberado)
-    {
-        // Obter o usuário atualmente logado
-        $usuario = User::find(Auth::user()->id);
-
-
-        // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
-        // Aqui  os botões PADRÃO serão criados, de acordo com a role do usuario será
-        // atearada no SWITCH abaixo
-        $padrao = "  <a href='" .url('solicitacao/{id}/edit')    
-                    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a><a href='" 
-                    .url('solicitacao/{id}')         
-                    ."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
-
-
-
-        //faz a buscas das solicitações de acordo com o filtro selecionado
-        switch($liberado)
-        {
-            case 0:
-                // Obter todos os dados de todos os solicitacoes que NÃO estão moderadas / MODERADOR;
-                $solicitacoes = Solicitacao::where('moderado','=', $liberado)
-                                ->with('solicitante','servico','servico.setor','endereco')->get();
-                // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
-                $padrao = "  <a href='" .url('solicitacao/{id}/edit')    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a>";
-
-                break;
-
-            case 1:
-                // Obter todos os dados de todos os solicitacoes que JÁ ESTÃO moderadas;
-                $solicitacoes = Solicitacao::where('moderado','=', $liberado)
-                                ->with('solicitante','servico','servico.setor','endereco')->get();
-                break;
-
-            case 2:
-                // Obter todos os dados de todos os solicitacoes ;
-                $solicitacoes = Solicitacao::with('solicitante','servico','servico.setor','endereco')->get();
-                break;
-        }
-
-        
-        // Montar a coleção que irá popular a tabela
-        $colecao = collect();
-
-       
-        
-
-        foreach($solicitacoes as $solicitacao)
-        {
-            // Preparar a string de ações
-            $acoes = str_replace(['{id}'], [$solicitacao->id], $padrao);
-            /*if(Auth::user()->admin == "Padrão")
-                $acoes = str_replace(['{id}', '{nome}'], [$participante->id, str_replace("'", "'", $participante->nome)], $padrao);
-            else
-                $acoes = str_replace(['{id}', '{nome}'], [$participante->id, str_replace("'", "'", $participante->nome)], $supervisor_master);*/
-
-            if($solicitacao->moderado)
-                $moderado = "Sim";
-            else
-                $moderado = "Não";
-
-            if($solicitacao->servico->setor->secretaria->id == $usuario->funcionario->setor->secretaria->id)
-            { 
-
-                $colecao->push([
-                    'foto'          => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
-                    'conteudo'      => $solicitacao->conteudo, 
-                    'servico'       => $solicitacao->servico->nome,
-                    'status'        => $solicitacao->status,
-                    'moderado'      => $moderado,
-                    'abertura'      => \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y h:m'),
-                    'acoes'         => $acoes,
-                ]);
-            }
-        }
-
-        return DataTables::of($colecao)
-        ->rawColumns(['foto','acoes', 'conteudo'])
-        ->make(true);
-    }
 }
