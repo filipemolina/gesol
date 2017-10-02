@@ -27,13 +27,13 @@ class SolicitanteSeeder extends Seeder
            /* // Criar solicitacoes
             $solicitante->solicitacoes()->saveMany(factory(App\Models\Solicitacao::class, rand(1,5))->make());*/
 
-            factory(App\Models\Solicitacao::class, rand(1,20))->create()->each(function($solicitacao)
+            factory(App\Models\Solicitacao::class, rand(5,10))->create()->each(function($solicitacao)
             {
                 $solicitacao->endereco()->save(factory(App\Models\Endereco::class)->make());
 
                 // Criar comentarios
 
-                $solicitacao->comentarios()->saveMany(factory(App\Models\Comentario::class, rand(0, 5))->make());
+                $solicitacao->comentarios()->saveMany(factory(App\Models\Comentario::class, rand(1, 5))->make());
             });
         });
     }

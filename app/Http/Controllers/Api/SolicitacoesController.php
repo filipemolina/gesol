@@ -30,7 +30,8 @@ class SolicitacoesController extends Controller
             'servico',
             "servico.setor",
             'servico.setor.secretaria',
-        ])->orderBy('created_at', 'desc')->limit(10)->get();
+            'apoiadores'
+        ])->withCount('apoiadores')->orderBy('created_at', 'desc')->limit(10)->get();
 
         return $Solicitacoes->toJson();
     }
@@ -136,8 +137,11 @@ class SolicitacoesController extends Controller
             'comentarios.funcionario', 
             'comentarios.funcionario.setor.secretaria',
             'servico',
+            "servico.setor",
             'servico.setor.secretaria',
+            'apoiadores'
         ])
+        ->withCount('apoiadores')
         ->where("solicitante_id", $request->id)
         ->orderBy('created_at', 'desc')
         ->limit(10)

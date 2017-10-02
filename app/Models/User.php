@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'solicitante_id'
+        'name', 'email', 'password', 'acesso','avatar', 'solicitante_id'
     ];
 
     /**
@@ -39,4 +39,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Solicitante');
     }
+
 }
+

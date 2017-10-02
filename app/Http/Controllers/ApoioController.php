@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Apoio;
+use App\Models\Apoio;
+use App\Models\Solicitacao;
 use Illuminate\Http\Request;
 
 class ApoioController extends Controller
