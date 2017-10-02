@@ -69,13 +69,13 @@ Solicitações
                </div>
 
                <div id="servico-edicao" style="display: none;">
-                  <h4> Selecione novo destino </h4>    
+                  <h4> Redirecionar solicitação </h4>    
                   {{-- Categoria selecionada --}}
 
                      <div class="label-floating " style="border-style: dotted; padding: 6px;">
                         {{-- novo destino --}}
                         <select id="select-servico" class="js-example-data-array" data-live-search="true" > 
-                           <option value="" selected>Selecione uma opção</option>
+                           <option value="" selected>Selecione novo destino</option>
                            @foreach($setores as $setor)
                               <optgroup label="{{ $setor->nome }}">
                                  @foreach($setor->servicos as $servico)
@@ -87,7 +87,7 @@ Solicitações
 
                         {{-- motivo --}}
                         <select id="select-servico-motivo" class="js-example-data-array" data-live-search="true" > 
-                           <option value="" selected>Selecione uma opção</option>
+                           <option value="" selected>Selecione uma motivo</option>
                            @foreach($motivos as $motivo)
                               <option value="{{$motivo}}">{{$motivo}}</option>  
                            @endforeach
@@ -331,55 +331,75 @@ Solicitações
    $(".salva-servico").click(function(){
       event.preventDefault();
 
-      swal({
-         title: 'Salvar a alteração no Destino da Solicitação?',
-         type: 'question',
-         showCancelButton: true,
-         confirmButtonColor: '#3085d6',
-         cancelButtonColor: '#d33',
-         confirmButtonText: 'Sim',
-         cancelButtonText: 'Não',
-      }).then(function () {
-         swal(
-            'Destino alterado!',
-            '',
-            'success'
-         ).then(function(){
+      if (  $("#select-servico").val() == '' && $("#select-servico-motivo").val() == ''  ){
+         demo.notificationRight("top", "right", "rose", "Selceiono um Destino");     
+         demo.initFormExtendedDatetimepickers();
+         demo.notificationRight("top", "right", "rose", "Selecione um motivo");
+         demo.initFormExtendedDatetimepickers();
+      
+      } else if (  $("#select-servico").val() == '' ) {
 
-            // Estética
+         demo.notificationRight("top", "right", "rose", "Selceiono um Destino");     
+         demo.initFormExtendedDatetimepickers();
 
-            let id_servico = $("#select-servico").val();
+      } else if (  $("#select-servico-motivo").val() == '' ) {
 
-            let textoSelecionado = $("#select-servico option:selected").text();
+         demo.notificationRight("top", "right", "rose", "Selecione um motivo");
+         demo.initFormExtendedDatetimepickers();
 
-            $("#servico").css('display', 'block'); 
-            $("#botao-padrao").css('display', 'block'); 
-            
-            $("#servico-edicao").css('display', 'none');             
-            $("#botao-servico").css('display', 'none');  
+      } else {
 
-            // Levantamento de peso
+         swal({
+            title: 'Redirecionar a solicitação para o destino escolhido?',
+            text: $("#select-servico option:selected").html(),
+            type: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim',
+            cancelButtonText: 'Não',
+         }).then(function () {
+            swal(
+               'Destino alterado!',
+               '',
+               'success'
+            ).then(function(){
 
-            $.post('/solicitacao/{{ $solicitacao->id }}', {
-               _token :    '{{ csrf_token() }}',
-               _method:    'PUT',
-               servico_id: id_servico,
-               acao:       3
-            }, function(res){
-               let resposta = JSON.parse(res);
+               // Estética
 
-               $("#servico-texto").html(  resposta.sigla +' - ' + 
-                                          resposta.servico +' - ' +
-                                          resposta.setor );
+               let id_servico = $("#select-servico").val();
 
-               $("#setor-icone").removeClass().addClass('mdi '+ resposta.icone);
-               $("#setor-cor").css('background-color', resposta.cor + " !important");
+               let textoSelecionado = $("#select-servico option:selected").text();
+
+               $("#servico").css('display', 'block'); 
+               $("#botao-padrao").css('display', 'block'); 
+               
+               $("#servico-edicao").css('display', 'none');             
+               $("#botao-servico").css('display', 'none');  
+
+               // Levantamento de peso
+
+               $.post('/solicitacao/{{ $solicitacao->id }}', {
+                  _token :    '{{ csrf_token() }}',
+                  _method:    'PUT',
+                  servico_id: id_servico,
+                  acao:       3
+               }, function(res){
+                  let resposta = JSON.parse(res);
+
+                  $("#servico-texto").html(  resposta.sigla +' - ' + 
+                                             resposta.servico +' - ' +
+                                             resposta.setor );
+
+                  $("#setor-icone").removeClass().addClass('mdi '+ resposta.icone);
+                  $("#setor-cor").css('background-color', resposta.cor + " !important");
 
 
-               console.log("Resposta", resposta);
+                  console.log("Resposta", resposta);
+               });
             });
-         });
-      })
+         })
+      };
    });
 
    /*================================ RECUSAR =========================================*/
@@ -389,12 +409,14 @@ Solicitações
       swal({
          title: 'Escolha o motivo da recusa',
          input: 'select',
-         inputOptions: {
+         inputOptions: JSON.parse('{!! json_encode($motivos) !!}'),
+
+/*         inputOptions: {
             'Imagem impropria':                       'Imagem impropria',
             'Solicitação em duplicidade':             'Solicitação em duplicidade',
             'Não é de resposabilidade da Prefeitura': 'Não é de resposabilidade da Prefeitura'
          },
-         inputPlaceholder: 'Selecione um motivo',
+*/         inputPlaceholder: 'Selecione um motivo',
          type: 'warning',
          showCancelButton: true,
          confirmButtonColor: '#3085d6',
@@ -425,6 +447,7 @@ Solicitações
                acao:    4
             }, function(resposta){
                console.log(resposta);
+               window.location.href="{{ url("/") }}";
             });
          });
       })

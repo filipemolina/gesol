@@ -17,6 +17,11 @@ use DataTables;
 
 class SolicitacaoController extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -74,7 +79,15 @@ class SolicitacaoController extends Controller
         /*$solicitacao = Solicitacao::with('endereco','solicitante','servico','servico.setor')->find($id);*/
         $solicitacao = Solicitacao::find($id);
 
-        $motivos = pegaValorEnum('parametros', 'motivo_movimento');
+        $enum = pegaValorEnum('parametros', 'motivo_movimento');
+
+        $motivos = [];
+
+        foreach($enum as $texto){
+
+            $motivos[$texto] = $texto;
+
+        }
 
 
         // chama a view de acordo com o tipo de acesso do usuario logado

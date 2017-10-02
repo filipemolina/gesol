@@ -13,13 +13,21 @@
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
     <!--  Material Dashboard CSS    -->
     <link href="{{ asset('css/material-dashboard.css') }}" rel="stylesheet" />
-     <!--  Material styles CSS    -->
+    
+    <!-- =============================================================================== -->
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="{{ asset('css/demo.css') }}" rel="stylesheet" />
+    <!-- =============================================================================== -->
+
+    <!--  Material styles CSS    -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
     <!-- meterial fonts     -->
     <link href="{{ asset('css/materialdesignicons.min.css') }}" rel="stylesheet" />
+
+
 
     @stack('css')
     
@@ -98,6 +106,9 @@
 <script src="{{ asset('js/jquery.tagsinput.js') }}"></script>
 <!-- Material Dashboard javascript methods -->
 <script src="{{ asset('js/material-dashboard.js') }}"></script>
+
+<!-- Material Dashboard DEMO methods, don't include it in your project! -->
+<script src="{{ asset('js/demo.js') }}"></script>
 
 {{-- Vanilla Masker --}}
 <script src="{{ asset('js/vanillaMasker.min.js') }}"></script>
