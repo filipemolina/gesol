@@ -10,6 +10,7 @@ use App\Models\Solicitacao;
 use App\Models\Solicitante;
 use App\Models\Funcionario;
 use App\Models\Movimento;
+use App\Models\Parametro;
 use App\Models\Endereco;
 use App\Models\Setor;
 use App\Models\User;
@@ -79,13 +80,13 @@ class SolicitacaoController extends Controller
         /*$solicitacao = Solicitacao::with('endereco','solicitante','servico','servico.setor')->find($id);*/
         $solicitacao = Solicitacao::find($id);
 
-        $enum = pegaValorEnum('parametros', 'motivo_movimento');
+        $parametros = Parametro::where('parametro', '=', 'motivo')->get();
 
         $motivos = [];
 
-        foreach($enum as $texto){
+        foreach($parametros as $parametro){
 
-            $motivos[$texto] = $texto;
+            $motivos[$parametro->valor] = $parametro->valor;
 
         }
 

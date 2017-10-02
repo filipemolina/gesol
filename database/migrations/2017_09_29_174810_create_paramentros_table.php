@@ -16,10 +16,9 @@ class CreateParamentrosTable extends Migration
         Schema::create('parametros', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->enum('motivo_movimento',    [  'Imagem impropria',
-                                                    'Solicitação em duplicidade',
-                                                    'Não é de resposabilidade da Prefeitura',
-                                                ]);
+            $table->string('parametro',50);
+            $table->string('valor',255);
+            
             $table->timestamps();
         });
     }
