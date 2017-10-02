@@ -25,7 +25,7 @@ Visualizar solicitante
 
                {{-- Título --}}
                <div class="card-content">
-                  <h4 class="card-title no-padding">Nome do solicitante</h4>
+                  <h4 class="card-title no-padding">{{-- {{$solicitante->nome}} --}}Luciano Teles</h4>
                </div>         
                
                <div class="row">
@@ -36,20 +36,6 @@ Visualizar solicitante
                         
                         {{-- Nome e Email --}}
                         <div class="row">
-                           <div class="col-md-6">
-                              <div class="input-group">
-                                 <span class="input-group-addon ">
-                                    <i class="material-icons">face</i>
-                                 </span>
-
-                                 <div class="form-group label-floating has-dourado">
-                                    <label class="control-label">Nome</label>
-                                    <input type="text" class="form-control error" 
-                                    value="{{-- {{$solicitante->nome}} --}}">
-                                 </div>
-                              </div>
-                           </div>
-
                            <div class="col-md-4">
                               <div class="input-group">
                                        <span class="input-group-addon">
@@ -58,8 +44,7 @@ Visualizar solicitante
                                         
                                         <div class="form-group label-floating has-dourado">
                                     <label class="control-label">Email</label>
-                                    <input type="text" name="email" type="email" class="form-control error" 
-                                    value="{{-- {{ $solicitante->email}} --}}">
+                                    <label type="text"> {{-- {{ $solicitante->email}} --}} luciano.junior/@/live.com</label>
                                  </div>
                               </div>
                            </div>
@@ -75,8 +60,7 @@ Visualizar solicitante
                                         
                                  <div class="form-group label-floating has-dourado">
                                     <label class="control-label">CPF</label>
-                                    <input id="cpf" type="text" class="form-control error" 
-                                    value="{{-- {{ $solicitante->cpf or  old('cpf') }} --}}">
+                                    <label id="cpf" type="text" class="error">{{-- {{ $solicitante->cpf }} --}}114.619.887-64</label>
                                  </div>
                               </div>
                            </div>
@@ -89,7 +73,7 @@ Visualizar solicitante
 
                                  <div class="form-group label-floating has-dourado">
                                     <label class="control-label">Nascimento</label>
-                                    <input type="type" class="form-control datetimepicker error" value="{{-- {{ $solicitante->nascimento or  old('nascimento') }} --}}">
+                                    <label type="type" class="datetimepicker error">{{-- {{ $solicitante->nascimento or  old('nascimento') }} --}} 05/05/1986</label>
                                  </div>
                               </div>
                            </div>
@@ -102,11 +86,7 @@ Visualizar solicitante
 
                                  <div class="control form-group label-floating has-dourado">
                                     <label class="control-label">Sexo</label>
-                                    <select class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
-                                       <option >Sexo</option>
-                                       <option value="2">Masculino</option>
-                                       <option value="3">Feminino</option>
-                                    </select>
+                                    <label class="dourado selectpicker error">Masculino</label>
                                  </div>
                               </div>
                            </div>
@@ -122,12 +102,7 @@ Visualizar solicitante
 
                                  <div class="control form-group label-floating has-dourado">
                                     <label class="control-label">Escolaridade</label>
-                                    <select class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
-                                       <option disabled selected>Escolaridade</option>
-                                       <option value="2">Fundamental</option>
-                                       <option value="3">Ensino médio</option>
-                                       <option value="3">Ensino superior</option>
-                                    </select>
+                                    <label class="dourado selectpicker error">Ensino médio</label>
                                  </div>
                               </div>
                            </div>
@@ -140,8 +115,7 @@ Visualizar solicitante
 
                                  <div class="form-group label-floating has-dourado">
                                     <label class="control-label">CEP</label>
-                                    <input id="cep" type="text" class="form-control error" 
-                                    value="{{-- {{ $solicitante->endereco->cep }} --}}">
+                                    <label id="cep" type="text" class="error">{{-- {{ $solicitante->endereco->cep }} --}} 21.620-420</label>
                                  </div>
                               </div>
                            </div>
@@ -154,11 +128,7 @@ Visualizar solicitante
                                         
                                  <div class="form-group label-floating has-dourado">
                                     <label class="control-label">UF</label>
-                                    <select class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
-                                       <option disabled selected>UF</option>
-                                       <option value="2">RJ</option>
-                                       <option value="3">SP</option>
-                                    </select>
+                                    <label class="dourado selectpicker error">RJ</label>
                                  </div>
                               </div>
                            </div>
@@ -171,7 +141,7 @@ Visualizar solicitante
                                         
                                  <div class="form-group label-floating has-dourado">
                                     <label class="control-label">Município</label>
-                                    <input id="cidade" name="endereco[municipio]"  type="text" class="form-control error" value="{{-- {{ $solicitante->endereco->municipio }} --}}">
+                                    <label id="cidade" name="endereco[municipio]"  type="text" class="error">{{-- {{ $solicitante->endereco->municipio }} --}}Rio de Janeiro </label>
                                  </div>
                               </div>
                            </div>
@@ -187,7 +157,7 @@ Visualizar solicitante
 
                                  <div class="form-group label-floating has-dourado">
                                     <label class="control-label">Bairro</label>
-                                    <input id="bairro" name="endereco[bairro]" type="text" class="form-control error" value="{{-- {{ $solicitante->endereco->bairro or  old('endereco.bairro') }} --}}">
+                                    <label id="bairro" name="endereco[bairro]" type="text" class="error">{{-- {{ $solicitante->endereco->bairro or  old('endereco.bairro') }} --}} Parque Anchieta </label>
                                  </div>
                               </div>
                            </div>
@@ -200,7 +170,7 @@ Visualizar solicitante
                                         
                                  <div class="form-group label-floating has-dourado">
                                     <label class="control-label">Logradouro</label>
-                                    <input id="rua" name="endereco[logradouro]" type="text" class="form-control error" value="{{-- {{ $solicitante->endereco->logradouro }} --}}">
+                                    <label id="rua" name="endereco[logradouro]" type="text" class="error">{{-- {{ $solicitante->endereco->logradouro }} --}}Rua Jurubeba</label>
                                  </div>
                               </div>
                            </div>
@@ -213,7 +183,7 @@ Visualizar solicitante
 
                                  <div class="form-group label-floating has-dourado">
                                     <label class="control-label">Número</label>
-                                    <input id="numero" name="endereco[numero]" type="text" class="form-control error" value="{{-- {{ $solicitante->endereco->numero }} --}}">
+                                    <label id="numero" name="endereco[numero]" type="text" class="error">{{-- {{ $solicitante->endereco->numero }} --}} 411 </label>
                                  </div>
                               </div>
                            </div>
@@ -226,7 +196,7 @@ Visualizar solicitante
 
                                  <div class="form-group label-floating has-dourado">
                                     <label class="control-label">Complemento</label>
-                                    <input id="numero" name="endereco[numero]" type="text" class="form-control error" value="{{-- {{ $solicitante->endereco->complemento  or  old('endereco.complemento') }} --}}">
+                                    <label id="numero" name="endereco[numero]" type="text" class="error">{{-- {{ $solicitante->endereco->complemento }} --}}</label>
                                  </div>
                               </div>
                            </div>
@@ -242,7 +212,7 @@ Visualizar solicitante
                                         
                                  <div class="form-group label-floating has-dourado">
                                     <label class="control-label">Telefone</label>
-                                    <input id="telefone_fixo" name="telefones[0][numero]" type="text" class="form-control error" value="{{-- {{ $fixo }} --}}">
+                                    <label id="telefone_fixo" name="telefones[0][numero]" type="text" class="error">{{-- {{ $fixo }} --}} (21) 3019-0540 </label>
                                  </div>
                               </div>
                            </div>
@@ -256,60 +226,13 @@ Visualizar solicitante
 
                                  <div class="form-group label-floating has-dourado">
                                     <label class="control-label">Celular</label>
-                                    <input id="telefone_celular" name="telefones[1][numero]" type="text" class="form-control error" value="{{-- {{ $celular }} --}}">
-                                    <input type="hidden" name="telefones[1][tipo_telefone]" value="Celular">
-                                 </div>
-                              </div>
-                           </div>
-
-                           <div class="col-md-3">
-                              <div class="input-group">
-                                 <span class="input-group-addon">
-                                    <i class="material-icons">lock_outline</i>
-                                 </span>
-                                 
-                                 <div class="form-group label-floating has-dourado">
-                                    <label class="control-label">Senha</label>
-                                    <input type="password" name="password" class="form-control error" 
-                                    value="">
-                                 </div>
-                              </div>
-                           </div>
-
-                           <div class="col-md-3">
-                              <div class="input-group">
-                                 <span class="input-group-addon">
-                                    <i class="material-icons">lock_outline</i>
-                                 </span>
-                                 <div class="form-group label-floating has-dourado">
-                                    <label class="control-label">Confirmar senha</label>
-                                    <input type="password" name="password" type="password" class="form-control error" value="">
+                                    <label id="telefone_celular" name="telefones[1][numero]" type="text" class="error">{{-- {{ $celular }} --}} (21) 9 8915-3413</label>
                                  </div>
                               </div>
                            </div>
                         </div>{{-- Fim Telefone, celular, senha e confirmar senha --}}
                      </div> {{-- Fim card-content --}}
                   </div> {{-- Fim col-md-12 --}}
-
-                  {{-- Foto --}}
-                  <div class="col-md-4 flt-r no-padding">
-                     <div class="fileinput fileinput-new text-center" data-provides="fileinput">
-                        <div class="fileinput-new thumbnail img-circle">
-                           <img src="{{ asset ('img/placeholder.jpg') }}" alt="...">
-                        </div>
-
-                        <div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
-                        <div>
-                           <span class="btn btn-round btn-dourado btn-file">
-                              <span class="fileinput-new">Adicionar</span>
-                              <span class="fileinput-exists">Alterar</span>
-                              <input type="file" name="..." />
-                           </span>
-                           <br />
-                           <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
-                        </div>
-                     </div>
-                  </div> {{-- Fim foto --}}
                </div> {{-- FIM ROW --}}
             </form>
          </div> {{-- Fim card-singup --}}
