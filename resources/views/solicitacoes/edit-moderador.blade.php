@@ -208,150 +208,59 @@ Solicitações
 @endsection
 
 @push('scripts')
-<script src="{{ asset('lightbox2/dist/js/lightbox.min.js') }}"></script>
+   <script src="{{ asset('lightbox2/dist/js/lightbox.min.js') }}"></script>
 
-<script>
-   /*================================ LIBERAR =========================================*/
-   $(".libera-solicitacao").click(function(){
-      event.preventDefault();
-
-      swal({
-         title: 'Libera essa Solicitação?',
-         text: "Ela ficará visível na Timeline360!",
-         type: 'warning',
-         showCancelButton: true,
-         confirmButtonColor: '#3085d6',
-         cancelButtonColor: '#d33',
-         confirmButtonText: 'Sim, está ok!'
-      }).then(function () {
-         swal(
-            'Solicitação liberada!',
-            '',
-            'success'
-         ).then(function(){
-
-            $("input#hidden_acao").val('1');
-
-            $("form#form-hidden").submit();
-         });
-      })
-   });
-
-   /*================================ EDITAR =========================================*/
-   $(".edita-solicitacao").click(function(){
-      event.preventDefault();
-
-      $("#conteudo").hide(); 
-      $("#conteudo-edicao").css('display', 'block'); 
-      $("#botao-padrao").hide();
-      $("#botao-conteudo").css('display', 'block'); 
-  });
-
-   $(".cancela-conteudo").click(function(){
-      event.preventDefault();
-
-      $("#conteudo").show(); 
-      $("#conteudo-edicao").css('display', 'none'); 
-      $("#botao-padrao").show();
-      $("#botao-conteudo").css('display', 'none'); 
-   });
-
-   $(".salva-conteudo").click(function(){
-      event.preventDefault();
-
-      swal({
-         title: 'Salvar a alteração no conteúdo?',
-         type: 'question',
-         showCancelButton: true,
-         confirmButtonColor: '#3085d6',
-         cancelButtonColor: '#d33',
-         confirmButtonText: 'Sim',
-         cancelButtonText: 'Não',
-      }).then(function () {
-         swal(
-            'Conteúdo alterado!',
-            '',
-            'success'
-         ).then(function(){
-
-            // Estética
-
-  
-            let conteudo = $("#textarea-edicao").html().trim();
-
-            $("#conteudo").html( conteudo );
-            $("#conteudo-edicao").css('visibility', 'hidden');
-            $("#conteudo").show(); 
-            $("#conteudo-edicao").css('visibility', 'hidden'); 
-            $("#botao-padrao").show();
-            $("#botao-conteudo").css('visibility', 'hidden'); 
-
-            // Levantamento de peso
-
-            $.post('/solicitacao/{{ $solicitacao->id }}', {
-               _token : '{{ csrf_token() }}',
-               _method: 'PUT',
-               conteudo: conteudo,
-               acao:    2
-            }, function(resposta){
-               console.log(resposta);
-            });
-         });
-      })
-   });
-
-    $(".impropria").click(function(){
-      event.preventDefault();
-
-      trocaTexto("textarea-edicao", " [EDITADO - palavra imprópria] ");
-      
-   });
-   
-   
-  /*================================ REDIRECIONAR =========================================*/
-   $(".redireciona-solicitacao").click(function(){
-      event.preventDefault();
-      $("#servico").css('display', 'none');
-      $("#botao-padrao").css('display', 'none');
-
-      $("#servico-edicao").css('display', 'block'); 
-      $("#botao-servico").css('display', 'block'); 
-   });
-
-   $(".cancela-servico").click(function(){
-      event.preventDefault();
-
-      $("#servico").css('display', 'block'); 
-      $("#botao-padrao").css('display', 'block'); 
-
-      $("#servico-edicao").css('display', 'none'); 
-      $("#botao-servico").css('display', 'none'); 
-   });
-
-   $(".salva-servico").click(function(){
-      event.preventDefault();
-
-      if (  $("#select-servico").val() == '' && $("#select-servico-motivo").val() == ''  ){
-         demo.notificationRight("top", "right", "rose", "Selceiono um Destino");     
-         demo.initFormExtendedDatetimepickers();
-         demo.notificationRight("top", "right", "rose", "Selecione um motivo");
-         demo.initFormExtendedDatetimepickers();
-      
-      } else if (  $("#select-servico").val() == '' ) {
-
-         demo.notificationRight("top", "right", "rose", "Selceiono um Destino");     
-         demo.initFormExtendedDatetimepickers();
-
-      } else if (  $("#select-servico-motivo").val() == '' ) {
-
-         demo.notificationRight("top", "right", "rose", "Selecione um motivo");
-         demo.initFormExtendedDatetimepickers();
-
-      } else {
+   <script>
+      /*================================ LIBERAR =========================================*/
+      $(".libera-solicitacao").click(function(){
+         event.preventDefault();
 
          swal({
-            title: 'Redirecionar a solicitação para o destino escolhido?',
-            text: $("#select-servico option:selected").html(),
+            title: 'Libera essa Solicitação?',
+            text: "Ela ficará visível na Timeline360!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, está ok!'
+         }).then(function () {
+            swal(
+               'Solicitação liberada!',
+               '',
+               'success'
+            ).then(function(){
+
+               $("input#hidden_acao").val('1');
+
+               $("form#form-hidden").submit();
+            });
+         })
+      });
+
+      /*================================ EDITAR =========================================*/
+      $(".edita-solicitacao").click(function(){
+         event.preventDefault();
+
+         $("#conteudo").hide(); 
+         $("#conteudo-edicao").css('display', 'block'); 
+         $("#botao-padrao").hide();
+         $("#botao-conteudo").css('display', 'block'); 
+      });
+
+      $(".cancela-conteudo").click(function(){
+         event.preventDefault();
+
+         $("#conteudo").show(); 
+         $("#conteudo-edicao").css('display', 'none'); 
+         $("#botao-padrao").show();
+         $("#botao-conteudo").css('display', 'none'); 
+      });
+
+      $(".salva-conteudo").click(function(){
+         event.preventDefault();
+
+         swal({
+            title: 'Salvar a alteração no conteúdo?',
             type: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -360,101 +269,192 @@ Solicitações
             cancelButtonText: 'Não',
          }).then(function () {
             swal(
-               'Destino alterado!',
+               'Conteúdo alterado!',
                '',
                'success'
             ).then(function(){
 
                // Estética
 
-               let id_servico = $("#select-servico").val();
+     
+               let conteudo = $("#textarea-edicao").html().trim();
 
-               let textoSelecionado = $("#select-servico option:selected").text();
-
-               $("#servico").css('display', 'block'); 
-               $("#botao-padrao").css('display', 'block'); 
-               
-               $("#servico-edicao").css('display', 'none');             
-               $("#botao-servico").css('display', 'none');  
+               $("#conteudo").html( conteudo );
+               $("#conteudo-edicao").css('visibility', 'hidden');
+               $("#conteudo").show(); 
+               $("#conteudo-edicao").css('visibility', 'hidden'); 
+               $("#botao-padrao").show();
+               $("#botao-conteudo").css('visibility', 'hidden'); 
 
                // Levantamento de peso
 
                $.post('/solicitacao/{{ $solicitacao->id }}', {
-                  _token :    '{{ csrf_token() }}',
-                  _method:    'PUT',
-                  servico_id: id_servico,
-                  acao:       3
-               }, function(res){
-                  let resposta = JSON.parse(res);
-
-                  $("#servico-texto").html(  resposta.sigla +' - ' + 
-                                             resposta.servico +' - ' +
-                                             resposta.setor );
-
-                  $("#setor-icone").removeClass().addClass('mdi '+ resposta.icone);
-                  $("#setor-cor").css('background-color', resposta.cor + " !important");
-
-
-                  console.log("Resposta", resposta);
+                  _token : '{{ csrf_token() }}',
+                  _method: 'PUT',
+                  conteudo: conteudo,
+                  acao:    2
+               }, function(resposta){
+                  console.log(resposta);
                });
             });
          })
-      };
-   });
+      });
 
-   /*================================ RECUSAR =========================================*/
-   $(".recusa-solicitacao").click(function(){
-      event.preventDefault();
+      $(".impropria").click(function(){
+         event.preventDefault();
 
-      swal({
-         title: 'Escolha o motivo da recusa',
-         input: 'select',
-         inputOptions: JSON.parse('{!! json_encode($motivos) !!}'),
+         trocaTexto("textarea-edicao", " [EDITADO - palavra imprópria] ");
+         
+      });
+      
+      
+     /*================================ REDIRECIONAR =========================================*/
+      $(".redireciona-solicitacao").click(function(){
+         event.preventDefault();
+         $("#servico").css('display', 'none');
+         $("#botao-padrao").css('display', 'none');
 
-/*         inputOptions: {
-            'Imagem impropria':                       'Imagem impropria',
-            'Solicitação em duplicidade':             'Solicitação em duplicidade',
-            'Não é de resposabilidade da Prefeitura': 'Não é de resposabilidade da Prefeitura'
-         },
-*/         inputPlaceholder: 'Selecione um motivo',
-         type: 'warning',
-         showCancelButton: true,
-         confirmButtonColor: '#3085d6',
-         cancelButtonColor: '#d33',
-         confirmButtonText: 'Recusar',
-         showLoaderOnConfirm: true,
+         $("#servico-edicao").css('display', 'block'); 
+         $("#botao-servico").css('display', 'block'); 
+      });
 
-         inputValidator: function (value) {
-            return new Promise(function (resolve, reject) {
-               if (value) {
-                  resolve()
-               } else {
-                  reject('Selecione um motivo')
-               }
+      $(".cancela-servico").click(function(){
+         event.preventDefault();
+
+         $("#servico").css('display', 'block'); 
+         $("#botao-padrao").css('display', 'block'); 
+
+         $("#servico-edicao").css('display', 'none'); 
+         $("#botao-servico").css('display', 'none'); 
+      });
+
+      $(".salva-servico").click(function(){
+         event.preventDefault();
+
+         if (  $("#select-servico").val() == '' && $("#select-servico-motivo").val() == ''  ){
+            demo.notificationRight("top", "right", "rose", "Selceiono um Destino");     
+            demo.initFormExtendedDatetimepickers();
+            demo.notificationRight("top", "right", "rose", "Selecione um motivo");
+            demo.initFormExtendedDatetimepickers();
+         
+         } else if (  $("#select-servico").val() == '' ) {
+
+            demo.notificationRight("top", "right", "rose", "Selceiono um Destino");     
+            demo.initFormExtendedDatetimepickers();
+
+         } else if (  $("#select-servico-motivo").val() == '' ) {
+
+            demo.notificationRight("top", "right", "rose", "Selecione um motivo");
+            demo.initFormExtendedDatetimepickers();
+
+         } else {
+
+            swal({
+               title: 'Redirecionar a solicitação para o destino escolhido?',
+               text: $("#select-servico option:selected").html(),
+               type: 'question',
+               showCancelButton: true,
+               confirmButtonColor: '#3085d6',
+               cancelButtonColor: '#d33',
+               confirmButtonText: 'Sim',
+               cancelButtonText: 'Não',
+            }).then(function () {
+               swal(
+                  'Destino alterado!',
+                  '',
+                  'success'
+               ).then(function(){
+
+                  // Estética
+
+                  let id_servico = $("#select-servico").val();
+
+                  let textoSelecionado = $("#select-servico option:selected").text();
+
+                  $("#servico").css('display', 'block'); 
+                  $("#botao-padrao").css('display', 'block'); 
+                  
+                  $("#servico-edicao").css('display', 'none');             
+                  $("#botao-servico").css('display', 'none');  
+
+                  // Levantamento de peso
+
+                  $.post('/solicitacao/{{ $solicitacao->id }}', {
+                     _token :    '{{ csrf_token() }}',
+                     _method:    'PUT',
+                     servico_id: id_servico,
+                     acao:       3
+                  }, function(res){
+                     let resposta = JSON.parse(res);
+
+                     $("#servico-texto").html(  resposta.sigla +' - ' + 
+                                                resposta.servico +' - ' +
+                                                resposta.setor );
+
+                     $("#setor-icone").removeClass().addClass('mdi '+ resposta.icone);
+                     $("#setor-cor").css('background-color', resposta.cor + " !important");
+
+
+                     console.log("Resposta", resposta);
+                  });
+               });
             })
-         }
-      }).then(function (result) {
-         swal(
-            'Solicitação recusada!',
-            '',
-            'success'
-         ).then(function(){
-            $.post('/solicitacao/{{ $solicitacao->id }}', {
-               _token : '{{ csrf_token() }}',
-               _method: 'PUT',
-               motivo: result,
-               status: "Recusada",
-               acao:    4
-            }, function(resposta){
-               console.log(resposta);
-               window.location.href="{{ url("/") }}";
+         };
+      });
+
+      /*================================ RECUSAR =========================================*/
+      $(".recusa-solicitacao").click(function(){
+         event.preventDefault();
+
+         swal({
+            title: 'Escolha o motivo da recusa',
+            input: 'select',
+            inputOptions: JSON.parse('{!! json_encode($motivos) !!}'),
+
+   /*         inputOptions: {
+               'Imagem impropria':                       'Imagem impropria',
+               'Solicitação em duplicidade':             'Solicitação em duplicidade',
+               'Não é de resposabilidade da Prefeitura': 'Não é de resposabilidade da Prefeitura'
+            },
+   */         inputPlaceholder: 'Selecione um motivo',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Recusar',
+            showLoaderOnConfirm: true,
+
+            inputValidator: function (value) {
+               return new Promise(function (resolve, reject) {
+                  if (value) {
+                     resolve()
+                  } else {
+                     reject('Selecione um motivo')
+                  }
+               })
+            }
+         }).then(function (result) {
+            swal(
+               'Solicitação recusada!',
+               '',
+               'success'
+            ).then(function(){
+               $.post('/solicitacao/{{ $solicitacao->id }}', {
+                  _token : '{{ csrf_token() }}',
+                  _method: 'PUT',
+                  motivo: result,
+                  status: "Recusada",
+                  acao:    4
+               }, function(resposta){
+                  console.log(resposta);
+                  window.location.href="{{ url("/") }}";
+               });
             });
-         });
-      })
-   });
+         })
+      });
 
 
-</script>
+   </script>
 @endpush
 
 

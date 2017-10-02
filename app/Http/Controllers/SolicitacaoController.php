@@ -85,24 +85,22 @@ class SolicitacaoController extends Controller
         $motivos = [];
 
         foreach($parametros as $parametro){
-
             $motivos[$parametro->valor] = $parametro->valor;
-
         }
 
+        // Obter todos os setores
+        $setores = Setor::with('servicos')->get();
 
         // chama a view de acordo com o tipo de acesso do usuario logado
         switch($funcionario->acesso)
         {
             case "Moderador":
-                // Obter todos os setores
-                $setores = Setor::with('servicos')->get();
 
                 return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario','setores','motivos'));
                 break;
 
             case "Funcionario":
-                return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario'));
+                return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario','setores','motivos'));
                 break;
         }
 
@@ -215,7 +213,8 @@ class SolicitacaoController extends Controller
     * @param $liberado int: Determina o tipo de dados ....
     * 0 =  Obter todos os dados de todos os solicitacoes que NÃO estão moderadas / MODERADOR
     * 1 =  Obter todos os dados de todos os solicitacoes que JÁ ESTÃO moderadas
-    * 2 =  Obter todos os dados de todos os solicitacoes 
+    * 2 =  Obter todos os dados de todos os solicitacoes ATIVAS
+    * 3 =  Obter todos os dados de todos os solicitacoes FECHADAS    
     */
     public function dados($liberado)
     {
@@ -254,9 +253,20 @@ class SolicitacaoController extends Controller
                 break;
 
             case 2:
-                // Obter todos os dados de todos os solicitacoes ;
-                $solicitacoes = Solicitacao::with('solicitante','servico','servico.setor','endereco')->get();
+                // Obter todos os dados de todos os solicitacoes ATIVAS;
+                $solicitacoes = Solicitacao::where('status','<>','Fechada')
+                                            ->with('solicitante','servico','servico.setor','endereco')->get();
                 break;
+
+            case 3:
+                // Obter todos os dados de todos os solicitacoes FECHADAS;
+                $solicitacoes = Solicitacao::where('status','=','Fechada')
+                                            ->with('solicitante','servico','servico.setor','endereco')->get();
+
+                $padrao = "<a href='" .url('solicitacao/{id}')."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
+
+                break;
+
         }
 
         
