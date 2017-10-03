@@ -14,7 +14,7 @@ class CreateMovimentosTable extends Migration
     public function up()
     {
         Schema::create('movimentos', function (Blueprint $table) {
-            $table->increments('id');
+            $table->BigIncrements('id');
 
             $table->string('campo_alterado')    ->nullable();
             $table->text('valor_antigo')        ->nullable();

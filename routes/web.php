@@ -31,4 +31,5 @@ Route::post('modera',	'SolicitacaoController@modera');
 Route::resource('solicitante','SolicitanteController');
 Route::resource('funcionario','FuncionarioController');
 Route::resource('solicitacao','SolicitacaoController');
+Route::resource('comentario',		'ComentarioController');
 //Route::resource('users', 'UsersController');

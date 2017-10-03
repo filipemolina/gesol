@@ -20,7 +20,7 @@ Solicitações
          {{-- Topo do cartão--}}
          <div class="row">
             {{-- Lado Esquerdo --}}
-            <div class="col-md-6 ">
+            <div class="col-md-5" style="padding-right: 0px;padding-left: 0px;">
                {{-- Avatar pequeno --}}
                <div>
                   <div class="card-header card-header-icon avatar-fixo-pn foto-user">
@@ -69,7 +69,7 @@ Solicitações
 
          {{-- Lado Direito --}}
 
-         <div class="col-md-6">
+         <div class="col-md-7" style="padding-left: 0px; padding-right: 0px;">
 
             <div id="servico">
                <h4> Destino da Solicitação: </h4>
@@ -97,10 +97,10 @@ Solicitações
                      @endforeach
                   </select>
 
-                  {{-- motivo --}}
+                  {{-- motivo transferencia --}}
                   <select id="select-servico-motivo" class="js-example-data-array" data-live-search="true" > 
                      <option value="" selected>Selecione uma motivo</option>
-                     @foreach($motivos as $motivo)
+                     @foreach($motivos_transferencia as $motivo)
                      <option value="{{$motivo}}">{{$motivo}}</option>  
                      @endforeach
                   </select>
@@ -138,10 +138,11 @@ Solicitações
                            </div>
 
                            {{-- Comentário --}}
-                           <form class="form-horizontal card-secretaria">
+                           <div class="form-horizontal card-secretaria label-on-right-right">
                               <div class="row">
 
                                  {{-- Nome da secretária --}}
+                                 <label class="fc-rtl pull-left"> {{ $solicitacao->created_at->format('h:m - j/m/Y')}} </label>
                                  <label class="h6 pull-right fc-rtl nome-secretaria">
                                     {{ $comentario->funcionario->setor->secretaria->nome }} - 
                                     {{ $comentario->funcionario->setor->secretaria->sigla }}
@@ -156,7 +157,7 @@ Solicitações
                                     </div>
                                  </div>
                               </div>
-                           </form> {{-- Fim Comentário --}}
+                           </div> {{-- Fim Comentário --}}
                         </div>
                      @else
 
@@ -520,7 +521,7 @@ Solicitações
       swal({
          title: 'Escolha o motivo da recusa',
          input: 'select',
-         inputOptions: JSON.parse('{!! json_encode($motivos) !!}'),
+         inputOptions: JSON.parse('{!! json_encode($motivos_recusa) !!}'),
 
    /*         inputOptions: {
                'Imagem impropria':                       'Imagem impropria',
