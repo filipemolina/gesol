@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="utf-8" />
@@ -13,11 +13,24 @@
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
     <!--  Material Dashboard CSS    -->
     <link href="{{ asset('css/material-dashboard.css') }}" rel="stylesheet" />
-     <!--  Material styles CSS    -->
+    
+    <!-- =============================================================================== -->
+    <!--  CSS for Demo Purpose, don't include it in your project     -->
+    <link href="{{ asset('css/demo.css') }}" rel="stylesheet" />
+    <!-- =============================================================================== -->
+
+    <!--  Material styles CSS    -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
+    <!-- meterial fonts     -->
+    <link href="{{ asset('css/materialdesignicons.min.css') }}" rel="stylesheet" />
+
+
+
+    @stack('css')
+    
 </head>
 
 <body>
@@ -52,6 +65,8 @@
         </div>
     </div>
 </body>
+
+
 <!--   Core JS Files   -->
 <script src="{{ asset('js/jquery-3.1.1.min.js') }}"  type="text/javascript"></script>
 <script src="{{ asset('js/jquery-ui.min.js') }}" type="text/javascript"></script>
@@ -92,13 +107,21 @@
 <!-- Material Dashboard javascript methods -->
 <script src="{{ asset('js/material-dashboard.js') }}"></script>
 
+<!-- Material Dashboard DEMO methods, don't include it in your project! -->
+<script src="{{ asset('js/demo.js') }}"></script>
+
 {{-- Vanilla Masker --}}
 <script src="{{ asset('js/vanillaMasker.min.js') }}"></script>
 
-{{-- Scripts personalizados nos templates --}}
-@stack('scripts')
+{{-- funcoes javascript --}}
+<script src="{{ asset('js/functions.js') }}"></script>
 
 {{-- Javascript do Projeto --}}
 <script src="{{ asset('js/scripts.js') }}"></script>
+
+{{-- API Google maps --}}
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
+
+@stack('scripts')
 
 </html>

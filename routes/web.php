@@ -16,11 +16,16 @@
 
 Route::get("/login", "AuthController@login")->name('login');
 Route::post('/login', "AuthController@entrar");
-Route::get('/register', function () {
-    return view('solicitantes.create');
-});
-
+Route::get  ('/logout', 'AuthController@logout');
+Route::get('/register', function () {return view('solicitantes.create');});
 Route::get('/', 'HomeController@index')->name('home');
+
+
+// Rota para o dataTables da dashboard
+Route::get('solicitacao/datatables/{liberado}', 'SolicitacaoController@dados');
+
+// Rota para o controle de moderação
+Route::post('modera',	'SolicitacaoController@modera');
 
 //resources
 Route::resource('solicitante','SolicitanteController');

@@ -980,6 +980,5 @@ demo = {
                 align: align
             }
         });
-    },
-
+    }
 }

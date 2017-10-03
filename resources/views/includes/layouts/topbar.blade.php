@@ -64,7 +64,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ url("/logout") }}" >
                                 <i class="material-icons">input</i>
                                 Sair
                             </a>

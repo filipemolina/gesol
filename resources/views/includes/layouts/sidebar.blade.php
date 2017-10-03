@@ -19,12 +19,13 @@
     <div class="sidebar-wrapper">
         <div class="user">
             <div class="photo">
-                <img src="{{ asset('img/faces/avatar.jpg') }}" />
+                <img src="{{ $funcionario->user->avatar }}" />
             </div>
             <div class="info">
                 <a data-toggle="collapse" href="#collapseExample" class="collapsed">
-                    Tania Andrew
+                   {{ $funcionario->nome }}
                     <b class="caret"></b>
+                    <p style="font-size: 10px;">({{ $funcionario->acesso }})</p>
                 </a>
 
                 {{-------------- Menu do Usuário --------------}}
@@ -51,7 +52,7 @@
             <li>
                 <a href="{{ url("/") }}">
                     <i class="material-icons">dashboard</i>
-                    <p>Dashboard</p>
+                    <p>Painel de Controle</p>
                 </a>
             </li>
 
