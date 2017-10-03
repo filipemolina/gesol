@@ -19,13 +19,13 @@
     <div class="sidebar-wrapper">
         <div class="user">
             <div class="photo">
-                <img src="{{ $funcionario->user->avatar }}" />
+                <img src="{{-- {{ $funcionario->user->avatar }} --}}" />
             </div>
             <div class="info">
                 <a data-toggle="collapse" href="#collapseExample" class="collapsed">
-                   {{ $funcionario->nome }}
+                   {{-- {{ $funcionario->nome }} --}}
                     <b class="caret"></b>
-                    <p style="font-size: 10px;">({{ $funcionario->acesso }})</p>
+                    <p style="font-size: 10px;">({{-- {{ $funcionario->acesso }} --}})</p>
                 </a>
 
                 {{-------------- Menu do Usuário --------------}}
