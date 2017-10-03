@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+<<<<<<< HEAD
+=======
 use Laravel\Passport\HasApiTokens;
+>>>>>>> 3b623bdd640c9b3c74945eca6b17c5049ce3ef34
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -16,8 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'acesso','avatar', 'solicitante_id'
-    ];
+	'name', 'email', 'password', 'acesso','avatar', 'solicitante_id'>>>>>>> 3b623bdd640c9b3c74945eca6b17c5049ce3ef34    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -34,6 +37,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Funcionario');
     }
+<<<<<<< HEAD
+}
+
+ //04177348000100
+=======
 
     public function solicitante()
     {
@@ -41,3 +49,5 @@ class User extends Authenticatable
     }
 
 }
+
+>>>>>>> 3b623bdd640c9b3c74945eca6b17c5049ce3ef34

@@ -104,7 +104,6 @@ class UsersController extends Controller
 		]);
 
 		// Criar um solicitante
-
 		$solicitante = Solicitante::create([
 			'cpf' => $request->cpf,
 			'nome' => $request->nome,
@@ -112,10 +111,9 @@ class UsersController extends Controller
 			'foto' => "http://lorempixel.com/200/200/people/",
 		]);
 
-		// Procurar por um usuário e um solicitante que tenha o email enviardo na request
+		// Procurar por um usuário e um solicitante que tenha o email enviado na request
 
 		$usuario = User::where('email', $request->email)->get();
-		$solicitante = Solicitante::with(['endereco', 'telefones', 'user'])->where('email', $request->email)->first();
 
 		if($usuario->count() < 1){
 
@@ -130,7 +128,7 @@ class UsersController extends Controller
 
 			$resposta = new \stdClass();
 			$resposta->token = $solicitante->user->createToken('Token App');
-			$resposta->solicitante = $solicitante;
+			$resposta->solicitante = Solicitante::with(['endereco', 'telefones', 'user'])->where('email', $request->email)->first();
 
 			return json_encode($resposta);
 
@@ -142,7 +140,7 @@ class UsersController extends Controller
 
 			$resposta = new \stdClass();
 			$resposta->token = $solicitante->user->createToken('Token APP');
-			$resposta->solicitante = $solicitante;
+			$resposta->solicitante = Solicitante::with(['endereco', 'telefones', 'user'])->where('email', $request->email)->first();
 
 			return json_encode($resposta);
 
