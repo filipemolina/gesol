@@ -80,13 +80,16 @@ class SolicitacaoController extends Controller
         /*$solicitacao = Solicitacao::with('endereco','solicitante','servico','servico.setor')->find($id);*/
         $solicitacao = Solicitacao::find($id);
 
-        $parametros = Parametro::where('parametro', '=', 'motivo')->get();
+        //pega os motivos de RECUSA de solicitação
+        $parametros = Parametro::where('parametro', '=', 'motivo-recusa')->get();
+        $motivos_recusa = [];
+        foreach($parametros as $parametro){$motivos_recusa[$parametro->valor] = $parametro->valor;}
 
-        $motivos = [];
+        //pega os motivos de TRANSFER4ENCIA de solicitação
+        $parametros = Parametro::where('parametro', '=', 'motivo-transferencia')->get();
+        $motivos_transferencia = [];
+        foreach($parametros as $parametro){$motivos_transferencia[$parametro->valor] = $parametro->valor;}
 
-        foreach($parametros as $parametro){
-            $motivos[$parametro->valor] = $parametro->valor;
-        }
 
         // Obter todos os setores
         $setores = Setor::with('servicos')->get();
@@ -96,11 +99,13 @@ class SolicitacaoController extends Controller
         {
             case "Moderador":
 
-                return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario','setores','motivos'));
+                return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario','setores','motivos_recusa',
+                                                                   'motivos_transferencia'));
                 break;
 
             case "Funcionario":
-                return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario','setores','motivos'));
+                return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario','setores','motivos_recusa',
+                                                                     'motivos_transferencia'));
                 break;
         }
 
@@ -133,6 +138,7 @@ class SolicitacaoController extends Controller
         $solicitacao = Solicitacao::find($id);
 
 
+
         switch($request->acao)
         {
             // edita CONTEUDO
@@ -155,7 +161,8 @@ class SolicitacaoController extends Controller
                 $valor_antigo = $solicitacao->servico->id;
 
                 //salva na trilha
-                trilha($solicitacao->id, 'servico_id', $valor_antigo ,"Redirecionou",null);
+                trilha($solicitacao->id, 'servico_id', $valor_antigo ,"Redirecionou",$request->motivo);
+
 
                 // Atualizar os dados
                 $solicitacao->fill($request->all());
@@ -290,8 +297,23 @@ class SolicitacaoController extends Controller
             else
                 $moderado = "Não";
 
-            if($solicitacao->servico->setor->secretaria->id == $usuario->funcionario->setor->secretaria->id)
-            { 
+            // Caso o usuário seja moderador, adicionar todas as solicitações à coleção sem fazer nenhum teste adicional
+
+            if($usuario->funcionario->acesso == "Moderador")
+            {
+                $colecao->push([
+                    'foto'          => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
+                    'conteudo'      => $solicitacao->conteudo, 
+                    'servico'       => $solicitacao->servico->nome,
+                    'status'        => $solicitacao->status,
+                    'moderado'      => $moderado,
+                    'abertura'      => \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y h:m'),
+                    'acoes'         => $acoes,
+                ]);
+
+            } elseif($solicitacao->servico->setor->secretaria->id == $usuario->funcionario->setor->secretaria->id){ 
+
+                // Caso contrário, adicionar à coleção apenas as solicitações que sejam da mesma secretaria que ele
 
                 $colecao->push([
                     'foto'          => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
@@ -340,7 +362,7 @@ class SolicitacaoController extends Controller
                 $solicitacao->moderado = 1;
                 $solicitacao->save();
 
-                if (trilha($solicitacao->id, null , null ,"Liberou"))
+                if (trilha($solicitacao->id, null , null ,"Liberou",null))
                 {
                     return redirect('/');
                 }

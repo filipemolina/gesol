@@ -85,10 +85,10 @@ Solicitações
                            @endforeach
                         </select>
 
-                        {{-- motivo --}}
+                        {{-- motivo transferencia--}}
                         <select id="select-servico-motivo" class="js-example-data-array" data-live-search="true" > 
                            <option value="" selected>Selecione uma motivo</option>
-                           @foreach($motivos as $motivo)
+                           @foreach($motivos_transferencia as $motivo)
                               <option value="{{$motivo}}">{{$motivo}}</option>  
                            @endforeach
                         </select>
@@ -383,6 +383,7 @@ Solicitações
                      _token :    '{{ csrf_token() }}',
                      _method:    'PUT',
                      servico_id: id_servico,
+                     motivo: $("#select-servico-motivo option:selected").html(),
                      acao:       3
                   }, function(res){
                      let resposta = JSON.parse(res);
@@ -394,8 +395,17 @@ Solicitações
                      $("#setor-icone").removeClass().addClass('mdi '+ resposta.icone);
                      $("#setor-cor").css('background-color', resposta.cor + " !important");
 
+                     ///////////////////////////// Enviar comentário padrão
+
+                     $.post(url_base+"/comentario",{
+                        comentario: "A solicitação foi transferida pelo seguinte motivo: "+$("#select-servico-motivo option:selected").html(),
+                        solicitacao_id: {{ $solicitacao->id }}, 
+                        funcionario_id: {{ $funcionario->id }},  //definido na material.blade
+                        _token: token,
+                     });
 
                      console.log("Resposta", resposta);
+
                   });
                });
             })
@@ -409,7 +419,7 @@ Solicitações
          swal({
             title: 'Escolha o motivo da recusa',
             input: 'select',
-            inputOptions: JSON.parse('{!! json_encode($motivos) !!}'),
+            inputOptions: JSON.parse('{!! json_encode($motivos_recusa) !!}'),
 
    /*         inputOptions: {
                'Imagem impropria':                       'Imagem impropria',
