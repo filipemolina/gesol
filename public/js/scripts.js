@@ -49,6 +49,11 @@ function enviarComentario(elem, e){
                   var html        = template(context);
 
                   $("div.comentarios").append( $(html) );
+
+                  //posiciona a div "scrolavel" para o final
+                  var objDiv = document.getElementById("div-comentarios");
+                  objDiv.scrollTo(0, objDiv.scrollHeight);
+
                   //console.log(html);   
 
                }       

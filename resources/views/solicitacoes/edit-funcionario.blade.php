@@ -532,9 +532,7 @@ Solicitações
             // Chamar a função que faz a chamada Ajax
             enviarComentario(this, e);
 
-            var objDiv = document.getElementById("div-comentarios");
-            objDiv.scrollTop = objDiv.scrollHeight;
-
+            
       });
 
    </script>
