@@ -20,18 +20,26 @@ Página Principal
                   <h4 class="card-title">Solicitações</h4>
 
                   <ul class="nav nav-pills" role="tablist">
+                     
                      <li class="nav-item active">
                         <a href="#ativas" data-toggle="tab">Ativas</a>
                      </li>
+
                      <li class="nav-item">
                         <a href="#fechadas" data-toggle="tab">Fechadas</a>
                      </li>
+
+                     <li class="nav-item">
+                        <a href="#nao-liberadas" data-toggle="tab">Aguardando Liberação</a>
+                     </li>
+
                   </ul>
          
                   <div class="material-datatables">
                      <div id="datatables_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="col-sm-13 ">
                            <div class="tab-content">
+                              {{-- ATIVAS --}}
                               <div class="tab-pane active" id="ativas">
                                  <table id="tabela-solicitacoes-ativas" 
                                        class="table table-striped table-no-bordered table-hover dataTable dtr-inline" 
@@ -53,6 +61,7 @@ Página Principal
                                  </table>
                               </div>
 
+                              {{-- FECHADAS --}}
                               <div class="tab-pane" id="fechadas">
                                  <table id="tabela-solicitacoes-fechadas" 
                                        class="table table-striped table-no-bordered table-hover dataTable dtr-inline" 
@@ -73,6 +82,29 @@ Página Principal
                                     {{-- preenchido com datatables --}}               
                                  </table>
                               </div>
+
+                              {{-- NÃO LIBERADAS --}}
+                              <div class="tab-pane " id="nao-liberadas">
+                                 <table id="tabela-solicitacoes-nao-liberadas" 
+                                       class="table table-striped table-no-bordered table-hover dataTable dtr-inline" 
+                                       cellspacing="0" width="100%" 
+                                       role="grid" aria-describedby="datatables_info"
+                                       style="width: 100%; font-size: 12px;" >
+                                    <thead>
+                                       <tr>
+                                          <th>Foto</th>
+                                          <th>Serviço</th>
+                                          <th>Conteúdo</th>
+                                          <th>Status</th>
+                                          <th>Moderado</th>
+                                          <th>Abertura</th>
+                                          <th>Ações</th>
+                                       </tr>                           
+                                    </thead>
+                                    {{-- preenchido com datatables --}}               
+                                 </table>
+                              </div>
+
                            </div>
                         </div>
                      </div>
@@ -188,6 +220,47 @@ Página Principal
          ]
       });
 
+
+      $("#tabela-solicitacoes-nao-liberadas").DataTable({
+         responsive : true,
+         processing: true,
+         serverSide: true,
+         ajax      : "{{ url('/solicitacao/datatables/0') }}",
+         columns   : [
+
+            { data : 'foto',       name : 'foto' },
+            { data : 'servico',    name : 'servico' },
+            { data : 'conteudo',   name : 'conteudo' },
+            { data : 'status',     name : 'status' },
+            { data : 'moderado',   name : 'moderado' },
+            { data : 'abertura',   name : 'abertura' },
+            { data : 'acoes',      name : 'acoes' },
+         ],
+
+         order: [[ 5, 'desc' ]],
+         
+         language : 
+         {
+            "url":         "{{ asset('js/portugues.json') }}",
+            "decimal":     ",",
+            "thousands":   "."
+         }, 
+
+         stateSave: true,
+         stateDuration: -1,
+         columnDefs: 
+         [
+            { className:   "text-center", "targets": [0] },
+            { className:   "text-center", "targets": [1] },
+            /*{ className: "text-center", "targets": [2] },*/
+            { className:   "text-center", "targets": [3] },
+            { className:   "text-center", "targets": [4] },
+            { className:   "text-center", "targets": [5] },
+            { className:   "text-center", "targets": [6] },
+            { width:       "40%",         "targets": [2] },
+            { width:       "10%",         "targets": [1] }
+         ]
+      });
 
 
    });
