@@ -82,12 +82,11 @@
                { data : 'foto',       name : 'foto' },
                { data : 'servico',    name : 'servico' },
                { data : 'conteudo',   name : 'conteudo' },
-               /*{ data : 'status',     name : 'status' },*/
                { data : 'abertura',   name : 'abertura' },
                { data : 'acoes',      name : 'acoes' },
             ],
 
-            order: [[ 4, 'desc' ]],
+            order: [[ 3, 'asc' ]],
             
             language : 
             {
@@ -105,7 +104,6 @@
             [
                   { className:   "text-center", "targets": [0] },
                   { className:   "text-center", "targets": [1] },
-                  /*{ className:   "text-center", "targets": [2] },*/
                   { className:   "text-center", "targets": [3] },
                   { className:   "text-center", "targets": [4] },
                   { width:       "10%",         "targets": [1] },

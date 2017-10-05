@@ -59,11 +59,13 @@ class ComentarioController extends Controller
         $comentario->save();
 
         $resposta                   = new \stdClass();
-        $resposta->data             = \Carbon\Carbon::parse( $comentario->created_at)->format('H:i:s -- d/m/Y');
+        $resposta->data             = \Carbon\Carbon::parse( $comentario->created_at)->format('d/m/Y - H:i:s');
         $resposta->nome_funcionario = $comentario->funcionario->nome;
         $resposta->nome_setor       = $comentario->solicitacao->servico->setor->nome;
         $resposta->sigla            = $comentario->solicitacao->servico->setor->secretaria->sigla;
         $resposta->comentario       = $comentario->comentario;
+
+        trilha($comentario->solicitacao->id, null , null ,"Respondeu" ,null);
 
         return json_encode($resposta);
 

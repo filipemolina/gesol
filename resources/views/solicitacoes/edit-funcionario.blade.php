@@ -66,47 +66,43 @@ Solicitações
                   {{-- Linha de Botões --}}
                   {{-------------------------- BOTAO PADRAO ------------------------}}
                   <div id="botao-padrao" style="text-align:center; margin-top: 20px;">
-                     <button class="botoes-acao btn btn-round btn-success libera-solicitacao">
-                        <span class="icone-botoes-acao mdi mdi-send"></span>
-                        <span sclass="texto-botoes-acao"> Liberar </span>
+                     <button class="botoes-acao-funcionario btn btn-round btn-success libera-solicitacao">
+                        <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
+                        Liberar 
                      </button>
 
-                     <button style="background: #1d1617;" class="botoes-acao btn btn-round edita-solicitacao" >
-                        <span class="icone-botoes-acao mdi mdi-comment-remove-outline"></span>
-                        <span sclass="texto-botoes-acao">  Editar </span>
+
+                     <button class="botoes-acao-funcionario btn btn-round btn-warning redireciona-solicitacao">
+                        <span class="icone-botoes-acao-funcionario mdi mdi-redo-variant"></span>
+                        Redirecionar
                      </button>
 
-                     <button class="botoes-acao btn btn-round btn-warning redireciona-solicitacao">
-                        <span class="icone-botoes-acao mdi mdi-redo-variant"></span>
-                        <span sclass="texto-botoes-acao"> Redirecionar </span>
+                     <button class="botoes-acao-funcionario btn btn-round btn-danger recusa-solicitacao">
+                        <span class="icone-botoes-acao-funcionario mdi mdi-delete-sweep"></span>
+                        Recusar
                      </button>
 
-                     <button class="botoes-acao btn btn-round btn-danger recusa-solicitacao">
-                        <span class="icone-botoes-acao mdi mdi-delete-sweep"></span>
-                        <span sclass="texto-botoes-acao"> Recusar </span>
-                     </button>
-
-                     <a class="botoes-acao btn btn-round btn-primary" href="{{ URL::previous() }}">
-                        <span class="icone-botoes-acao mdi mdi-backburger"></span>   
-                        <span sclass="texto-botoes-acao"> Voltar </span>
+                     <a class="botoes-acao-funcionario btn btn-round btn-primary" href="{{ URL::previous() }}">
+                        <span class="icone-botoes-acao-funcionario mdi mdi-backburger"></span>   
+                        Voltar
                      </a>
                   </div>
 
                   {{-------------------------- BOTAO EDIÇÂO ------------------------}}
                   <div id="botao-conteudo" style="text-align:center; display: none; margin-top: 20px;">
                      <button class="botoes-acao btn btn-round btn-success salva-conteudo">
-                        <span class="icone-botoes-acao mdi mdi-send"></span>
-                        <span sclass="texto-botoes-acao"> Salvar </span>
+                        <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
+                        <span class="texto-botoes-acao-funcionario"> Salvar </span>
                      </button>
 
                      <button class="botoes-acao btn btn-round btn-danger impropria">
                         <span class="icone-botoes-acao mdi mdi-emoticon-poop"></span>   
-                        <span sclass="texto-botoes-acao"> Palavra impropria </span>
+                        <span class="texto-botoes-acao"> Palavra impropria </span>
                      </button>
 
                      <button class="botoes-acao btn btn-round btn-primary cancela-conteudo">
                         <span class="icone-botoes-acao mdi mdi-backburger"></span>   
-                        <span sclass="texto-botoes-acao"> Cancelar </span>
+                        <span class="texto-botoes-acao"> Cancelar </span>
                      </button>
                   </div>
 
@@ -114,12 +110,12 @@ Solicitações
                   <div id="botao-servico" style="text-align:center; display: none; margin-top: 20px;">
                      <button class="botoes-acao btn btn-round btn-success salva-servico">
                         <span class="icone-botoes-acao mdi mdi-send"></span>
-                        <span sclass="texto-botoes-acao"> Salvar </span>
+                        <span class="texto-botoes-acao"> Salvar </span>
                      </button>
 
                      <button class="botoes-acao btn btn-round btn-primary cancela-servico">
                         <span class="icone-botoes-acao mdi mdi-backburger"></span>   
-                        <span sclass="texto-botoes-acao"> Cancelar </span>
+                        <span class="texto-botoes-acao"> Cancelar </span>
                      </button>
                   </div>
                </div>
@@ -527,12 +523,25 @@ Solicitações
       /*================================ ENVIAR COMENTARIO  =========================================*/
 
       $("#enviar-comentario").click(function(e){
-            console.log("clicou");
             e.preventDefault();
             // Chamar a função que faz a chamada Ajax
             enviarComentario(this, e);
-
             
+            //verifica se a solicitação está com o status igual a ABERTA
+            // se sim altera para 'Em Análise' pois algum funcionario comeceçou a interagir
+         
+            if( '{{ $solicitacao->status }}' == 'Aberta' )
+            {
+               console.log("enviou para o /status");
+               $.post(
+                     url_base+"/status",
+                     {
+                        status:           'Em análise',
+                        solicitacao_id:   {{ $solicitacao->id }}, 
+                        _token: token,
+                     });
+            };   
+         
       });
 
    </script>

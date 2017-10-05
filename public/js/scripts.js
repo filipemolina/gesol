@@ -1,11 +1,11 @@
 $(function(){
-    VMasker ($("#cpf")).maskPattern("999.999.999-99");
+  VMasker ($("#cpf")).maskPattern("999.999.999-99");
 
 });
 
 function enviarComentario(elem, e){
 
-	console.log("entrou");
+	console.log("entrou enviarComentario ID: ", $(elem).data('solicitacao') );
    // Executar essa função apenas se a tecla pressionada for o Enter ou caso nenhuma tecla tenha
    // sido pressionada (click)
 
@@ -21,45 +21,48 @@ function enviarComentario(elem, e){
 
           // Enviar a comentario para o banco
           $.post(
-           url_base+"/comentario",
-           {
-            comentario: 		comentario,
-            solicitacao_id: 	solicitacao, 
-            funcionario_id: 	funcionario,
-            _token: token,
-         }, function(resposta){
+             url_base+"/comentario",
+             {
+               comentario: 		comentario,
+               solicitacao_id: 	solicitacao, 
+               funcionario_id: 	funcionario,
+               _token: token,
+            }, function(resposta){
 
-         			let dados = JSON.parse(resposta);
+               let dados = JSON.parse(resposta);
 
-                  // Apagar o campo de envio de comentario
-                  $(".comentario_"+solicitacao).val("");
+               // Apagar o campo de envio de comentario
+               $(".comentario_"+solicitacao).val("");
 
-                  // Colocar o novo card de comentarios embaixo da solicitação
-                  var source      = $("#comentario-template").html();
-                  var template    = Handlebars.compile(source)
+               // Colocar o novo card de comentarios embaixo da solicitação
+               var source      = $("#comentario-template").html();
+               var template    = Handlebars.compile(source)
 
-                  var context = { 
-               		data_criacao: 			dados.data,
-                     nome_funcionario:   	dados.nome_funcionario,
-                     nome_setor:   			dados.nome_setor,
-                     sigla: 					dados.sigla, 
-                     comentario: 			dados.comentario, 
-                  };
+               var context = { 
+                  data_criacao: 			dados.data,
+                  nome_funcionario:  	dados.nome_funcionario,
+                  nome_setor:   			dados.nome_setor,
+                  sigla: 					    dados.sigla, 
+                  comentario: 			  dados.comentario, 
+               };
 
-                  var html        = template(context);
+                var html        = template(context);
 
-                  $("div.comentarios").append( $(html) );
+               $("div.comentarios").append( $(html) );
 
-                  //posiciona a div "scrolavel" para o final
-                  var objDiv = document.getElementById("div-comentarios");
-                  objDiv.scrollTo(0, objDiv.scrollHeight);
+               //posiciona a div "scrolavel" para o final
+               var objDiv = document.getElementById("div-comentarios");
+               objDiv.scrollTo(0, objDiv.scrollHeight);
+            }       
+               ).fail(function(erro){
+                  demo.notificationRight("top", "right", "rose", "Sessão do usuário expirada. Você será redirecionado a tela de Login em alguns segundos!"); 
+                  setTimeout(function(){window.location.reload()}, 10000);
+               });
+            }
 
-                  //console.log(html);   
+         }
 
-               }       
-               );
-       }
+      }
 
-    }
 
- }
+

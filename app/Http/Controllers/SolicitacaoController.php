@@ -309,7 +309,7 @@ class SolicitacaoController extends Controller
                     'servico'       => $solicitacao->servico->nome,
                     'status'        => $solicitacao->status,
                     'moderado'      => $moderado,
-                    'abertura'      => \Carbon\Carbon::parse( $solicitacao->created_at)->format('H:i:s -- d/m/Y'),
+                    'abertura'      => \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
                     'acoes'         => $acoes,
                 ]);
 
@@ -323,8 +323,8 @@ class SolicitacaoController extends Controller
                     'servico'        => $solicitacao->servico->nome,
                     'status'         => $solicitacao->status,
                     'moderado'       => $moderado,
-                    'abertura'       => \Carbon\Carbon::parse( $solicitacao->created_at)->format('H:i:s -- d/m/Y'),
-                    'atualizacao'    => \Carbon\Carbon::parse( $solicitacao->updated_at)->format('H:i:s -- d/m/Y'),
+                    'abertura'       => \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
+                    'atualizacao'    => \Carbon\Carbon::parse( $solicitacao->updated_at)->format('d/m/Y - H:i:s'),
                     'acoes'          => $acoes,
                 ]);
             }
@@ -346,9 +346,9 @@ class SolicitacaoController extends Controller
 
 
     /**
-    * Exacuta as ações do moderador
+    * Executa as ações do moderador
     * param    $id     int: ID da solicitação
-    *           $acao   int: ação que será executada 
+    *          $acao   int: ação que será executada 
     * 1 =  Libera a solicitação
     * 2 =  
     * 3 =  
@@ -374,4 +374,29 @@ class SolicitacaoController extends Controller
 
         }
     }
+
+
+
+    /**
+    * Executa as ações de MUDANÇA de STATUS
+    * param    $id     int: ID da solicitação
+    *          $acao   int: ação que será executada 
+    * 1 =  muda STATUS para 
+    * 2 =  
+    * 3 =  
+    */
+    public function status(Request $request)
+    {
+        // Obter o usuário atualmente logado
+        $solicitacao = Solicitacao::find($request->solicitacao_id);
+
+        $solicitacao->status = $request->status;
+        $solicitacao->save();
+
+        //trilha($solicitacao->id, null , null ,$request->status,null);
+
+        return ("OK");
+        
+    }
+
 }

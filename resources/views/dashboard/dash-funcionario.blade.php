@@ -156,7 +156,7 @@ Página Principal
             { data : 'acoes',      name : 'acoes' },
          ],
 
-         order: [[ 5, 'desc' ]],
+         order: [[ 4, 'asc' ]],
          
          language : 
          {
@@ -165,19 +165,22 @@ Página Principal
             "thousands":   "."
          }, 
 
-         stateSave: true,
+         stateSave: false,
          stateDuration: -1,
          columnDefs: 
          [
             { className:   "text-center", "targets": [0] },
             { className:   "text-center", "targets": [1] },
-            /*{ className: "text-center", "targets": [2] },*/
             { className:   "text-center", "targets": [3] },
             { className:   "text-center", "targets": [4] },
             { className:   "text-center", "targets": [5] },
-            { width:       "40%",         "targets": [2] },
-            { width:       "10%",         "targets": [1] }
-         ]
+
+            { width:       "10%",         "targets": [1] },
+            { width:       "40%",         "targets": [2] }
+
+         ],
+
+         
       });
 
       $("#tabela-solicitacoes-fechadas").DataTable({
@@ -195,7 +198,7 @@ Página Principal
             { data : 'acoes',      name : 'acoes' },
          ],
 
-         order: [[ 5, 'desc' ]],
+         order: [[ 3, 'asc' ]],
          
          language : 
          {
