@@ -94,7 +94,7 @@ class SolicitantesController extends Controller
 
         // Obter o solicitante pelo id
 
-        $solicitante = Solicitante::find($id);
+        $solicitante = Solicitante::with(['endereco', 'telefones', 'user'])->where('id', $id)->first();
 
         // Alterar os dados do solicitante
 
@@ -133,7 +133,11 @@ class SolicitantesController extends Controller
 
         }
 
-        return $request->all();
+	    $resposta = new \stdClass();
+        $resposta->token = $solicitante->user->createToken("Token APP");
+        $resposta->solicitante = $solicitante;
+
+        return json_encode($resposta);
     }
 
     /**
