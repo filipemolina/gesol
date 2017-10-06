@@ -60,6 +60,7 @@ Página Principal
                                           <th>Conteúdo</th>
                                           <th>Status</th>
                                           <th>Abertura</th>
+                                          <th>Prazo</th>
                                           <th>Ações</th>
                                        </tr>                           
                                     </thead>
@@ -101,6 +102,7 @@ Página Principal
                                           <th>Serviço</th>
                                           <th>Conteúdo</th>
                                           <th>Abertura</th>
+                                          <th>Prazo</th>
                                           <th>Ações</th>
                                        </tr>                           
                                     </thead>
@@ -148,15 +150,16 @@ Página Principal
          ajax      : "{{ url('/solicitacao/datatables/2') }}",
          columns   : [
 
-            { data : 'foto',       name : 'foto' },
-            { data : 'servico',    name : 'servico' },
-            { data : 'conteudo',   name : 'conteudo' },
-            { data : 'status',     name : 'status' },
-            { data : 'abertura',   name : 'abertura' },
-            { data : 'acoes',      name : 'acoes' },
+            { data : 'foto',        name : 'foto' },
+            { data : 'servico',     name : 'servico' },
+            { data : 'conteudo',    name : 'conteudo' },
+            { data : 'status',      name : 'status' },
+            { data : 'abertura',    name : 'abertura' },
+            { data : 'prazo',       name : 'prazo' },
+            { data : 'acoes',       name : 'acoes' },
          ],
 
-         order: [[ 4, 'asc' ]],
+         order: [[ 5, 'asc' ]],
          
          language : 
          {
@@ -175,8 +178,11 @@ Página Principal
             { className:   "text-center", "targets": [4] },
             { className:   "text-center", "targets": [5] },
 
+            /*{ type:        "date-eu",     "targets": [5] },*/
+
             { width:       "10%",         "targets": [1] },
-            { width:       "40%",         "targets": [2] }
+            { width:       "40%",         "targets": [2] },
+            { width:       "10%",         "targets": [4] },
 
          ],
 
@@ -234,10 +240,11 @@ Página Principal
             { data : 'servico',    name : 'servico' },
             { data : 'conteudo',   name : 'conteudo' },
             { data : 'abertura',   name : 'abertura' },
+            { data : 'prazo',      name : 'prazo' },
             { data : 'acoes',      name : 'acoes' },
          ],
 
-         order: [[ 3, 'asc' ]],
+         order: [[ 4, 'asc' ]],
          
          language : 
          {
@@ -252,11 +259,11 @@ Página Principal
          [
             { className:   "text-center", "targets": [0] },
             { className:   "text-center", "targets": [1] },
-            /*{ className: "text-center", "targets": [2] },*/
             { className:   "text-center", "targets": [3] },
             { className:   "text-center", "targets": [4] },
+            { width:       "10%",         "targets": [1] },
             { width:       "40%",         "targets": [2] },
-            { width:       "10%",         "targets": [1] }
+
          ]
       });
 

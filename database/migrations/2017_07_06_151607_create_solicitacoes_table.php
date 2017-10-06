@@ -33,7 +33,8 @@ class CreateSolicitacoesTable extends Migration
                                     ])        ->default('Aberta');
 
             $table->enum('prioridade',['Baixa','Normal','Alta','Urgente'])      ->default('Baixa');
-
+            $table->tinyInteger('prazo')->nullable();
+            
             //------------------------FOREIGN--------------------------------
             $table->integer('servico_id')->unsigned();
             $table->integer('solicitante_id')->unsigned();

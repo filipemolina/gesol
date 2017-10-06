@@ -287,6 +287,32 @@ class SolicitacaoController extends Controller
 
         foreach($solicitacoes as $solicitacao)
         {
+            //verifica se foi dado um prazo diferente para essa solicitação se não, 
+            //pega o padrão do serviço
+            if($solicitacao->prazo)
+                $qtd_dias=$solicitacao->prazo;
+            else
+                $qtd_dias=$solicitacao->servico->prazo;
+                
+                            
+            //cria o prazo com a data setada acima
+            //$prazo = date('d/m/Y', strtotime($solicitacao->created_at." +$qtd_dias days"));
+
+            $prazo = date('Ymd', strtotime($solicitacao->created_at." +$qtd_dias days"));
+
+            if( date('Ymd') > $prazo )
+            {
+                $inspan = "<span style='color:red'>";    
+            }elseif( date('Ymd') == $prazo ){
+                $inspan = "<span style='color:orange'>";    
+            }else{
+                $inspan = "<span style='color:green'>";    
+            };
+
+            
+
+
+
             // Preparar a string de ações
             $acoes = str_replace(['{id}'], [$solicitacao->id], $padrao);
             /*if(Auth::user()->admin == "Padrão")
@@ -309,8 +335,9 @@ class SolicitacaoController extends Controller
                     'servico'       => $solicitacao->servico->nome,
                     'status'        => $solicitacao->status,
                     'moderado'      => $moderado,
-                    'abertura'      => \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
+                    'abertura'      => "<span style='display:none'>" .\Carbon\Carbon::parse( $solicitacao->created_at)->format('Ymd') ."</span>". \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
                     'acoes'         => $acoes,
+                    'prazo'         => $prazo,
                 ]);
 
             } elseif($solicitacao->servico->setor->secretaria->id == $usuario->funcionario->setor->secretaria->id){ 
@@ -323,15 +350,28 @@ class SolicitacaoController extends Controller
                     'servico'        => $solicitacao->servico->nome,
                     'status'         => $solicitacao->status,
                     'moderado'       => $moderado,
-                    'abertura'       => \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
+                    //'abertura'       => \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
+                    'abertura'      => "<span style='display:none'>" 
+                                        .\Carbon\Carbon::parse( $solicitacao->created_at)->format('Ymd') 
+                                        ."</span>"
+                                        .\Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
+
                     'atualizacao'    => \Carbon\Carbon::parse( $solicitacao->updated_at)->format('d/m/Y - H:i:s'),
                     'acoes'          => $acoes,
+
+                    'prazo'          => "<span style='display:none; color:red'>"
+                                        .\Carbon\Carbon::parse( $prazo)->format('Ymd') 
+                                        ."</span>"
+                                        .$inspan 
+                                        . \Carbon\Carbon::parse( $prazo)->format('d/m/Y')
+                                        ."</span>",
+
                 ]);
             }
         }
 
         return DataTables::of($colecao)
-        ->rawColumns(['foto','acoes', 'conteudo'])
+        ->rawColumns(['foto','acoes', 'conteudo','abertura','prazo'])
         ->make(true);
     }
 

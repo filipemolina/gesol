@@ -86,6 +86,10 @@
         <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
         <!--  Plugin for Date Time Picker and Full Calendar Plugin-->
         <script src="{{ asset('js/moment.min.js') }}"></script>
+
+        
+
+
         <!--  Charts Plugin -->
         <script src="{{ asset('js/chartist.min.js') }}"></script>
         <!--  Plugin for the Wizard -->
@@ -105,6 +109,10 @@
         <script src="{{ asset('js/jquery.select-bootstrap.js') }}"></script>
         <!--  DataTables.net Plugin    -->
         <script src="{{ asset('js/jquery.datatables.js') }}"></script>
+
+        
+
+
         <!-- Sweet Alert 2 plugin -->
         <script src="{{ asset('js/sweetalert2.js') }}"></script>
         <!--	Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
@@ -122,12 +130,18 @@
         {{-- Vanilla Masker --}}
         <script src="{{ asset('js/vanillaMasker.min.js') }}"></script>
 
+        
+        <script src="{{ asset('js/datetime-moment.js') }}"></script>
+
+        
+
         {{-- funcoes javascript --}}
         <script src="{{ asset('js/functions.js') }}"></script>
 
         {{-- Javascript do Projeto --}}
         <script src="{{ asset('js/scripts.js') }}"></script>
 
+        
         {{-- API Google maps --}}
         <script src="http://maps.google.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
 
