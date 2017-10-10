@@ -80,6 +80,18 @@ class SolicitacaoController extends Controller
         /*$solicitacao = Solicitacao::with('endereco','solicitante','servico','servico.setor')->find($id);*/
         $solicitacao = Solicitacao::find($id);
 
+        //verifica se foi dado um prazo diferente para essa solicitação se não, 
+        //pega o padrão do serviço
+        if($solicitacao->prazo)
+            $qtd_dias=$solicitacao->prazo;
+        else
+            $qtd_dias=$solicitacao->servico->prazo;
+            
+        //cria o prazo com a data setada acima
+        $prazo_calculado = date('Ymd', strtotime($solicitacao->created_at." +$qtd_dias days"));
+
+
+
         //pega os motivos de RECUSA de solicitação
         $parametros = Parametro::where('parametro', '=', 'motivo-recusa')->get();
         $motivos_recusa = [];
@@ -93,19 +105,19 @@ class SolicitacaoController extends Controller
 
         // Obter todos os setores
         $setores = Setor::with('servicos')->get();
-
+        
         // chama a view de acordo com o tipo de acesso do usuario logado
         switch($funcionario->acesso)
         {
             case "Moderador":
 
                 return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario','setores','motivos_recusa',
-                                                                   'motivos_transferencia'));
+                                                                   'motivos_transferencia','prazo_calculado'));
                 break;
 
             case "Funcionario":
                 return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario','setores','motivos_recusa',
-                                                                     'motivos_transferencia'));
+                                                                     'motivos_transferencia','prazo_calculado'));
                 break;
         }
 
@@ -302,11 +314,11 @@ class SolicitacaoController extends Controller
 
             if( date('Ymd') > $prazo )
             {
-                $inspan = "<span style='color:red'>";    
+                $inspan = "<span class='badge' style='background-color:red'>";    
             }elseif( date('Ymd') == $prazo ){
-                $inspan = "<span style='color:orange'>";    
+                $inspan = "<span class='badge' style='background-color:orange'>";    
             }else{
-                $inspan = "<span style='color:green'>";    
+                $inspan = "<span class='badge' style='background-color:green'>";    
             };
 
             

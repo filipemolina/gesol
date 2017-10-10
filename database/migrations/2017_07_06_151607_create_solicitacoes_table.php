@@ -28,8 +28,7 @@ class CreateSolicitacoesTable extends Migration
                                     'Recusada',
 
                                     'Encaminhada',
-                                    
-                                    'Fechada',
+
                                     ])        ->default('Aberta');
 
             $table->enum('prioridade',['Baixa','Normal','Alta','Urgente'])      ->default('Baixa');

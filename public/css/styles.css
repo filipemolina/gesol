@@ -128,7 +128,7 @@ z-index: -1;
 .navbar .navbar-nav > li > a.btn.btn-dourado.disabled,
 .navbar .navbar-nav > li > a.btn.btn-dourado.disabled:hover,
 .navbar .navbar-nav > li > a.btn.btn-dourado.disabled:focus,
-.navbar .navbar-nav > li > a.btn.btn-dourado.disabled.focus,
+. navbar .navbar-nav > li > a.btn.btn-dourado.disabled.focus,
 .navbar .navbar-nav > li > a.btn.btn-dourado.disabled:active,
 .navbar .navbar-nav > li > a.btn.btn-dourado.disabled.active,
 .navbar .navbar-nav > li > a.btn.btn-dourado:disabled,
@@ -1474,4 +1474,26 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
     background: -ms-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
     background: -o-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
     background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, rgba(255,255,255,0) 100%);
+}
+
+.status-aberta      { background-color: #fdd26d; color:#fff; }
+.status-analise     { background-color: #0214c2; color:#fff; }
+.status-execucao    { background-color: #246e06; color:#fff; }
+.status-solucionada { background-color: #000;    color:#fff; }
+.status-encaminhada { background-color: #f55e0d; color:#fff; }
+
+div#execucao .form-group {
+    
+    margin-top: 0px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 0px;
+    width: 80px;
+    padding-bottom: 0px;
+
+
+}
+
+.prazo-atual{
+  background-color: #B5A067 !important;
 }
