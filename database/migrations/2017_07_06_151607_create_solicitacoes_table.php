@@ -20,12 +20,20 @@ class CreateSolicitacoesTable extends Migration
             $table->mediumText('foto')                                          ->nullable();
             $table->text('conteudo')                                            ->nullable();
             $table->boolean('moderado')                                         ->default(false);
-            $table->enum('status', ['Aberta','Encaminhada',
-                                    'Aguardando','Pendente',
-                                    'Em execução','Fechada','Recusada'])        ->default('Aberta');
+            $table->enum('status', ['Aberta',
+                                        'Em análise',
+                                        'Em execução',
+                                    
+                                    'Solucionada',
+                                    'Recusada',
+
+                                    'Encaminhada',
+
+                                    ])        ->default('Aberta');
 
             $table->enum('prioridade',['Baixa','Normal','Alta','Urgente'])      ->default('Baixa');
-
+            $table->tinyInteger('prazo')->nullable();
+            
             //------------------------FOREIGN--------------------------------
             $table->integer('servico_id')->unsigned();
             $table->integer('solicitante_id')->unsigned();
@@ -36,6 +44,7 @@ class CreateSolicitacoesTable extends Migration
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

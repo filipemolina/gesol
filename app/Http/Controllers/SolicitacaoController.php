@@ -80,6 +80,18 @@ class SolicitacaoController extends Controller
         /*$solicitacao = Solicitacao::with('endereco','solicitante','servico','servico.setor')->find($id);*/
         $solicitacao = Solicitacao::find($id);
 
+        //verifica se foi dado um prazo diferente para essa solicitação se não, 
+        //pega o padrão do serviço
+        if($solicitacao->prazo)
+            $qtd_dias=$solicitacao->prazo;
+        else
+            $qtd_dias=$solicitacao->servico->prazo;
+            
+        //cria o prazo com a data setada acima
+        $prazo_calculado = date('Ymd', strtotime($solicitacao->created_at." +$qtd_dias days"));
+
+
+
         //pega os motivos de RECUSA de solicitação
         $parametros = Parametro::where('parametro', '=', 'motivo-recusa')->get();
         $motivos_recusa = [];
@@ -93,19 +105,19 @@ class SolicitacaoController extends Controller
 
         // Obter todos os setores
         $setores = Setor::with('servicos')->get();
-
+        
         // chama a view de acordo com o tipo de acesso do usuario logado
         switch($funcionario->acesso)
         {
             case "Moderador":
 
                 return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario','setores','motivos_recusa',
-                                                                   'motivos_transferencia'));
+                                                                   'motivos_transferencia','prazo_calculado'));
                 break;
 
             case "Funcionario":
                 return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario','setores','motivos_recusa',
-                                                                     'motivos_transferencia'));
+                                                                     'motivos_transferencia','prazo_calculado'));
                 break;
         }
 
@@ -220,8 +232,8 @@ class SolicitacaoController extends Controller
     * @param $liberado int: Determina o tipo de dados ....
     * 0 =  Obter todos os dados de todos os solicitacoes que NÃO estão moderadas / MODERADOR
     * 1 =  Obter todos os dados de todos os solicitacoes que JÁ ESTÃO moderadas
-    * 2 =  Obter todos os dados de todos os solicitacoes ATIVAS
-    * 3 =  Obter todos os dados de todos os solicitacoes FECHADAS    
+    * 2 =  Obter todos os dados de todos os solicitacoes ATIVAS e MODERADAS
+    * 3 =  Obter todos os dados de todos os solicitacoes FECHADAS e MODERADAS    
     */
     public function dados($liberado)
     {
@@ -244,7 +256,7 @@ class SolicitacaoController extends Controller
         {
             case 0:
                 // Obter todos os dados de todos os solicitacoes que NÃO estão moderadas / MODERADOR;
-                $solicitacoes = Solicitacao::where('moderado','=', $liberado)
+                $solicitacoes = Solicitacao::where('moderado','=', '0')
                                 ->where('status','<>', 'Recusada')
                                 ->with('solicitante','servico','servico.setor','endereco')->get();
                 // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
@@ -254,20 +266,22 @@ class SolicitacaoController extends Controller
 
             case 1:
                 // Obter todos os dados de todos os solicitacoes que JÁ ESTÃO moderadas;
-                $solicitacoes = Solicitacao::where('moderado','=', $liberado)
+                $solicitacoes = Solicitacao::where('moderado','=', '1')
                                 ->where('status','<>', 'Recusada')
                                 ->with('solicitante','servico','servico.setor','endereco')->get();
                 break;
 
             case 2:
-                // Obter todos os dados de todos os solicitacoes ATIVAS;
+                // Obter todos os dados de todos os solicitacoes ATIVAS e MODERADAS; 
                 $solicitacoes = Solicitacao::where('status','<>','Fechada')
+                                            ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
                 break;
 
             case 3:
-                // Obter todos os dados de todos os solicitacoes FECHADAS;
+                // Obter todos os dados de todos os solicitacoes FECHADAS e MODERADAS;
                 $solicitacoes = Solicitacao::where('status','=','Fechada')
+                                            ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
 
                 $padrao = "<a href='" .url('solicitacao/{id}')."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
@@ -285,6 +299,32 @@ class SolicitacaoController extends Controller
 
         foreach($solicitacoes as $solicitacao)
         {
+            //verifica se foi dado um prazo diferente para essa solicitação se não, 
+            //pega o padrão do serviço
+            if($solicitacao->prazo)
+                $qtd_dias=$solicitacao->prazo;
+            else
+                $qtd_dias=$solicitacao->servico->prazo;
+                
+                            
+            //cria o prazo com a data setada acima
+            //$prazo = date('d/m/Y', strtotime($solicitacao->created_at." +$qtd_dias days"));
+
+            $prazo = date('Ymd', strtotime($solicitacao->created_at." +$qtd_dias days"));
+
+            if( date('Ymd') > $prazo )
+            {
+                $inspan = "<span class='badge' style='background-color:red'>";    
+            }elseif( date('Ymd') == $prazo ){
+                $inspan = "<span class='badge' style='background-color:orange'>";    
+            }else{
+                $inspan = "<span class='badge' style='background-color:green'>";    
+            };
+
+            
+
+
+
             // Preparar a string de ações
             $acoes = str_replace(['{id}'], [$solicitacao->id], $padrao);
             /*if(Auth::user()->admin == "Padrão")
@@ -307,8 +347,9 @@ class SolicitacaoController extends Controller
                     'servico'       => $solicitacao->servico->nome,
                     'status'        => $solicitacao->status,
                     'moderado'      => $moderado,
-                    'abertura'      => \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y h:m'),
+                    'abertura'      => "<span style='display:none'>" .\Carbon\Carbon::parse( $solicitacao->created_at)->format('Ymd') ."</span>". \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
                     'acoes'         => $acoes,
+                    'prazo'         => $prazo,
                 ]);
 
             } elseif($solicitacao->servico->setor->secretaria->id == $usuario->funcionario->setor->secretaria->id){ 
@@ -316,19 +357,33 @@ class SolicitacaoController extends Controller
                 // Caso contrário, adicionar à coleção apenas as solicitações que sejam da mesma secretaria que ele
 
                 $colecao->push([
-                    'foto'          => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
-                    'conteudo'      => $solicitacao->conteudo, 
-                    'servico'       => $solicitacao->servico->nome,
-                    'status'        => $solicitacao->status,
-                    'moderado'      => $moderado,
-                    'abertura'      => \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y h:m'),
-                    'acoes'         => $acoes,
+                    'foto'           => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
+                    'conteudo'       => $solicitacao->conteudo, 
+                    'servico'        => $solicitacao->servico->nome,
+                    'status'         => $solicitacao->status,
+                    'moderado'       => $moderado,
+                    //'abertura'       => \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
+                    'abertura'      => "<span style='display:none'>" 
+                                        .\Carbon\Carbon::parse( $solicitacao->created_at)->format('Ymd') 
+                                        ."</span>"
+                                        .\Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
+
+                    'atualizacao'    => \Carbon\Carbon::parse( $solicitacao->updated_at)->format('d/m/Y - H:i:s'),
+                    'acoes'          => $acoes,
+
+                    'prazo'          => "<span style='display:none; color:red'>"
+                                        .\Carbon\Carbon::parse( $prazo)->format('Ymd') 
+                                        ."</span>"
+                                        .$inspan 
+                                        . \Carbon\Carbon::parse( $prazo)->format('d/m/Y')
+                                        ."</span>",
+
                 ]);
             }
         }
 
         return DataTables::of($colecao)
-        ->rawColumns(['foto','acoes', 'conteudo'])
+        ->rawColumns(['foto','acoes', 'conteudo','abertura','prazo'])
         ->make(true);
     }
 
@@ -343,9 +398,9 @@ class SolicitacaoController extends Controller
 
 
     /**
-    * Exacuta as ações do moderador
+    * Executa as ações do moderador
     * param    $id     int: ID da solicitação
-    *           $acao   int: ação que será executada 
+    *          $acao   int: ação que será executada 
     * 1 =  Libera a solicitação
     * 2 =  
     * 3 =  
@@ -371,4 +426,29 @@ class SolicitacaoController extends Controller
 
         }
     }
+
+
+
+    /**
+    * Executa as ações de MUDANÇA de STATUS
+    * param    $id     int: ID da solicitação
+    *          $acao   int: ação que será executada 
+    * 1 =  muda STATUS para 
+    * 2 =  
+    * 3 =  
+    */
+    public function status(Request $request)
+    {
+        // Obter o usuário atualmente logado
+        $solicitacao = Solicitacao::find($request->solicitacao_id);
+
+        $solicitacao->status = $request->status;
+        $solicitacao->save();
+
+        //trilha($solicitacao->id, null , null ,$request->status,null);
+
+        return ("OK");
+        
+    }
+
 }

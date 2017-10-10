@@ -35,7 +35,7 @@ Solicitações
                <div class="data-inclusao-card info-solictante">
                   Adicionado {{ $solicitacao->created_at->diffForHumans() 
                      .' - ' 
-                     .'('. $solicitacao->created_at->format('h:m - j/m/Y').')'}}  
+                     .'('. $solicitacao->created_at->format('H:i:s -- d/m/Y').')'}}  
                </div>
 
                <div class="row">
