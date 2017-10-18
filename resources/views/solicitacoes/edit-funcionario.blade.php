@@ -692,7 +692,6 @@ Solicitações
                decrementSecond:'Decrement Second',
             },
             
-
             icons: {
                time: "fa fa-clock-o",
                date: "fa fa-calendar",
