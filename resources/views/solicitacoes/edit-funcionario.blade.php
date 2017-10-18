@@ -660,6 +660,18 @@ Solicitações
    <script type="text/javascript">
       $(function () {
          $('#datetimepicker1').datetimepicker({
+    
+            icons: {
+               time: "fa fa-clock-o",
+               date: "fa fa-calendar",
+               up: "fa fa-chevron-up",
+               down: "fa fa-chevron-down",
+               previous: 'fa fa-chevron-left',
+               next: 'fa fa-chevron-right',
+               today: 'fa fa-screenshot',
+               clear: 'fa fa-trash',
+               close: 'fa fa-remove'
+            },
 
             locale: 'pt-br',
             format: 'L',
@@ -691,20 +703,6 @@ Solicitações
                pickSecond: 'Pick Second',
                decrementSecond:'Decrement Second',
             },
-            
-            icons: {
-               time: "fa fa-clock-o",
-               date: "fa fa-calendar",
-               up: "fa fa-chevron-up",
-               down: "fa fa-chevron-down",
-               previous: 'fa fa-chevron-left',
-               next: 'fa fa-chevron-right',
-               today: 'fa fa-screenshot',
-               clear: 'fa fa-trash',
-               close: 'fa fa-remove'
-            },
-            locale: 'pt-br',
-            format: 'L'
          });
       });
    </script>
