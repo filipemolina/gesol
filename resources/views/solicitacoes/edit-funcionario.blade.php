@@ -660,6 +660,7 @@ Solicitações
    <script type="text/javascript">
       $(function () {
          $('#datetimepicker1').datetimepicker({
+
             locale: 'pt-br',
             format: 'L',
             minDate: new Date(), // = today
@@ -691,6 +692,7 @@ Solicitações
                decrementSecond:'Decrement Second',
             },
             
+
             icons: {
                time: "fa fa-clock-o",
                date: "fa fa-calendar",
