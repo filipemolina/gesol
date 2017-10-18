@@ -662,8 +662,8 @@ Solicitações
          $('#datetimepicker1').datetimepicker({
             locale: 'pt-br',
             format: 'L',
-            // minDate: new Date(), // = today
-            showTodayButton: false,
+            minDate: new Date(), // = today
+            showTodayButton: true,
 
             tooltips: {
                today: 'Hoje',
