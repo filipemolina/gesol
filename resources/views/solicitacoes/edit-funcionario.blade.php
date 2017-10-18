@@ -660,7 +660,6 @@ Solicitações
    <script type="text/javascript">
       $(function () {
          $('#datetimepicker1').datetimepicker({
-    
             icons: {
                time: "fa fa-clock-o",
                date: "fa fa-calendar",
@@ -672,7 +671,6 @@ Solicitações
                clear: 'fa fa-trash',
                close: 'fa fa-remove'
             },
-
             locale: 'pt-br',
             format: 'L',
             minDate: new Date(), // = today
