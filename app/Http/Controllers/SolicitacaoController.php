@@ -83,12 +83,12 @@ class SolicitacaoController extends Controller
         //verifica se foi dado um prazo diferente para essa solicitação se não, 
         //pega o padrão do serviço
         if($solicitacao->prazo)
-            $prazo_em_dias=$solicitacao->prazo;
+            $qtd_dias=$solicitacao->prazo;
         else
-            $prazo_em_dias=$solicitacao->servico->prazo;
+            $qtd_dias=$solicitacao->servico->prazo;
             
         //cria o prazo com a data setada acima
-        $prazo_calculado = date('Ymd', strtotime($solicitacao->created_at." +$prazo_em_dias days"));
+        $prazo_calculado = date('Ymd', strtotime($solicitacao->created_at." +$qtd_dias days"));
 
 
 
@@ -102,12 +102,6 @@ class SolicitacaoController extends Controller
         $motivos_transferencia = [];
         foreach($parametros as $parametro){$motivos_transferencia[$parametro->valor] = $parametro->valor;}
 
-        //pega os motivos de alteração de data de PRAZO da  solicitação
-        $parametros = Parametro::where('parametro', '=', 'motivo-prazo')->get();
-        $motivos_prazo = [];
-        foreach($parametros as $parametro){$motivos_prazo[$parametro->valor] = $parametro->valor;}
-
-
 
         // Obter todos os setores
         $setores = Setor::with('servicos')->get();
@@ -118,14 +112,12 @@ class SolicitacaoController extends Controller
             case "Moderador":
 
                 return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario','setores','motivos_recusa',
-                                                                   'motivos_transferencia','prazo_calculado','motivos_prazo',   
-                                                                    'prazo_em_dias'));
+                                                                   'motivos_transferencia','prazo_calculado'));
                 break;
 
             case "Funcionario":
                 return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario','setores','motivos_recusa',
-                                                                     'motivos_transferencia','prazo_calculado','motivos_prazo',
-                                                                    'prazo_em_dias'));
+                                                                     'motivos_transferencia','prazo_calculado'));
                 break;
         }
 
@@ -310,15 +302,15 @@ class SolicitacaoController extends Controller
             //verifica se foi dado um prazo diferente para essa solicitação se não, 
             //pega o padrão do serviço
             if($solicitacao->prazo)
-                $prazo_em_dias=$solicitacao->prazo;
+                $qtd_dias=$solicitacao->prazo;
             else
-                $prazo_em_dias=$solicitacao->servico->prazo;
+                $qtd_dias=$solicitacao->servico->prazo;
                 
                             
             //cria o prazo com a data setada acima
-            //$prazo = date('d/m/Y', strtotime($solicitacao->created_at." +$prazo_em_dias days"));
+            //$prazo = date('d/m/Y', strtotime($solicitacao->created_at." +$qtd_dias days"));
 
-            $prazo = date('Ymd', strtotime($solicitacao->created_at." +$prazo_em_dias days"));
+            $prazo = date('Ymd', strtotime($solicitacao->created_at." +$qtd_dias days"));
 
             if( date('Ymd') > $prazo )
             {
