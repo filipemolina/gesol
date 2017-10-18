@@ -77,7 +77,7 @@
         </script>
 
         <!--   Core JS Files   -->
-        <script src="{{ asset('js/jquery-3.1.1.min.js') }}"  type="text/javascript"></script>
+        <script src="{{ asset('js/jquery-3.2.1.min.js') }}"  type="text/javascript"></script>
         <script src="{{ asset('js/jquery-ui.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/material.min.js') }}" type="text/javascript"></script>

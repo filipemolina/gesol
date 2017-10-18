@@ -11,20 +11,16 @@
             GESOL
         </a>
     </div>
-    <div class="logo logo-mini">
-        <a href="#" class="simple-text">
-            GS
-        </a>
-    </div>
     <div class="sidebar-wrapper">
         <div class="user">
             <div class="photo">
                 <img src="{{ $funcionario->user->avatar }}" />
+                {{-- <img src="https://lorempixel.com/120/150/people/Faker/?33819"/> --}}
             </div>
             <div class="info">
                 <a data-toggle="collapse" href="#collapseExample" class="collapsed">
                    {{ $funcionario->nome }}
-                    <b class="caret"></b>
+                    {{-- <b class="caret"></b> --}}
                     <p style="font-size: 10px;">({{ $funcionario->acesso }})</p>
                 </a>
 
