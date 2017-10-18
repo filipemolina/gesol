@@ -672,35 +672,9 @@ Solicitações
                close: 'fa fa-remove'
             },
             locale: 'pt-br',
-            format: 'L',
-            minDate: new Date(), // = today
-            showTodayButton: true,
 
-            tooltips: {
-               today: 'Hoje',
-               clear: 'Clear selection',
-               close: 'Close the picker',
-               selectMonth: 'Selecione o mês',
-               prevMonth: 'Mês anterior',
-               nextMonth: 'Próximo mês',
-               selectYear: 'Selecione o ano',
-               prevYear: 'Ano anterior',
-               nextYear: 'Próximo ano',
-               selectDecade: 'Selecione a década',
-               prevDecade: 'Década anterior',
-               nextDecade: 'Próxima década',
-               prevCentury: 'Previous Century',
-               nextCentury: 'Next Century',
-               incrementHour: 'Increment Hour',
-               pickHour: 'Pick Hour',
-               decrementHour:'Decrement Hour',
-               incrementMinute: 'Increment Minute',
-               pickMinute: 'Pick Minute',
-               decrementMinute:'Decrement Minute',
-               incrementSecond: 'Increment Second',
-               pickSecond: 'Pick Second',
-               decrementSecond:'Decrement Second',
-            },
+            format: 'L'
+
          });
       });
    </script>
