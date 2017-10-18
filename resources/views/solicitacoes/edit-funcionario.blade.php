@@ -123,7 +123,7 @@ Solicitações
                         @foreach($setores as $setor)
                         <optgroup label="{{ $setor->nome }}">
                            @foreach($setor->servicos as $servico)
-                           <option value="{{$servico->id}}">{{$servico->nome}}</option>  
+                              <option value="{{$servico->id}}">{{$servico->nome}}</option>  
                            @endforeach
                         </optgroup>
                         @endforeach
@@ -133,7 +133,7 @@ Solicitações
                      <select id="select-servico-motivo" class="js-example-data-array" data-live-search="true" > 
                         <option value="" selected>Selecione uma motivo</option>
                         @foreach($motivos_transferencia as $motivo)
-                        <option value="{{$motivo}}">{{$motivo}}</option>  
+                           <option value="{{$motivo}}">{{$motivo}}</option>  
                         @endforeach
                      </select>
 
@@ -234,35 +234,53 @@ Solicitações
 
          <div class="row">
             <div id="execucao" style="display: none;">
-               <h4 style="margin-top: 0px;"> Pôr em execução </h4>    
+               <h4 style="margin-top: 0px;margin-bottom: 0px;"> Pôr em execução </h4>    
 
                <div class="label-floating " style="border-style: dotted; padding: 6px;">
                   
-                  <div class="col-md-6">
+                  <div class="col-md-12">
 
-                     
-                     <p class="prazo-atual" style="margin-bottom: 0px;">
-                        <span> Prazo Atual: </span> &nbsp
-                        {{ date('d/m/Y', strtotime($prazo_calculado))  }} &nbsp &nbsp-  {{ $solicitacao->servico->prazo }} dias
-                     </p>
-                     <p style="margin-bottom: 0px;">
-                        <span class="prazo" style="margin-bottom: 0px;"> Novo Prazo: </span>  
-                        <input type="text" class="form-control datetimepicker" 
-                           id='datetimepicker1'
-                           value="{{ date('d/m/Y', strtotime($prazo_calculado))  }}"   
-                        /> - {{ $solicitacao->servico->prazo }} dias
-                     </p>
+                     <div class="col-md-4" style="margin-top: 8px;">
+                        <span class="prazo-atual" >
+                           Prazo Atual:  {{ date('d/m/Y', strtotime($prazo_calculado))  }}  
+                           <span class=" mdi mdi-arrow-right-bold"></span> 
+                           {{ $solicitacao->servico->prazo }} dias
+                        </span>
+                     </div>
 
+                     <div class="col-md-4">
+                        <span >
+                           Novo Prazo: 
+                           <input type="text" class="form-control datetimepicker label-floating" 
+                              id='datetimepicker1'
+
+                              {{-- verifica se o prazo que já existe é maior ou igual que a data de hoje, 
+                                 se sim, significa que o prazo está vencido e a data de hj será o novo prazo, 
+                                 senão o prazo permanece --}}
+
+                              @if(date('d/m/Y', strtotime($prazo_calculado)) >= date('d/m/Y') )
+                                 value="{{ date('d/m/Y')  }}"   
+                              @else
+                                 value="{{ date('d/m/Y', strtotime($prazo_calculado))  }}"   
+                              @endif
+                           /> 
+                           <span class=" mdi mdi-arrow-right-bold"></span>
+                           
+                           <span id="dias"> {{ $solicitacao->servico->prazo }} dias </span>  
+                        </span>
+                     </div>
+
+                     <div class="col-md-4" style="margin-top: 8px;">
+                        <select id="select-prazo-motivo" class="select-prazo-motivo js-example-data-array" data-live-search="true" disabled> 
+                           <option value="" selected>Selecione o motivo para alteração do Prazo</option>
+                           @foreach($motivos_prazo as $motivo)
+                              <option value="{{$motivo}}">{{$motivo}}</option>  
+                           @endforeach
+                        </select>
+                     </div>
                   </div>
 
-                  <div class="col-md-4">
-                     <select id="select-execucao-motivo" class="js-example-data-array" data-live-search="true" > 
-                        <option value="" selected>Selecione uma motivo</option>
-                        @foreach($motivos_transferencia as $motivo)
-                        <option value="{{$motivo}}">{{$motivo}}</option>  
-                        @endforeach
-                     </select>
-                  </div>
+                  
                   <div style="clear:both"></div>
                </div>
             </div>        
@@ -305,7 +323,7 @@ Solicitações
 
             {{-------------------------- BOTAO EXECUCAO ------------------------}}
             <div id="botao-execucao" style="text-align:center; display: none; margin-top: 0px;">
-               <button class="botoes-acao btn btn-round btn-success salva-execucao">
+               <button id="botao-execucao-salvar" class="botoes-acao btn btn-round btn-success salva-execucao">
                   <span class="icone-botoes-acao mdi mdi-send"></span>
                   <span class="texto-botoes-acao"> Salvar </span>
                </button>
@@ -658,26 +676,121 @@ Solicitações
    </script>
 
    <script type="text/javascript">
+
       $(function () {
          $('#datetimepicker1').datetimepicker({
-            icons: {
-               time: "fa fa-clock-o",
-               date: "fa fa-calendar",
-               up: "fa fa-chevron-up",
-               down: "fa fa-chevron-down",
-               previous: 'fa fa-chevron-left',
-               next: 'fa fa-chevron-right',
-               today: 'fa fa-screenshot',
-               clear: 'fa fa-trash',
-               close: 'fa fa-remove'
-            },
             locale: 'pt-br',
+            format: 'L',
+            minDate: new Date(), // = today
+            showTodayButton: true,
 
-            format: 'L'
+            tooltips: {
+               today: 'Hoje',
+               clear: 'Clear selection',
+               close: 'Close the picker',
+               selectMonth: 'Selecione o mês',
+               prevMonth: 'Mês anterior',
+               nextMonth: 'Próximo mês',
+               selectYear: 'Selecione o ano',
+               prevYear: 'Ano anterior',
+               nextYear: 'Próximo ano',
+               selectDecade: 'Selecione a década',
+               prevDecade: 'Década anterior',
+               nextDecade: 'Próxima década',
+               prevCentury: 'Previous Century',
+               nextCentury: 'Next Century',
+               incrementHour: 'Increment Hour',
+               pickHour: 'Pick Hour',
+               decrementHour:'Decrement Hour',
+               incrementMinute: 'Increment Minute',
+               pickMinute: 'Pick Minute',
+               decrementMinute:'Decrement Minute',
+               incrementSecond: 'Increment Second',
+               pickSecond: 'Pick Second',
+               decrementSecond:'Decrement Second',
+            },
+            
+
+            icons: {
+               time: 'glyphicon glyphicon-time',
+               date: 'glyphicon glyphicon-calendar',
+               up:   'glyphicon glyphicon-chevron-up',
+               down: 'glyphicon glyphicon-chevron-down',
+               previous: 'glyphicon glyphicon-chevron-left',
+               next: 'glyphicon glyphicon-chevron-right',
+               today: 'glyphicon glyphicon-screenshot',
+               clear: 'glyphicon glyphicon-trash',
+               close: 'glyphicon glyphicon-remove'
+            },
+            
 
          });
-      });
-   </script>
-@endpush
 
+      });
+
+      $("#datetimepicker1").on("dp.change",function (e) {
+         
+         
+         
+         DAY = 1000 * 60 * 60  * 24
+         
+         data_criacao_solicitacao   = '{!! date('d/m/Y',strtotime($solicitacao->created_at)) !!}';
+         data_picker                = document.getElementById("datetimepicker1").value;
+
+
+         var nova1   = data_criacao_solicitacao.toString().split('/');
+         Nova1       = nova1[1]+"/"+nova1[0]+"/"+nova1[2];
+
+         var nova2   = data_picker.toString().split('/');
+         Nova2       = nova2[1]+"/"+nova2[0]+"/"+nova2[2];
+
+         d1 = new Date(Nova1);
+         d2 = new Date(Nova2);
+
+         dias_novo_prazo = Math.round(((d2.getTime() - d1.getTime()) / DAY)) ;
+
+         prazo = data_picker;
+         hoje  = Date('d/m/Y') ;
+
+
+
+         console.log("data_picker", data_picker);
+         console.log("prazo",       prazo);
+         console.log("hoje",        hoje);
+
+
+         console.log("data_picker", Date.parse(data_picker));
+         console.log("prazo",       Date.parse(prazo));
+         console.log("hoje",        Date.parse(hoje));
+
+         
+         //testa se a data do novo prazo é anterior a data de hoje
+         /*if (prazo >= hoje) 
+         {
+            console.log("maior");
+            document.getElementById("dias").innerHTML = dias_novo_prazo + " dias";   
+            document.getElementById("select-prazo-motivo").disabled = false;
+            document.getElementById("botao-execucao-salvar").disabled = false;
+         }
+
+         if (prazo < hoje) 
+         {
+            console.log("menor");
+            document.getElementById("select-prazo-motivo").disabled = true;
+            document.getElementById("botao-execucao-salvar").disabled = true;
+            swal(
+               'Atenção',
+               'A data do novo prazo não pode ser anterior a hoje',
+               'error'
+            )
+         }*/
+         
+
+
+      });   
+
+ 
+   </script>
+
+@endpush
 
