@@ -49,7 +49,7 @@ class ServicosSeeder extends Seeder
             //================================================================================================================
 
             $setor= 6;
-            DB::table('servicos')->insert(['nome'=>'DeNúncia De Trânsito'                           ,'setor_id' =>$setor   ]);
+            DB::table('servicos')->insert(['nome'=>'Denúncia De Trânsito'                           ,'setor_id' =>$setor   ]);
             DB::table('servicos')->insert(['nome'=>'SoLicitação De Redutor De Velocidade'           ,'setor_id' =>$setor   ]);
             DB::table('servicos')->insert(['nome'=>'SoLicitação De Agente De Trânsito'              ,'setor_id' =>$setor   ]);
             DB::table('servicos')->insert(['nome'=>'SoLitação De Reboque'                           ,'setor_id' =>$setor   ]);
@@ -79,7 +79,7 @@ class ServicosSeeder extends Seeder
 
             $setor= 13;
             DB::table('servicos')->insert(['nome' => 'Fiscalização Vigilância Sanitária'            ,'setor_id' =>$setor  ]);
-            DB::table('servicos')->insert(['nome' => 'Fiscalização Epidemiológi'                    ,'setor_id' =>$setor  ]);
+            DB::table('servicos')->insert(['nome' => 'Fiscalização Epidemiológica'                  ,'setor_id' =>$setor  ]);
 
             $setor= 14;
             DB::table('servicos')->insert(['nome' => 'Benefícios Sociais'                           ,'setor_id' =>$setor  ]);
