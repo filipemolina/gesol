@@ -251,23 +251,40 @@ Solicitações
                      <div class="col-md-4">
                         <span >
                            Novo Prazo: 
-                           <input type="text" class="form-control datetimepicker label-floating" 
-                              id='datetimepicker1'
-
-                              {{-- verifica se o prazo que já existe é maior ou igual que a data de hoje, 
-                                 se sim, significa que o prazo está vencido e a data de hj será o novo prazo, 
-                                 senão o prazo permanece --}}
+                           <input type="text" id="data-prazo" class="form-control label-floating"
 
                               @if(date('d/m/Y', strtotime($prazo_calculado)) >= date('d/m/Y') )
                                  value="{{ date('d/m/Y')  }}"   
                               @else
                                  value="{{ date('d/m/Y', strtotime($prazo_calculado))  }}"   
                               @endif
-                           /> 
+                           />
+
+
+
+
+
+
+
+                           {{-- <input type="text" class="form-control datetimepicker label-floating"  --}}
+                              {{-- id='datetimepicker1' --}}
+{{--  --}}
+                              {{-- verifica se o prazo que já existe é maior ou igual que a data de hoje,  --}}
+                                 {{-- se sim, significa que o prazo está vencido e a data de hj será o novo prazo,  --}}
+                                 {{-- senão o prazo permanece --}}
+{{--  --}}
+                              {{-- @if(date('d/m/Y', strtotime($prazo_calculado)) >= date('d/m/Y') ) --}}
+                                 {{-- value="{{ date('d/m/Y')  }}"    --}}
+                              {{-- @else --}}
+                                 {{-- value="{{ date('d/m/Y', strtotime($prazo_calculado))  }}"    --}}
+                              {{-- @endif --}}
+                           {{-- />  --}}
                            <span class=" mdi mdi-arrow-right-bold"></span>
                            
                            <span id="dias"> {{ $solicitacao->servico->prazo }} dias </span>  
+
                         </span>
+
                      </div>
 
                      <div class="col-md-4" style="margin-top: 8px;">
@@ -280,8 +297,7 @@ Solicitações
                      </div>
                   </div>
 
-                  
-                  <div style="clear:both"></div>
+                 <div style="clear:both"></div> 
                </div>
             </div>        
          </div>             
@@ -366,8 +382,6 @@ Solicitações
    <script src="{{ asset("js/pt-br.js" )}}"></script>
 
    <script>
-
-
 
       /*================================ EXECUÇÃO =========================================*/
       $(".execucao").click(function(){
@@ -677,95 +691,60 @@ Solicitações
 
    <script type="text/javascript">
 
-      $(function () {
-         $('#datetimepicker1').datetimepicker({
-            locale: 'pt-br',
-            format: 'L',
-            minDate: new Date(), // = today
-            showTodayButton: true,
+      $( function() {
+         $( "#data-prazo" ).datepicker({
+            dateFormat: 'dd/mm/yy',
+            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+            dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+            nextText: 'Próximo',
+            prevText: 'Anterior',
 
-            tooltips: {
-               today: 'Hoje',
-               clear: 'Clear selection',
-               close: 'Close the picker',
-               selectMonth: 'Selecione o mês',
-               prevMonth: 'Mês anterior',
-               nextMonth: 'Próximo mês',
-               selectYear: 'Selecione o ano',
-               prevYear: 'Ano anterior',
-               nextYear: 'Próximo ano',
-               selectDecade: 'Selecione a década',
-               prevDecade: 'Década anterior',
-               nextDecade: 'Próxima década',
-               prevCentury: 'Previous Century',
-               nextCentury: 'Next Century',
-               incrementHour: 'Increment Hour',
-               pickHour: 'Pick Hour',
-               decrementHour:'Decrement Hour',
-               incrementMinute: 'Increment Minute',
-               pickMinute: 'Pick Minute',
-               decrementMinute:'Decrement Minute',
-               incrementSecond: 'Increment Second',
-               pickSecond: 'Pick Second',
-               decrementSecond:'Decrement Second',
-            },
-            
+            showOtherMonths: true,
+            showAnim: "slideDown",
 
-            icons: {
-               time: 'glyphicon glyphicon-time',
-               date: 'glyphicon glyphicon-calendar',
-               up:   'glyphicon glyphicon-chevron-up',
-               down: 'glyphicon glyphicon-chevron-down',
-               previous: 'glyphicon glyphicon-chevron-left',
-               next: 'glyphicon glyphicon-chevron-right',
-               today: 'glyphicon glyphicon-screenshot',
-               clear: 'glyphicon glyphicon-trash',
-               close: 'glyphicon glyphicon-remove'
-            },
-            
-
-         });
-
+            // minDate: 0,
+            // showButtonPanel: true,
+         })
+         .change(dateChanged)
+         .on('changeDate', dateChanged);
       });
 
-      $("#datetimepicker1").on("dp.change",function (e) {
-         
-         
-         
+      function dateChanged(ev) {
+         $(this).datepicker('hide');
+
          DAY = 1000 * 60 * 60  * 24
          
-         data_criacao_solicitacao   = '{!! date('d/m/Y',strtotime($solicitacao->created_at)) !!}';
-         data_picker                = document.getElementById("datetimepicker1").value;
+         let data_criacao_solicitacao   = new Date('{!! date($solicitacao->created_at) !!}').setHours(0,0,0,0);
+         
+         let data_picker = $( "#data-prazo" ).datepicker( "getDate" ).setHours(0,0,0,0);
+
+         
+         let prazo   = new Date(data_picker);
+         let hoje    = new Date();
+         hoje.setHours(0,0,0,0);
 
 
-         var nova1   = data_criacao_solicitacao.toString().split('/');
-         Nova1       = nova1[1]+"/"+nova1[0]+"/"+nova1[2];
+         dias_novo_prazo = Math.round(((prazo - data_criacao_solicitacao) / DAY)) ;
 
-         var nova2   = data_picker.toString().split('/');
-         Nova2       = nova2[1]+"/"+nova2[0]+"/"+nova2[2];
+    
 
-         d1 = new Date(Nova1);
-         d2 = new Date(Nova2);
-
-         dias_novo_prazo = Math.round(((d2.getTime() - d1.getTime()) / DAY)) ;
-
-         prazo = data_picker;
-         hoje  = Date('d/m/Y') ;
+         console.log("data_picker",             data_picker);
+         console.log("prazo",                   prazo);
+         console.log("hoje",                    hoje.getTime());
+         console.log("Criação solicitação",     data_criacao_solicitacao);
+         console.log("==================================================================================");
 
 
-
-         console.log("data_picker", data_picker);
-         console.log("prazo",       prazo);
-         console.log("hoje",        hoje);
-
-
-         console.log("data_picker", Date.parse(data_picker));
+        /* console.log("data_picker", Date.parse(data_picker));
          console.log("prazo",       Date.parse(prazo));
-         console.log("hoje",        Date.parse(hoje));
+         console.log("hoje",        Date.parse(hoje));*/
 
          
          //testa se a data do novo prazo é anterior a data de hoje
-         /*if (prazo >= hoje) 
+         if (prazo >= hoje) 
          {
             console.log("maior");
             document.getElementById("dias").innerHTML = dias_novo_prazo + " dias";   
@@ -783,11 +762,12 @@ Solicitações
                'A data do novo prazo não pode ser anterior a hoje',
                'error'
             )
-         }*/
+         }
          
 
+      }
 
-      });   
+
 
  
    </script>

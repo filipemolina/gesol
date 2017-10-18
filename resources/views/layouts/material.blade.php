@@ -13,7 +13,9 @@
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
     <!--  Material Dashboard CSS    -->
     <link href="{{ asset('css/material-dashboard.css') }}" rel="stylesheet" />
-    
+
+    <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" />
+        
     <!-- =============================================================================== -->
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="{{ asset('css/demo.css') }}" rel="stylesheet" />
@@ -79,6 +81,7 @@
         <!--   Core JS Files   -->
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"  type="text/javascript"></script>
         <script src="{{ asset('js/jquery-ui.min.js') }}" type="text/javascript"></script>
+
         <script src="{{ asset('js/bootstrap.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/material.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/perfect-scrollbar.jquery.min.js') }}" type="text/javascript"></script>
@@ -129,11 +132,8 @@
 
         {{-- Vanilla Masker --}}
         <script src="{{ asset('js/vanillaMasker.min.js') }}"></script>
-
         
         <script src="{{ asset('js/datetime-moment.js') }}"></script>
-
-        
 
         {{-- funcoes javascript --}}
         <script src="{{ asset('js/functions.js') }}"></script>
