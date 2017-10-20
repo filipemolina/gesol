@@ -63,7 +63,7 @@ if (! function_exists('camelcase')) {
         ]);
 
         
-        return $movimento->save();
+        return $movimento->save(); 
 
     }
   }

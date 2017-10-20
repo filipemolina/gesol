@@ -1482,16 +1482,14 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
 .status-solucionada { background-color: #000;    color:#fff; }
 .status-encaminhada { background-color: #f55e0d; color:#fff; }
 
-div#execucao .form-group {
-    
+div#div_por_em_execucao .form-group {
     margin-top: 0px;
     display: inline-block;
     margin-left: 10px;
     margin-right: 0px;
     width: 80px;
     padding-bottom: 0px;
-
-
+    
 }
 
 .prazo-atual{

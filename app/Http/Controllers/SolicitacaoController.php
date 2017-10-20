@@ -139,6 +139,8 @@ class SolicitacaoController extends Controller
      * 2 = redireciona uma solicitação
      * 3 = edita o CONTEUDO 
      * 4 = recusa solicitação
+     * 5 = coloca em execução 
+     * 6 = alteração de STATUS      
      *
      * @return \Illuminate\Http\Response
      */
@@ -208,6 +210,34 @@ class SolicitacaoController extends Controller
                 $solicitacao->fill($request->all());
                 $alterou = $solicitacao->save();
                 return json_encode($request->motivo);
+
+            case 5:
+                //salva na trilha as informações da mudança STATUS
+                //salva na trilha as informações da mudança de prazo
+                trilha($solicitacao->id,
+                       $request->campo_alterado, 
+                       $request->valor_antigo ,
+                       $request->andamento ,
+                       $request->motivo
+                );
+
+                // Atualizar os dados
+                $solicitacao->fill((['status' => 'Em execução' ]));
+                $alterou = $solicitacao->save();
+                
+                return json_encode($alterou);
+
+            case 6:
+                //salva na trilha as informações da mudança de prazo
+                trilha($solicitacao->id,
+                       $request->campo_alterado, 
+                       $request->valor_antigo ,
+                       $request->andamento ,
+                       $request->motivo
+                );
+
+                
+                return json_encode("ok");
 
         }
 
@@ -453,7 +483,34 @@ class SolicitacaoController extends Controller
         //trilha($solicitacao->id, null , null ,$request->status,null);
 
         return ("OK");
-        
     }
 
+
+
+    // /**
+    // * Executa inserts de trilha em movimentos
+    // * param:    
+    // *       $solicitacao:   int:    ID da solicitação    
+    // *       $campo:         string: campo que sofreu alteração 
+    // *       $valor:         string: valor do campo antes da alteração          
+    // *       $andamento:     string: tipo de andamento que sofreu a solicitação      
+    // *       $motivo:        string: Motivo pelo qual o campo foi alterado
+    // *
+    // */
+    // public function trilha(Request $request)
+    // {
+ 
+    //     $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+
+    //     $movimento = new Movimento([
+    //       'funcionario_id'  => $funcionario->id,
+    //       'solicitacao_id'  => $solicitacao,
+    //       'campo_alterado'  => $campo,
+    //       'valor_antigo'    => $valor,
+    //       'andamento'       => $andamento,
+    //       'motivo'          => $motivo,
+    //     ]);
+      
+    //     return $movimento->save();
+    // }
 }

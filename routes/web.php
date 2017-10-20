@@ -30,6 +30,9 @@ Route::post('modera',				'SolicitacaoController@modera');
 // Rota para alteração de status da solicitação
 Route::post('status',				'SolicitacaoController@status');
 
+// Rota inserir dados de trilha
+Route::post('trilha',				'SolicitacaoController@trilha');
+
 //resources
 Route::resource('solicitante',	'SolicitanteController');
 Route::resource('funcionario',	'FuncionarioController');

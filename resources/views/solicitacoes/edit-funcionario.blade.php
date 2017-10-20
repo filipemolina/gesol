@@ -64,12 +64,11 @@ Solicitações
 
                         <span class='badge status-analise'> {!! $solicitacao->status !!} </span>  
 
+                  @elseif($solicitacao->status =='Em execução')
+
+                        <span class='badge status-execucao'> {!! $solicitacao->status !!} </span>  
+
                   @endif
-
-
-
-
-
 
                </div>
 
@@ -206,7 +205,7 @@ Solicitações
                </div>
 
                {{-- Escrever comentário --}}
-               <div class="input-group div-escreve-comentario" >
+               <div id="div_escrever_comentario" class="input-group"  >
                   <textarea 
                         data-solicitacao="{{$solicitacao->id }}" 
                         data-funcionario="{{$funcionario->id }}" 
@@ -233,13 +232,10 @@ Solicitações
          </div> {{-- Fim da Primeira Linha --}}
 
          <div class="row">
-            <div id="execucao" style="display: none;">
+            <div id="div_por_em_execucao" style="display: none;">
                <h4 style="margin-top: 0px;margin-bottom: 0px;"> Pôr em execução </h4>    
-
                <div class="label-floating " style="border-style: dotted; padding: 6px;">
-                  
                   <div class="col-md-12">
-
                      <div class="col-md-4" style="margin-top: 8px;">
                         <span class="prazo-atual" >
                            Prazo Atual:  {{ date('d/m/Y', strtotime($prazo_calculado))  }}  
@@ -251,44 +247,16 @@ Solicitações
                      <div class="col-md-4">
                         <span >
                            Novo Prazo: 
-                           <input type="text" id="data-prazo" class="form-control label-floating"
-
-                              @if(date('d/m/Y', strtotime($prazo_calculado)) >= date('d/m/Y') )
-                                 value="{{ date('d/m/Y')  }}"   
-                              @else
-                                 value="{{ date('d/m/Y', strtotime($prazo_calculado))  }}"   
-                              @endif
+                           <input type="text" id="picker_data_prazo" class="form-control label-floating" 
+                              value="{{ date('d/m/Y', strtotime($prazo_calculado))  }}"   
                            />
-
-
-
-
-
-
-
-                           {{-- <input type="text" class="form-control datetimepicker label-floating"  --}}
-                              {{-- id='datetimepicker1' --}}
-{{--  --}}
-                              {{-- verifica se o prazo que já existe é maior ou igual que a data de hoje,  --}}
-                                 {{-- se sim, significa que o prazo está vencido e a data de hj será o novo prazo,  --}}
-                                 {{-- senão o prazo permanece --}}
-{{--  --}}
-                              {{-- @if(date('d/m/Y', strtotime($prazo_calculado)) >= date('d/m/Y') ) --}}
-                                 {{-- value="{{ date('d/m/Y')  }}"    --}}
-                              {{-- @else --}}
-                                 {{-- value="{{ date('d/m/Y', strtotime($prazo_calculado))  }}"    --}}
-                              {{-- @endif --}}
-                           {{-- />  --}}
                            <span class=" mdi mdi-arrow-right-bold"></span>
-                           
-                           <span id="dias"> {{ $solicitacao->servico->prazo }} dias </span>  
-
+                           <span id="label_dias_novo_prazo"> {{ $solicitacao->servico->prazo }} dias </span>  
                         </span>
-
                      </div>
 
                      <div class="col-md-4" style="margin-top: 8px;">
-                        <select id="select-prazo-motivo" class="select-prazo-motivo js-example-data-array" data-live-search="true" disabled> 
+                        <select id="select_prazo_motivo" class="select_prazo_motivo js-example-data-array" data-live-search="true" disabled> 
                            <option value="" selected>Selecione o motivo para alteração do Prazo</option>
                            @foreach($motivos_prazo as $motivo)
                               <option value="{{$motivo}}">{{$motivo}}</option>  
@@ -302,31 +270,28 @@ Solicitações
             </div>        
          </div>             
 
-
-
-
          <div class="col">
             {{-- Linha de Botões --}}
             {{-------------------------- BOTAO PADRAO ------------------------}}
-            <div id="botao-padrao" style="text-align:center; margin-top: -2px;">
+            <div id="div_botoes_iniciais" style="text-align:center; margin-top: -2px;">
 
-               <button class="botoes-acao-funcionario btn btn-round btn-success execucao">
+               <button id="btn_por_execucao" class="botoes-acao-funcionario btn btn-round btn-success" >
                   <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
                   Pôr em Execução 
                </button>
 
-               <button class="botoes-acao-funcionario btn btn-round btn-success libera-solicitacao">
+               <button id="btn_libera_solicitacao" class="botoes-acao-funcionario btn btn-round btn-success">
                   <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
                   Solucionar 
                </button>
 
 
-               <button class="botoes-acao-funcionario btn btn-round btn-warning redireciona-solicitacao">
+               <button id="btn_redirecionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-warning">
                   <span class="icone-botoes-acao-funcionario mdi mdi-redo-variant"></span>
                   Redirecionar
                </button>
 
-               <button class="botoes-acao-funcionario btn btn-round btn-danger recusa-solicitacao">
+               <button id="btn_recusar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-danger">
                   <span class="icone-botoes-acao-funcionario mdi mdi-delete-sweep"></span>
                   Recusar
                </button>
@@ -338,13 +303,13 @@ Solicitações
             </div>
 
             {{-------------------------- BOTAO EXECUCAO ------------------------}}
-            <div id="botao-execucao" style="text-align:center; display: none; margin-top: 0px;">
-               <button id="botao-execucao-salvar" class="botoes-acao btn btn-round btn-success salva-execucao">
+            <div id="div_botoes_da_execucao" style="text-align:center; display: none; margin-top: 0px;">
+               <button id="btn_por_execucao_salvar" class="botoes-acao btn btn-round btn-success ">
                   <span class="icone-botoes-acao mdi mdi-send"></span>
                   <span class="texto-botoes-acao"> Salvar </span>
                </button>
 
-               <button class="botoes-acao btn btn-round btn-primary cancela-execucao">
+               <button id="btn_por_execucao_cancelar" class="botoes-acao btn btn-round btn-primary cancela-execucao">
                   <span class="icone-botoes-acao mdi mdi-backburger"></span>   
                   <span class="texto-botoes-acao"> Cancelar </span>
                </button>
@@ -383,28 +348,150 @@ Solicitações
 
    <script>
 
-      /*================================ EXECUÇÃO =========================================*/
-      $(".execucao").click(function(){
+      {{---------------------------------------------------- EXECUÇÃO --------------------------------------------}}
+      {{---------------------------------------------------- EXECUÇÃO --------------------------------------------}}
+      {{---------------------------------------------------- EXECUÇÃO --------------------------------------------}}
+      {{---------------------------------------------------- EXECUÇÃO --------------------------------------------}}
+      
+      {{-------------------- btn_por_execucao ----------------------}}
+      $("#btn_por_execucao").click(function(){
          event.preventDefault();
-         $("#execucao").css('display', 'block');
-         $("#botao-padrao").css('display', 'none');
-         $(".div-escreve-comentario").hide();
+         $("#div_por_em_execucao").css('display', 'block');
+         $("#div_botoes_iniciais").css('display', 'none');
+         $("#div_escrever_comentario").hide();
+         $("#div_botoes_da_execucao").css('display', 'block'); 
 
-         $("#execucao-edicao").css('display', 'block'); 
-         $("#botao-execucao").css('display', 'block'); 
+         // pega o Prazo original da solicitação
+         let prazo_original = new Date('{{ substr($prazo_calculado, 4, 2) }}/{{ substr($prazo_calculado, 6, 2) }}/{{ substr($prazo_calculado, 0, 4) }}');
+
+         //coloca o prazo original da solicitação nopicker
+         $("#picker_data_prazo").val(moment(prazo_original).format("L   "));
+        
+         //coloca no label o prazo em dias original
+         document.getElementById("label_dias_novo_prazo").innerHTML = {{ $solicitacao->servico->prazo }} + " dias";   
+
+        
       });
 
+
+      {{-------------------- btn_por_execucao_salvar ----------------------}}
+      $("#btn_por_execucao_salvar").click(function(){
+         event.preventDefault();
+         event.stopPropagation();
+
+         let data_picker = $( "#picker_data_prazo" ).datepicker( "getDate" ).setHours(0,0,0,0);
+         let prazo   = new Date(data_picker);
+         let hoje    = new Date();
+         hoje.setHours(0,0,0,0);
+
+         //testa se a data do novo prazo é anterior a data de hoje
+         if (prazo < hoje) 
+         {
+
+            swal(
+               'Atenção',
+               'A data do novo prazo não pode ser anterior a hoje',
+               'error'
+            ).then(function () {
+              $( "#picker_data_prazo" ).focus();
+           });
+
+         }else{
+
+            /*AJAX*/
+
+            // pega o Prazo original da solicitação
+            let p = new Date('{{ substr($prazo_calculado, 4, 2) }}/{{ substr($prazo_calculado, 6, 2) }}/{{ substr($prazo_calculado, 0, 4) }}');
+            let prazo_original = moment(p).format("L");
+
+            //coloca o prazo original da solicitação nopicker
+            let prazo_atual = moment($( "#picker_data_prazo" ).datepicker( "getDate" ).setHours(0,0,0,0)).format("L"); 
+
+            console.log(prazo_original);
+            console.log(prazo_atual);
+
+            
+            //verifica se o prazo foi alterado
+            if( prazo_original == prazo_atual)
+            {
+               console.log("Resposta status SEM alteração de prazo");
+               //AJAX COM MUDANÇA DE STATUS  
+               $.post('/solicitacao/{{ $solicitacao->id }}', {
+                  _token : '{{ csrf_token() }}',
+                  _method: 'PUT',
+                  campo_alterado:  'status',
+                  valor_antigo:    '{{ $solicitacao->status }}',
+                  andamento:       'Alterou',
+                  motivo:          'Colocou em execução',
+                  acao:             5
+
+               }, function(res){
+                  let resposta = JSON.parse(res);
+                  //console.log("Resposta status SEM alteração de prazo", resposta);
+               });
+
+               $("#div_por_em_execucao").css('display', 'none'); 
+               $("#div_botoes_iniciais").css('display', 'block'); 
+               $("#div_escrever_comentario").show();
+               $("#div_botoes_da_execucao").css('display', 'none'); 
+            }else{
+
+               if (  $("#select_prazo_motivo").val() == ''  ){
+                  demo.notificationRight("top", "right", "rose", "Selceiono um Motivo");     
+                  demo.initFormExtendedDatetimepickers();
+               }else{
+
+                  //AJAX COM MUDANÇA DE STATUS 
+                  $.post('/solicitacao/{{ $solicitacao->id }}', {
+                     _token : '{{ csrf_token() }}',
+                     _method: 'PUT',
+                     campo_alterado:  'status',
+                     valor_antigo:    '{{ $solicitacao->status }}',
+                     andamento:       'Alterou',
+                     motivo:          'Colocou em execução',
+                     acao:             5
+
+                  }, function(res){
+                     let resposta = JSON.parse(res);
+                     //console.log("Resposta status COM alteração de prazo", resposta);
+                  });
+
+                  //AJAX COM MUDANÇA DE PRAZO -> 
+                  $.post('/solicitacao/{{ $solicitacao->id }}', {
+                     _token :          '{{ csrf_token() }}',
+                     _method:          'PUT',
+                     campo_alterado:  'prazo',
+                     valor_antigo:    {{ $prazo_em_dias }},
+                     andamento:       'Alterou',
+                     motivo:          $("#select_prazo_motivo option:selected").html(),
+                     acao:             6
+
+                  }, function(res){
+                     let resposta = JSON.parse(res);
+                     console.log("Resposta alteração de prazo", resposta);
+                  });
+
+                  $("#div_por_em_execucao").css('display', 'none'); 
+                  $("#div_botoes_iniciais").css('display', 'block'); 
+                  $("#div_escrever_comentario").show();
+                  $("#div_botoes_da_execucao").css('display', 'none'); 
+               }
+            }
+         }
+      });
+
+
+      {{-------------------- cancela-execucao ----------------------}}
       $(".cancela-execucao").click(function(){
          event.preventDefault();
 
-         $("#execucao").css('display', 'none'); 
-         $("#botao-padrao").css('display', 'block'); 
-
-         $(".div-escreve-comentario").show();
-         $(".execucao-edicao").css('display', 'none'); 
-         $("#botao-execucao").css('display', 'none'); 
+         $("#div_por_em_execucao").css('display', 'none'); 
+         $("#div_botoes_iniciais").css('display', 'block'); 
+         $("#div_escrever_comentario").show();
+         $("#div_botoes_da_execucao").css('display', 'none'); 
       });
 
+      {{-------------------- salva-servico ----------------------}}
       $(".salva-servico").click(function(){
          event.preventDefault();
 
@@ -449,7 +536,7 @@ Solicitações
                      let textoSelecionado = $("#select-servico option:selected").text();
 
                      $("#servico").css('display', 'block'); 
-                     $("#botao-padrao").css('display', 'block'); 
+                     $("#div_botoes_iniciais").css('display', 'block'); 
                      
                      $("#servico-edicao").css('display', 'none');             
                      $("#botao-servico").css('display', 'none');  
@@ -480,31 +567,38 @@ Solicitações
       });
 
 
+      {{---------------------------------------------------- REDIRECIONAR --------------------------------------------}}
+      {{---------------------------------------------------- REDIRECIONAR --------------------------------------------}}
+      {{---------------------------------------------------- REDIRECIONAR --------------------------------------------}}
+      {{---------------------------------------------------- REDIRECIONAR --------------------------------------------}}
 
-      /*================================ REDIRECIONAR =========================================*/
-      $(".redireciona-solicitacao").click(function(){
+      {{-------------------- btn_redirecionar_solicitacao ----------------------}}
+
+      $("#btn_redirecionar_solicitacao").click(function(){
          event.preventDefault();
          $("#servico").css('display', 'none');
-         $("#botao-padrao").css('display', 'none');
-         $(".div-escreve-comentario").hide();
+         $("#div_botoes_iniciais").css('display', 'none');
+         $("#div_escrever_comentario").hide();
          
 
          $("#servico-edicao").css('display', 'block'); 
          $("#botao-servico").css('display', 'block'); 
       });
 
+      {{-------------------- cancela-servico ----------------------}}
       $(".cancela-servico").click(function(){
          event.preventDefault();
 
          $("#servico").css('display', 'block'); 
-         $("#botao-padrao").css('display', 'block'); 
-         $(".div-escreve-comentario").show();
+         $("#div_botoes_iniciais").css('display', 'block'); 
+         $("#div_escrever_comentario").show();
 
          $("#servico-edicao").css('display', 'none'); 
          $("#botao-servico").css('display', 'none'); 
          
       });
 
+      {{-------------------- salva-servico ----------------------}}
       $(".salva-servico").click(function(){
          event.preventDefault();
 
@@ -549,7 +643,7 @@ Solicitações
                      let textoSelecionado = $("#select-servico option:selected").text();
 
                      $("#servico").css('display', 'block'); 
-                     $("#botao-padrao").css('display', 'block'); 
+                     $("#div_botoes_iniciais").css('display', 'block'); 
                      $("#div-comentario").css('display', 'block');
                      
                      $("#servico-edicao").css('display', 'none');             
@@ -580,8 +674,15 @@ Solicitações
          };
       });
 
-      /*================================ RECUSAR =========================================*/
-      $(".recusa-solicitacao").click(function(){
+
+      {{---------------------------------------------------- RECUSAR --------------------------------------------}}
+      {{---------------------------------------------------- RECUSAR --------------------------------------------}}
+      {{---------------------------------------------------- RECUSAR --------------------------------------------}}
+      {{---------------------------------------------------- RECUSAR --------------------------------------------}}
+
+      
+
+      $("#btn_recusar_solicitacao").click(function(){
          event.preventDefault();
 
          swal({
@@ -632,8 +733,12 @@ Solicitações
       });
 
 
-      /*================================ ENVIAR COMENTARIO  =========================================*/
+      {{---------------------------------------------------- ENVIAR COMENTARIO --------------------------------------------}}
+      {{---------------------------------------------------- ENVIAR COMENTARIO --------------------------------------------}}
+      {{---------------------------------------------------- ENVIAR COMENTARIO --------------------------------------------}}
+      {{---------------------------------------------------- ENVIAR COMENTARIO --------------------------------------------}}
 
+      
       $("#enviar-comentario").click(function(e){
             e.preventDefault();
             // Chamar a função que faz a chamada Ajax
@@ -655,11 +760,83 @@ Solicitações
             };   
          
       });
-
-
-      
    </script>
-   
+
+
+
+   {{---------------------------------------------------- picker_data_prazo --------------------------------------------}}
+   {{---------------------------------------------------- picker_data_prazo --------------------------------------------}}
+   {{---------------------------------------------------- picker_data_prazo --------------------------------------------}}
+   {{---------------------------------------------------- picker_data_prazo --------------------------------------------}}
+
+
+   <script type="text/javascript">
+
+      //configura o datepicker que recebe a data do NOVO PRAZO para ser alterado 
+      //LOCAL: edit-funcionario.blade.php->botão "execucao" - (POR EM EXECUÇÃO)
+      $( function() {
+         $( "#picker_data_prazo" ).datepicker({
+            dateFormat: 'dd/mm/yy',
+            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+            dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
+            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+            nextText: 'Próximo',
+            prevText: 'Anterior',
+
+            showOtherMonths: true,
+            showAnim: "slideDown",
+
+            // minDate: 0,
+            // showButtonPanel: true,
+         })
+         .change(dateChanged)
+         .on('changeDate', dateChanged);
+      });
+
+
+      function dateChanged(ev) {
+         $(this).datepicker('hide');
+
+         DAY = 1000 * 60 * 60  * 24
+         
+         let data_criacao_solicitacao   = new Date('{!! date($solicitacao->created_at) !!}').setHours(0,0,0,0);
+         
+         let data_picker = $( "#picker_data_prazo" ).datepicker( "getDate" ).setHours(0,0,0,0);
+
+         let prazo   = new Date(data_picker);
+         let hoje    = new Date();
+         hoje.setHours(0,0,0,0);
+         let dias_novo_prazo  = Math.round(((prazo - data_criacao_solicitacao) / DAY)) ;
+         let dias_velho_prazo = {{ $prazo_em_dias }};
+
+         /*console.log(dias_novo_prazo);
+         console.log(dias_velho_prazo);*/
+
+         document.getElementById("label_dias_novo_prazo").innerHTML = dias_novo_prazo + " dias";   
+
+         if(dias_velho_prazo == dias_novo_prazo)
+         {
+            console.log("iga");
+            $("#select_prazo_motivo").attr("disabled", "true");            
+            //$('#select_prazo_motivo').val("Selecione o motivo para alteração do Prazo");
+
+            //volta o select para o valor inicial
+            document.getElementById("select_prazo_motivo").selectedIndex = "0";
+         }else{
+            console.log("dif");
+            $("#select_prazo_motivo").removeAttr("disabled");
+
+         }
+        
+      }
+      //FIM ===================================================================================================
+   </script>
+
+
+   {{---------------------------------------------------- handlebars --------------------------------------------}}
+
    <script id="comentario-template" type="text/x-handlebars-template">
       @verbatim
          <div class="card-secretaria card margin7" style="color: black; font-size: 12px;">
@@ -688,89 +865,5 @@ Solicitações
 
       @endverbatim
    </script>
-
-   <script type="text/javascript">
-
-      $( function() {
-         $( "#data-prazo" ).datepicker({
-            dateFormat: 'dd/mm/yy',
-            dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-            dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
-            dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-            monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-            monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-            nextText: 'Próximo',
-            prevText: 'Anterior',
-
-            showOtherMonths: true,
-            showAnim: "slideDown",
-
-            // minDate: 0,
-            // showButtonPanel: true,
-         })
-         .change(dateChanged)
-         .on('changeDate', dateChanged);
-      });
-
-      function dateChanged(ev) {
-         $(this).datepicker('hide');
-
-         DAY = 1000 * 60 * 60  * 24
-         
-         let data_criacao_solicitacao   = new Date('{!! date($solicitacao->created_at) !!}').setHours(0,0,0,0);
-         
-         let data_picker = $( "#data-prazo" ).datepicker( "getDate" ).setHours(0,0,0,0);
-
-         
-         let prazo   = new Date(data_picker);
-         let hoje    = new Date();
-         hoje.setHours(0,0,0,0);
-
-
-         dias_novo_prazo = Math.round(((prazo - data_criacao_solicitacao) / DAY)) ;
-
-    
-
-         console.log("data_picker",             data_picker);
-         console.log("prazo",                   prazo);
-         console.log("hoje",                    hoje.getTime());
-         console.log("Criação solicitação",     data_criacao_solicitacao);
-         console.log("==================================================================================");
-
-
-        /* console.log("data_picker", Date.parse(data_picker));
-         console.log("prazo",       Date.parse(prazo));
-         console.log("hoje",        Date.parse(hoje));*/
-
-         
-         //testa se a data do novo prazo é anterior a data de hoje
-         if (prazo >= hoje) 
-         {
-            console.log("maior");
-            document.getElementById("dias").innerHTML = dias_novo_prazo + " dias";   
-            document.getElementById("select-prazo-motivo").disabled = false;
-            document.getElementById("botao-execucao-salvar").disabled = false;
-         }
-
-         if (prazo < hoje) 
-         {
-            console.log("menor");
-            document.getElementById("select-prazo-motivo").disabled = true;
-            document.getElementById("botao-execucao-salvar").disabled = true;
-            swal(
-               'Atenção',
-               'A data do novo prazo não pode ser anterior a hoje',
-               'error'
-            )
-         }
-         
-
-      }
-
-
-
- 
-   </script>
-
 @endpush
 
