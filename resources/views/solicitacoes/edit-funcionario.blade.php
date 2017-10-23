@@ -39,15 +39,11 @@ Solicitações
                   Prazo: 
 
                      @if(date('Ymd') > date('Ymd', strtotime($prazo_calculado)) )
-                        
-                        <span class='badge' style='background-color:red'>     
-                        
+                        <span id="span_prazo" class='badge' style='background-color:red'>     
                      @elseif( date('Ymd') == date('Ymd', strtotime($prazo_calculado)) )
-
-                        <span class='badge' style='background-color:orange'>     
+                        <span id="span_prazo" class='badge' style='background-color:orange'>     
                      @else
-                        <span class='badge' style='background-color:green'>     
-
+                        <span id="span_prazo" class='badge' style='background-color:green'>     
                      @endif
 
                      {{ date('d/m/Y', strtotime($prazo_calculado)) }}  
@@ -58,15 +54,15 @@ Solicitações
                   
                   @if($solicitacao->status =='Aberta')
 
-                     <span class='badge status-aberta'> {!! $solicitacao->status !!} </span>  
+                     <span id="span_satus" class='badge status-aberta'> {!! $solicitacao->status !!} </span>  
 
                   @elseif($solicitacao->status =='Em análise')
 
-                        <span class='badge status-analise'> {!! $solicitacao->status !!} </span>  
+                        <span id="span_satus" class='badge status-analise'> {!! $solicitacao->status !!} </span>  
 
                   @elseif($solicitacao->status =='Em execução')
 
-                        <span class='badge status-execucao'> {!! $solicitacao->status !!} </span>  
+                        <span id="span_satus" class='badge status-execucao'> {!! $solicitacao->status !!} </span>  
 
                   @endif
 
@@ -356,19 +352,31 @@ Solicitações
       {{-------------------- btn_por_execucao ----------------------}}
       $("#btn_por_execucao").click(function(){
          event.preventDefault();
-         $("#div_por_em_execucao").css('display', 'block');
-         $("#div_botoes_iniciais").css('display', 'none');
-         $("#div_escrever_comentario").hide();
-         $("#div_botoes_da_execucao").css('display', 'block'); 
 
-         // pega o Prazo original da solicitação
-         let prazo_original = new Date('{{ substr($prazo_calculado, 4, 2) }}/{{ substr($prazo_calculado, 6, 2) }}/{{ substr($prazo_calculado, 0, 4) }}');
+         //verifica o status da solicitação
+         if( "{!! $solicitacao->status !!}" != "Em execução")
+         {
+            $("#div_por_em_execucao").css('display', 'block');
+            $("#div_botoes_iniciais").css('display', 'none');
+            $("#div_escrever_comentario").hide();
+            $("#div_botoes_da_execucao").css('display', 'block'); 
 
-         //coloca o prazo original da solicitação nopicker
-         $("#picker_data_prazo").val(moment(prazo_original).format("L   "));
-        
-         //coloca no label o prazo em dias original
-         document.getElementById("label_dias_novo_prazo").innerHTML = {{ $solicitacao->servico->prazo }} + " dias";   
+            // pega o Prazo original da solicitação
+            let prazo_original = new Date('{{ substr($prazo_calculado, 4, 2) }}/{{ substr($prazo_calculado, 6, 2) }}/{{ substr($prazo_calculado, 0, 4) }}');
+
+            //coloca o prazo original da solicitação nopicker
+            $("#picker_data_prazo").val(moment(prazo_original).format("L   "));
+           
+            //coloca no label o prazo em dias original
+            document.getElementById("label_dias_novo_prazo").innerHTML = {{ $solicitacao->servico->prazo }} + " dias";   
+
+         }else{
+              swal(
+               'Atenção',
+               'A solicitacao já está Em execução',
+               'warning'
+            );
+         }
 
         
       });
@@ -379,10 +387,19 @@ Solicitações
          event.preventDefault();
          event.stopPropagation();
 
+         DAY = 1000 * 60 * 60  * 24
+         
+         let data_criacao_solicitacao   = new Date('{!! date($solicitacao->created_at) !!}').setHours(0,0,0,0);
          let data_picker = $( "#picker_data_prazo" ).datepicker( "getDate" ).setHours(0,0,0,0);
          let prazo   = new Date(data_picker);
          let hoje    = new Date();
          hoje.setHours(0,0,0,0);
+         
+         let dias_novo_prazo  = Math.round(((prazo - data_criacao_solicitacao) / DAY)) ;
+         let dias_velho_prazo = {{ $prazo_em_dias }};
+
+
+
 
          //testa se a data do novo prazo é anterior a data de hoje
          if (prazo < hoje) 
@@ -409,12 +426,14 @@ Solicitações
 
             console.log(prazo_original);
             console.log(prazo_atual);
+            console.log(dias_novo_prazo);
+
 
             
             //verifica se o prazo foi alterado
             if( prazo_original == prazo_atual)
             {
-               console.log("Resposta status SEM alteração de prazo");
+               
                //AJAX COM MUDANÇA DE STATUS  
                $.post('/solicitacao/{{ $solicitacao->id }}', {
                   _token : '{{ csrf_token() }}',
@@ -427,8 +446,12 @@ Solicitações
 
                }, function(res){
                   let resposta = JSON.parse(res);
-                  //console.log("Resposta status SEM alteração de prazo", resposta);
+
+                  //envia comentario na solicitação sobre a mudança de status
+                  comentarioAutomatico({{ $solicitacao->id }}, {{$funcionario->id }}, "A Solicitação foi colocada \"Em execução\" o prazo para a conclusão é dia: " .prazo_atual);
+           
                });
+
 
                $("#div_por_em_execucao").css('display', 'none'); 
                $("#div_botoes_iniciais").css('display', 'block'); 
@@ -441,35 +464,34 @@ Solicitações
                   demo.initFormExtendedDatetimepickers();
                }else{
 
-                  //AJAX COM MUDANÇA DE STATUS 
+                  //AJAX COM MUDANÇA DE STATUS  E PRAZO
                   $.post('/solicitacao/{{ $solicitacao->id }}', {
-                     _token : '{{ csrf_token() }}',
-                     _method: 'PUT',
-                     campo_alterado:  'status',
-                     valor_antigo:    '{{ $solicitacao->status }}',
-                     andamento:       'Alterou',
-                     motivo:          'Colocou em execução',
-                     acao:             5
+                     _token :                '{{ csrf_token() }}',
+                     _method:                'PUT',
+
+                     //campos do status
+                     campo_alterado_status:  'status',
+                     valor_antigo_status:    '{{ $solicitacao->status }}',
+                     andamento_status:       'Alterou',
+                     motivo_status:          'Colocou em execução',
+
+                     //campos do prazo
+                     campo_alterado_prazo:   'prazo',
+                     valor_antigo_prazo:     {{ $prazo_em_dias }},
+                     andamento_prazo:        'Alterou',
+                     motivo_prazo:           $("#select_prazo_motivo option:selected").html(),
+
+                     //campos da solicitação
+                     prazo:                  dias_novo_prazo,
+                     status:                 "Em execução",
+                     acao:                   6
 
                   }, function(res){
                      let resposta = JSON.parse(res);
-                     //console.log("Resposta status COM alteração de prazo", resposta);
                   });
 
-                  //AJAX COM MUDANÇA DE PRAZO -> 
-                  $.post('/solicitacao/{{ $solicitacao->id }}', {
-                     _token :          '{{ csrf_token() }}',
-                     _method:          'PUT',
-                     campo_alterado:  'prazo',
-                     valor_antigo:    {{ $prazo_em_dias }},
-                     andamento:       'Alterou',
-                     motivo:          $("#select_prazo_motivo option:selected").html(),
-                     acao:             6
-
-                  }, function(res){
-                     let resposta = JSON.parse(res);
-                     console.log("Resposta alteração de prazo", resposta);
-                  });
+                  //envia comentario na solicitação sobre a mudança de status
+                  comentarioAutomatico({{ $solicitacao->id }}, {{$funcionario->id }}, "A Solicitação foi colocada EM EXECUÇÃO e o prazo para a conclusão é dia: " +prazo_atual);
 
                   $("#div_por_em_execucao").css('display', 'none'); 
                   $("#div_botoes_iniciais").css('display', 'block'); 
@@ -477,6 +499,26 @@ Solicitações
                   $("#div_botoes_da_execucao").css('display', 'none'); 
                }
             }
+
+            //coloca no label o novo prazo 
+
+            console.log(moment(hoje).format("L"));
+            console.log(prazo_atual);
+            document.getElementById("span_prazo").innerHTML = prazo_atual;   
+
+            if( moment(hoje).format("L") == prazo_atual)
+            {
+               document.getElementById("span_prazo").style.backgroundColor  = "orange";
+            }else{
+               document.getElementById("span_prazo").style.backgroundColor  = "green";               
+            }
+            
+            //altera o span com o status
+            document.getElementById("span_satus").innerHTML = "Em execução";   
+            document.getElementById("span_satus").classList.remove('status-aberta');
+            document.getElementById("span_satus").classList.remove('status-analise');
+            document.getElementById("span_satus").classList.add('status-execucao');
+
          }
       });
 
@@ -598,83 +640,7 @@ Solicitações
          
       });
 
-      {{-------------------- salva-servico ----------------------}}
-      $(".salva-servico").click(function(){
-         event.preventDefault();
-
-         if (  $("#select-servico").val() == '' && $("#select-servico-motivo").val() == ''  ){
-            demo.notificationRight("top", "right", "rose", "Selceiono um Destino");     
-            demo.initFormExtendedDatetimepickers();
-            demo.notificationRight("top", "right", "rose", "Selecione um motivo");
-            demo.initFormExtendedDatetimepickers();
-            
-         } else if (  $("#select-servico").val() == '' ) {
-
-            demo.notificationRight("top", "right", "rose", "Selceiono um Destino");     
-            demo.initFormExtendedDatetimepickers();
-
-         } else if (  $("#select-servico-motivo").val() == '' ) {
-
-            demo.notificationRight("top", "right", "rose", "Selecione um motivo");
-            demo.initFormExtendedDatetimepickers();
-
-         } else {
-
-            swal({
-               title: 'Redirecionar a solicitação para o destino escolhido?',
-               text: $("#select-servico option:selected").html(),
-               type: 'question',
-               showCancelButton: true,
-               confirmButtonColor: '#3085d6',
-               cancelButtonColor: '#d33',
-               confirmButtonText: 'Sim',
-               cancelButtonText: 'Não',
-            }).then(function () {
-               swal(
-                  'Destino alterado!',
-                  '',
-                  'success'
-                  ).then(function(){
-
-                     // Estética
-
-                     let id_servico = $("#select-servico").val();
-
-                     let textoSelecionado = $("#select-servico option:selected").text();
-
-                     $("#servico").css('display', 'block'); 
-                     $("#div_botoes_iniciais").css('display', 'block'); 
-                     $("#div-comentario").css('display', 'block');
-                     
-                     $("#servico-edicao").css('display', 'none');             
-                     $("#botao-servico").css('display', 'none');  
-
-                     // Levantamento de peso
-
-                     $.post('/solicitacao/{{ $solicitacao->id }}', {
-                        _token :    '{{ csrf_token() }}',
-                        _method:    'PUT',
-                        servico_id: id_servico,
-                        acao:       3
-                     }, function(res){
-                        let resposta = JSON.parse(res);
-
-                        $("#servico-texto").html(  resposta.sigla +' - ' + 
-                           resposta.servico +' - ' +
-                           resposta.setor );
-
-                        $("#setor-icone").removeClass().addClass('mdi '+ resposta.icone);
-                        $("#setor-cor").css('background-color', resposta.cor + " !important");
-
-
-                        console.log("Resposta", resposta);
-                     });
-                  });
-               })
-         };
-      });
-
-
+      
       {{---------------------------------------------------- RECUSAR --------------------------------------------}}
       {{---------------------------------------------------- RECUSAR --------------------------------------------}}
       {{---------------------------------------------------- RECUSAR --------------------------------------------}}

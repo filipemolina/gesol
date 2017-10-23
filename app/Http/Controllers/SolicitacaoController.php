@@ -214,29 +214,31 @@ class SolicitacaoController extends Controller
             case 5:
                 //salva na trilha as informações da mudança STATUS
                 //salva na trilha as informações da mudança de prazo
-                trilha($solicitacao->id,
-                       $request->campo_alterado, 
-                       $request->valor_antigo ,
-                       $request->andamento ,
-                       $request->motivo
-                );
+                trilha($solicitacao->id, $request->campo_alterado, $request->valor_antigo ,$request->andamento ,$request->motivo);
 
                 // Atualizar os dados
-                $solicitacao->fill((['status' => 'Em execução' ]));
+                $solicitacao->fill($request->all());
+                
                 $alterou = $solicitacao->save();
                 
                 return json_encode($alterou);
 
             case 6:
-                //salva na trilha as informações da mudança de prazo
-                trilha($solicitacao->id,
-                       $request->campo_alterado, 
-                       $request->valor_antigo ,
-                       $request->andamento ,
-                       $request->motivo
-                );
 
+
+                //salva na trilha as informações da mudança de status
+                trilha($solicitacao->id,$request->campo_alterado_status, $request->valor_antigo_status ,
+                       $request->andamento_status ,$request->motivo_status);
+
+                //salva na trilha as informações da mudança de prazo
+                trilha($solicitacao->id,$request->campo_alterado_prazo, $request->valor_antigo_prazo ,
+                       $request->andamento_prazo ,$request->motivo_prazo);
+
+                $solicitacao->fill($request->all());
                 
+                $alterou = $solicitacao->save();
+
+
                 return json_encode("ok");
 
         }

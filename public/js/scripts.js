@@ -66,3 +66,23 @@ function enviarComentario(elem, e){
 
 
 
+function comentarioAutomatico(sol, fun, com){
+
+   console.log("entrou comentarioAutomatico ID: ");
+
+   let solicitacao   = sol;
+   let funcionario   = fun;
+   let comentario    = com;
+
+   // Enviar a comentario para o banco
+   $.post(
+      url_base+"/comentario",
+      {
+         comentario:       comentario,
+         solicitacao_id:   solicitacao, 
+         funcionario_id:   funcionario,
+         _token:           token
+      }
+   );      
+  
+}
