@@ -48,7 +48,7 @@ if (! function_exists('camelcase')) {
   }
 
   if (! function_exists('trilha')) {
-    function trilha($solicitacao, $campo, $valor,$andamento,$motivo)
+    function trilha($solicitacao, $campo, $valor,$andamento,$motivo,$comentario)
     {
       
       $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
@@ -60,6 +60,7 @@ if (! function_exists('camelcase')) {
           'valor_antigo'    => $valor,
           'andamento'       => $andamento,
           'motivo'          => $motivo,
+          'comentario_id'   => $comentario,
         ]);
 
         

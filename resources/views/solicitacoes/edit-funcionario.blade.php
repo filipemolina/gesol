@@ -90,6 +90,7 @@ Solicitações
                         {{ $solicitacao->endereco->bairro }} -
                         {{ $solicitacao->endereco->cep }} 
                      </div>
+                      
                   </div>
                </div>
             </div>
@@ -140,6 +141,24 @@ Solicitações
 
                {{-- começo das mensagens --}}
                <div class="comentarios scroll-comentarios" id="div-comentarios">
+
+                                       <div class="card-solicitante margin7" style="color: black; font-size: 12px;">
+                        <div class="row" style="margin-left: 15px;margin-right: 15px;">
+                           {{-- Nome do usuário --}}
+                           <label class="h6 nome-solicitante">
+                              {{ $solicitacao->solicitante->nome}}
+                           </label>
+
+                           {{-- Comentário Fixo --}}
+                           <div class="col-coment-fix" >
+                              <div class=" col-md-7 no-margin" >
+                                 <p>{{ $solicitacao->conteudo }}</p>
+                              </div>
+                           </div>
+                        </div>
+                     
+                     </div>
+
 
                   @foreach ($solicitacao->comentarios->sortBy('created_at') as $comentario)
                      {{-- card de comentarios --}}
@@ -276,7 +295,7 @@ Solicitações
                   Pôr em Execução 
                </button>
 
-               <button id="btn_libera_solicitacao" class="botoes-acao-funcionario btn btn-round btn-success">
+               <button id="btn_solucionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-success">
                   <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
                   Solucionar 
                </button>
@@ -625,6 +644,95 @@ Solicitações
 
          $("#servico-edicao").css('display', 'block'); 
          $("#botao-servico").css('display', 'block'); 
+      });
+
+
+      {{---------------------------------------------------- SOLUCIONAR --------------------------------------------}}
+      {{---------------------------------------------------- SOLUCIONAR --------------------------------------------}}
+      {{---------------------------------------------------- SOLUCIONAR --------------------------------------------}}
+      {{---------------------------------------------------- SOLUCIONAR --------------------------------------------}}
+
+      {{-------------------- btn_solucionar_solicitacao ----------------------}}
+
+      $("#btn_solucionar_solicitacao").click(function(){
+         event.preventDefault();
+         let hoje    = new Date();
+         hoje        = moment(hoje).format("L");
+         
+
+         $("#servico").css('display', 'none');
+
+         //cria uma frase padrão
+         let comentario_padrao = 'A solicitação foi solucionada em: ' + String(hoje);
+
+         swal({
+            title:                  'Solucionar a solicitação',
+            input:                  'textarea',
+            inputValue:             comentario_padrao,
+            inputPlaceholder:       'Selecione um motivo',
+            type:                   'question',
+            showCancelButton:       true,
+            confirmButtonColor:     '#3085d6',
+            cancelButtonColor:      '#d33',
+            confirmButtonText:      'Solucionar',
+            cancelButtonText:       'Não',
+            showLoaderOnConfirm:    true,
+
+            inputValidator: function (value) {
+               return new Promise(function (resolve, reject) {
+                  //testa se o operador deixou em branco o campo para digitar o comentario final
+                  if (value != false) {
+                     resolve()
+                  } else {
+                     //se estiver vazio pega o comentario padrão
+                     inputValue = comentario_padrao;
+                     console.log(inputValue);
+                     resolve()
+                     //reject('Escreva um comentário final para a Solução dessa solicitação')
+
+                  }
+               })
+            }
+         }).then(function (result) {
+               swal(
+                  'Solicitação solucionada!',
+                  '',
+                  'success'
+                  ).then(function(){
+                     $.post('/solicitacao/{{ $solicitacao->id }}', {
+                        _token:           '{{ csrf_token() }}',
+                        _method:          'PUT',
+
+                        status:           'Solucionada',
+                        valor_antigo:     '{{ $solicitacao->status }}',
+                        
+                        acao:             7
+                     }, function(resposta){
+                        //envia comentario na solicitação sobre SOLUÇÂO da solicitação
+                        comentarioAutomatico({{ $solicitacao->id }}, {{$funcionario->id }}, result);
+                        console.log(resposta);
+                        window.location.href="{{ url("/") }}";
+                     });
+                  });
+               })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       });
 
       {{-------------------- cancela-servico ----------------------}}

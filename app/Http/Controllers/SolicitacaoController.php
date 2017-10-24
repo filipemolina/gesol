@@ -141,6 +141,7 @@ class SolicitacaoController extends Controller
      * 4 = recusa solicitação
      * 5 = coloca em execução 
      * 6 = alteração de STATUS      
+     * 7 = SOLUCIONA solicitação
      *
      * @return \Illuminate\Http\Response
      */
@@ -167,7 +168,7 @@ class SolicitacaoController extends Controller
                 $valor_antigo = $solicitacao->conteudo;
 
                 //salva na trilha
-                trilha($solicitacao->id, 'conteudo', $valor_antigo ,"Alterou",null);
+                trilha($solicitacao->id, 'conteudo', $valor_antigo ,"Alterou",null,null);
 
                 // Atualizar os dados
                 $solicitacao->fill($request->all());
@@ -200,7 +201,6 @@ class SolicitacaoController extends Controller
 
                 return json_encode($resposta);
 
-
             // recusa solicitação
             case 4:
                 //salva na trilha
@@ -214,7 +214,7 @@ class SolicitacaoController extends Controller
             case 5:
                 //salva na trilha as informações da mudança STATUS
                 //salva na trilha as informações da mudança de prazo
-                trilha($solicitacao->id, $request->campo_alterado, $request->valor_antigo ,$request->andamento ,$request->motivo);
+                trilha($solicitacao->id, $request->campo_alterado, $request->valor_antigo ,$request->andamento ,$request->motivo,null);
 
                 // Atualizar os dados
                 $solicitacao->fill($request->all());
@@ -235,11 +235,23 @@ class SolicitacaoController extends Controller
                        $request->andamento_prazo ,$request->motivo_prazo);
 
                 $solicitacao->fill($request->all());
-                
+
                 $alterou = $solicitacao->save();
 
 
                 return json_encode("ok");
+
+            // SOLUCIONA solicitação
+            case 7:
+                //salva na trilha
+                trilha($solicitacao->id, 'status', $request->valor_antigo ,'Fechou', 'Solucionou a solicitação',null);
+
+                // Atualizar os dados
+                $solicitacao->fill($request->all());
+                $alterou = $solicitacao->save();
+
+                return json_encode($request);
+
 
         }
 
@@ -271,7 +283,7 @@ class SolicitacaoController extends Controller
     * 0 =  Obter todos os dados de todos os solicitacoes que NÃO estão moderadas / MODERADOR
     * 1 =  Obter todos os dados de todos os solicitacoes que JÁ ESTÃO moderadas
     * 2 =  Obter todos os dados de todos os solicitacoes ATIVAS e MODERADAS
-    * 3 =  Obter todos os dados de todos os solicitacoes FECHADAS e MODERADAS    
+    * 3 =  Obter todos os dados de todos os solicitacoes SOLUCIONADAS e MODERADAS    
     */
     public function dados($liberado)
     {
@@ -311,14 +323,14 @@ class SolicitacaoController extends Controller
 
             case 2:
                 // Obter todos os dados de todos os solicitacoes ATIVAS e MODERADAS; 
-                $solicitacoes = Solicitacao::where('status','<>','Fechada')
+                $solicitacoes = Solicitacao::where('status','<>','Solucionada')
                                             ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
                 break;
 
             case 3:
                 // Obter todos os dados de todos os solicitacoes FECHADAS e MODERADAS;
-                $solicitacoes = Solicitacao::where('status','=','Fechada')
+                $solicitacoes = Solicitacao::where('status','=','Solucionada')
                                             ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
 
@@ -454,7 +466,7 @@ class SolicitacaoController extends Controller
                 $solicitacao->moderado = 1;
                 $solicitacao->save();
 
-                if (trilha($solicitacao->id, null , null ,"Liberou",null))
+                if (trilha($solicitacao->id, null , null ,"Liberou",null,null))
                 {
                     return redirect('/');
                 }
@@ -482,7 +494,7 @@ class SolicitacaoController extends Controller
         $solicitacao->status = $request->status;
         $solicitacao->save();
 
-        //trilha($solicitacao->id, null , null ,$request->status,null);
+        //trilha($solicitacao->id, null , null ,$request->status,null,null);
 
         return ("OK");
     }
