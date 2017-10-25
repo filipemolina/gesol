@@ -8,7 +8,11 @@ Alterar funcionário
 
 @section('content')
 
+<<<<<<< HEAD
 <div class="col-md-8 col-md-offset-3">
+=======
+<div class="col-md-8 col-md-offset-1">
+>>>>>>> origin/luciano
 	<div class="card card-singup">
 		<form method="get" action="/" class="form-horizontal">
 			
