@@ -30,7 +30,25 @@ class SolicitacaoController extends Controller
      */
     public function index()
     {
-        //
+        $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+        //dd("entrou");
+        if( Solicitacao::count() > 0)
+        {
+            switch($funcionario->acesso)
+            {
+                case "Moderador":
+                    return view('solicitacoes.controle-moderador', compact(/*'solicitacoes',*/'funcionario'));
+                    break;
+
+                case "Funcionario":
+                    return view('solicitacoes.controle-funcionario', compact('solicitacoes','funcionario'));
+                    break;
+            }
+
+        }else{
+            dd("Nenhuma solicitação cadastrada");
+        }
+        return view('solicitacoes.show');
     }
 
     /**
@@ -62,7 +80,7 @@ class SolicitacaoController extends Controller
      */
     public function show($id)
     {
-        return view('solicitacoes.show');
+      
     }
 
     /**

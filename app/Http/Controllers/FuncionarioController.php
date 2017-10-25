@@ -2,8 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Funcionario;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Solicitacao;
+use App\Models\Solicitante;
+use App\Models\Funcionario;
+use App\Models\Endereco;
+use App\Models\User;
+use Carbon\Carbon;
+use DataTables;
 
 class FuncionarioController extends Controller
 {
@@ -15,7 +23,7 @@ class FuncionarioController extends Controller
 
     public function index()
     {
-        //
+     
     }
 
     /**
@@ -58,7 +66,10 @@ class FuncionarioController extends Controller
      */
     public function edit(Funcionario $funcionario)
     {
-        //
+        //$funcionario = Funcionario::find(Auth::user()->funcionario_id);
+        //return view('solicitacoes.controle-moderador', compact(/*'solicitacoes',*/'funcionario'));
+         return view('funcionarios.edit', compact('funcionario'));
+     
     }
 
     /**
