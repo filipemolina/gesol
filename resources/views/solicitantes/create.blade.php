@@ -292,7 +292,7 @@ Registrar Solicitante
                   </div> {{-- Fim col-md-12 --}}
 
                   {{-- Foto --}}
-                  <div class="col-md-4 flt-r no-padding">
+                  <div class="col-md-4 flt-r maior no-padding">
                      <div class="fileinput fileinput-new text-center" data-provides="fileinput">
                         <div class="fileinput-new thumbnail img-circle">
                            <img src="{{ asset ('img/placeholder.jpg') }}" alt="...">

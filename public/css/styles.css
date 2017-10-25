@@ -2016,8 +2016,12 @@ figure.highlight .form-group {
 .flt-r {
   float: right;
   top: 10px;
-  right: -170px;
+  right: -60px;
   position: absolute;
+}
+
+.flt-r.maior {
+  right: -170px;
 }
 
 .input-group .bootstrap-select.dourado button.btn.select-with-transition {
