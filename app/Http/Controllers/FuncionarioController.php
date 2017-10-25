@@ -23,11 +23,8 @@ class FuncionarioController extends Controller
 
     public function index()
     {
-<<<<<<< HEAD
-     
-=======
         return view ('funcionarios.index');
->>>>>>> origin/luciano
+
     }
 
     /**
