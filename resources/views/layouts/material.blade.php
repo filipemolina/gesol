@@ -48,10 +48,14 @@
             
             @include('includes.layouts.topbar')
 
+<<<<<<< HEAD
             <div class="content" style="padding-top: 0px;
                                         padding-bottom: 0px;
                                         padding-left: 20px;
                                         padding-right: 20px;">
+=======
+            <div class="content no-padding">
+>>>>>>> origin/luciano
                 <div class="container-fluid">
 
                     {{-- Conteúdo Principal --}}
