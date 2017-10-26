@@ -20,6 +20,10 @@ Route::get ('/logout', 		'AuthController@logout');
 Route::get ('/register', 	function () {return view('solicitantes.create');});
 Route::get ('/', 				'HomeController@index')->name('home');
 
+//caminho para a tela de alteração de senha
+Route::get 	('/alterasenha',			'UserController@AlteraSenha');
+Route::put 	('/salvasenha',   		'UserController@SalvarSenha');
+
 
 // Rota para o dataTables da dashboard
 Route::get('solicitacao/datatables/{liberado}', 'SolicitacaoController@dados');

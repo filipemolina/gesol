@@ -53,7 +53,7 @@ $(function(){
 
     // Mascarás
     VMasker ($("#cpf")).maskPattern("999.999.999-99");
-    VMasker ($("#matricula")).maskPattern("9999-9");
+    VMasker ($("#matricula")).maskPattern("99/99.999-9");
     VMasker ($(".datepicker")).maskPattern("99/99/9999");
 
     // Apoiar publicação apenas logado
@@ -206,7 +206,6 @@ function comentarioAutomatico(sol, fun, com){
    );      
   
 }
-=======
                     if(data == "0"){
 
                         // Mostrar a mensagem de erro
@@ -312,4 +311,3 @@ function comentarioAutomatico(sol, fun, com){
     })
 
 });
->>>>>>> origin/luciano

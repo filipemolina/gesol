@@ -49,7 +49,7 @@
             @include('includes.layouts.topbar')
 
 
-            <div class="content" style="padding-top: 0px;
+            <div class="content" style="padding-top: 10px;
                                         padding-bottom: 0px;
                                         padding-left: 20px;
                                         padding-right: 20px;">
@@ -148,5 +148,7 @@
         <script src="http://maps.google.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
 
         @stack('scripts')
-</body>
+    </body>
 </html>
+
+

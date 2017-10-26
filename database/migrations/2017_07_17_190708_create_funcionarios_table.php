@@ -17,7 +17,7 @@ class CreateFuncionariosTable extends Migration
             $table->increments('id');
             $table->string('nome');                
             $table->char('cpf',14)                          ->nullable();
-            $table->unsignedInteger('matricula')            ->nullable();
+            $table->string('matricula', 11)                 ->nullable();
 
             $table->enum('acesso',
                     ["TI","Prefeito","Ouvidor", "Secretario",
