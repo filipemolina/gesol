@@ -61,8 +61,13 @@
 
                <ul class="dropdown-menu">
                <li>
+                  <a href="{{ url("/alteraavatar") }}" >
+                     <i class="material-icons">person</i> Alterar Avatar
+                  </a>
+               </li>
+               <li>
                   <a href="{{ url("/funcionario/$funcionario->id/edit") }}" >
-                     <i class="material-icons">person</i> Editar Perfil
+                     <i class="material-icons">person</i> Alterar Perfil
                   </a>
                </li>
 

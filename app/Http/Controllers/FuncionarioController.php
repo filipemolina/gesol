@@ -26,7 +26,16 @@ class FuncionarioController extends Controller
 
     public function index()
     {
-        return view ('funcionarios.index');
+         // busca o usuario
+        $usuario = User::find(Auth::user()->id);
+
+        $funcionarios = Funcionario::all()->sortBy('nome'); 
+
+        // busca o solicitante
+        $funcionario = $usuario->funcionario;
+       
+
+        return view ('funcionarios.index', compact('funcionario','funcionarios'));
 
     }
 
@@ -70,11 +79,15 @@ class FuncionarioController extends Controller
      */
     public function edit(Funcionario $funcionario)
     {
+        //buscas os valores enuns
+        $roles =  pegaValorEnum('funcionarios','role') ;
+
+
         $secretarias    = Secretaria::all()->sortBy('nome');
         $setores        = Setor::all()->sortBy('nome');        
         $servicos       = Servico::all()->sortBy('nome');        
 
-        return view('funcionarios.edit', compact('funcionario','secretarias','setores','servicos'));
+        return view('funcionarios.edit', compact('funcionario','secretarias','setores','servicos','roles'));
      
     }
 

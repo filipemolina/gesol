@@ -48,6 +48,13 @@
             </a>
          </li>
 
+         <li>
+            <a href="{{ url("/funcionario") }}">
+               <i class=" mdi mdi-account-multiple"></i> 
+               <p>Funcionarios</p>
+            </a>
+         </li>
+
       </ul>
    </div>
 </div>

@@ -156,20 +156,54 @@ Alterar funcionário
 									</div>
 
 								@endforeach
-
 							</div>
-							
+						</div>
+					</div>
+
+					{{-- ROLE --}}
+					<div class="col-md-11">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="input-group">
+	                     	<span class="input-group-addon">
+	                     		<span style="font-size: 24px;" class="mdi mdi-server-security"></span>
+									</span>
+		                            
+	                      	<div class="form-group label-floating has-dourado">
+										<label class="control-label">Tipo de acesso ao sistema</label>
+										<select name = "role" id="role" class="dourado selectpicker error" data-style="select-with-transition has-dourado" >
+													
+											<option value=""> Selecione... </option>
+											@foreach($roles as $role)
+												<option value="{{ $role }}" 
+													@if($funcionario->role == $role) 
+														selected="true" 
+													@endif >
+													{{ $role }}
+												</option>
+											@endforeach
+										</select>	
+
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-
 				 <!-- foto  -->
 				<div class="col-md-3 flt-r no-padding">
 					<div class="fileinput fileinput-new text-center" data-provides="fileinput">
              		<div class="fileinput-new thumbnail img-circle">
-                    	<img src=" {{ asset ('img/placeholder.jpg') }} " alt="...">
+             			@if($funcionario->foto)
+                    			<img src="{{ $funcionario->foto }}"/>
+                    		@elseif(old('foto'))
+                    			<img src="{{ old('foto') }}"/>
+                    		@else
+                    			<img src=" {{ asset ('img/placeholder.jpg') }} " alt="...">
+                    		@endif
                 	</div>
-
+						
+						<input name="foto" type="text" value="" style="display:none;" />
 	              	<div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
                     	<div >
 	                    	<span class="btn btn-round btn-dourado btn-file botoes-acao">
@@ -179,7 +213,8 @@ Alterar funcionário
 		                    	<span class="fileinput-exists botoes-acao ">	
 		                    		<i class="fa fa-times"></i>	ALTERAR		
 		                    	</span>
-		                    	<input name="foto" type="file" name="..." value=" {{ $funcionario->user->foto  }} "/>
+		                    	<input name="foto1" type="file" value=" {{ $funcionario->foto  }} "/>
+		                    	
 	                    	</span>
 								<br/>
 	                    	<span class="btn btn-danger btn-round fileinput-exists botoes-acao" data-dismiss="fileinput">
@@ -197,7 +232,7 @@ Alterar funcionário
 	               <div class="ripple-container"></div>
 	            </button>
 
-		        	<button id="btn_cancelar" class="botoes-acao btn btn-round btn-primary" href="http://gesol.dev/solicitacao">
+		        	<button id="btn_cancelar" class="botoes-acao btn btn-round btn-primary" >
 	               <span class="icone-botoes-acao mdi mdi-backburger"></span>   
 	               <span class="texto-botoes-acao"> CANCELAR </span>
 	               <div class="ripple-container"></div>
@@ -211,12 +246,25 @@ Alterar funcionário
 @push('scripts')
 
 	<script type="text/javascript">
+		//para adicionar a foto do funcionario
+		$("body").on("change.bs.fileinput", function(e){ 
+			console.log("alterou foto");
+			var base64 = $(".fileinput-preview img").attr('src');
+			$("input[name=foto]").val(base64);
+			console.log(base64);
+	 	});
+
 		//mostra os selects de acordo com a secretaria selecionada no select_secretaria
   		$("#select_secretaria").change(function(){
 			let secretaria_id = $(this).val();
 			$("div.select_setores").css('display', 'none');
 			$("div.select_setores#secretaria_"+secretaria_id).css('display', 'table');
 		});
+
+		$("#btn_cancelar").click(function(){
+	      event.preventDefault();
+	       window.history.back();
+      });
 
 		$("#btn_salvar").click(function(){
 	      event.preventDefault();

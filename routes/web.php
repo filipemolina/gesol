@@ -24,6 +24,10 @@ Route::get ('/', 				'HomeController@index')->name('home');
 Route::get 	('/alterasenha',			'UserController@AlteraSenha');
 Route::put 	('/salvasenha',   		'UserController@SalvarSenha');
 
+//caminho para a tela de alteração do avatar
+Route::get 	('/alteraavatar',			'UserController@AlteraAvatar');
+Route::put 	('/salvaavatar',   		'UserController@SalvarAvatar');
+
 
 // Rota para o dataTables da dashboard
 Route::get('solicitacao/datatables/{liberado}', 'SolicitacaoController@dados');

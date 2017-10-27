@@ -23,6 +23,9 @@ class CreateFuncionariosTable extends Migration
                     ["TI","Prefeito","Ouvidor", "Secretario",
                     "Funcionario","SAC","Moderador","Desativado"])->default("Desativado");        
 
+            $table->enum('role',["Padrão","Gerir Usuarios","Adm Secretaria","Adm Sistema"])->default("Padrão");        
+
+
             $table->string('cargo',30)                      ->nullable();
             $table->mediumtext('foto')                      ->nullable();
 

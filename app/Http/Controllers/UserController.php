@@ -207,4 +207,37 @@ class UserController extends Controller
         }
 
     }
+
+
+    /* ==================================           AVATAR               =========================*/
+
+
+     public function AlteraAvatar()
+    {
+        //dd("aqui");
+        $usuario = User::find(Auth::user()->id);
+        $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+
+        return view('funcionarios.altera_avatar',compact('usuario','funcionario'));    
+        
+    }
+
+    public function salvarAvatar(Request $request)
+    {
+        
+        //dd($request->all());
+        // Obter o usuário
+        
+        $usuario = User::find(Auth::user()->id);
+
+        $usuario->update($request->all());
+
+        return redirect(url('/'))->with('sucesso', 'Avatar alterado com sucesso.');    
+
+    }
+
+
+
+
+
 }
