@@ -65,11 +65,22 @@
                      <i class="material-icons">person</i> Alterar Avatar
                   </a>
                </li>
-               <li>
-                  <a href="{{ url("/funcionario/$funcionario->id/edit") }}" >
-                     <i class="material-icons">person</i> Alterar Perfil
-                  </a>
-               </li>
+
+               @if($funcionario_logado->role == 'Adm Sistema')
+      
+             
+               @elseif($funcionario_logado->role =='Adm Secretaria')
+
+                  
+               @elseif($funcionario_logado->role =='Gerir Usuarios')
+                  
+                  
+                  
+               @elseif($funcionario_logado->role =='Padrão')
+            
+                 
+               @endif
+               
 
                <li>
                   <a href="{{ url('/alterasenha') }}" >

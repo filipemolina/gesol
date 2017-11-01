@@ -21,8 +21,8 @@ class CreateUsersTable extends Migration
             $table->mediumText('avatar')->nullable();
 
             //------------------------FOREIGN--------------------------------
-            $table->integer('funcionario_id')->nullable()->unsigned();
-            $table->integer('solicitante_id')->nullable()->unsigned();
+            $table->integer('funcionario_id')   ->nullable()->unsigned();
+            $table->integer('solicitante_id')   ->nullable()->unsigned();
             //------------------------FOREIGN--------------------------------
 
             

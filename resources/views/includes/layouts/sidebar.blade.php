@@ -19,13 +19,13 @@
    <div class="sidebar-wrapper">
       <div class="user">
          <div class="photo">
-            <img src="{{ $funcionario->user->avatar }}" />
+            <img src="{{ $funcionario_logado->user->avatar }}" />
          </div>
          <div class="info">
             <a data-toggle="collapse" href="#collapseExample" class="collapsed">
-               {{ $funcionario->nome }}
+               {{ $funcionario_logado->nome }}
                <b class="caret"></b>
-               <p style="font-size: 10px;">({{ $funcionario->acesso }})</p>
+               <p style="font-size: 10px;">({{ $funcionario_logado->role->acesso }})</p>
             </a>
 
          </div>
@@ -48,12 +48,94 @@
             </a>
          </li>
 
-         <li>
-            <a href="{{ url("/funcionario") }}">
-               <i class=" mdi mdi-account-multiple"></i> 
-               <p>Funcionarios</p>
-            </a>
-         </li>
+   <!--  //  "1"     "Desativado"        "0"     
+         //  "2"     "Moderador"         "10"    
+         //  "3"     "SAC"               "20"    
+         //  "4"     "Funcionario"       "30"    
+         //  "5"     "Funcionario_SUP"   "40"    
+         //  "6"     "Funcionario_ADM"   "50"    
+         //  "7"     "Secretario"        "60"    
+         //  "8"     "Ouvidor"           "70"    
+         //  "9"     "Prefeito"          "80"    
+         //  "10"    "TI"                "90"    
+         //  "11"    "DSV"               "100"    -->
+
+         
+         
+           {{-- chama a view de acordo com o tipo de acesso do usuario logado --}}
+          
+          
+
+         @if($funcionario_logado->role->peso == 10 ) //"Moderador"
+         
+             
+
+         @elseif($funcionario_logado->role->peso == 30)
+
+
+         @elseif($funcionario_logado->role->peso == 40)    
+
+            <li>
+               <a href="{{ url("/funcionario") }}"> 40
+                  <i class=" mdi mdi-account-multiple"></i> 
+                  <p>Funcionarios</p>
+               </a>
+            </li>             
+
+         @elseif($funcionario_logado->role->peso == 50)    
+
+            <li>
+               <a href="{{ url("/funcionario") }}"> 50
+                  <i class=" mdi mdi-account-multiple"></i> 
+                  <p>Funcionarios</p>
+               </a>
+            </li>             
+         
+         @elseif($funcionario_logado->role->peso == 60)
+            
+            <li>
+               <a href="{{ url("/funcionario") }}"> 60
+                  <i class=" mdi mdi-account-multiple"></i> 
+                  <p>Funcionarios</p>
+               </a>
+            </li>                 
+                         
+         @elseif($funcionario_logado->role->peso == 70)
+             
+            <li>
+               <a href="{{ url("/funcionario") }}"> 70
+                  <i class=" mdi mdi-account-multiple"></i> 
+                  <p>Funcionarios</p>
+               </a>
+            </li>                                                      
+
+         @elseif($funcionario_logado->role->peso == 80)
+             
+            <li>
+               <a href="{{ url("/funcionario") }}"> 80
+                  <i class=" mdi mdi-account-multiple"></i> 
+                  <p>Funcionarios</p>
+               </a>
+            </li>                        
+          
+         @elseif($funcionario_logado->role->peso == 90)
+            <li>
+               <a href="{{ url("/funcionario") }}"> 90
+                  <i class=" mdi mdi-account-multiple"></i> 
+                  <p>Funcionarios</p>
+               </a>
+            </li>
+
+          @elseif($funcionario_logado->role->peso == 100)
+            <li>
+               <a href="{{ url("/funcionario") }}"> 100
+                  <i class=" mdi mdi-account-multiple"></i> 
+                  <p>Funcionarios</p>
+               </a>
+            </li>
+           
+         @endif
+
 
       </ul>
    </div>

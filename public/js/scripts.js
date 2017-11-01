@@ -1,5 +1,7 @@
 //////////////////// Funções Principais
 
+
+
 // Sweet Alert
 var helper = {
 
@@ -43,12 +45,56 @@ var helper = {
 
 }; //Fim Helper
 
+
+
+
+function carrega_select_setor(secretaria_id, setor_id){
+
+  $.get('/setor?secretaria='+secretaria_id, function(res){
+
+    let resposta = JSON.parse(res);
+    console.log(resposta);     
+
+    $("#setor_id option").remove();
+
+    $("<option value=''>Selecione</option>").appendTo("#setor_id");
+
+    // Iterar por todos os setores para incluí-los no supra-citado "select"
+
+    for(i=0; i<resposta.length; i++){
+
+      if( setor_id == resposta[i].id ){
+        $("<option value='"+resposta[i].id+" selected'>"+resposta[i].nome+"</option>").appendTo("#setor_id");
+      }else{
+        $("<option value='"+resposta[i].id+"'>"+resposta[i].nome+"</option>").appendTo("#setor_id");
+      }
+    }
+
+    // Atualizar o Bootstrap Select
+
+    $("#setor_id").selectpicker('refresh');
+
+  });
+
+
+}
+
     
 $(function(){
-    
-    $(".previnir").click(function() {
-        event.preventDefault()
-    });
+
+    // Preencher o select de setores
+
+    if($("#select_secretaria").length)
+    {
+        let secretaria_id = $("#select_secretaria").val();
+
+        //carrega_select_setor(secretaria_id);
+        carrega_select_setor(secretaria_id, {{ $funcionario->setor_id }});
+        
+        $(".previnir").click(function() {
+            event.preventDefault()
+        });
+    }
 
 
     // Mascarás

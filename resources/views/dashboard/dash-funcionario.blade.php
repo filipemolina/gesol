@@ -17,7 +17,7 @@
                <i class="material-icons">dashboard</i>
             </div>
             <div class="card-content">
-               <h4 class="card-title">Painel</h4>
+               <h4 class="card-title">Painel de informações</h4>
          </div>
 
 

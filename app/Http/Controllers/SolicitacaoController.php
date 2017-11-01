@@ -30,19 +30,19 @@ class SolicitacaoController extends Controller
      */
     public function index()
     {
-        $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+        $funcionario_logado   = Funcionario::find(Auth::user()->funcionario_id);
         //dd("entrou");
         if( Solicitacao::count() > 0)
         {
-            switch($funcionario->acesso)
+            
+            if( $funcionario_logado->role->peso == 10) //"Moderador"
             {
-                case "Moderador":
-                    return view('solicitacoes.controle-moderador', compact(/*'solicitacoes',*/'funcionario'));
-                    break;
-
-                case "Funcionario":
-                    return view('solicitacoes.controle-funcionario', compact('solicitacoes','funcionario'));
-                    break;
+                return view('solicitacoes.controle-moderador', compact(/*'solicitacoes',*/'funcionario_logado'));
+            }
+                
+            if( $funcionario_logado->role->peso >= 30)  //"Funcionario"
+            {
+                return view('solicitacoes.controle-funcionario', compact('solicitacoes','funcionario_logado'));
             }
 
         }else{
@@ -92,7 +92,7 @@ class SolicitacaoController extends Controller
     public function edit($id)
     {
         //busca o funcionario
-        $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+        $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
         //busca a solicitação que será editada
         /*$solicitacao = Solicitacao::with('endereco','solicitante','servico','servico.setor')->find($id);*/
@@ -129,17 +129,18 @@ class SolicitacaoController extends Controller
         $setores = Setor::with('servicos')->get();
         
         // chama a view de acordo com o tipo de acesso do usuario logado
-        switch($funcionario->acesso)
+        //$funcionario_logado->role->acesso
+        switch($funcionario_logado->role->acesso)
         {
             case "Moderador":
 
-                return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario','setores','motivos_recusa',
+                return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario_logado','setores','motivos_recusa',
                                                                    'motivos_transferencia','prazo_calculado','motivos_prazo',   
                                                                     'prazo_em_dias'));
                 break;
 
             case "Funcionario":
-                return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario','setores','motivos_recusa',
+                return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario_logado','setores','motivos_recusa',
                                                                       'motivos_transferencia','prazo_calculado','motivos_prazo',
                                                                     'prazo_em_dias'));
                 break;
@@ -486,7 +487,8 @@ class SolicitacaoController extends Controller
 
                 if (trilha($solicitacao->id, null , null ,"Liberou",null,null))
                 {
-                    return redirect('/');
+                    return redirect('/solicitacao');
+                    
                 }
 
                 break;

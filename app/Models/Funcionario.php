@@ -39,4 +39,10 @@ class Funcionario extends Model
     {
         return $this->hasMany('App\Models\movimento');
     }        
+
+    public function role()
+    {
+      return $this->belongsTo('App\Models\Role');
+    }
+   
 }

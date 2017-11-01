@@ -1,12 +1,8 @@
 @extends('layouts.material')
 
 @section('titulo')
-{{-- Página Principal --}}
+   Solicitações
 @endsection
-{{-- 
-@section('nome-funcionario')
-   {{ $funcionario->nome }}
-@endsection --}}
 
 @section('content')
    <div class="container-fluid">

@@ -20,6 +20,8 @@ Funcionários
 				<div class="toolbar">
 					<!--        Here you can write extra buttons/actions for the toolbar              -->
 				</div>
+				
+				<a href="{{ url("/funcionario/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Adicionar Funcionario"></i></a>
 
 				<div class="material-datatables">
 					<table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
@@ -30,6 +32,7 @@ Funcionários
 								<th>CPF</th>
 								<th>Matrícula</th>
 								<th>Cargo</th>
+								<th>Acesso</th>
 								<th class="disabled-sorting text-right">Ações</th>
 							</tr>
 						</thead>
@@ -41,6 +44,7 @@ Funcionários
 								<td>{{ $funcionario->cpf                                        		 }}</td>
 								<td>{{ $funcionario->matricula                                        }}</td>
 								<td>{{ $funcionario->cargo                                            }}</td>
+								<td>{{ $funcionario->role->acesso                              		 }}</td>
 								<td>
 									<a href="{{ url("/funcionario/$funcionario->id/edit") }}"
 										class="btn btn-warning btn-xs action botao_lista pull-right " 
@@ -79,45 +83,49 @@ Funcionários
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#datatables').DataTable({
-			"pagingType": "full_numbers",
-			"lengthMenu": [
-			[10, 25, 50, -1],
-			[10, 25, 50, "All"]
-			],
-			responsive: true,
-			language: {
-				search: "_INPUT_",
-				searchPlaceholder: "Search records",
-			}
+		$.fn.dataTable.moment( 'DD/MM/YYYY' );
+     	
 
+		{{-- Testar se há algum erro, e mostrar a notificação --}}
+		@if ($errors->any())
+
+		 	@foreach ($errors->all() as $error)
+		    	setTimeout(function(){demo.notificationRight("top", "right", "rose", "{{ $error }}"); }, tempo);
+		    	tempo += incremento;
+		 	@endforeach
+			@endif
+
+			@if (isset($sucesso))
+		 
+			demo.notificationRight("top", "right", "success", "{{ $error }}");
+		 
+		@endif
+
+		@if (session('sucesso'))
+			demo.notificationRight("top", "right", "success", "{{ session('sucesso') }}");
+		@endif
+
+		$('#datatables').DataTable({
+			language : {
+                      'url' : '{{ asset('js/portugues.json') }}',
+                      "decimal": ",",
+                      "thousands": "."
+                    }, 
+        	stateSave: true,
+        	stateDuration: -1,
+			responsive: true,
+			deferRender: true,
+
+        /*"columnDefs": 
+        [
+          { className: "text-center", "targets": [5] },
+          { className: "text-right",  "targets": [2] }
+        ]*/
 		});
 
 
-		var table = $('#datatables').DataTable();
-
-        // Edit record
-        table.on('click', '.edit', function() {
-        	$tr = $(this).closest('tr');
-
-        	var data = table.row($tr).data();
-        	alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
-        });
-
-        // Delete a record
-        table.on('click', '.remove', function(e) {
-        	$tr = $(this).closest('tr');
-        	table.row($tr).remove().draw();
-        	e.preventDefault();
-        });
-
-        //Like record
-        table.on('click', '.like', function() {
-        	alert('You clicked on Like button');
-        });
-
-        $('.card .material-datatables label').addClass('form-group');
-     });
-  </script>
+		
+  });
+</script>
 
   @endpush

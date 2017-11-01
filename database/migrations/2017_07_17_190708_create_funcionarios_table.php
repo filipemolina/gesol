@@ -18,19 +18,12 @@ class CreateFuncionariosTable extends Migration
             $table->string('nome');                
             $table->char('cpf',14)                          ->nullable();
             $table->string('matricula', 11)                 ->nullable();
-
-            $table->enum('acesso',
-                    ["TI","Prefeito","Ouvidor", "Secretario",
-                    "Funcionario","SAC","Moderador","Desativado"])->default("Desativado");        
-
-            $table->enum('role',["Padrão","Gerir Usuarios","Adm Secretaria","Adm Sistema"])->default("Padrão");        
-
-
             $table->string('cargo',30)                      ->nullable();
             $table->mediumtext('foto')                      ->nullable();
 
             //------------------------FOREIGN--------------------------------
             $table->integer('setor_id')->unsigned();
+            $table->integer('role_id') ->nullable()->unsigned();            
             //---------------------------------------------------------------
 
 

@@ -28,7 +28,6 @@ Route::put 	('/salvasenha',   		'UserController@SalvarSenha');
 Route::get 	('/alteraavatar',			'UserController@AlteraAvatar');
 Route::put 	('/salvaavatar',   		'UserController@SalvarAvatar');
 
-
 // Rota para o dataTables da dashboard
 Route::get('solicitacao/datatables/{liberado}', 'SolicitacaoController@dados');
 
@@ -40,6 +39,9 @@ Route::post('status',				'SolicitacaoController@status');
 
 // Rota inserir dados de trilha
 Route::post('trilha',				'SolicitacaoController@trilha');
+
+// Rota para preencher o select de setores na edição/criação de funcionarios
+Route::get('setor', 					'FuncionarioController@setor');
 
 //resources
 Route::resource('solicitante',	'SolicitanteController');
