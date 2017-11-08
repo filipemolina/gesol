@@ -23,7 +23,7 @@ class FuncionarioController extends Controller
     {
         $this->middleware('auth');
 
-       /* $this->middleware('is_Gerir_Usuarios')->only([
+        $this->middleware('is_Gerir_Usuarios')->only([
             'index',
             'edit',
             'update',
@@ -31,7 +31,7 @@ class FuncionarioController extends Controller
             'create',
             'store',
             
-        ]);*/
+        ]);
 
     }
 
@@ -77,35 +77,24 @@ class FuncionarioController extends Controller
         $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
         //buscas os valores enuns
-        $roles =  pegaValorEnum('funcionarios','role') ;
+        $roles          = Role::where('peso','<', $funcionario_logado->role->peso)->where('peso','>=', 1)
+                                ->orderBy('peso', 'asc')->get();
 
-
+        //dd($roles);
         $secretarias    = Secretaria::all()->sortBy('nome');
         $setores        = Setor::all()->sortBy('nome');        
         $servicos       = Servico::all()->sortBy('nome');        
 
-
-        //entrada das roles para a subtração de acordo com o perfil de quem está logado
-        $input = $roles;
-
-        if ($funcionario_logado->role == 'Adm Sistema') {
+        if ($funcionario_logado->role->peso >= 50) {
             $pode_alterar_secretaria=1;
-            $remover = array("Adm Sistema");
-
-        } elseif ($funcionario_logado->role =='Adm Secretaria') {
+        } else{
             $pode_alterar_secretaria=0;
-            $remover = array("Adm Sistema",'Adm Secretaria');
-
-        } elseif ($funcionario_logado->role =='Gerir Usuarios') {
-            $pode_alterar_secretaria=0;
-            $remover = array("Adm Sistema",'Adm Secretaria','Gerir Usuarios');
-
         }
 
-        $roles = array_diff($input, $remover);
 
         return view ('funcionarios.create_funcionario',
-                        compact('funcionario_logado','secretarias','setores','servicos','roles','pode_alterar_secretaria'));
+                        compact('funcionario_logado','secretarias','setores',
+                                'servicos','roles','pode_alterar_secretaria'));
     }
 
     /**
@@ -116,36 +105,30 @@ class FuncionarioController extends Controller
      */
     public function store(Request $request)
     {
+        
         // busca o usuario
         $usuario = User::find(Auth::user()->id);
 
         // busca o solicitante
-        $funcionario = $usuario->funcionario;
+        $funcionario_logado = $usuario->funcionario;
 
-
-        //descobre qual o select de setor está preenchidode acordo com a secretaria e coloca o valor no request->setor_id
-        foreach ($request->all() as $campo => $valor) {
-            if(substr($campo,-2) == $request->secretaria_id)
-            {
-                $request->merge(['setor_id' => $valor]);
-            }
+        if($request->has('secretaria_id')){
+            $request->merge(['secretaria_id' => $request->select_secretaria]);
+        }else{
+            $request->merge(['secretaria_id' => $funcionario_logado->setor->secretaria->id]);    
         }
-
         
+       
         //dd($request->all());
-        
 
         $this->validate($request, [
             'nome'                  => 'required|max:255',
             'email'                 => 'required|email|max:255|unique:users',
             'cpf'                   => 'cpf|unique:funcionarios',
             'cargo'                 => 'required',
-            'secretaria_id'         => 'required',
             'setor_id'              => 'required',
+            'role_id'               => 'required',
         ]);
-
-
-
 
 
         //$funcionario->foto      = $request->foto;
@@ -163,7 +146,7 @@ class FuncionarioController extends Controller
         $funcionario->matricula = $request->matricula;
         $funcionario->cargo     = $request->cargo;
         $funcionario->setor_id  = $request->setor_id;
-        $funcionario->role      = $request->role;
+        $funcionario->role_id   = $request->role_id;
         $funcionario->foto      = $request->foto;
 
         $funcionario->save();
@@ -175,7 +158,15 @@ class FuncionarioController extends Controller
         
         // Associar user ao funcionario
         $user->funcionario()->associate($funcionario);
+        
         $user->save();
+
+
+        //salva na trilha
+        loga('C', 'USER',           $user->id,          null, null, 'Criou o funcionario ID: '.$funcionario->id);
+        loga('C', 'FUNCIONARIO',    $funcionario->id,   null, null, null);
+
+
 
 
       
@@ -204,7 +195,7 @@ class FuncionarioController extends Controller
         $servicos       = Servico::all()->sortBy('nome');        
 
         
-        if($funcionario_logado->role->peso >= 60 ) //"Secretario"
+        if($funcionario_logado->role->peso >= 50 ) //"Secretario"
         {
             $pode_alterar_secretaria=1;
 
@@ -219,12 +210,11 @@ class FuncionarioController extends Controller
 
     public function update(Request $request, Funcionario $funcionario)
     {
-       //descobre qual o select de setor está preenchidode acordo com a secretaria e coloca o valor no request->setor_id
-        foreach ($request->all() as $campo => $valor) {
-            if(substr($campo,-2) == $request->secretaria_id)
-            {
-                $request->merge(['setor_id' => $valor]);
-            }
+
+        if($request->has('secretaria_id')){
+            $request->merge(['secretaria_id' => $request->select_secretaria]);
+        }else{
+            $request->merge(['secretaria_id' => $funcionario->setor->secretaria->id]);    
         }
 
         $this->validate($request, [
@@ -232,34 +222,62 @@ class FuncionarioController extends Controller
             'email'                 => 'required|email|max:255|unique:users,email,'.$funcionario->id,
             'cpf'                   => 'cpf|unique:funcionarios,cpf,'.$funcionario->id,
             'cargo'                 => 'required',
-            'secretaria'            => 'required',
+            'secretaria_id'         => 'required',
             'setor_id'              => 'required',
             'matricula'             => 'required',
             'role_id'               => 'required',
-
         ]);
 
+        $original   = $funcionario;
+        $novo       = $request;
 
+        
 
         // busca o usuario da edição
-        $usuario = $funcionario->user;
+        $usuario = $funcionario->user;         
+        $input   = $request->all(); 
 
-        //dd($usuario->email);
+        $funcionario->fill($input);
+        $salvou = $funcionario->save();
 
-        //descobre a secretaria selecionada no formulario
-        $sec = $request->select_secretaria;
-
-/*        //pega o nome select do setor de acordo com a secretaria selecionada
-        $set = "setor_id_". $sec;
-
-        //seta o valor do SETOR_ID do funcionario com o valor do nome do select que está na variavel $set
-        $funcionario->setor_id  = $request->$set;
-*/        $funcionario->foto      = $request->foto;
         
-        //dd($request->all());                
-        $funcionario->fill($request->all());
+        dd($original->nome , $novo->nome);
 
-        return redirect(url('/funcionario'))->with('sucesso', 'Informações do funcionario alteradas com sucesso.');    
+        if($original->nome != $novo->nome){
+            loga('U', 'FUNCIONARIO',    $original->id, 'NOME', $original->nome, null);
+        }
+
+
+
+/*        foreach ($request->all() as $key => $value) {
+            //if($key != "id" || $key != "created_at" || $key != "updated_at") {
+
+                if($functionario->{$key} != $value){
+
+                    if(is_array($value))
+                        $value = $value['id'];
+
+                    echo "{$key}";
+                    echo "  ======= ";
+                    echo $value;
+                    echo "</br>";
+
+                    loga('U', 'FUNCIONARIO',    $funcionario->id, $funcionario->{$key}, $funcionario->{$value}, null);
+                }
+            //}
+        }
+
+        exit;*/
+
+
+        if($salvou)
+        { 
+            return redirect(url('/funcionario'))->with('sucesso', 'Informações do funcionario alteradas com sucesso.');    
+        }else{
+            return redirect(url('/funcionario'));    
+        }
+
+        
     }
 
 
@@ -285,7 +303,6 @@ class FuncionarioController extends Controller
     public function setor(Request $request)
     {
         $secretaria = Secretaria::with(['setores'])->where('id', $request->secretaria)->first();   
-
         return json_encode($secretaria->setores);
     }
 

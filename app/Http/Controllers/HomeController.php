@@ -53,6 +53,18 @@ class HomeController extends Controller
 
             }
 
+            if($funcionario_logado->role->peso == 20 ) //"SAC"
+            {
+                return view('dashboard.dash-moderador', compact(/*'solicitacoes',*/'funcionario_logado'));
+
+            }
+
+            if($funcionario_logado->role->peso == 30){ //"FUNCIONARIO"
+                
+                return view('dashboard.dash-funcionario', compact(/*'solicitacoes',*/'funcionario_logado'));
+            
+            }
+
             if($funcionario_logado->role->peso == 40){
                 
                 return view('dashboard.dash-funcionario', compact(/*'solicitacoes',*/'funcionario_logado'));
@@ -83,6 +95,8 @@ class HomeController extends Controller
             }
 
             if($funcionario_logado->role->peso == 90){
+
+
                 
                 return view('dashboard.dash-funcionario', compact(/*'solicitacoes',*/'funcionario_logado'));                            
             }

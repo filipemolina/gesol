@@ -159,7 +159,7 @@ Alterar funcionário
 		                            
 	                      	<div class="form-group label-floating has-dourado">
 										<label class="control-label">Tipo de acesso ao sistema</label>
-										<select name = "role_id" id="role" class="dourado selectpicker error" data-style="select-with-transition has-dourado" >
+										<select name = "role_id" id="role_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" >
 													
 											<option value=""> Selecione... </option>
 											@foreach($roles as $role)
@@ -179,16 +179,16 @@ Alterar funcionário
 					</div>
 				</div>
 				 <!-- foto  -->
-				<div class="col-md-3 flt-r no-padding">
+				<div class="file-upload col-md-3 flt-r no-padding">
 					<div class="fileinput fileinput-new text-center" data-provides="fileinput">
              		<div class="fileinput-new thumbnail img-circle">
              			@if($funcionario->foto)
-                    			<img src="{{ $funcionario->foto }}"/>
-                    		@elseif(old('foto'))
-                    			<img src="{{ old('foto') }}"/>
-                    		@else
-                    			<img src=" {{ asset ('img/placeholder.jpg') }} " alt="...">
-                    		@endif
+                 			<img src="{{ $funcionario->foto }}"/>
+                 		@elseif(old('foto'))
+                 			<img src="{{ old('foto') }}"/>
+                 		@else
+                 			<img src=" {{ asset ('img/placeholder.jpg') }} " alt="...">
+                 		@endif
                 	</div>
 						
 						<input name="foto" type="text" value="" style="display:none;" />
@@ -212,21 +212,21 @@ Alterar funcionário
 						</div>
 					</div>
 				</div>  <!-- FIM ROW  -->
-
-				<div class="footer text-center">
-					<button type="submit" id="btn_salvar" class="botoes-acao btn btn-round btn-success ">
-	               <span class="icone-botoes-acao mdi mdi-send"></span>
-	               <span class="texto-botoes-acao"> SALVAR </span>
-	               <div class="ripple-container"></div>
-	            </button>
-
-		        	<button id="btn_cancelar" class="botoes-acao btn btn-round btn-primary" >
-	               <span class="icone-botoes-acao mdi mdi-backburger"></span>   
-	               <span class="texto-botoes-acao"> CANCELAR </span>
-	               <div class="ripple-container"></div>
-	            </button>
-				</div>
 			</form>
+
+			<div class="footer text-center">
+				<button type="submit" id="btn_salvar" class="botoes-acao btn btn-round btn-success ">
+               <span class="icone-botoes-acao mdi mdi-send"></span>
+               <span class="texto-botoes-acao"> SALVAR </span>
+               <div class="ripple-container"></div>
+            </button>
+
+	        	<button id="btn_cancelar" class="botoes-acao btn btn-round btn-primary" >
+               <span class="icone-botoes-acao mdi mdi-backburger"></span>   
+               <span class="texto-botoes-acao"> CANCELAR </span>
+               <div class="ripple-container"></div>
+            </button>
+			</div>
 		</div>
 	</div>
 @endsection
@@ -234,51 +234,85 @@ Alterar funcionário
 @push('scripts')
 
 	<script type="text/javascript">
-		//para adicionar a foto do funcionario
-		$("body").on("change.bs.fileinput", function(e){ 
-			console.log("alterou foto");
-			var base64 = $(".fileinput-preview img").attr('src');
-			$("input[name=foto]").val(base64);
-			console.log(base64);
-	 	});
+		
+		$(function(){
 
-		//mostra os selects de acordo com a secretaria selecionada no select_secretaria
-  		$("#select_secretaria").change(function(){
-			let secretaria_id = $(this).val();
-			/*$("div.select_setores").css('display', 'none');
-			$("div.select_setores#secretaria_"+secretaria_id).css('display', 'table');*/
+			// Obter o valor atual do Widget de Foto e setar o valor do input hidden com name="foto"
 
-         //AJAX PEGAR OS SETORES
-          carrega_select_setor(secretaria_id, {{ $funcionario->setor_id }});
+			let foto_base64 = $(".fileinput-new img").attr('src');
+			$("input[name=foto]").val(foto_base64);
+
+	    	// Preencher o select de setores
+	    	if($("#select_secretaria").length)
+	    	{
+	    		//console.log($("#select_secretaria").val());
+	    		let id_setor 		= {{ $funcionario->setor_id }};
+	        	let secretaria_id = $("#select_secretaria").val();
+
+				//carrega_select_setor_edit(secretaria_id);
+				carrega_select_setor_edit(secretaria_id, id_setor);
+
+				$(".previnir").click(function() {
+					event.preventDefault()
+				});
+			}
+
+	      {{-- Testar se há algum erro, e mostrar a notificação --}}
+	      @if ($errors->any())
+	         @foreach ($errors->all() as $error)
+	            setTimeout(function(){demo.notificationRight("top", "right", "rose", "{{ $error }}"); }, tempo);
+	            tempo += incremento;
+	         @endforeach
+	      @endif
 
 
-		});
+			//p Evento é disparado toda vez que o Widget de foto for modificado
 
-		$("#btn_cancelar").click(function(){
-	      event.preventDefault();
-	      window.history.back();
-      });
+			$(".file-upload").on("change.bs.fileinput", function(e){ 
+				var base64 = $(".fileinput-preview img").attr('src');
+				$("input[name=foto]").val(base64);
+		 	});
 
-		$("#btn_salvar").click(function(){
-	      event.preventDefault();
+			//mostra os selects de acordo com a secretaria selecionada no select_secretaria
+	  		$("#select_secretaria").change(function(){
+				let secretaria_id = $(this).val();
+				/*$("div.select_setores").css('display', 'none');
+				$("div.select_setores#secretaria_"+secretaria_id).css('display', 'table');*/
 
-	      swal({
-	         title: 'Confirma alteração?',
-	         type: 'question',
-	         showCancelButton: true,
-	         confirmButtonColor: '#3085d6',
-	         cancelButtonColor: '#d33',
-	         confirmButtonText: 'Sim',
-	         cancelButtonText: 'Não',
-	      }).then(function () {
-	      	$("#form_edit_funcionario").submit();
-	/*         swal(
-	            'Cadastro alterado!',
-	            '',
-	            'success'
-	            );*/
-            });
-      })
+	         //AJAX PEGAR OS SETORES
+	          carrega_select_setor_edit(secretaria_id, {{ $funcionario->setor_id }},2);
+
+
+			});
+
+			$("#btn_cancelar").click(function(){
+		      event.preventDefault();
+		      console.log('canceloou');
+		      window.location.href = url_base + "/funcionario";
+	      });
+
+			$("#btn_salvar").click(function(){
+		      event.preventDefault();
+
+		      swal({
+		         title: 'Confirma alteração?',
+		         type: 'question',
+		         showCancelButton: true,
+		         confirmButtonColor: '#3085d6',
+		         cancelButtonColor: '#d33',
+		         confirmButtonText: 'Sim',
+		         cancelButtonText: 'Não',
+		      }).then(function () {
+		      	$("#form_edit_funcionario").submit();
+		/*         swal(
+		            'Cadastro alterado!',
+		            '',
+		            'success'
+		            );*/
+	            });
+	      });
+
+	   });
       
 	</script>
 

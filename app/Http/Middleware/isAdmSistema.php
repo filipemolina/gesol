@@ -19,7 +19,7 @@ class isAdmSistema
 
         //dd(Auth::user()->funcionario->role);
 
-        if(Auth::user()->funcionario->role == "Adm Sistema")
+        if(Auth::user()->funcionario->role->peso >= 90 )
         {
 
             return $next($request);

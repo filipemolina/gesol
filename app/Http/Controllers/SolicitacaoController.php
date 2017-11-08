@@ -31,24 +31,72 @@ class SolicitacaoController extends Controller
     public function index()
     {
         $funcionario_logado   = Funcionario::find(Auth::user()->funcionario_id);
-        //dd("entrou");
+        //dd(Solicitacao::count());
+
         if( Solicitacao::count() > 0)
         {
             
-            if( $funcionario_logado->role->peso == 10) //"Moderador"
-            {
-                return view('solicitacoes.controle-moderador', compact(/*'solicitacoes',*/'funcionario_logado'));
-            }
+            switch ($funcionario_logado->role->peso) {
+                case 10:
+                    //"Moderador"
+                    return view('solicitacoes.controle-moderador', compact('funcionario_logado'));
+                    break;
+
+                case 20:
+                    //"SAC"
+                    dd($funcionario_logado->role->acesso);
+                    break;
+
+                case 30:
+                    //"Funcionario"
+                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
+                    break;
+
+                case 40:
+                    //"Funcionario_SUP"
+                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
+                    break;
+
+                case 50:
+                    //"Funcionario_ADM"
+                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
+                    break;
                 
-            if( $funcionario_logado->role->peso >= 30)  //"Funcionario"
-            {
-                return view('solicitacoes.controle-funcionario', compact('solicitacoes','funcionario_logado'));
+                case 60:
+                    //"Secretario"
+                    dd($funcionario_logado->role->acesso);
+                    break;
+
+                case 70:
+                    //"Ouvidor"
+                    dd($funcionario_logado->role->acesso);
+                    break;
+
+                case 80:
+                    //"Prefeito"
+                    dd($funcionario_logado->role->acesso);
+                    break;                    
+
+                case 90:
+                    //"TI"
+                    dd($funcionario_logado->role->acesso);
+                    break;                    
+
+                case 100:
+                    //"DSV"
+                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
+                    break;
+                                        
+                default:
+                    dd($funcionario_logado->role->acesso);
+                    break;
             }
+
 
         }else{
             dd("Nenhuma solicitação cadastrada");
         }
-        return view('solicitacoes.show');
+        //return view('solicitacoes.show', compact(/*'solicitacoes',*/'funcionario_logado'));
     }
 
     /**
@@ -130,20 +178,10 @@ class SolicitacaoController extends Controller
         
         // chama a view de acordo com o tipo de acesso do usuario logado
         //$funcionario_logado->role->acesso
-        switch($funcionario_logado->role->acesso)
-        {
-            case "Moderador":
-
-                return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario_logado','setores','motivos_recusa',
-                                                                   'motivos_transferencia','prazo_calculado','motivos_prazo',   
-                                                                    'prazo_em_dias'));
-                break;
-
-            case "Funcionario":
-                return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario_logado','setores','motivos_recusa',
-                                                                      'motivos_transferencia','prazo_calculado','motivos_prazo',
-                                                                    'prazo_em_dias'));
-                break;
+        if($funcionario_logado->role->peso = 10){
+            return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario_logado','setores','motivos_recusa','motivos_transferencia','prazo_calculado','motivos_prazo','prazo_em_dias'));
+        }else if($funcionario_logado->role->peso >= 30 and $funcionario_logado->role->peso <= 100 ){
+            return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario_logado','setores','motivos_recusa','motivos_transferencia','prazo_calculado','motivos_prazo','prazo_em_dias'));
         }
 
     }
@@ -201,7 +239,7 @@ class SolicitacaoController extends Controller
                 $valor_antigo = $solicitacao->servico->id;
 
                 //salva na trilha
-                trilha($solicitacao->id, 'servico_id', $valor_antigo ,"Redirecionou",$request->motivo);
+                trilha($solicitacao->id, 'servico_id', $valor_antigo ,"Redirecionou",$request->motivo, null);
 
 
                 // Atualizar os dados
@@ -223,7 +261,7 @@ class SolicitacaoController extends Controller
             // recusa solicitação
             case 4:
                 //salva na trilha
-                trilha($solicitacao->id, 'servico_id', null ,'Recusou', $request->motivo);
+                trilha($solicitacao->id, 'servico_id', null ,'Recusou', $request->motivo, null);
 
                 // Atualizar os dados
                 $solicitacao->fill($request->all());
@@ -246,12 +284,12 @@ class SolicitacaoController extends Controller
 
 
                 //salva na trilha as informações da mudança de status
-                trilha($solicitacao->id,$request->campo_alterado_status, $request->valor_antigo_status ,
-                       $request->andamento_status ,$request->motivo_status);
+                trilha($solicitacao->id, $request->campo_alterado_status, $request->valor_antigo_status ,
+                       $request->andamento_status ,$request->motivo_status, null);
 
                 //salva na trilha as informações da mudança de prazo
                 trilha($solicitacao->id,$request->campo_alterado_prazo, $request->valor_antigo_prazo ,
-                       $request->andamento_prazo ,$request->motivo_prazo);
+                       $request->andamento_prazo ,$request->motivo_prazo, null );
 
                 $solicitacao->fill($request->all());
 

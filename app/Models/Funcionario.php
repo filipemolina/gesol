@@ -15,7 +15,8 @@ class Funcionario extends Model
     	'cargo',
     	'foto',
         'acesso',
-        'role',
+        'role_id',
+        'setor_id'
     ];
 
     // Relacionamentos
@@ -37,7 +38,12 @@ class Funcionario extends Model
     
     public function movimentos()
     {
-        return $this->hasMany('App\Models\movimento');
+        return $this->hasMany('App\Models\Movimento');
+    }        
+
+    public function sys_logs()
+    {
+        return $this->hasMany('App\Models\Sys_log');
     }        
 
     public function role()

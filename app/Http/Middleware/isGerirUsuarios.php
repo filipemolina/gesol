@@ -16,10 +16,7 @@ class isGerirUsuarios
      */
     public function handle($request, Closure $next)
     {
-        if(    Auth::user()->funcionario->role == "Gerir Usuarios" 
-            || Auth::user()->funcionario->role == "Adm Sistema" 
-            || Auth::user()->funcionario->role == "Adm Secretaria" 
-          )
+        if( Auth::user()->funcionario->role->peso >= 50 )
         {
             //dd(Auth::user()->funcionario->role);
             return $next($request);
