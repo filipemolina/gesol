@@ -15,6 +15,9 @@ class Sys_log extends Model
     	'valor_antigo',
     	'motivo',
     	'funcionario_id',
+    	'ip',
+		'maquina',
+		'local_user',
  	];
 
 

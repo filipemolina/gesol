@@ -24,6 +24,12 @@ class CreateSysLogsTable extends Migration
             $table->text('valor_antigo')->nullable();
             $table->text('motivo')      ->nullable();
 
+            $table->string('ip');
+            $table->string('maquina');
+            $table->string('local_user');
+
+
+
             //------------------------FOREIGN--------------------------------
             $table->integer('funcionario_id')   ->unsigned();
             //---------------------------------------------------------------

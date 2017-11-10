@@ -9,11 +9,14 @@
         "barryvdh/laravel-cors": "^0.9.2",
         "fzaninotto/faker": "^1.6",
         "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/psr7": "^1.4",
         "jailtonsc/validador-cpf-laravel": "^4.0",
         "laravel/framework": "5.4.*",
         "laravel/passport": "^3.0",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
+        "mailgun/mailgun-php": "^2.3",
+        "php-http/curl-client": "^1.7",
         "yajra/laravel-datatables": "1.0"
     },
     "require-dev": {

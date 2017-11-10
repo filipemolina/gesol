@@ -49,8 +49,9 @@ Cria Funcionário
                             
                    	<div class="form-group label-floating has-dourado">
 								<label class="control-label">Email</label>
-								<input name="email" type="text" name="email" type="email" class="form-control error" 
+								<input name="email" type="email" class="form-control error" 
 								value="{{ old('email') }} ">
+
 							</div>
 						</div>
 					</div>
@@ -223,6 +224,7 @@ Cria Funcionário
 </div>
 @endsection
 
+
 @push('scripts')
 
 	<script type="text/javascript">
@@ -294,11 +296,8 @@ Cria Funcionário
 		         cancelButtonText: 'Não',
 		      }).then(function () {
 		      		$("#form_create_funcionario").submit();
-			        /* swal(
-			            'Cadastro alterado!',
-			            '',
-			            'success'
-			            );*/
+
+			         
 	            });
 	      })
       });

@@ -24,6 +24,10 @@ Route::get ('/', 				'HomeController@index')->name('home');
 Route::get 	('/alterasenha',			'UserController@AlteraSenha');
 Route::put 	('/salvasenha',   		'UserController@SalvarSenha');
 
+//caminho para envio de emails
+Route::post('/senhafuncionario',	'EmailController@EnviarSenhaFuncionario');
+
+
 //caminho para a tela de alteração do avatar
 Route::get 	('/alteraavatar',			'UserController@AlteraAvatar');
 Route::put 	('/salvaavatar',   		'UserController@SalvarAvatar');

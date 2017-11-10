@@ -180,6 +180,7 @@ function enviarComentario(elem, e){
 
 
 
+
 function comentarioAutomatico(sol, fun, com){
 
    console.log("entrou comentarioAutomatico ID: ");
@@ -303,5 +304,6 @@ function comentarioAutomatico(sol, fun, com){
             $(isto).find('i').addClass('animated girar')
         }
     })
+
 
 });

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
+use Mailgun\Mailgun;
+
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -17,8 +21,10 @@ use App\Models\User;
 use Carbon\Carbon;
 use DataTables;
 
+
 class FuncionarioController extends Controller
 {
+
      public function __construct()
     {
         $this->middleware('auth');
@@ -38,7 +44,32 @@ class FuncionarioController extends Controller
 
     public function index()
     {
-        //dd("chegou");
+
+
+
+/*
+      
+      # Instantiate the client.
+      $mgClient = new Mailgun('key-70e95ddd5953f5331577378781a2164e');
+      $domain = "sandbox083e06513b7f41769593625acb8341f7.mailgun.org";
+
+      # Make the call to the client.
+      $result = $mgClient->sendMessage("$domain",
+          array('from'    => 'Mailgun Sandbox <postmaster@sandbox083e06513b7f41769593625acb8341f7.mailgun.org>',
+                'to'      => 'filipe.molina@mesquita.rj.gov.br',
+                'subject' => 'Hello marcelo',
+                'text'    => 'Congratulations marcelo, you just sent an email with Mailgun!  You are truly awesome! '));
+
+*/
+        //dd(pega_ip());
+        
+
+/*        exec("ipconfig /all", $output); 
+
+        dd($output);
+*/
+        //phpinfo();
+
          // busca o usuario
         $usuario = User::find(Auth::user()->id);
 
@@ -139,6 +170,8 @@ class FuncionarioController extends Controller
         // Cria um funcionario
         //$funcionario = new Funcionario($request->all());
 
+        $enviar_email       = $request->email;
+
         $funcionario = new Funcionario;
 
         $funcionario->nome      = $request->nome;
@@ -152,9 +185,11 @@ class FuncionarioController extends Controller
         $funcionario->save();
 
         $user = new User;
-        //$user->password = bcrypt($request->password);
         $user->email        = $request->email;
-        $user->password     = bcrypt('teste123');
+        $senha_gerada       = str_random(6);
+        $user->password     = bcrypt($senha_gerada);
+
+
         
         // Associar user ao funcionario
         $user->funcionario()->associate($funcionario);
@@ -166,8 +201,14 @@ class FuncionarioController extends Controller
         loga('C', 'USER',           $user->id,          null, null, 'Criou o funcionario ID: '.$funcionario->id);
         loga('C', 'FUNCIONARIO',    $funcionario->id,   null, null, null);
 
+        //dd($enviar_email);
 
-
+        //envia email com a senha de acesso
+        Mail::send('emails.senhafuncionario',[ 'senha' => $senha_gerada ], function($message) use ($enviar_email){
+          $message->to($enviar_email);
+          //$message->to('marcelo.miranda.pp@gmail.com');
+          $message->subject('Titulo da mensagem');
+        });
 
       
         return redirect(url('/funcionario'))->with('sucesso', 'Funcionario criado com sucesso.');    
@@ -208,87 +249,93 @@ class FuncionarioController extends Controller
      
     }
 
-    public function update(Request $request, Funcionario $funcionario)
-    {
-
-        if($request->has('secretaria_id')){
-            $request->merge(['secretaria_id' => $request->select_secretaria]);
-        }else{
-            $request->merge(['secretaria_id' => $funcionario->setor->secretaria->id]);    
-        }
-
-        $this->validate($request, [
-            'nome'                  => 'required|max:255',
-            'email'                 => 'required|email|max:255|unique:users,email,'.$funcionario->id,
-            'cpf'                   => 'cpf|unique:funcionarios,cpf,'.$funcionario->id,
-            'cargo'                 => 'required',
-            'secretaria_id'         => 'required',
-            'setor_id'              => 'required',
-            'matricula'             => 'required',
-            'role_id'               => 'required',
-        ]);
-
-        $original   = $funcionario;
-        $novo       = $request;
-
-        
-
-        // busca o usuario da edição
-        $usuario = $funcionario->user;         
-        $input   = $request->all(); 
-
-        $funcionario->fill($input);
-        $salvou = $funcionario->save();
-
-        
-        dd($original->nome , $novo->nome);
-
-        if($original->nome != $novo->nome){
-            loga('U', 'FUNCIONARIO',    $original->id, 'NOME', $original->nome, null);
-        }
+   public function update(Request $request, Funcionario $funcionario)
+   {
 
 
 
-/*        foreach ($request->all() as $key => $value) {
-            //if($key != "id" || $key != "created_at" || $key != "updated_at") {
+      if($request->has('secretaria_id')){
+         $request->merge(['secretaria_id' => $request->select_secretaria]);
+      }else{
+         $request->merge(['secretaria_id' => $funcionario->setor->secretaria->id]);    
+      }
 
-                if($functionario->{$key} != $value){
+      $this->validate($request, [
+         'nome'                  => 'required|max:255',
+         'email'                 => 'required|email|max:255|unique:users,email,'.$funcionario->id,
+         'cpf'                   => 'cpf|unique:funcionarios,cpf,'.$funcionario->id,
+         'cargo'                 => 'required',
+         'secretaria_id'         => 'required',
+         'setor_id'              => 'required',
+         'matricula'             => 'required',
+         'role_id'               => 'required',
+      ]);
 
-                    if(is_array($value))
-                        $value = $value['id'];
+      $original   = $funcionario->toArray();
+      $novo       = $request->toArray();
 
-                    echo "{$key}";
-                    echo "  ======= ";
-                    echo $value;
-                    echo "</br>";
-
-                    loga('U', 'FUNCIONARIO',    $funcionario->id, $funcionario->{$key}, $funcionario->{$value}, null);
-                }
-            //}
-        }
-
-        exit;*/
-
-
-        if($salvou)
-        { 
-            return redirect(url('/funcionario'))->with('sucesso', 'Informações do funcionario alteradas com sucesso.');    
-        }else{
-            return redirect(url('/funcionario'));    
-        }
-
-        
-    }
+      // busca o usuario da edição
+      $usuario = $funcionario->user;         
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Funcionario  $funcionario
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Funcionario $funcionario)
-    {
+      $input   = $request->all(); 
+      $funcionario->fill($input);
+      $salvou = $funcionario->save();
+
+
+
+      //salva as alterações na trilha de auditoria (sys_logs)
+      if($original['nome'] != $novo['nome']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'nome', $original['nome'], null);
+      }
+
+      if($original['foto'] != $novo['foto']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'foto', $original['foto'], null);
+      }
+
+      if($usuario->email != $novo['email']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'email', $usuario['email'], null);
+      }
+
+      if($original['cpf'] != $novo['cpf']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'cpf', $original['cpf'], null);
+      }
+
+      if($original['matricula'] != $novo['matricula']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'matricula', $original['matricula'], null);
+      }
+
+      if($original['cargo'] != $novo['cargo']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'cargo', $original['cargo'], null);
+      }
+
+      if($original['setor_id'] != $novo['setor_id']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'setor_id', $original['setor_id'], null);
+      }
+
+      if($original['role_id'] != $novo['role_id']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'role_id', $original['role_id'], null);
+      }
+
+
+
+      if($salvou)
+      { 
+         return redirect(url('/funcionario'))->with('sucesso', 'Informações do funcionario alteradas com sucesso.');    
+      }else{
+         return redirect(url('/funcionario'));    
+      }
+   }
+
+
+   /**
+   * Remove the specified resource from storage.
+   *
+   * @param  \App\Models\Funcionario  $funcionario
+   * @return \Illuminate\Http\Response
+   */
+   public function destroy(Funcionario $funcionario)
+   {
         //
     }
 

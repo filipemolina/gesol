@@ -114,6 +114,7 @@
         <script src="{{ asset('js/jquery.select-bootstrap.js') }}"></script>
         <!--  DataTables.net Plugin    -->
         <script src="{{ asset('js/jquery.datatables.js') }}"></script>
+        <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
 
         
 

@@ -30,9 +30,9 @@ Funcionários
 								<th>Nome</th>
 								<th>E-mail</th>
 								<th>CPF</th>
-								<th>Matrícula</th>
+ 								<!-- <th>Matrícula</th> -->
 								<th>Cargo</th>
-								<th>Acesso</th>
+								<!-- <th>Acesso</th>  -->
 								<th class="disabled-sorting text-right">Ações</th>
 							</tr>
 						</thead>
@@ -42,27 +42,34 @@ Funcionários
 								<td>{{ $funcionario->nome                                             }}</td>
 								<td>{{ $funcionario->user->email                                      }}</td>
 								<td>{{ $funcionario->cpf                                        		 }}</td>
-								<td>{{ $funcionario->matricula                                        }}</td>
+		 						<!-- <td>{{ $funcionario->matricula                                        }}</td> -->
 								<td>{{ $funcionario->cargo                                            }}</td>
-								<td>{{ $funcionario->role->acesso                              		 }}</td>
+								<!-- <td>{{ $funcionario->role->acesso                              		 }}</td>  -->
 								<td>
 									<a href="{{ url("/funcionario/$funcionario->id/edit") }}"
-										class="btn btn-warning btn-xs action botao_lista pull-right " 
+										class="btn btn-warning btn-xs action  pull-right " 
 										data-toggle="tooltip" 
 										data-placement="bottom" 
 										title="Edita essa funcionario">  
-										<i class="glyphicon glyphicon-pencil icone_botao_lista"></i>
+										<i class="glyphicon glyphicon-pencil "></i>
 									</a>
 
 
 									<a href="{{ url("funcionarios/$funcionario->id") }}" 
-										class="btn btn-primary btn-xs  action botao_lista pull-right "  
+										class="btn btn-primary btn-xs  action  pull-right "  
 										data-toggle="tooltip"  
 										data-placement="bottom" 
 										title="Visualiza essa Loja"> 
-										<i class="glyphicon glyphicon-eye-open icone_botao_lista"></i>
+										<i class="glyphicon glyphicon-eye-open "></i>
 									</a>
 
+									<button id="btn_email_senha" 
+										class="btn btn-warning btn-xs action  pull-right " 
+										data-toggle="tooltip" 
+										data-placement="bottom" 
+										title="Envia a senha para o email do funcionario">  
+										<i class="glyphicon glyphicon-envelope "></i>
+									</button>
 
 								</td>
 
@@ -98,12 +105,12 @@ Funcionários
 			@if (isset($sucesso))
 		 
 			demo.notificationRight("top", "right", "success", "{{ $error }}");
-		 
 		@endif
 
 		@if (session('sucesso'))
 			demo.notificationRight("top", "right", "success", "{{ session('sucesso') }}");
 		@endif
+
 
 		$('#datatables').DataTable({
 			language : {
@@ -115,6 +122,12 @@ Funcionários
         	stateDuration: -1,
 			responsive: true,
 			deferRender: true,
+			compact: true,
+
+			"columnDefs": [
+    			{ "width": "15%", "targets": 4 },
+    			{ className: "text-center", "targets": [4] },
+  			]
 
         /*"columnDefs": 
         [
@@ -124,7 +137,6 @@ Funcionários
 		});
 
 
-		
   });
 </script>
 

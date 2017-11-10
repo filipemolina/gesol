@@ -53,7 +53,8 @@ if (! function_exists('camelcase')) {
       function trilha($solicitacao, $campo, $valor,$andamento,$motivo,$comentario)
       {
       
-         $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+         $funcionario   = Funcionario::find(Auth::user()->funcionario_id);
+
 
          $movimento = new Movimento([
             'funcionario_id'  => $funcionario->id,
@@ -68,6 +69,17 @@ if (! function_exists('camelcase')) {
       }
    }
   
+   function pega_ip() 
+   {
+
+      $ip;
+      if     (getenv("HTTP_CLIENT_IP"))         $ip = getenv("HTTP_CLIENT_IP");
+      else if(getenv("HTTP_X_FORWARDED_FOR"))   $ip = getenv("HTTP_X_FORWARDED_FOR"); 
+      else if(getenv("REMOTE_ADDR"))            $ip = getenv("REMOTE_ADDR");
+      else                                      $ip = "UNKNOWN";
+      return $ip;
+   }
+
 
    function somar_data($data, $dias, $meses, $ano){
       $data = explode("/", $data);
@@ -82,7 +94,14 @@ if (! function_exists('camelcase')) {
       
          $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
-         //dd($funcionario_logado->id);
+         //$ip            = $_SERVER["REMOTE_ADDR"];
+         //$maquina       = $_SERVER["REMOTE_HOST"];
+
+         $ip            = pega_ip();
+         $maquina       = exec('hostname');
+         $local_user    = exec('whoami');
+
+        //dd($ip);
 
          $log = new Sys_log([
             'acao'            => $acao,
@@ -92,6 +111,10 @@ if (! function_exists('camelcase')) {
             'valor_antigo'    => $valor_antigo,
             'motivo'          => $motivo,
             'funcionario_id'  => $funcionario_logado->id,
+            'ip'              => $ip,
+            'maquina'         => $maquina,
+            'local_user'      => $local_user,
+
          ]);
 
          return $log->save(); 
