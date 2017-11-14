@@ -12,348 +12,346 @@ Solicitações
 
 @section('content')
 
-
-<div class="row">
-   <div class="col-md-12">
-      {{-- O cartão começa aqui --}}
-      <div class="col-md-12 gesol-panel card card-product" style="padding: 35px;margin-top: 15px;">
-         {{-- Topo do cartão--}}
-         <div class="row">
-            {{-- Lado Esquerdo --}}
-            <div class="col-md-5" style="padding-right: 0px;padding-left: 0px;">
-               {{-- Avatar pequeno --}}
-               <div>
-                  <div class="card-header card-header-icon avatar-fixo-pn foto-user">
-                     <img class="img" src="{{ $solicitacao->solicitante->foto }}"/>
+   <div class="row">
+      <div class="col-md-12">
+         {{-- O cartão começa aqui --}}
+         <div class="col-md-12 gesol-panel card card-product" style="padding: 35px;margin-top: 15px;">
+            {{-- Topo do cartão--}}
+            <div class="row">
+               {{-- Lado Esquerdo --}}
+               <div class="col-md-5" style="padding-right: 0px;padding-left: 0px;">
+                  {{-- Avatar pequeno --}}
+                  <div>
+                     <div class="card-header card-header-icon avatar-fixo-pn foto-user">
+                        <img class="img" src="{{ $solicitacao->solicitante->foto }}"/>
+                     </div>
                   </div>
-               </div>
 
-               <div class="nome-solicitante-card info-solictante" style="margin-top: -17px;">
-                  {{ $solicitacao->solicitante->nome}}
-               </div>
+                  <div class="nome-solicitante-card info-solictante" style="margin-top: -17px;">
+                     {{ $solicitacao->solicitante->nome}}
+                  </div>
 
-               <div class="data-inclusao-card info-solictante">
+                  <div class="data-inclusao-card info-solictante">
 
-                  Abertura: {{ $solicitacao->created_at->format('H:i:s - d/m/Y')}}    
-                  <br>
-                  Prazo: 
+                     Abertura: {{ $solicitacao->created_at->format('H:i:s - d/m/Y')}}    
+                     <br>
+                     Prazo: 
 
-                     @if(date('Ymd') > date('Ymd', strtotime($prazo_calculado)) )
-                        <span id="span_prazo" class='badge' style='background-color:red'>     
-                     @elseif( date('Ymd') == date('Ymd', strtotime($prazo_calculado)) )
-                        <span id="span_prazo" class='badge' style='background-color:orange'>     
-                     @else
-                        <span id="span_prazo" class='badge' style='background-color:green'>     
+                        @if(date('Ymd') > date('Ymd', strtotime($prazo_calculado)) )
+                           <span id="span_prazo" class='badge' style='background-color:red'>     
+                        @elseif( date('Ymd') == date('Ymd', strtotime($prazo_calculado)) )
+                           <span id="span_prazo" class='badge' style='background-color:orange'>     
+                        @else
+                           <span id="span_prazo" class='badge' style='background-color:green'>     
+                        @endif
+
+                        {{ date('d/m/Y', strtotime($prazo_calculado)) }}  
+                     </span>
+
+                     --- Status: 
+                     <!-- <span class='badge' style='background-color:red'>  -->
+                     
+                     @if($solicitacao->status =='Aberta')
+
+                        <span id="span_satus" class='badge status-aberta'> {!! $solicitacao->status !!} </span>  
+
+                     @elseif($solicitacao->status =='Em análise')
+
+                           <span id="span_satus" class='badge status-analise'> {!! $solicitacao->status !!} </span>  
+
+                     @elseif($solicitacao->status =='Em execução')
+
+                           <span id="span_satus" class='badge status-execucao'> {!! $solicitacao->status !!} </span>  
+
                      @endif
 
-                     {{ date('d/m/Y', strtotime($prazo_calculado)) }}  
-                  </span>
-
-                  --- Status: 
-                  <!-- <span class='badge' style='background-color:red'>  -->
-                  
-                  @if($solicitacao->status =='Aberta')
-
-                     <span id="span_satus" class='badge status-aberta'> {!! $solicitacao->status !!} </span>  
-
-                  @elseif($solicitacao->status =='Em análise')
-
-                        <span id="span_satus" class='badge status-analise'> {!! $solicitacao->status !!} </span>  
-
-                  @elseif($solicitacao->status =='Em execução')
-
-                        <span id="span_satus" class='badge status-execucao'> {!! $solicitacao->status !!} </span>  
-
-                  @endif
-
-               </div>
-
-               <div class="row">
-                  <div class="timeline-body">
-                     <div id="setor-cor" class="card-header card-header-icon icon-secretaria avatar-status pull-right" data-background-color 
-                        style="background-color: {{ $solicitacao->servico->setor->cor }}; left: 40px">
-                        <span id="setor-icone" class="mdi {{ $solicitacao->servico->setor->icone }}" style="font-size: 30px">build</span>
-                     </div>
-
-                     <div data-lightbox="foto-solicitacao"  class="card-image" style="width: 85%; margin-left: 36px; top:-30px;">
-                        <a href="{{ $solicitacao->foto }}">
-                           <img class="img" src="{{ $solicitacao->foto }}">
-                        </a>
-                     </div>
-
-                     <div class="endereco" style="margin-left:36px; margin-top: -26px;"
-                        onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
-                        <i class="material-icons" style="font-size: 20px; ">place</i>  
-
-                        {{ $solicitacao->endereco->logradouro }} 
-                        {{ $solicitacao->endereco->numero }} -
-                        {{ $solicitacao->endereco->bairro }} -
-                        {{ $solicitacao->endereco->cep }} 
-                     </div>
-                      
                   </div>
-               </div>
-            </div>
 
-            {{-- Lado Direito --}}
-
-            <div class="col-md-7" style="padding-left: 0px; padding-right: 0px;">
-
-               <div id="servico">
-                  <h4 style="margin-bottom: 0px; margin-top: 0px;"> Destino da Solicitação: </h4>
-                  <div id="servico-texto">
-                     {{ $solicitacao->servico->setor->secretaria->sigla }} - 
-                     {{ $solicitacao->servico->setor->nome }} - 
-                     {{ $solicitacao->servico->nome }}       
-                  </div>    
-               </div>
-
-               <div id="servico-edicao" style="display: none;">
-                  <h4> Redirecionar solicitação </h4>    
-                  {{-- Categoria selecionada --}}
-
-                  <div class="label-floating " style="border-style: dotted; padding: 6px;">
-                     {{-- novo destino --}}
-                     <select id="select-servico" class="js-example-data-array" data-live-search="true" > 
-                        <option value="" selected>Selecione novo destino</option>
-                        @foreach($setores as $setor)
-                        <optgroup label="{{ $setor->nome }}">
-                           @foreach($setor->servicos as $servico)
-                              <option value="{{$servico->id}}">{{$servico->nome}}</option>  
-                           @endforeach
-                        </optgroup>
-                        @endforeach
-                     </select>
-
-                     {{-- motivo transferencia --}}
-                     <select id="select-servico-motivo" class="js-example-data-array" data-live-search="true" > 
-                        <option value="" selected>Selecione uma motivo</option>
-                        @foreach($motivos_transferencia as $motivo)
-                           <option value="{{$motivo}}">{{$motivo}}</option>  
-                        @endforeach
-                     </select>
-
-                  </div>
-               </div>
-
-               <br>
-               <div id="linha"></div>
-
-               {{-- começo das mensagens --}}
-               <div class="comentarios scroll-comentarios" id="div-comentarios">
-
-                                       <div class="card-solicitante margin7" style="color: black; font-size: 12px;">
-                        <div class="row" style="margin-left: 15px;margin-right: 15px;">
-                           {{-- Nome do usuário --}}
-                           <label class="h6 nome-solicitante">
-                              {{ $solicitacao->solicitante->nome}}
-                           </label>
-
-                           {{-- Comentário Fixo --}}
-                           <div class="col-coment-fix" >
-                              <div class=" col-md-7 no-margin" >
-                                 <p>{{ $solicitacao->conteudo }}</p>
-                              </div>
-                           </div>
+                  <div class="row">
+                     <div class="timeline-body">
+                        <div id="setor-cor" class="card-header card-header-icon icon-secretaria avatar-status pull-right" data-background-color 
+                           style="background-color: {{ $solicitacao->servico->setor->cor }}; left: 40px">
+                           <span id="setor-icone" class="mdi {{ $solicitacao->servico->setor->icone }}" style="font-size: 30px">build</span>
                         </div>
-                     
+
+                        <div data-lightbox="foto-solicitacao"  class="card-image" style="width: 85%; margin-left: 36px; top:-30px;">
+                           <a href="{{ $solicitacao->foto }}">
+                              <img class="img" src="{{ $solicitacao->foto }}">
+                           </a>
+                        </div>
+
+                        <div class="endereco" style="margin-left:36px; margin-top: -26px;"
+                           onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
+                           <i class="material-icons" style="font-size: 20px; ">place</i>  
+
+                           {{ $solicitacao->endereco->logradouro }} 
+                           {{ $solicitacao->endereco->numero }} -
+                           {{ $solicitacao->endereco->bairro }} -
+                           {{ $solicitacao->endereco->cep }} 
+                        </div>
+                         
                      </div>
-
-
-                  @foreach ($solicitacao->comentarios->sortBy('created_at') as $comentario)
-                     {{-- card de comentarios --}}
-                     <div class="panel-body no-padding comentario_{{ $comentario->id }}" >
-
-                        {{-- Caso a comentario seja do próprio solicitante, mostrar a foto à esquerda --}}
-                        @if ($comentario->funcionario)                    
-                           {{-- comentario do funcionário --}}
-                           <div class="card-secretaria card margin7" style="color: black; font-size: 12px;">
-                              <div class="row" style="margin-left: 15px;margin-right: 15px;">
-                                 <label class="pull-right" style="color: #522d2d; font-size: 11px;"> 
-                                    {{ $comentario->created_at->format('H:i:s -- d/m/Y')}} 
-                                 </label>
-                                 
-                                 {{-- Nome da secretaria --}}
-                                 <label class="h6  nome-solicitante">
-                                    {{ $comentario->funcionario->nome }} - 
-                                    {{ $comentario->funcionario->setor->nome }} - 
-                                    {{ $comentario->funcionario->setor->secretaria->sigla }}
-                                 </label>
-
-                                 {{-- Comentário --}}
-                                 <div class="col-coment-fix">
-                                    <div class=" col-md-7 no-margin" >
-                                       <p class="">
-                                          {{ $comentario->comentario }}
-                                       </p>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div> {{-- Fim Comentário --}}
-                        @else
-                           {{-- comentario do solicitante --}}
-                           <div class="card-solicitante margin7" style="color: black; font-size: 12px;">
-                              <div class="row" style="margin-left: 15px;margin-right: 15px;">
-                                 <label class="pull-right" style="color: #522d2d; font-size: 11px;"> 
-                                    {{ $comentario->created_at->format('h:m:s - j/m/Y')}} 
-                                 </label>
-
-                                 {{-- Nome do usuário --}}
-                                 <label class="h6 nome-solicitante">
-                                    {{ $solicitacao->solicitante->nome}}
-                                 </label>
-
-                                 {{-- Comentário Fixo --}}
-                                 <div class="col-coment-fix" >
-                                    <div class=" col-md-7 no-margin" >
-                                       <p>{{ $comentario->comentario }}</p>
-                                    </div>
-                                 </div>
-                              </div>
-                           
-                           </div>
-                        @endif
-                     {{-- </div> fim card em panel-body --}}
-                     </div> {{-- fim panel-body --}}
-                     {{-- fim do card de comentarios --}}
-                  @endforeach
+                  </div>
                </div>
 
-               {{-- Escrever comentário --}}
-               <div id="div_escrever_comentario" class="input-group"  >
-                  <textarea 
-                        data-solicitacao="{{$solicitacao->id }}" 
-                        data-funcionario="{{$funcionario->id }}" 
-                        id="comentario" 
-                        name="comentario" 
-                        class="form-control comentario comentario_{{ $solicitacao->id }}" 
-                        placeholder="Escreva um comentário" 
-                        style="margin-top: 0px;padding-bottom: 0px;padding-top: 0px;">
+               {{-- Lado Direito --}}
 
-                  </textarea>
-                  <span class="input-group-addon">
-                     <button type="button" 
-                           id="enviar-comentario"
-                           data-solicitacao="{{$solicitacao->id }}" 
-                           data-funcionario="{{$funcionario->id }}" 
-                           class="btn btn-primary btn-sm enviar-comentario">
-                        Enviar
-                     </button>
-                  </span>
-               </div>
-               {{-- Fim escrever comentário --}}
-               {{-- termino das mensagens --}}
-            </div>
-         </div> {{-- Fim da Primeira Linha --}}
+               <div class="col-md-7" style="padding-left: 0px; padding-right: 0px;">
 
-         <div class="row">
-            <div id="div_por_em_execucao" style="display: none;">
-               <h4 style="margin-top: 0px;margin-bottom: 0px;"> Pôr em execução </h4>    
-               <div class="label-floating " style="border-style: dotted; padding: 6px;">
-                  <div class="col-md-12">
-                     <div class="col-md-4" style="margin-top: 8px;">
-                        <span class="prazo-atual" >
-                           Prazo Atual:  {{ date('d/m/Y', strtotime($prazo_calculado))  }}  
-                           <span class=" mdi mdi-arrow-right-bold"></span> 
-                           {{ $solicitacao->servico->prazo }} dias
-                        </span>
-                     </div>
+                  <div id="servico">
+                     <h4 style="margin-bottom: 0px; margin-top: 0px;"> Destino da Solicitação: </h4>
+                     <div id="servico-texto">
+                        {{ $solicitacao->servico->setor->secretaria->sigla }} - 
+                        {{ $solicitacao->servico->setor->nome }} - 
+                        {{ $solicitacao->servico->nome }}       
+                     </div>    
+                  </div>
 
-                     <div class="col-md-4">
-                        <span >
-                           Novo Prazo: 
-                           <input type="text" id="picker_data_prazo" class="form-control label-floating" 
-                              value="{{ date('d/m/Y', strtotime($prazo_calculado))  }}"   
-                           />
-                           <span class=" mdi mdi-arrow-right-bold"></span>
-                           <span id="label_dias_novo_prazo"> {{ $solicitacao->servico->prazo }} dias </span>  
-                        </span>
-                     </div>
+                  <div id="servico-edicao" style="display: none;">
+                     <h4> Redirecionar solicitação </h4>    
+                     {{-- Categoria selecionada --}}
 
-                     <div class="col-md-4" style="margin-top: 8px;">
-                        <select id="select_prazo_motivo" class="select_prazo_motivo js-example-data-array" data-live-search="true" disabled> 
-                           <option value="" selected>Selecione o motivo para alteração do Prazo</option>
-                           @foreach($motivos_prazo as $motivo)
+                     <div class="label-floating " style="border-style: dotted; padding: 6px;">
+                        {{-- novo destino --}}
+                        <select id="select-servico" class="js-example-data-array" data-live-search="true" > 
+                           <option value="" selected>Selecione novo destino</option>
+                           @foreach($setores as $setor)
+                           <optgroup label="{{ $setor->nome }}">
+                              @foreach($setor->servicos as $servico)
+                                 <option value="{{$servico->id}}">{{$servico->nome}}</option>  
+                              @endforeach
+                           </optgroup>
+                           @endforeach
+                        </select>
+
+                        {{-- motivo transferencia --}}
+                        <select id="select-servico-motivo" class="js-example-data-array" data-live-search="true" > 
+                           <option value="" selected>Selecione uma motivo</option>
+                           @foreach($motivos_transferencia as $motivo)
                               <option value="{{$motivo}}">{{$motivo}}</option>  
                            @endforeach
                         </select>
+
                      </div>
                   </div>
 
-                 <div style="clear:both"></div> 
+                  <br>
+                  <div id="linha"></div>
+
+                  {{-- começo das mensagens --}}
+                  <div class="comentarios scroll-comentarios" id="div-comentarios">
+
+                                          <div class="card-solicitante margin7" style="color: black; font-size: 12px;">
+                           <div class="row" style="margin-left: 15px;margin-right: 15px;">
+                              {{-- Nome do usuário --}}
+                              <label class="h6 nome-solicitante">
+                                 {{ $solicitacao->solicitante->nome}}
+                              </label>
+
+                              {{-- Comentário Fixo --}}
+                              <div class="col-coment-fix" >
+                                 <div class=" col-md-7 no-margin" >
+                                    <p>{{ $solicitacao->conteudo }}</p>
+                                 </div>
+                              </div>
+                           </div>
+                        
+                        </div>
+
+
+                     @foreach ($solicitacao->comentarios->sortBy('created_at') as $comentario)
+                        {{-- card de comentarios --}}
+                        <div class="panel-body no-padding comentario_{{ $comentario->id }}" >
+
+                           {{-- Caso a comentario seja do próprio solicitante, mostrar a foto à esquerda --}}
+                           @if ($comentario->funcionario)                    
+                              {{-- comentario do funcionário --}}
+                              <div class="card-secretaria card margin7" style="color: black; font-size: 12px;">
+                                 <div class="row" style="margin-left: 15px;margin-right: 15px;">
+                                    <label class="pull-right" style="color: #522d2d; font-size: 11px;"> 
+                                       {{ $comentario->created_at->format('H:i:s -- d/m/Y')}} 
+                                    </label>
+                                    
+                                    {{-- Nome da secretaria --}}
+                                    <label class="h6  nome-solicitante">
+                                       {{ $comentario->funcionario->nome }} - 
+                                       {{ $comentario->funcionario->setor->nome }} - 
+                                       {{ $comentario->funcionario->setor->secretaria->sigla }}
+                                    </label>
+
+                                    {{-- Comentário --}}
+                                    <div class="col-coment-fix">
+                                       <div class=" col-md-7 no-margin" >
+                                          <p class="">
+                                             {{ $comentario->comentario }}
+                                          </p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div> {{-- Fim Comentário --}}
+                           @else
+                              {{-- comentario do solicitante --}}
+                              <div class="card-solicitante margin7" style="color: black; font-size: 12px;">
+                                 <div class="row" style="margin-left: 15px;margin-right: 15px;">
+                                    <label class="pull-right" style="color: #522d2d; font-size: 11px;"> 
+                                       {{ $comentario->created_at->format('h:m:s - j/m/Y')}} 
+                                    </label>
+
+                                    {{-- Nome do usuário --}}
+                                    <label class="h6 nome-solicitante">
+                                       {{ $solicitacao->solicitante->nome}}
+                                    </label>
+
+                                    {{-- Comentário Fixo --}}
+                                    <div class="col-coment-fix" >
+                                       <div class=" col-md-7 no-margin" >
+                                          <p>{{ $comentario->comentario }}</p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              
+                              </div>
+                           @endif
+                        {{-- </div> fim card em panel-body --}}
+                        </div> {{-- fim panel-body --}}
+                        {{-- fim do card de comentarios --}}
+                     @endforeach
+                  </div>
+
+                  {{-- Escrever comentário --}}
+                  <div id="div_escrever_comentario" class="input-group"  >
+                     <textarea 
+                           data-solicitacao="{{$solicitacao->id }}" 
+                           data-funcionario="{{$funcionario_logado->id }}" 
+                           id="comentario" 
+                           name="comentario" 
+                           class="form-control comentario comentario_{{ $solicitacao->id }}" 
+                           placeholder="Escreva um comentário" 
+                           style="margin-top: 0px;padding-bottom: 0px;padding-top: 0px;">
+
+                     </textarea>
+                     <span class="input-group-addon">
+                        <button type="button" 
+                              id="enviar-comentario"
+                              data-solicitacao="{{$solicitacao->id }}" 
+                              data-funcionario="{{$funcionario_logado->id }}" 
+                              class="btn btn-primary btn-sm enviar-comentario">
+                           Enviar
+                        </button>
+                     </span>
+                  </div>
+                  {{-- Fim escrever comentário --}}
+                  {{-- termino das mensagens --}}
                </div>
-            </div>        
-         </div>             
+            </div> {{-- Fim da Primeira Linha --}}
 
-         <div class="col">
-            {{-- Linha de Botões --}}
-            {{-------------------------- BOTAO PADRAO ------------------------}}
-            <div id="div_botoes_iniciais" style="text-align:center; margin-top: -2px;">
+            <div class="row">
+               <div id="div_por_em_execucao" style="display: none;">
+                  <h4 style="margin-top: 0px;margin-bottom: 0px;"> Pôr em execução </h4>    
+                  <div class="label-floating " style="border-style: dotted; padding: 6px;">
+                     <div class="col-md-12">
+                        <div class="col-md-4" style="margin-top: 8px;">
+                           <span class="prazo-atual" >
+                              Prazo Atual:  {{ date('d/m/Y', strtotime($prazo_calculado))  }}  
+                              <span class=" mdi mdi-arrow-right-bold"></span> 
+                              {{ $solicitacao->servico->prazo }} dias
+                           </span>
+                        </div>
 
-               <button id="btn_por_execucao" class="botoes-acao-funcionario btn btn-round btn-success" >
-                  <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
-                  Pôr em Execução 
-               </button>
+                        <div class="col-md-4">
+                           <span >
+                              Novo Prazo: 
+                              <input type="text" id="picker_data_prazo" class="form-control label-floating" 
+                                 value="{{ date('d/m/Y', strtotime($prazo_calculado))  }}"   
+                              />
+                              <span class=" mdi mdi-arrow-right-bold"></span>
+                              <span id="label_dias_novo_prazo"> {{ $solicitacao->servico->prazo }} dias </span>  
+                           </span>
+                        </div>
 
-               <button id="btn_solucionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-success">
-                  <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
-                  Solucionar 
-               </button>
+                        <div class="col-md-4" style="margin-top: 8px;">
+                           <select id="select_prazo_motivo" class="select_prazo_motivo js-example-data-array" data-live-search="true" disabled> 
+                              <option value="" selected>Selecione o motivo para alteração do Prazo</option>
+                              @foreach($motivos_prazo as $motivo)
+                                 <option value="{{$motivo}}">{{$motivo}}</option>  
+                              @endforeach
+                           </select>
+                        </div>
+                     </div>
+
+                    <div style="clear:both"></div> 
+                  </div>
+               </div>        
+            </div>             
+
+            <div class="col">
+               {{-- Linha de Botões --}}
+               {{-------------------------- BOTAO PADRAO ------------------------}}
+               <div id="div_botoes_iniciais" style="text-align:center; margin-top: -2px;">
+
+                  <button id="btn_por_execucao" class="botoes-acao-funcionario btn btn-round btn-success" >
+                     <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
+                     Pôr em Execução 
+                  </button>
+
+                  <button id="btn_solucionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-success">
+                     <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
+                     Solucionar 
+                  </button>
 
 
-               <button id="btn_redirecionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-warning">
-                  <span class="icone-botoes-acao-funcionario mdi mdi-redo-variant"></span>
-                  Redirecionar
-               </button>
+                  <button id="btn_redirecionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-warning">
+                     <span class="icone-botoes-acao-funcionario mdi mdi-redo-variant"></span>
+                     Redirecionar
+                  </button>
 
-               <button id="btn_recusar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-danger">
-                  <span class="icone-botoes-acao-funcionario mdi mdi-delete-sweep"></span>
-                  Recusar
-               </button>
+                  <button id="btn_recusar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-danger">
+                     <span class="icone-botoes-acao-funcionario mdi mdi-delete-sweep"></span>
+                     Recusar
+                  </button>
 
-               <a class="botoes-acao-funcionario btn btn-round btn-primary" href="{{ URL::previous() }}">
-                  <span class="icone-botoes-acao-funcionario mdi mdi-backburger"></span>   
-                  Voltar
-               </a>
+                  <a class="botoes-acao-funcionario btn btn-round btn-primary" href="{{ URL::previous() }}">
+                     <span class="icone-botoes-acao-funcionario mdi mdi-backburger"></span>   
+                     Voltar
+                  </a>
+               </div>
+
+               {{-------------------------- BOTAO EXECUCAO ------------------------}}
+               <div id="div_botoes_da_execucao" style="text-align:center; display: none; margin-top: 0px;">
+                  <button id="btn_por_execucao_salvar" class="botoes-acao btn btn-round btn-success ">
+                     <span class="icone-botoes-acao mdi mdi-send"></span>
+                     <span class="texto-botoes-acao"> Salvar </span>
+                  </button>
+
+                  <button id="btn_por_execucao_cancelar" class="botoes-acao btn btn-round btn-primary cancela-execucao">
+                     <span class="icone-botoes-acao mdi mdi-backburger"></span>   
+                     <span class="texto-botoes-acao"> Cancelar </span>
+                  </button>
+               </div>
+
+               {{-------------------------- BOTAO SERVICO ------------------------}}
+               <div id="botao-servico" style="text-align:center; display: none; margin-top: 20px;">
+                  <button class="botoes-acao btn btn-round btn-success salva-servico">
+                     <span class="icone-botoes-acao mdi mdi-send"></span>
+                     <span class="texto-botoes-acao"> Salvar </span>
+                  </button>
+
+                  <button class="botoes-acao btn btn-round btn-primary cancela-servico">
+                     <span class="icone-botoes-acao mdi mdi-backburger"></span>   
+                     <span class="texto-botoes-acao"> Cancelar </span>
+                  </button>
+               </div>
             </div>
-
-            {{-------------------------- BOTAO EXECUCAO ------------------------}}
-            <div id="div_botoes_da_execucao" style="text-align:center; display: none; margin-top: 0px;">
-               <button id="btn_por_execucao_salvar" class="botoes-acao btn btn-round btn-success ">
-                  <span class="icone-botoes-acao mdi mdi-send"></span>
-                  <span class="texto-botoes-acao"> Salvar </span>
-               </button>
-
-               <button id="btn_por_execucao_cancelar" class="botoes-acao btn btn-round btn-primary cancela-execucao">
-                  <span class="icone-botoes-acao mdi mdi-backburger"></span>   
-                  <span class="texto-botoes-acao"> Cancelar </span>
-               </button>
-            </div>
-
-            {{-------------------------- BOTAO SERVICO ------------------------}}
-            <div id="botao-servico" style="text-align:center; display: none; margin-top: 20px;">
-               <button class="botoes-acao btn btn-round btn-success salva-servico">
-                  <span class="icone-botoes-acao mdi mdi-send"></span>
-                  <span class="texto-botoes-acao"> Salvar </span>
-               </button>
-
-               <button class="botoes-acao btn btn-round btn-primary cancela-servico">
-                  <span class="icone-botoes-acao mdi mdi-backburger"></span>   
-                  <span class="texto-botoes-acao"> Cancelar </span>
-               </button>
-            </div>
+            
+            <div id="LocalMapa_{{ $solicitacao->id }}" class=" row mapa"></div>
+            <form action="{{ url("/modera") }}" method="POST" id="form-hidden" style="visibility: hidden">
+              {{ csrf_field() }}
+              <input type="hidden" value="{{ $solicitacao->id }}" name="solicitacao_id">
+              <input type="hidden" value="" name="acao" id="hidden_acao">
+            </form>
          </div>
-         
-         <div id="LocalMapa_{{ $solicitacao->id }}" class=" row mapa"></div>
-         <form action="{{ url("/modera") }}" method="POST" id="form-hidden" style="visibility: hidden">
-           {{ csrf_field() }}
-           <input type="hidden" value="{{ $solicitacao->id }}" name="solicitacao_id">
-           <input type="hidden" value="" name="acao" id="hidden_acao">
-         </form>
       </div>
    </div>
-</div>
-
 @endsection
 
 @push('scripts')
@@ -371,7 +369,7 @@ Solicitações
       {{-------------------- btn_por_execucao ----------------------}}
       $("#btn_por_execucao").click(function(){
          event.preventDefault();
-
+         console.log("asdasdjkhakd");
          //verifica o status da solicitação
          if( "{!! $solicitacao->status !!}" != "Em execução")
          {
@@ -467,7 +465,7 @@ Solicitações
                   let resposta = JSON.parse(res);
 
                   //envia comentario na solicitação sobre a mudança de status
-                  comentarioAutomatico({{ $solicitacao->id }}, {{$funcionario->id }}, "A Solicitação foi colocada \"Em execução\" o prazo para a conclusão é dia: " .prazo_atual);
+                  comentarioAutomatico({{ $solicitacao->id }}, {{$funcionario_logado->id }}, "A Solicitação foi colocada \"Em execução\" o prazo para a conclusão é dia: " .prazo_atual);
            
                });
 
@@ -510,7 +508,7 @@ Solicitações
                   });
 
                   //envia comentario na solicitação sobre a mudança de status
-                  comentarioAutomatico({{ $solicitacao->id }}, {{$funcionario->id }}, "A Solicitação foi colocada EM EXECUÇÃO e o prazo para a conclusão é dia: " +prazo_atual);
+                  comentarioAutomatico({{ $solicitacao->id }}, {{$funcionario_logado->id }}, "A Solicitação foi colocada EM EXECUÇÃO e o prazo para a conclusão é dia: " +prazo_atual);
 
                   $("#div_por_em_execucao").css('display', 'none'); 
                   $("#div_botoes_iniciais").css('display', 'block'); 
@@ -709,7 +707,7 @@ Solicitações
                         acao:             7
                      }, function(resposta){
                         //envia comentario na solicitação sobre SOLUÇÂO da solicitação
-                        comentarioAutomatico({{ $solicitacao->id }}, {{$funcionario->id }}, result);
+                        comentarioAutomatico({{ $solicitacao->id }}, {{$funcionario_logado->id }}, result);
                         console.log(resposta);
                         window.location.href="{{ url("/") }}";
                      });

@@ -12,7 +12,7 @@ class RolesSeeder extends Seeder
     public function run()
     {
       
-      DB::table('roles')->insert(['acesso' => 'Desativado',       'peso' => '0'   ]);
+      
       DB::table('roles')->insert(['acesso' => 'Moderador',        'peso' => '10'  ]);
       DB::table('roles')->insert(['acesso' => 'SAC',              'peso' => '20'  ]);
       DB::table('roles')->insert(['acesso' => 'Funcionario',      'peso' => '30'  ]);

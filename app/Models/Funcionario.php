@@ -9,14 +9,15 @@ class Funcionario extends Model
     // Fillables
 
     protected $fillable = [
-    	'cpf',
+    	
         'nome',
+        'cpf',
     	'matricula',
     	'cargo',
     	'foto',
-        'acesso',
+        'setor_id',
         'role_id',
-        'setor_id'
+        
     ];
 
     // Relacionamentos

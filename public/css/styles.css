@@ -2176,3 +2176,9 @@ div#div_por_em_execucao .form-group {
 }
 
 td { font-size: 12px !important; }
+
+
+.botao_acao{
+  padding: 4px 6px !important;
+  font-size: 10px !important;
+}

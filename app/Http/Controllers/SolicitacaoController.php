@@ -49,6 +49,7 @@ class SolicitacaoController extends Controller
 
                 case 30:
                     //"Funcionario"
+
                     return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
                     break;
 
@@ -148,6 +149,7 @@ class SolicitacaoController extends Controller
 
         //verifica se foi dado um prazo diferente para essa solicitação se não, 
         //pega o padrão do serviço
+        
         if($solicitacao->prazo)
             $prazo_em_dias=$solicitacao->prazo;
         else
@@ -178,8 +180,9 @@ class SolicitacaoController extends Controller
         
         // chama a view de acordo com o tipo de acesso do usuario logado
         //$funcionario_logado->role->acesso
-        if($funcionario_logado->role->peso = 10){
+        if($funcionario_logado->role->peso == 10){
             return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario_logado','setores','motivos_recusa','motivos_transferencia','prazo_calculado','motivos_prazo','prazo_em_dias'));
+
         }else if($funcionario_logado->role->peso >= 30 and $funcionario_logado->role->peso <= 100 ){
             return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario_logado','setores','motivos_recusa','motivos_transferencia','prazo_calculado','motivos_prazo','prazo_em_dias'));
         }
@@ -347,6 +350,7 @@ class SolicitacaoController extends Controller
         // Obter o usuário atualmente logado
         $usuario = User::find(Auth::user()->id);
 
+        
 
         // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
         // Aqui  os botões PADRÃO serão criados, de acordo com a role do usuario será
@@ -572,7 +576,7 @@ class SolicitacaoController extends Controller
     // public function trilha(Request $request)
     // {
  
-    //     $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+    //     $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
     //     $movimento = new Movimento([
     //       'funcionario_id'  => $funcionario->id,

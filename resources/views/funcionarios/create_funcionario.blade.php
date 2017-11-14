@@ -297,8 +297,15 @@ Cria Funcionário
 		      }).then(function () {
 		      		$("#form_create_funcionario").submit();
 
-			         
-	            });
+	      		 	/*$.post(url_base+"/senhafuncionario",{
+                     email: $("#email").val(),
+				        	success: function() {
+				            console.log("email enviado");
+				        	}
+
+                  });*/
+   
+            });	
 	      })
       });
 

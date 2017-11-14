@@ -2,7 +2,14 @@
 
 @section('titulo')
 
-Funcionários
+	
+
+   @if($funcionario_logado->role->peso <= 60)
+		Funcionários - {!! $funcionario_logado->setor->secretaria->nome !!}
+	@elseif($funcionario_logado->role->peso >= 70)
+		Funcionários - Prefeitura
+	@endif
+
 
 @endsection
 
@@ -28,54 +35,85 @@ Funcionários
 						<thead>
 							<tr>
 								<th>Nome</th>
-								<th>E-mail</th>
 								<th>CPF</th>
- 								<!-- <th>Matrícula</th> -->
+								<th>Acesso</th>
 								<th>Cargo</th>
-								<!-- <th>Acesso</th>  -->
+								<th>Status</th>
 								<th class="disabled-sorting text-right">Ações</th>
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($funcionarios as $funcionario )
-							<tr>
-								<td>{{ $funcionario->nome                                             }}</td>
-								<td>{{ $funcionario->user->email                                      }}</td>
-								<td>{{ $funcionario->cpf                                        		 }}</td>
-		 						<!-- <td>{{ $funcionario->matricula                                        }}</td> -->
-								<td>{{ $funcionario->cargo                                            }}</td>
-								<!-- <td>{{ $funcionario->role->acesso                              		 }}</td>  -->
-								<td>
-									<a href="{{ url("/funcionario/$funcionario->id/edit") }}"
-										class="btn btn-warning btn-xs action  pull-right " 
-										data-toggle="tooltip" 
-										data-placement="bottom" 
-										title="Edita essa funcionario">  
-										<i class="glyphicon glyphicon-pencil "></i>
-									</a>
 
+							@foreach($funcionarios as $funcionario)
 
-									<a href="{{ url("funcionarios/$funcionario->id") }}" 
-										class="btn btn-primary btn-xs  action  pull-right "  
-										data-toggle="tooltip"  
-										data-placement="bottom" 
-										title="Visualiza essa Loja"> 
-										<i class="glyphicon glyphicon-eye-open "></i>
-									</a>
+								<tr>
+									<td>{{ $funcionario->nome                                             }}</td>
+									<td>{{ $funcionario->cpf                                        		 }}</td>
+									<td>{{ $funcionario->role->acesso                                     }}</td>
+									<td>{{ $funcionario->cargo                                            }}</td>
+									<td>{{ $funcionario->user['status']                                   }}</td>
+									<td>
 
-									<button id="btn_email_senha" 
-										class="btn btn-warning btn-xs action  pull-right " 
-										data-toggle="tooltip" 
-										data-placement="bottom" 
-										title="Envia a senha para o email do funcionario">  
-										<i class="glyphicon glyphicon-envelope "></i>
-									</button>
+										{{-- se o usuario logado for TI ou DSV habilita a opção de ZERAR a senha --}}
+										@if($funcionario_logado->role->peso >= 50)
 
-								</td>
+											@if($funcionario->user['status'] == 'Ativo')
+												
+												<button  
+													class="btn_desativa btn btn-danger btn-xs action  pull-right  botao_acao" 
+													data-toggle="tooltip" 
+													data-funcionario = {{ $funcionario->id }}
+													data-placement="bottom" 
+													title="Desativa a conta do funcionario" >  
+													<i class="glyphicon glyphicon-remove "></i>
+												</button>
 
-							</tr>
+											{{-- @elseif($funcionario->user['status'] == 'Inativo') --}}
+											@else
+												
+												<button  
+													class="btn_ativa btn btn-success btn-xs action  pull-right  botao_acao" 
+													data-toggle="tooltip" 
+													data-funcionario = {{ $funcionario->id }}
+													data-placement="bottom" 
+													title="Ativa a conta do funcionario" >  
+													<i class="glyphicon glyphicon-plus "></i>
+												</button>
+											@endif
+										@endif
+
+										{{-- se o usuario logado for TI ou DSV habilita a opção de ZERAR a senha --}}
+										@if($funcionario_logado->role->peso >= 90)
+											<button 
+												class="btn_email_senha btn btn-info btn-xs action  pull-right  botao_acao" 
+												data-toggle="tooltip" 
+												data-funcionario = {{ $funcionario->id }}
+												data-placement="bottom" 
+												title="Envia NOVA senha por email ao funcionario">  
+												<i class="glyphicon glyphicon-envelope "></i>
+											</button>
+										@endif
+
+										<a href="{{ url("/funcionario/$funcionario->id/edit") }}"
+											class="btn btn-warning btn-xs action  pull-right botao_acao " 
+											data-toggle="tooltip" 
+											data-placement="bottom" 
+											title="Edita essa funcionario">  
+											<i class="glyphicon glyphicon-pencil "></i>
+										</a>
+
+										<a href="{{ url("funcionarios/$funcionario->id") }}" 
+											class="btn btn-primary btn-xs  action  pull-right botao_acao "  
+											data-toggle="tooltip"  
+											data-placement="bottom" 
+											title="Visualiza essa Loja"> 
+											<i class="glyphicon glyphicon-eye-open "></i>
+										</a>
+										
+										
+									</td>
+								</tr>
 							@endforeach
-
 						</tbody>
 					</table>
 				</div> {{-- Fim Material-datatbles --}}
@@ -91,11 +129,95 @@ Funcionários
 <script type="text/javascript">
 	$(document).ready(function() {
 		$.fn.dataTable.moment( 'DD/MM/YYYY' );
+
+
+		$(".btn_desativa").click(function(){
+			let id_usuario = $(this).data('funcionario');
+			console.log("botao btn_desativa -> ", $(this).data('funcionario'));
+	      swal({
+	         title: 'Confirma a DESATIVAÇÃO do funcionário?',
+	         type: 'question',
+	         showCancelButton: true,
+	         confirmButtonColor: '#3085d6',
+	         cancelButtonColor: '#d33',
+	         confirmButtonText: 'Sim',
+	         cancelButtonText: 'Não',
+	      }).then(function () {
+      		//chama a rota para desativar o funcionario
+   	 	 	$.post('/mudastatus',{
+               _token: 	'{{ csrf_token() }}',
+   	 	 		id: 		id_usuario,
+   	 	 		status: 	'Inativo'
+   	 	 	},function(data){
+					 //mostrando o retorno do post
+				 	demo.notificationRight("top", "right", "success", "O funcionário foi Desativado");
+ 					console.log(data)
+			 	})
+
+         });
+      });
+
+		$(".btn_ativa").click(function(){
+			let id_usuario = $(this).data('funcionario');
+			console.log("botao btn_ativa -> ", $(this).data('funcionario'));
+	      
+	      swal({
+	         title: 'Confirma a ATIVAÇÃO do funcionário?',
+	         type: 'question',
+	         showCancelButton: true,
+	         confirmButtonColor: '#3085d6',
+	         cancelButtonColor: '#d33',
+	         confirmButtonText: 'Sim',
+	         cancelButtonText: 'Não',
+	      }).then(function () {
+      		//chama a rota para desativar o funcionario
+   	 	 	$.post('/mudastatus',{
+               _token: 	'{{ csrf_token() }}',
+   	 	 		id: 		id_usuario,
+   	 	 		status: 	'aTIVO'
+   	 	 	},function(data){
+					
+				  	$(this).removeClass("btn-success");
+				  	$(this).addClass("btn-danger"); 
+
+				 	demo.notificationRight("top", "right", "success", "O funcionário foi Ativado");
+ 					console.log(data)
+			 	})
+
+         });
+      });
+
+		$(".btn_email_senha").click(function(){
+			let id_usuario = $(this).data('funcionario');
+
+			console.log("botao btn_email_senha -> ", id_usuario );
+
+	      swal({
+	         title: 'Confirma a REINICIALIZAÇÃO da senha do funcionário?',
+	         type: 'question',
+	         showCancelButton: true,
+	         confirmButtonColor: '#3085d6',
+	         cancelButtonColor: '#d33',
+	         confirmButtonText: 'Sim',
+	         cancelButtonText: 'Não',
+	      }).then(function () {
+      	 
+      	 	//chama a rota para zerar a senha e enviar email ao funcionário
+   	 	 	$.post('/zerarsenhafuncionario',{
+                  _token: 	'{{ csrf_token() }}',
+      	 	 		id: 		id_usuario
+   	 	 	},function(data){
+					 //mostrando o retorno do post
+				 	demo.notificationRight("top", "right", "success", "Email com nova senha enviado para o funcionário");
+ 					console.log(data)
+			 	})
+
+         });
+      });
      	
 
 		{{-- Testar se há algum erro, e mostrar a notificação --}}
 		@if ($errors->any())
-
 		 	@foreach ($errors->all() as $error)
 		    	setTimeout(function(){demo.notificationRight("top", "right", "rose", "{{ $error }}"); }, tempo);
 		    	tempo += incremento;
@@ -107,9 +229,11 @@ Funcionários
 			demo.notificationRight("top", "right", "success", "{{ $error }}");
 		@endif
 
+
 		@if (session('sucesso'))
 			demo.notificationRight("top", "right", "success", "{{ session('sucesso') }}");
 		@endif
+
 
 
 		$('#datatables').DataTable({
@@ -125,8 +249,8 @@ Funcionários
 			compact: true,
 
 			"columnDefs": [
-    			{ "width": "15%", "targets": 4 },
-    			{ className: "text-center", "targets": [4] },
+    			{ "width": "15%", "targets": 5 },
+    			{ className: "text-center", "targets": [5] },
   			]
 
         /*"columnDefs": 
@@ -135,9 +259,7 @@ Funcionários
           { className: "text-right",  "targets": [2] }
         ]*/
 		});
-
-
   });
 </script>
 
-  @endpush
+@endpush

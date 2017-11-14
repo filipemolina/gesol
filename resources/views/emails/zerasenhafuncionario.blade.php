@@ -1,4 +1,4 @@
-<h1><p>Parabéns, você agora tem acesso ao GESOL! </p></h1>
+<h1><p>Sua senha de acesso ao GESOL foi recriada! </p></h1>
 </br>
 </br>
 <p>Para acessar o sistema utilize as informações abaixo:</p>

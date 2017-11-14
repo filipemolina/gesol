@@ -216,9 +216,9 @@ class UserController extends Controller
     {
         //dd("aqui");
         $usuario = User::find(Auth::user()->id);
-        $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+        $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
-        return view('funcionarios.altera_avatar',compact('usuario','funcionario'));    
+        return view('funcionarios.altera_avatar',compact('usuario','funcionario_logado'));    
         
     }
 
@@ -236,7 +236,29 @@ class UserController extends Controller
 
     }
 
+    public function MudaStatus(Request $request)
+    {
+      // busca o usuario
+        $funcionario = Funcionario::find($request->id);        
+        
+        $usuario = $funcionario->user;
 
+        //return json_encode($usuario);     
+
+        $status_antigo = $usuario->status;    
+
+        $usuario->status = $request->status;
+
+          //salva o usuario
+        $usuario->save();
+
+        //salva na trilha
+        loga('U', 'USERS', $usuario->id, 'STATUS', $status_antigo, null);
+
+        return json_encode($status_antigo);     
+     
+   }
+   
 
 
 
