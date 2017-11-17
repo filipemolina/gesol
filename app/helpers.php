@@ -92,7 +92,15 @@ if (! function_exists('camelcase')) {
       function loga($acao, $tabela, $chave, $campo, $valor_antigo, $motivo)
       {
       
-         $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
+         //verifica se já está logado
+         if(Auth::user())
+         {
+            $funcionario_logado        = Funcionario::find(Auth::user()->funcionario_id);
+            $id_do_funcionario_logado  = $funcionario_logado->id;
+         }else{
+            $funcionario_logado        = '1';
+            $id_do_funcionario_logado  = '1';
+         }
 
          //$ip            = $_SERVER["REMOTE_ADDR"];
          //$maquina       = $_SERVER["REMOTE_HOST"];
@@ -110,7 +118,7 @@ if (! function_exists('camelcase')) {
             'campo'           => $campo,
             'valor_antigo'    => $valor_antigo,
             'motivo'          => $motivo,
-            'funcionario_id'  => $funcionario_logado->id,
+            'funcionario_id'  => $id_do_funcionario_logado,
             'ip'              => $ip,
             'maquina'         => $maquina,
             'local_user'      => $local_user,

@@ -22,7 +22,7 @@
 
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-bullhorn"></i> Total de Abertas</span>
-            <div class="count">{{ $resultados['solicitacoes']->where('status', 'Aberta')->count() }}</div>
+            <div class="count">{{ $resultados['abertas'] }}</div>
             {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>3% </i> de aumento</span> --}}
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">

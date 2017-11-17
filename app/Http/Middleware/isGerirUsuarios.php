@@ -16,7 +16,7 @@ class isGerirUsuarios
      */
     public function handle($request, Closure $next)
     {
-        if( Auth::user()->funcionario->role->peso >= 50 )
+        if( Auth::user()->funcionario->role->peso >= 40 )
         {
             //dd(Auth::user()->funcionario->role);
             return $next($request);

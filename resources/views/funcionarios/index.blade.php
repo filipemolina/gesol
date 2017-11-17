@@ -38,7 +38,7 @@
 								<th>CPF</th>
 								<th>Acesso</th>
 								<th>Cargo</th>
-								<th>Status</th>
+{{-- 								<th>Status</th> --}}
 								<th class="disabled-sorting text-right">Ações</th>
 							</tr>
 						</thead>
@@ -51,7 +51,7 @@
 									<td>{{ $funcionario->cpf                                        		 }}</td>
 									<td>{{ $funcionario->role->acesso                                     }}</td>
 									<td>{{ $funcionario->cargo                                            }}</td>
-									<td>{{ $funcionario->user['status']                                   }}</td>
+{{-- 									<td>{{ $funcionario->user['status']                                   }}</td> --}}
 									<td>
 
 										{{-- se o usuario logado for TI ou DSV habilita a opção de ZERAR a senha --}}
@@ -68,9 +68,29 @@
 													<i class="glyphicon glyphicon-remove "></i>
 												</button>
 
+												<button  
+													class="btn_ativa btn btn-success btn-xs action  pull-right  botao_acao" 
+													data-toggle="tooltip" 
+													data-funcionario = {{ $funcionario->id }}
+													data-placement="bottom" 
+													title="Ativa a conta do funcionario"
+													style="display: none">  
+													<i class="glyphicon glyphicon-plus "></i>
+												</button>
+
 											{{-- @elseif($funcionario->user['status'] == 'Inativo') --}}
 											@else
 												
+												<button  
+													class="btn_desativa btn btn-danger btn-xs action  pull-right  botao_acao" 
+													data-toggle="tooltip" 
+													data-funcionario = {{ $funcionario->id }}
+													data-placement="bottom" 
+													title="Desativa a conta do funcionario" 
+													style="display: none">  
+													<i class="glyphicon glyphicon-remove "></i>
+												</button>
+
 												<button  
 													class="btn_ativa btn btn-success btn-xs action  pull-right  botao_acao" 
 													data-toggle="tooltip" 
@@ -102,11 +122,11 @@
 											<i class="glyphicon glyphicon-pencil "></i>
 										</a>
 
-										<a href="{{ url("funcionarios/$funcionario->id") }}" 
+										<a href="{{ url("funcionario/$funcionario->id") }}" 
 											class="btn btn-primary btn-xs  action  pull-right botao_acao "  
 											data-toggle="tooltip"  
 											data-placement="bottom" 
-											title="Visualiza essa Loja"> 
+											title="Visualiza as informações do Funcionário"> 
 											<i class="glyphicon glyphicon-eye-open "></i>
 										</a>
 										
@@ -131,8 +151,10 @@
 		$.fn.dataTable.moment( 'DD/MM/YYYY' );
 
 
-		$(".btn_desativa").click(function(){
+		$("table#datatables").on("click", ".btn_desativa",function(){
 			let id_usuario = $(this).data('funcionario');
+			let btn = $(this);
+
 			console.log("botao btn_desativa -> ", $(this).data('funcionario'));
 	      swal({
 	         title: 'Confirma a DESATIVAÇÃO do funcionário?',
@@ -149,16 +171,19 @@
    	 	 		id: 		id_usuario,
    	 	 		status: 	'Inativo'
    	 	 	},function(data){
-					 //mostrando o retorno do post
+
+				 	btn.css('display', 'none').siblings('button.btn_ativa').css('display', 'block');
 				 	demo.notificationRight("top", "right", "success", "O funcionário foi Desativado");
  					console.log(data)
+
 			 	})
 
          });
       });
 
-		$(".btn_ativa").click(function(){
+		$("table#datatables").on("click", ".btn_ativa",function(){
 			let id_usuario = $(this).data('funcionario');
+			let btn = $(this);
 			console.log("botao btn_ativa -> ", $(this).data('funcionario'));
 	      
 	      swal({
@@ -174,11 +199,10 @@
    	 	 	$.post('/mudastatus',{
                _token: 	'{{ csrf_token() }}',
    	 	 		id: 		id_usuario,
-   	 	 		status: 	'aTIVO'
+   	 	 		status: 	'Ativo'
    	 	 	},function(data){
 					
-				  	$(this).removeClass("btn-success");
-				  	$(this).addClass("btn-danger"); 
+				  	btn.css('display', 'none').siblings('button.btn_desativa').css('display', 'block');
 
 				 	demo.notificationRight("top", "right", "success", "O funcionário foi Ativado");
  					console.log(data)
@@ -249,8 +273,8 @@
 			compact: true,
 
 			"columnDefs": [
-    			{ "width": "15%", "targets": 5 },
-    			{ className: "text-center", "targets": [5] },
+    			{ "width": "15%", "targets": 4 },
+    			{ className: "text-center", "targets": [4] },
   			]
 
         /*"columnDefs": 

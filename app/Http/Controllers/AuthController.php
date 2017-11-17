@@ -20,6 +20,7 @@ class AuthController extends Controller
 
         if(Auth::user())
         {
+            loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logon');
             return redirect()->intended('/');
         }
 
@@ -28,6 +29,7 @@ class AuthController extends Controller
 
     public function logout()
     {
+        loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logoff');
         Auth::logout();
         return redirect("/");
     }
@@ -59,21 +61,25 @@ class AuthController extends Controller
         				// Redirecionar para o Painel Principal
 
                         //dd("logou");
+                        loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logon');
         				return redirect()->intended('/');
         			}
         		}
         		else
         		{
+                    loga('R', 'USERS',  '0', 'EMAIL', $request->email , 'Tentativa de Logon - não é funcionario');
         			return redirect("/login")->withErrors(['erros' => 'Não é um funcionário']); //echo "Não é um funcionário<br/>";	
         		}
 
         		return redirect("/"); //echo "<h2>Senha Confere</h2>";
 
         	} else {
+                loga('R', 'USERS',  '0', 'EMAIL',$request->email , 'Tentativa de Logon - senha errada');
                 return redirect("/login")->withErrors(['erros' => 'Senha não confere']);
         	}
         }else{
             //dd("nao existe");
+            loga('R', 'USERS', '0', 'EMAIL',$request->email , 'Tentativa de Logon - email não cadastrado');
             return redirect("/login")->withErrors(['erros' => 'Email não cadastrado']);    
         }
     }

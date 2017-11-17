@@ -70,7 +70,8 @@
           
 
          @if($funcionario_logado->role->peso == 10 )          
-             
+
+         @elseif($funcionario_logado->role->peso == 20)             
 
          @elseif($funcionario_logado->role->peso == 30)
 

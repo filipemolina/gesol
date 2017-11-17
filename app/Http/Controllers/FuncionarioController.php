@@ -180,15 +180,32 @@ class FuncionarioController extends Controller
    
    public function show(Funcionario $funcionario)
    {
-     //
+      $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
+
+      $roles          = Role::where('peso','<', $funcionario_logado->role->peso)->orderBy('peso', 'asc')->get();
+      $secretarias    = Secretaria::all()->sortBy('nome');
+      $setores        = Setor::all()->sortBy('nome');        
+      $servicos       = Servico::all()->sortBy('nome');        
+
+      
+
+      return view('funcionarios.show', compact('funcionario_logado','funcionario','secretarias','setores','servicos','roles'));
    }
 
     
-    public function edit(Funcionario $funcionario)
-    {
-        $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
+   public function edit(Funcionario $funcionario)
+   {
+      $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
-        $roles          = Role::where('peso','<', $funcionario_logado->role->peso)->orderBy('peso', 'asc')->get();
+      //verifica se o funcionario que está logado tem menos privilégios que o funcionário que ele está alterando
+      if($funcionario_logado->role->peso < $funcionario->role->peso)
+      {
+         $roles          = Role::where('peso','=', $funcionario->role->peso)->orderBy('peso', 'asc')->get(); 
+      }else{
+         $roles          = Role::where('peso','<', $funcionario_logado->role->peso)->orderBy('peso', 'asc')->get(); 
+      }
+
+        
         $secretarias    = Secretaria::all()->sortBy('nome');
         $setores        = Setor::all()->sortBy('nome');        
         $servicos       = Servico::all()->sortBy('nome');        
@@ -210,8 +227,6 @@ class FuncionarioController extends Controller
    public function update(Request $request, Funcionario $funcionario)
    {
 
-
-
       if($request->has('secretaria_id')){
          $request->merge(['secretaria_id' => $request->select_secretaria]);
       }else{
@@ -220,7 +235,7 @@ class FuncionarioController extends Controller
 
       $this->validate($request, [
          'nome'                  => 'required|max:255',
-         'email'                 => 'required|email|max:255|unique:users,email,'.$funcionario->id,
+         'email'                 => 'required|email|max:255|unique:users,email,'.$funcionario->user->id,
          'cpf'                   => 'cpf|unique:funcionarios,cpf,'.$funcionario->id,
          'cargo'                 => 'required',
          'secretaria_id'         => 'required',
@@ -228,6 +243,7 @@ class FuncionarioController extends Controller
          'matricula'             => 'required',
          'role_id'               => 'required',
       ]);
+
 
       $original   = $funcionario->toArray();
       $novo       = $request->toArray();

@@ -150,11 +150,13 @@ class SolicitacaoController extends Controller
         //verifica se foi dado um prazo diferente para essa solicitação se não, 
         //pega o padrão do serviço
         
-        if($solicitacao->prazo)
+        /*if($solicitacao->prazo)
             $prazo_em_dias=$solicitacao->prazo;
         else
-            $prazo_em_dias=$solicitacao->servico->prazo;
+            $prazo_em_dias=$solicitacao->servico->prazo;*/
             
+        $prazo_em_dias=$solicitacao->prazo;
+        
         //cria o prazo com a data setada acima
        $prazo_calculado = date('Ymd', strtotime($solicitacao->created_at." +$prazo_em_dias days"));
 
