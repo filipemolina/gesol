@@ -133,12 +133,9 @@ class SolicitantesController extends Controller
 
         }
 
-        $resposta = new \stdClass();
+	    $resposta = new \stdClass();
         $resposta->token = $solicitante->user->createToken("Token APP");
         $resposta->solicitante = $solicitante;
-
-        //TODO: Testar essa resposta na tela de alteração de dados do aplicativo
-        // Após isso, testar o ciclo completo da solicitação
 
         return json_encode($resposta);
     }

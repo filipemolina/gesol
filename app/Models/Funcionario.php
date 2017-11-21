@@ -14,6 +14,7 @@ class Funcionario extends Model
     	'matricula',
     	'cargo',
     	'foto',
+        'acesso',
     ];
 
     // Relacionamentos
@@ -32,4 +33,9 @@ class Funcionario extends Model
     {
         return $this->hasMany('App\Models\Comentario');
     }
+    
+    public function movimentos()
+    {
+        return $this->hasMany('App\Models\movimento');
+    }        
 }

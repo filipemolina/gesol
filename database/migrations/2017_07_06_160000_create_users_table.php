@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
+            $table->mediumText('avatar')->nullable();
 
             //------------------------FOREIGN--------------------------------
             $table->integer('funcionario_id')->nullable()->unsigned();
