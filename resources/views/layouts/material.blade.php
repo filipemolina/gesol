@@ -64,8 +64,6 @@
     
                     @yield('content')
 
-                   {{--  <input type="text" class="input-teste"> --}}
-
                 </div>
             </div>
 
@@ -161,6 +159,6 @@
         <script src="http://maps.google.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
 
         @stack('scripts')
+
     </body>
 </html>
-

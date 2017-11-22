@@ -12,7 +12,7 @@ class SolicitacoesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['index']]);
     }
 
     /**
@@ -20,23 +20,28 @@ class SolicitacoesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+	// Pular X solicitações
+	$offset = isset($request->offset) ? $request->offset : 0;
+
         $Solicitacoes = Solicitacao::with([
             'solicitante', 
             'comentarios', 
             'comentarios.funcionario', 
             'comentarios.funcionario.setor.secretaria',
             'servico',
+            "servico.setor",
             'servico.setor.secretaria',
-        ])->orderBy('created_at', 'desc')->limit(10)->get();
+            'apoiadores'
+        ])->where('moderado', '1')->where('status', '<>', 'Recusada')->withCount('apoiadores')->orderBy('created_at', 'desc')->skip($offset)->limit(10)->get();
 
         return $Solicitacoes->toJson();
     }
 
     /**
      * Show the form for creating a new resource.
-     *
+    
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -135,14 +140,23 @@ class SolicitacoesController extends Controller
             'comentarios.funcionario', 
             'comentarios.funcionario.setor.secretaria',
             'servico',
+            "servico.setor",
             'servico.setor.secretaria',
+            'apoiadores'
         ])
+        ->withCount('apoiadores')
         ->where("solicitante_id", $request->id)
         ->orderBy('created_at', 'desc')
         ->limit(10)
         ->get();
 
         return $solicitacoes->toJson();
+
+    }
+
+    public function scroll(Request $request){
+
+	
 
     }
 }

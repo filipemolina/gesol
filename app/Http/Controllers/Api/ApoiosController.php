@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Apoio;
 use App\Models\Solicitacao;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class ApoioController extends Controller
+class ApoiosController extends Controller
 {
-     public function __construct()
+    public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:api');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -47,10 +48,10 @@ class ApoioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Apoios  $apoios
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Apoios $apoios)
+    public function show($id)
     {
         //
     }
@@ -58,10 +59,10 @@ class ApoioController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Apoios  $apoios
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Apoios $apoios)
+    public function edit($id)
     {
         //
     }
@@ -70,10 +71,10 @@ class ApoioController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Apoios  $apoios
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Apoios $apoios)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -81,11 +82,41 @@ class ApoioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Apoios  $apoios
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Apoios $apoios)
+    public function destroy($id)
     {
         //
     }
+
+    /**
+     * Cria ou remove um apoio para a solicitação especificada
+     *
+     * @param int solicitacao_id
+     * @param int solicitante_id
+     */
+
+    public function apoiar(Request $request)
+    {
+    
+        $apoiado = Apoio::where('solicitacao_id', $request->solicitacao_id)
+                        ->where('solicitante_id', $request->solicitante_id)
+                        ->get();
+
+        if($apoiado->count())
+        {
+            $apoiado[0]->delete();
+            
+        }else{
+            // Criar um novo apoio
+            $apoio = new Apoio($request->all());
+            $apoio->save();
+        }           
+
+        // Contar quantos apoios já foram feitos
+        $solicitacao = Solicitacao::find($request->solicitacao_id);
+
+        return $solicitacao->apoiadores->count();
+    }    
 }
