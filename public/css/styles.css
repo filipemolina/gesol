@@ -2210,9 +2210,10 @@ td { font-size: 12px !important; }
     position: relative
 }
 @media (min-width: 992px) {
-    footer {
-        margin-left: 230px
-    }
+  footer {
+      /*margin-left: 230px*/
+      margin-left: 0px!important;
+  }
 }
 @media (min-width: 992px) {
     .tile_count .tile_stats_count {
@@ -2286,3 +2287,4 @@ table.tile_info span.right {
     margin-top: 0;
     margin-bottom: 5px
 }
+
