@@ -29,7 +29,7 @@ class HomeController extends Controller
 
       if( Solicitacao::count() > 0)
       {
-         $resultados = $this->preparaDashboard($funcionario_logado->role->acesso);
+         $resultados = $this->preparaDashboard('dashboard'.$funcionario_logado->role->acesso);
 
          switch ($funcionario_logado->role->peso) {
             case 10:  $viu='dash-Moderador'  ; break;
@@ -59,24 +59,9 @@ class HomeController extends Controller
    */
 
    private function preparaDashboard($acesso){
-      return $this->{'dashboard'.$acesso}();
+      return $acesso;
    }
-
-
-   private function dashboardTI(){
-      $resultados = [];
-      $solicitacoes  = Solicitacao::with(['endereco', 'servico', 'servico.setor', 'servico.setor.secretaria'])->get();
-
-      $sol_por_mes   = solicitacoesPorMes($solicitacoes);
-      $sol_prazo     = solicitacoesPrazo($solicitacoes);
-      $sol_media     = mediaSolucao($solicitacoes);
-
-      $resultados['sol_por_mes']    = $sol_por_mes;
-      $resultados['sol_prazo']      = $sol_prazo;
-      $resultados['sol_media']      = $sol_media;
-      $resultados['solicitacoes']   = $solicitacoes;
-      return $resultados;
-   }
+  
 
    private function dashboardModerador(){
       $resultados = [];
@@ -100,7 +85,20 @@ class HomeController extends Controller
    private function dashboardFuncionario_ADM(){
       return $this->{'dashboardFuncionario'}();
    }
+  
+   private function dashboardPrefeito(){
+      return $this->{'dashboardFuncionario'}();
+   }
 
+
+   private function dashboardTI(){
+      return 'dashboardTI';
+   }
+
+
+
+
+  
    
    private function dashboardFuncionario(){
 
