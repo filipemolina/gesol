@@ -26,9 +26,9 @@ class SolicitacoesController extends Controller
 	$offset = isset($request->offset) ? $request->offset : 0;
 
         $Solicitacoes = Solicitacao::with([
-            'solicitante', 
-            'comentarios', 
-            'comentarios.funcionario', 
+            'solicitante',
+            'comentarios',
+            'comentarios.funcionario',
             'comentarios.funcionario.setor.secretaria',
             'servico',
             "servico.setor",
@@ -41,7 +41,7 @@ class SolicitacoesController extends Controller
 
     /**
      * Show the form for creating a new resource.
-    
+
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -76,6 +76,15 @@ class SolicitacoesController extends Controller
         $solicitante = Solicitante::find($request->solicitante_id);
 
         $solicitacao = $solicitante->solicitacoes()->create($request->all());
+
+	// Obter o prazo padrão para o tipo de serviço selecionado
+
+	$prazo = $solicitacao->servico->prazo;
+
+	// Gravar o prazo padrão no momento da criação da solicitação
+
+	$solicitacao->prazo = $prazo;
+	$solicitacao->save();
 
         $solicitacao->endereco()->create($request->all());
 
@@ -124,7 +133,35 @@ class SolicitacoesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $solicitacao = Solicitacao::find($id);
+
+	if($solicitacao){
+
+		if($solicitacao->status == "Aberta"){
+
+		    $solicitacao->delete();
+	
+	    	$resposta = new \stdClass();
+	    	$resposta->status = true;
+
+	    	return json_encode($resposta);
+
+		} else {
+
+	    	$resposta = new \stdClass();
+	    	$resposta->status = false;
+	    	$resposta->mensagem = "Essa solicitação não pode ser excluída pois já está sendo analisada pela Prefeitura.";
+
+	    	return json_encode($resposta);
+
+		}
+	} else {
+
+		$resposta = new \stdClass();
+		$resposta->status = false;
+		$resposta->mensagem = "Essa solicitação não existe.";
+
+	}
     }
 
     /**
@@ -159,4 +196,5 @@ class SolicitacoesController extends Controller
 	
 
     }
+
 }
