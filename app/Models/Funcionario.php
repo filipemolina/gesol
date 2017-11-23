@@ -9,12 +9,15 @@ class Funcionario extends Model
     // Fillables
 
     protected $fillable = [
-    	'cpf',
+    	
         'nome',
+        'cpf',
     	'matricula',
     	'cargo',
     	'foto',
-        'acesso',
+        'setor_id',
+        'role_id',
+        
     ];
 
     // Relacionamentos
@@ -36,6 +39,17 @@ class Funcionario extends Model
     
     public function movimentos()
     {
-        return $this->hasMany('App\Models\movimento');
+        return $this->hasMany('App\Models\Movimento');
     }        
+
+    public function sys_logs()
+    {
+        return $this->hasMany('App\Models\Sys_log');
+    }        
+
+    public function role()
+    {
+      return $this->belongsTo('App\Models\Role');
+    }
+   
 }

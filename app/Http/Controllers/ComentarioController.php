@@ -40,25 +40,36 @@ class ComentarioController extends Controller
     public function store(Request $request)
     {
         
-       // Validar
+        // Validar
 
         $this->validate($request, [
-            'comentario'       => 'required|min:2',
-            'solicitacao_id'    => 'required'
+            'comentario'     => 'required|min:2',
+            'solicitacao_id' => 'required'
         ]);
 
-        $Comentario = new Comentario($request->all());
+        $comentario = new Comentario($request->all());
 
-        $Comentario->solicitacao_id = $request->solicitacao_id;
+        // Associar com uma solicitação e um funcionário
 
-        if(isset($request->funcionario_id))
-        {
-            $Comentario->funcionario_id = $request->funcionario_id;            
-        };
+        $comentario->solicitacao_id = $request->solicitacao_id;
+        $comentario->funcionario_id = $request->funcionario_id;
 
-        $Comentario->save();
+        //Salvar
 
-        return $Comentario->id;
+        $comentario->save();
+
+        $resposta                   = new \stdClass();
+        $resposta->data             = \Carbon\Carbon::parse( $comentario->created_at)->format('d/m/Y - H:i:s');
+        $resposta->nome_funcionario = $comentario->funcionario->nome;
+        $resposta->nome_setor       = $comentario->solicitacao->servico->setor->nome;
+        $resposta->sigla            = $comentario->solicitacao->servico->setor->secretaria->sigla;
+        $resposta->comentario       = $comentario->comentario;
+
+        //trilha($comentario->solicitacao->id,    null , null ,"Respondeu" ,null);
+        
+        trilha($request->solicitacao_id,        null , null ,"Respondeu" ,null, $comentario->id);
+
+        return json_encode($resposta);
 
     }
 

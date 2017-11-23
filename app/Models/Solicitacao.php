@@ -8,13 +8,19 @@ class Solicitacao extends Model
 {
    protected $table = "solicitacoes";
 
+   protected $dates = [
+        'created_at',
+        'updated_at'
+   ];
+
     protected $fillable =[
 		'foto',
         'conteudo',
         'status',
         'moderado',
         'prioridade',
-        'servico_id'
+        'servico_id',
+        'prazo'
     ];
 
 

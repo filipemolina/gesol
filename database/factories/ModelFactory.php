@@ -14,12 +14,13 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
-
     return [
         
         'email' 		=> $faker->unique()->safeEmail,
+        'status' 		=> $faker->randomElement(['Ativo','Inativo']),
         'password' 	=> $password ?: $password = bcrypt('secret'),
         'avatar' 		=> $faker->imageUrl(120, 150, 'people', true, 'Faker'),
+        
     ];
 });
 
@@ -54,14 +55,16 @@ $factory->define(App\Models\Endereco::class, function(Faker\Generator $faker) {
 
 $factory->define(App\Models\Funcionario::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
+
+   $role_id = App\Models\Role::all()->random()->id;
+
 	return [
 		'nome'            => $faker->name,
 		'matricula'       => $faker->numberBetween($min = 1111, $max = 99999),
 		'cpf'           	=> $faker->cpf,
 		'cargo'			   => $faker->jobTitle,
 		'foto'				=> $faker->imageUrl(120, 150, 'people', true, 'Faker'),
-		'acesso'				=> $faker->randomElement(["TI","Prefeito","Ouvidor", "Secretario",
-																	"Funcionario","Moderador","Desativado"]),
+		'role_id'			=> $role_id,
 	];
 });
 
@@ -83,11 +86,10 @@ $factory->define(App\Models\Comentario::class, function(Faker\Generator $faker) 
 
 
 	return [
-		'comentario'          => $faker->realText($maxNbChars = 30, $indexSize = 2), 
-		'encerramento'      => $faker-> boolean($chanceOfGettingTrue = 90),
-		'lida'           	=> $faker-> boolean($chanceOfGettingTrue = 50),
-
-		'funcionario_id'	=> $funcionario_id,
+		'comentario'         => $faker->realText($maxNbChars = 30, $indexSize = 2), 
+		'encerramento'      	=> $faker-> boolean($chanceOfGettingTrue = 90),
+		'lida'           		=> $faker-> boolean($chanceOfGettingTrue = 50),
+		'funcionario_id'		=> $funcionario_id,
 
 	];
 });
@@ -147,7 +149,7 @@ $factory->define(App\Models\Solicitacao::class, function(Faker\Generator $faker)
 		
 		'moderado'				=>	rand(0, 1),
 		'conteudo'          	=> $faker->realText($maxNbChars = 190, $indexSize = 2),
-		'status'					=> $faker->randomElement(['Aberta','Encaminhada','Aguardando','Pendente','Em execução','Fechada']),
+		'status'					=> $faker->randomElement(['Aberta','Em análise','Em execução','Solucionada','Recusada','Encaminhada']),
 		'prioridade'			=> $faker->randomElement(['Baixa','Normal','Alta','Urgente']),
 		'created_at'         => $faker->dateTimeBetween('-5 weeks', 'now'),
 

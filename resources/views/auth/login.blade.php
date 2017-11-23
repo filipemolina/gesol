@@ -50,9 +50,7 @@
                         <div id="login-municipe" class="card card-login card-hidden">
                            <div class="logo-dourado logo-pn"></div>
                            <div class="card-header text-center" data-background-color="dourado">
-                              <div class="social-line">
-                                 <br><br><br>
-                              </div>
+                              <div class="social-line"><br><br><br></div>
                            </div>
                            <div class="card-content">
                               <div class="input-group">

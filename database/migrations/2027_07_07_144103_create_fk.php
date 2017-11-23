@@ -30,6 +30,7 @@ class CreateFk extends Migration
         
         Schema::table('funcionarios', function($table){
             $table->foreign('setor_id')->references('id')->on('setores')->onDelete('cascade');
+            $table->foreign('role_id') ->references('id')->on('roles')  ->onDelete('set null');
         });
         
 
@@ -43,8 +44,8 @@ class CreateFk extends Migration
         });
 
         Schema::table('users', function($table){
-            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
-            $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
+            $table->foreign('funcionario_id')   ->references('id')->on('funcionarios')  ->onDelete('cascade');
+            $table->foreign('solicitante_id')   ->references('id')->on('solicitantes')  ->onDelete('cascade');
         });
             
         Schema::table('telefones', function($table){
@@ -63,6 +64,11 @@ class CreateFk extends Migration
             $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
             $table->foreign('comentario_id')->references('id')->on('comentarios')->onDelete('cascade');            
         });
+
+        Schema::table('sys_logs', function($table){
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
+        });
+
 
         Schema::enableForeignKeyConstraints();
     }
