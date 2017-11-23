@@ -65,7 +65,9 @@ class ComentarioController extends Controller
         $resposta->sigla            = $comentario->solicitacao->servico->setor->secretaria->sigla;
         $resposta->comentario       = $comentario->comentario;
 
-        trilha($comentario->solicitacao->id, null , null ,"Respondeu" ,null);
+        //trilha($comentario->solicitacao->id,    null , null ,"Respondeu" ,null);
+        
+        trilha($request->solicitacao_id,        null , null ,"Respondeu" ,null, $comentario->id);
 
         return json_encode($resposta);
 

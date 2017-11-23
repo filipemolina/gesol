@@ -21,14 +21,41 @@ Route::get ('/register', 	function () {return view('solicitantes.create');});
 Route::get ('/', 				'HomeController@index')->name('home');
 
 
+
+//caminho para a tela de alteração de senha
+Route::get 	('/alterasenha',			'UserController@AlteraSenha');
+Route::put 	('/salvasenha',   		'UserController@SalvarSenha');
+//caminho para a tela de alteração do avatar
+Route::get 	('/alteraavatar',			'UserController@AlteraAvatar');
+Route::put 	('/salvaavatar',   		'UserController@SalvarAvatar');
+//caminho para alterar o status do usuario ATIVO/INATIVO
+Route::post('/mudastatus',				'UserController@MudaStatus');
+
+
+
+//caminho para envio de emails
+Route::post('/senhafuncionario',			'EmailController@EnviarSenhaFuncionario');
+Route::post('/zerarsenhafuncionario',	'EmailController@ZerarSenhaFuncionario');
+
+
+
+
 // Rota para o dataTables da dashboard
 Route::get('solicitacao/datatables/{liberado}', 'SolicitacaoController@dados');
-
 // Rota para o controle de moderação
-Route::post('modera',				'SolicitacaoController@modera');
-
+Route::post('modera',									'SolicitacaoController@modera');
 // Rota para alteração de status da solicitação
-Route::post('status',				'SolicitacaoController@status');
+Route::post('status',									'SolicitacaoController@status');
+// Rota inserir dados de trilha
+Route::post('trilha',									'SolicitacaoController@trilha');
+
+
+
+
+// Rota para preencher o select de setores na edição/criação de funcionarios
+Route::get('setor', 					'FuncionarioController@setor');
+
+
 
 //resources
 Route::resource('solicitante',	'SolicitanteController');

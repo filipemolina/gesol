@@ -30,7 +30,74 @@ class SolicitacaoController extends Controller
      */
     public function index()
     {
-        //
+        $funcionario_logado   = Funcionario::find(Auth::user()->funcionario_id);
+        //dd(Solicitacao::count());
+
+        if( Solicitacao::count() > 0)
+        {
+            
+            switch ($funcionario_logado->role->peso) {
+                case 10:
+                    //"Moderador"
+                    return view('solicitacoes.controle-moderador', compact('funcionario_logado'));
+                    break;
+
+                case 20:
+                    //"SAC"
+                    dd($funcionario_logado->role->acesso);
+                    break;
+
+                case 30:
+                    //"Funcionario"
+
+                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
+                    break;
+
+                case 40:
+                    //"Funcionario_SUP"
+                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
+                    break;
+
+                case 50:
+                    //"Funcionario_ADM"
+                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
+                    break;
+                
+                case 60:
+                    //"Secretario"
+                    dd($funcionario_logado->role->acesso);
+                    break;
+
+                case 70:
+                    //"Ouvidor"
+                    dd($funcionario_logado->role->acesso);
+                    break;
+
+                case 80:
+                    //"Prefeito"
+                    dd($funcionario_logado->role->acesso);
+                    break;                    
+
+                case 90:
+                    //"TI"
+                    dd($funcionario_logado->role->acesso);
+                    break;                    
+
+                case 100:
+                    //"DSV"
+                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
+                    break;
+                                        
+                default:
+                    dd($funcionario_logado->role->acesso);
+                    break;
+            }
+
+
+        }else{
+            dd("Nenhuma solicitação cadastrada");
+        }
+        //return view('solicitacoes.show', compact(/*'solicitacoes',*/'funcionario_logado'));
     }
 
     /**
@@ -62,7 +129,7 @@ class SolicitacaoController extends Controller
      */
     public function show($id)
     {
-        return view('solicitacoes.show');
+      
     }
 
     /**
@@ -74,7 +141,7 @@ class SolicitacaoController extends Controller
     public function edit($id)
     {
         //busca o funcionario
-        $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+        $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
         //busca a solicitação que será editada
         /*$solicitacao = Solicitacao::with('endereco','solicitante','servico','servico.setor')->find($id);*/
@@ -82,14 +149,16 @@ class SolicitacaoController extends Controller
 
         //verifica se foi dado um prazo diferente para essa solicitação se não, 
         //pega o padrão do serviço
-        if($solicitacao->prazo)
-            $qtd_dias=$solicitacao->prazo;
+        
+        /*if($solicitacao->prazo)
+            $prazo_em_dias=$solicitacao->prazo;
         else
-            $qtd_dias=$solicitacao->servico->prazo;
+            $prazo_em_dias=$solicitacao->servico->prazo;*/
             
+        $prazo_em_dias=$solicitacao->prazo;
+        
         //cria o prazo com a data setada acima
-        $prazo_calculado = date('Ymd', strtotime($solicitacao->created_at." +$qtd_dias days"));
-
+       $prazo_calculado = date('Ymd', strtotime($solicitacao->created_at." +$prazo_em_dias days"));
 
 
         //pega os motivos de RECUSA de solicitação
@@ -103,22 +172,21 @@ class SolicitacaoController extends Controller
         foreach($parametros as $parametro){$motivos_transferencia[$parametro->valor] = $parametro->valor;}
 
 
+        //pega os motivos de alteração de data de PRAZO da  solicitação
+        $parametros = Parametro::where('parametro', '=', 'motivo-prazo')->get();
+        $motivos_prazo = [];
+        foreach($parametros as $parametro){$motivos_prazo[$parametro->valor] = $parametro->valor;}
+
         // Obter todos os setores
         $setores = Setor::with('servicos')->get();
         
         // chama a view de acordo com o tipo de acesso do usuario logado
-        switch($funcionario->acesso)
-        {
-            case "Moderador":
+        //$funcionario_logado->role->acesso
+        if($funcionario_logado->role->peso == 10){
+            return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario_logado','setores','motivos_recusa','motivos_transferencia','prazo_calculado','motivos_prazo','prazo_em_dias'));
 
-                return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario','setores','motivos_recusa',
-                                                                   'motivos_transferencia','prazo_calculado'));
-                break;
-
-            case "Funcionario":
-                return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario','setores','motivos_recusa',
-                                                                     'motivos_transferencia','prazo_calculado'));
-                break;
+        }else if($funcionario_logado->role->peso >= 30 and $funcionario_logado->role->peso <= 100 ){
+            return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario_logado','setores','motivos_recusa','motivos_transferencia','prazo_calculado','motivos_prazo','prazo_em_dias'));
         }
 
     }
@@ -133,6 +201,9 @@ class SolicitacaoController extends Controller
      * 2 = redireciona uma solicitação
      * 3 = edita o CONTEUDO 
      * 4 = recusa solicitação
+     * 5 = coloca em execução 
+     * 6 = alteração de STATUS      
+     * 7 = SOLUCIONA solicitação
      *
      * @return \Illuminate\Http\Response
      */
@@ -159,7 +230,7 @@ class SolicitacaoController extends Controller
                 $valor_antigo = $solicitacao->conteudo;
 
                 //salva na trilha
-                trilha($solicitacao->id, 'conteudo', $valor_antigo ,"Alterou",null);
+                trilha($solicitacao->id, 'conteudo', $valor_antigo ,"Alterou",null,null);
 
                 // Atualizar os dados
                 $solicitacao->fill($request->all());
@@ -173,7 +244,7 @@ class SolicitacaoController extends Controller
                 $valor_antigo = $solicitacao->servico->id;
 
                 //salva na trilha
-                trilha($solicitacao->id, 'servico_id', $valor_antigo ,"Redirecionou",$request->motivo);
+                trilha($solicitacao->id, 'servico_id', $valor_antigo ,"Redirecionou",$request->motivo, null);
 
 
                 // Atualizar os dados
@@ -192,16 +263,57 @@ class SolicitacaoController extends Controller
 
                 return json_encode($resposta);
 
-
             // recusa solicitação
             case 4:
                 //salva na trilha
-                trilha($solicitacao->id, 'servico_id', null ,'Recusou', $request->motivo);
+                trilha($solicitacao->id, 'servico_id', null ,'Recusou', $request->motivo, null);
 
                 // Atualizar os dados
                 $solicitacao->fill($request->all());
                 $alterou = $solicitacao->save();
                 return json_encode($request->motivo);
+
+            case 5:
+                //salva na trilha as informações da mudança STATUS
+                //salva na trilha as informações da mudança de prazo
+                trilha($solicitacao->id, $request->campo_alterado, $request->valor_antigo ,$request->andamento ,$request->motivo,null);
+
+                // Atualizar os dados
+                $solicitacao->fill($request->all());
+                
+                $alterou = $solicitacao->save();
+                
+                return json_encode($alterou);
+
+            case 6:
+
+
+                //salva na trilha as informações da mudança de status
+                trilha($solicitacao->id, $request->campo_alterado_status, $request->valor_antigo_status ,
+                       $request->andamento_status ,$request->motivo_status, null);
+
+                //salva na trilha as informações da mudança de prazo
+                trilha($solicitacao->id,$request->campo_alterado_prazo, $request->valor_antigo_prazo ,
+                       $request->andamento_prazo ,$request->motivo_prazo, null );
+
+                $solicitacao->fill($request->all());
+
+                $alterou = $solicitacao->save();
+
+
+                return json_encode("ok");
+
+            // SOLUCIONA solicitação
+            case 7:
+                //salva na trilha
+                trilha($solicitacao->id, 'status', $request->valor_antigo ,'Fechou', 'Solucionou a solicitação',null);
+
+                // Atualizar os dados
+                $solicitacao->fill($request->all());
+                $alterou = $solicitacao->save();
+
+                return json_encode($request);
+
 
         }
 
@@ -233,13 +345,14 @@ class SolicitacaoController extends Controller
     * 0 =  Obter todos os dados de todos os solicitacoes que NÃO estão moderadas / MODERADOR
     * 1 =  Obter todos os dados de todos os solicitacoes que JÁ ESTÃO moderadas
     * 2 =  Obter todos os dados de todos os solicitacoes ATIVAS e MODERADAS
-    * 3 =  Obter todos os dados de todos os solicitacoes FECHADAS e MODERADAS    
+    * 3 =  Obter todos os dados de todos os solicitacoes SOLUCIONADAS e MODERADAS    
     */
     public function dados($liberado)
     {
         // Obter o usuário atualmente logado
         $usuario = User::find(Auth::user()->id);
 
+        
 
         // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
         // Aqui  os botões PADRÃO serão criados, de acordo com a role do usuario será
@@ -273,14 +386,14 @@ class SolicitacaoController extends Controller
 
             case 2:
                 // Obter todos os dados de todos os solicitacoes ATIVAS e MODERADAS; 
-                $solicitacoes = Solicitacao::where('status','<>','Fechada')
+                $solicitacoes = Solicitacao::where('status','<>','Solucionada')
                                             ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
                 break;
 
             case 3:
                 // Obter todos os dados de todos os solicitacoes FECHADAS e MODERADAS;
-                $solicitacoes = Solicitacao::where('status','=','Fechada')
+                $solicitacoes = Solicitacao::where('status','=','Solucionada')
                                             ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
 
@@ -302,15 +415,14 @@ class SolicitacaoController extends Controller
             //verifica se foi dado um prazo diferente para essa solicitação se não, 
             //pega o padrão do serviço
             if($solicitacao->prazo)
-                $qtd_dias=$solicitacao->prazo;
+                $prazo_em_dias=$solicitacao->prazo;
             else
-                $qtd_dias=$solicitacao->servico->prazo;
+                $prazo_em_dias=$solicitacao->servico->prazo;
                 
                             
             //cria o prazo com a data setada acima
-            //$prazo = date('d/m/Y', strtotime($solicitacao->created_at." +$qtd_dias days"));
 
-            $prazo = date('Ymd', strtotime($solicitacao->created_at." +$qtd_dias days"));
+            $prazo = date('Ymd', strtotime($solicitacao->created_at." +$prazo_em_dias days"));
 
             if( date('Ymd') > $prazo )
             {
@@ -417,9 +529,10 @@ class SolicitacaoController extends Controller
                 $solicitacao->moderado = 1;
                 $solicitacao->save();
 
-                if (trilha($solicitacao->id, null , null ,"Liberou",null))
+                if (trilha($solicitacao->id, null , null ,"Liberou",null,null))
                 {
-                    return redirect('/');
+                    return redirect('/solicitacao');
+                    
                 }
 
                 break;
@@ -445,10 +558,37 @@ class SolicitacaoController extends Controller
         $solicitacao->status = $request->status;
         $solicitacao->save();
 
-        //trilha($solicitacao->id, null , null ,$request->status,null);
+        //trilha($solicitacao->id, null , null ,$request->status,null,null);
 
         return ("OK");
-        
     }
 
+
+
+    // /**
+    // * Executa inserts de trilha em movimentos
+    // * param:    
+    // *       $solicitacao:   int:    ID da solicitação    
+    // *       $campo:         string: campo que sofreu alteração 
+    // *       $valor:         string: valor do campo antes da alteração          
+    // *       $andamento:     string: tipo de andamento que sofreu a solicitação      
+    // *       $motivo:        string: Motivo pelo qual o campo foi alterado
+    // *
+    // */
+    // public function trilha(Request $request)
+    // {
+ 
+    //     $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
+
+    //     $movimento = new Movimento([
+    //       'funcionario_id'  => $funcionario->id,
+    //       'solicitacao_id'  => $solicitacao,
+    //       'campo_alterado'  => $campo,
+    //       'valor_antigo'    => $valor,
+    //       'andamento'       => $andamento,
+    //       'motivo'          => $motivo,
+    //     ]);
+      
+    //     return $movimento->save();
+    // }
 }

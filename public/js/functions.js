@@ -318,3 +318,53 @@ function trocaTexto(elemento, novo_texto) // javascript
 
   txtarea.innerHTML=newText;
 }
+
+// Carrega select de setor na página de edição de funcionário
+function carrega_select_setor_edit(secretaria_id, setor_id){
+
+    $.get('/setor?secretaria='+secretaria_id, function(res){
+
+    let resposta = JSON.parse(res);
+
+    $("#setor_id option").remove();
+
+    $("<option value=''>Selecione</option>").appendTo("#setor_id");
+
+    // Iterar por todos os setores para incluí-los no supra-citado "select"
+
+    for(i=0; i<resposta.length; i++){
+      
+      
+        if( setor_id == resposta[i].id ){
+            $("<option value='"+resposta[i].id+"' selected='true'>"+resposta[i].nome+"</option>").appendTo("#setor_id");
+        }else{
+          $("<option value='"+resposta[i].id+"'>"+resposta[i].nome+"</option>").appendTo("#setor_id");
+        }
+      }
+
+      // Atualizar o Bootstrap Select
+
+      $("#setor_id").selectpicker('refresh');
+    });
+}
+
+// Carrega select de setor na página de edição de funcionário
+function carrega_select_setor_create(secretaria_id, setor_id){
+
+  $.get('/setor?secretaria='+secretaria_id, function(res){
+
+    let resposta = JSON.parse(res);
+    console.log(resposta);     
+
+    $("#setor_id option").remove();
+
+    $("<option value=''>Selecione</option>").appendTo("#setor_id");
+
+    // Iterar por todos os setores para incluí-los no supra-citado "select"
+   for(i=0; i<resposta.length; i++){
+        $("<option value='"+resposta[i].id+"'>"+resposta[i].nome+"</option>").appendTo("#setor_id");
+    }
+    // Atualizar o Bootstrap Select
+    $("#setor_id").selectpicker('refresh');
+  });
+}

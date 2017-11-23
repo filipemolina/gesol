@@ -1,12 +1,8 @@
 @extends('layouts.material')
 
 @section('titulo')
-Página Principal
+   Solicitações
 @endsection
-{{-- 
-@section('nome-funcionario')
-   {{ $funcionario->nome }}
-@endsection --}}
 
 @section('content')
    <div class="container-fluid">
@@ -19,21 +15,28 @@ Página Principal
                <div class="card-content">
                   <h4 class="card-title">Solicitações</h4>
 
-                  <ul class="nav nav-pills" role="tablist">
-                     
-                     <li class="nav-item active">
-                        <a href="#ativas" data-toggle="tab">Ativas</a>
-                     </li>
 
-                     <li class="nav-item">
-                        <a href="#fechadas" data-toggle="tab">Fechadas</a>
-                     </li>
+                     <div class="nav-tabs-navigation">
+                         <div class="nav-tabs-wrapper">
+               
+                           <ul class="nav nav-pills" role="tablist">
+                              
+                              <li class="nav-item active">
+                                 <a href="#ativas" data-toggle="tab">Ativas</a>
+                              </li>
 
-                     <li class="nav-item">
-                        <a href="#nao-liberadas" data-toggle="tab">Aguardando Liberação</a>
-                     </li>
+                              <li class="nav-item">
+                                 <a href="#fechadas" data-toggle="tab">Fechadas</a>
+                              </li>
 
-                  </ul>
+                              <li class="nav-item">
+                                 <a href="#nao-liberadas" data-toggle="tab">Aguardando Liberação</a>
+                              </li>
+
+                           </ul>
+                         </div>
+                     </div>
+
          
                   <div class="material-datatables">
                      <div id="datatables_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
@@ -52,8 +55,8 @@ Página Principal
                                           <th>Serviço</th>
                                           <th>Conteúdo</th>
                                           <th>Status</th>
-                                          <th>Moderado</th>
                                           <th>Abertura</th>
+                                          <th>Prazo</th>
                                           <th>Ações</th>
                                        </tr>                           
                                     </thead>
@@ -73,9 +76,8 @@ Página Principal
                                           <th>Foto</th>
                                           <th>Serviço</th>
                                           <th>Conteúdo</th>
-                                          <th>Status</th>
-                                          <th>Moderado</th>
                                           <th>Abertura</th>
+                                          <th>Fechamento</th>                                          
                                           <th>Ações</th>
                                        </tr>                           
                                     </thead>
@@ -95,9 +97,8 @@ Página Principal
                                           <th>Foto</th>
                                           <th>Serviço</th>
                                           <th>Conteúdo</th>
-                                          <th>Status</th>
-                                          <th>Moderado</th>
                                           <th>Abertura</th>
+                                          <th>Prazo</th>
                                           <th>Ações</th>
                                        </tr>                           
                                     </thead>
@@ -145,16 +146,16 @@ Página Principal
          ajax      : "{{ url('/solicitacao/datatables/2') }}",
          columns   : [
 
-            { data : 'foto',       name : 'foto' },
-            { data : 'servico',    name : 'servico' },
-            { data : 'conteudo',   name : 'conteudo' },
-            { data : 'status',     name : 'status' },
-            { data : 'moderado',   name : 'moderado' },
-            { data : 'abertura',   name : 'abertura' },
-            { data : 'acoes',      name : 'acoes' },
+            { data : 'foto',        name : 'foto' },
+            { data : 'servico',     name : 'servico' },
+            { data : 'conteudo',    name : 'conteudo' },
+            { data : 'status',      name : 'status' },
+            { data : 'abertura',    name : 'abertura' },
+            { data : 'prazo',       name : 'prazo' },
+            { data : 'acoes',       name : 'acoes' },
          ],
 
-         order: [[ 5, 'desc' ]],
+         order: [[ 5, 'asc' ]],
          
          language : 
          {
@@ -163,20 +164,25 @@ Página Principal
             "thousands":   "."
          }, 
 
-         stateSave: true,
+         stateSave: false,
          stateDuration: -1,
          columnDefs: 
          [
             { className:   "text-center", "targets": [0] },
             { className:   "text-center", "targets": [1] },
-            /*{ className: "text-center", "targets": [2] },*/
             { className:   "text-center", "targets": [3] },
             { className:   "text-center", "targets": [4] },
             { className:   "text-center", "targets": [5] },
-            { className:   "text-center", "targets": [6] },
+
+            /*{ type:        "date-eu",     "targets": [5] },*/
+
+            { width:       "10%",         "targets": [1] },
             { width:       "40%",         "targets": [2] },
-            { width:       "10%",         "targets": [1] }
-         ]
+            { width:       "10%",         "targets": [4] },
+
+         ],
+
+         
       });
 
       $("#tabela-solicitacoes-fechadas").DataTable({
@@ -189,13 +195,12 @@ Página Principal
             { data : 'foto',       name : 'foto' },
             { data : 'servico',    name : 'servico' },
             { data : 'conteudo',   name : 'conteudo' },
-            { data : 'status',     name : 'status' },
-            { data : 'moderado',   name : 'moderado' },
             { data : 'abertura',   name : 'abertura' },
+            { data : 'atualizacao',name : 'fechamento' },            
             { data : 'acoes',      name : 'acoes' },
          ],
 
-         order: [[ 5, 'desc' ]],
+         order: [[ 3, 'asc' ]],
          
          language : 
          {
@@ -214,7 +219,6 @@ Página Principal
             { className:   "text-center", "targets": [3] },
             { className:   "text-center", "targets": [4] },
             { className:   "text-center", "targets": [5] },
-            { className:   "text-center", "targets": [6] },
             { width:       "40%",         "targets": [2] },
             { width:       "10%",         "targets": [1] }
          ]
@@ -231,13 +235,12 @@ Página Principal
             { data : 'foto',       name : 'foto' },
             { data : 'servico',    name : 'servico' },
             { data : 'conteudo',   name : 'conteudo' },
-            { data : 'status',     name : 'status' },
-            { data : 'moderado',   name : 'moderado' },
             { data : 'abertura',   name : 'abertura' },
+            { data : 'prazo',      name : 'prazo' },
             { data : 'acoes',      name : 'acoes' },
          ],
 
-         order: [[ 5, 'desc' ]],
+         order: [[ 4, 'asc' ]],
          
          language : 
          {
@@ -252,13 +255,11 @@ Página Principal
          [
             { className:   "text-center", "targets": [0] },
             { className:   "text-center", "targets": [1] },
-            /*{ className: "text-center", "targets": [2] },*/
             { className:   "text-center", "targets": [3] },
             { className:   "text-center", "targets": [4] },
-            { className:   "text-center", "targets": [5] },
-            { className:   "text-center", "targets": [6] },
+            { width:       "10%",         "targets": [1] },
             { width:       "40%",         "targets": [2] },
-            { width:       "10%",         "targets": [1] }
+
          ]
       });
 
