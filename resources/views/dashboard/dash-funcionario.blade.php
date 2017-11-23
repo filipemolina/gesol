@@ -74,11 +74,11 @@
              <div class="card-header card-header-icon" data-background-color="orange" style="color: #fff;">
                <i class="material-icons">dashboard</i>
             </div>
-            <div class="card-content-grafico" style="padding-bottom: 0px">
+            <div class="card-content-grafico" style="padding-bottom: 20px">
                <h4 class="card-title-grafico" style="width: 100% !important;">Serviços mais solicitados</h4>
             </div>
            
-            <div  id='sol_maiores' style="height:300px;" ></div>
+            <div  id='sol_maiores' style="height:400px;" ></div>
    
          </div>
       </div>
@@ -142,7 +142,7 @@
             feature : {
                mark : {show: false},
                dataView : {show: true, readOnly: false},
-               magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+               magicType : {show: true, type: ['line', 'bar']},
                restore : {show: true},
                saveAsImage : {show: true}
             }
@@ -236,32 +236,21 @@
 
     
       // based on prepared DOM, initialize echarts instance
-      var maioresChart = echarts.init(document.getElementById('sol_maiores'),null, {renderer: 'svg'});
+      var maioresChart = echarts.init(document.getElementById('sol_maiores'));//,null, {renderer: 'svg'});
 
       
 
       maioresOpcoes = {
-
-         // legend: {
-         //    bottom: 10,
-         //    //left: 'center',
-         //    type: 'scroll',
-         //    orient: 'vertical',
-         //    right: 100,
-         //    top: 200,
-            
-         //    data: legendData
-         // },
          tooltip: {
             trigger: 'item',
-            formatter: "{d}%"
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
          },
          
-         // legend: {
-         //    orient: 'vertical',
-         //    x: 'left',
-         //    data:legendData
-         // },
+         legend: {
+            orient: 'vertical',
+            x: 'left',
+            data:legendData
+         },
 
         
          toolbox: {
@@ -271,7 +260,6 @@
             feature : {
                mark : {show: false},
                dataView : {show: true, readOnly: false},
-               // magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
                restore : {show: true},
                saveAsImage : {show: true}
             }
@@ -287,18 +275,17 @@
             label: {
                 normal: {
                     show: false,
-                    position: 'center'
                 },
              },
 
             name: '{{ $resultados['ano'] }}',
 
-            radius : [20, 150],
+            radius : [30, 150],
             
             selectedMode: 'single',
             roseType : 'radius',
             
-           }
+           },
          ]
       };
    

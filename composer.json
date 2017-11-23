@@ -32,8 +32,18 @@
         },
         "files": [
             "app/helpers/helper_geral.php",
-            "app/helpers/helper_dashboard.php"
+            "app/helpers/helper_dashboard.php",
 
+            "app/helpers/helper_Moderador.php",
+            "app/helpers/helper_SAC.php",
+            "app/helpers/helper_Funcionario.php",
+            "app/helpers/helper_Funcionario_SUP.php",
+            "app/helpers/helper_Funcionario_ADM.php",
+            "app/helpers/helper_Secretario.php",
+            "app/helpers/helper_Ouvidor.php",
+            "app/helpers/helper_Prefeito.php",
+            "app/helpers/helper_TI.php",
+            "app/helpers/helper_DSV.php"
         ]
     },
     "autoload-dev": {

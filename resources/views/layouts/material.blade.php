@@ -148,9 +148,8 @@
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
         
-
-
-        <script src="{{ asset('js/echarts-all-english-v2.js') }}"></script>
+        
+        <script src="{{ asset('js/echarts-en.min.js') }}"></script>
 
         {{-- funcoes javascript --}}
         <script src="{{ asset('js/functions.js') }}"></script>
