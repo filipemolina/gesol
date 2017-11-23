@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-  Painel - {!! $funcionario_logado->setor->secretaria->nome !!}
+  Painel - Prefeitura
 
 @endsection
 
