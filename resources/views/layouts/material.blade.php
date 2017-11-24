@@ -17,8 +17,6 @@
     <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 
-    {{-- DataTables --}}
-       
     <!-- =============================================================================== -->
     <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="{{ asset('css/demo.css') }}" rel="stylesheet" />
@@ -106,15 +104,13 @@
 
         <script src="{{ asset('js/nouislider.min.js') }}"></script>
 
+        <script src="https://maps.google.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
+
         <script src="{{ asset('js/jquery.select-bootstrap.js') }}"></script>
 
-
         <script src="{{ asset('js/sweetalert2.js') }}"></script>
-        
 
         <script src="{{ asset('js/jasny-bootstrap.min.js') }}"></script>
-
-        <script src="{{ asset('js/fullcalendar.min.js') }}"></script>
 
         <script src="{{ asset('js/jquery.tagsinput.js') }}"></script>
 
@@ -124,30 +120,29 @@
 
         {{-- Vanilla Masker --}}
         <script src="{{ asset('js/vanillaMasker.min.js') }}"></script>
-        
-        <script src="{{ asset('js/datetime-moment.js') }}"></script>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-
-        <script src="https://code.highcharts.com/highcharts.src.js"></script>
-        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+{{--         <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script> --}}
 
         <script src="{{ asset('js/echarts-en.min.js') }}"></script>
 
-        {{-- funcoes javascript --}}
+
+        {{-- DataTables --}}
+
+        <script type="text/javascript" src="{{ asset('js/jquery.datatables.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
+
+        {{-- Moment --}}
+
+        <script src="{{ asset('js/datetime-moment.js') }}"></script>
+
+        <script src="{{ asset('js/fullcalendar.min.js') }}"></script>
+
+        {{-- Funções Javascript --}}
         <script src="{{ asset('js/functions.js') }}"></script>
 
         {{-- Javascript do Projeto --}}
         <script src="{{ asset('js/scripts.js') }}"></script>
-                
-        {{-- API Google maps --}}
-        <script src="https://maps.google.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
-
-        {{-- DataTables --}}
-
-        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
 
         @stack('scripts')
 
