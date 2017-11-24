@@ -108,7 +108,7 @@ class UsersController extends Controller
 			'cpf' => $request->cpf,
 			'nome' => $request->nome,
 			'email' => $request->email,
-			'foto' => "http://lorempixel.com/200/200/people/",
+			'foto' => "https://360.mesquita.rj.gov.br/img/blank.jpg",
 		]);
 
 		// Procurar por um usuário e um solicitante que tenha o email enviado na request

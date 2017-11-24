@@ -88,9 +88,18 @@ class SolicitantesController extends Controller
         $this->validate($request, [
             'solicitante.nome'  => 'required',
             'solicitante.email' => 'required|email',
-            'solicitante.cpf'   => 'sometimes|cpf'
 
         ]);
+
+	if($request->has('solicitante.cpf')){
+
+		$this->validate($request, [
+
+			'solicitante.cpf' => 'cpf'
+		
+		]);
+	
+	}
 
         // Obter o solicitante pelo id
 

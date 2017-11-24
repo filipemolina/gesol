@@ -145,8 +145,7 @@ $factory->define(App\Models\Solicitacao::class, function(Faker\Generator $faker)
 
 	return [
 		//'foto'					=> $faker->imageUrl(1024, 768, 'nature', true, 'Faker'),
-		'foto'					=> $foto,
-		
+		'foto'		 => $foto,
 		'moderado'				=>	rand(0, 1),
 		'conteudo'          	=> $faker->realText($maxNbChars = 190, $indexSize = 2),
 		'status'					=> $faker->randomElement(['Aberta','Em análise','Em execução','Solucionada','Recusada','Encaminhada']),
@@ -284,7 +283,7 @@ $factory->define(App\Models\Telefone::class, function(Faker\Generator $faker) {
 			'numero'  		=> "(21) ".$faker->cellphone(true, 21),
 			'tipo_telefone' => "Celular",
 
-		];	
+		];
 	}
 	else
 	{

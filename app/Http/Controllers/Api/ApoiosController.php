@@ -99,24 +99,34 @@ class ApoiosController extends Controller
 
     public function apoiar(Request $request)
     {
-    
-        $apoiado = Apoio::where('solicitacao_id', $request->solicitacao_id)
+	$apoiado = Apoio::where('solicitacao_id', $request->solicitacao_id)
                         ->where('solicitante_id', $request->solicitante_id)
                         ->get();
+        // Variável que indica se o solicitante já apoiou a solicitação
+        $ja_apoiou = false;
 
         if($apoiado->count())
         {
+            // Caso ele já tenha apoiado, deletar o apoio e a variavel $ja_apoiou não precisa ser modificada
             $apoiado[0]->delete();
-            
+
         }else{
             // Criar um novo apoio
             $apoio = new Apoio($request->all());
             $apoio->save();
+
+            // Informar que o solicitante apoiou a solicitação
+            $ja_apoiou = true;
         }           
 
         // Contar quantos apoios já foram feitos
         $solicitacao = Solicitacao::find($request->solicitacao_id);
 
-        return $solicitacao->apoiadores->count();
-    }    
+        $resposta = new \stdClass();
+        $resposta->qtd = $solicitacao->apoiadores->count();
+        $resposta->remover = !$ja_apoiou;
+
+        return json_encode($resposta);
+
+    }
 }

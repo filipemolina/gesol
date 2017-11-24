@@ -15,8 +15,7 @@
         "laravel/passport": "^3.0",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
-        "mailgun/mailgun-php": "^2.3",
-        "php-http/curl-client": "^1.7",
+        "pusher/pusher-php-server": "^3.0",
         "yajra/laravel-datatables": "1.0"
     },
     "require-dev": {
