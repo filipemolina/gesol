@@ -164,27 +164,30 @@
               }
          },
          
-         series: [{
-            name:'{{ $resultados['ano'] }}',
-            type:'line',
-            smooth: true,
-            data: 
-            [ 
-               @foreach($resultados['sol_por_mes'] as $mes => $qtd) 
-                  {{ $qtd }}, 
-               @endforeach
-            ],
-         },{
-            name:'{{ $resultados['ano_anterior'] }}',
-            type:'line',
-            smooth: true,
-            data: 
-            [ 
-               @foreach($resultados['sol_por_mes_ano_anterior'] as $mes => $qtd) 
-                  {{ $qtd }}, 
-               @endforeach
-            ],
-         }]
+         series: [
+            {
+               name:'{{ $resultados['ano'] }}',
+               type:'line',
+               smooth: true,
+               data: 
+               [ 
+                  @foreach($resultados['sol_por_mes'] as $mes => $qtd) 
+                     {{ $qtd }}, 
+                  @endforeach
+               ],
+            },
+            {
+               name:'{{ $resultados['ano_anterior'] }}',
+               type:'line',
+               smooth: true,
+               data: 
+               [ 
+                  @foreach($resultados['sol_por_mes_ano_anterior'] as $mes => $qtd) 
+                     {{ $qtd }}, 
+                  @endforeach
+               ],
+            }
+         ]
       };
 
       // use configuration item and data specified to show chart
@@ -215,6 +218,7 @@
       var seriesData = [];
       var teste = [];
       var novo =[];
+      var seriesDataAnoAnterior =[];
 
       @foreach($resultados['sol_maiores'] as $sol) 
          nameList.push('{{ $sol->nome }}');
@@ -234,60 +238,100 @@
 
       @endforeach
 
+      @foreach($resultados['sol_maiores_ano_anterior'] as $sol) 
+
+         seriesDataAnoAnterior.push({
+            name: '{{ $sol->nome }}',
+            value: {{ $sol->total }}
+        });
+
+      @endforeach
+
+         
     
       // based on prepared DOM, initialize echarts instance
       var maioresChart = echarts.init(document.getElementById('sol_maiores'));//,null, {renderer: 'svg'});
-
       
-
       maioresOpcoes = {
-         tooltip: {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-         },
-         
-         legend: {
-            orient: 'vertical',
-            x: 'left',
-            data:legendData
-         },
-
-        
-         toolbox: {
-            height : 6,
-            show : true,
-            itensize : 5,
-            feature : {
-               mark : {show: false},
-               dataView : {show: true, readOnly: false},
-               restore : {show: true},
-               saveAsImage : {show: true}
-            }
-         },
-
-
-         series : [
-         {
-            type: 'pie',
-            data: seriesData,
-            hoverAnimation : true,
-            hoverOffset : 10,
-            label: {
-                normal: {
-                    show: false,
-                },
-             },
-
-            name: '{{ $resultados['ano'] }}',
-
-            radius : [30, 150],
-            
-            selectedMode: 'single',
-            roseType : 'radius',
-            
-           },
-         ]
+          
+          tooltip : {
+              trigger: 'item',
+              formatter: "{a} <br/>{b} : {c} ({d}%)"
+          },
+          legend: {
+              x : 'center',
+              y : 'bottom',
+              data: legendData
+          },
+          toolbox: {
+              show : true,
+              feature : {
+                  mark : {show: true},
+                  dataView : {show: true, readOnly: false},
+                  magicType : {
+                      show: true,
+                      type: ['pie', 'funnel']
+                  },
+                  restore : {show: true},
+                  saveAsImage : {show: true}
+              }
+          },
+          calculable : true,
+          series : [
+              {
+                  name: '{{ $resultados['ano_anterior'] }}',
+                  type:'pie',
+                  radius : [20, 110],
+                  center : ['25%', '50%'],
+                  roseType : 'radius',
+                  label: {
+                      normal: {
+                          show: true
+                      },
+                      emphasis: {
+                          show: true
+                      }
+                  },
+                  lableLine: {
+                      normal: {
+                          show: false
+                      },
+                      emphasis: {
+                          show: true
+                      }
+                  },
+                  data: seriesDataAnoAnterior
+              },
+              {
+                  name: '{{ $resultados['ano'] }}',
+                  type:'pie',
+                  radius : [30, 110],
+                  center : ['75%', '50%'],
+                  roseType : 'area',
+                  label: {
+                      normal: {
+                          show: true,
+                          fontsize: 10
+                      },
+                      emphasis: {
+                          show: true
+                      }
+                  },
+                  lableLine: {
+                      normal: {
+                          show: false
+                      },
+                      emphasis: {
+                          show: true
+                      }
+                  },
+                  data: seriesData
+              }
+          ]
       };
+
+
+   
    
       maioresChart.setOption(maioresOpcoes);
 

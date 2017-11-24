@@ -64,14 +64,21 @@ if (! function_exists('dashboardFuncionario')) {
    //    MAIORES SOLICITADOS ANO ANTERIOR
    // ==============================================================================================
       $solicitacoes_maiores_ano_anterior = DB::table('solicitacoes')
+
+      ->select('servicos.nome', DB::raw('count(*) as total'))       
+         
          ->join('servicos', 'servicos.id', '=', 'solicitacoes.servico_id')
-         ->select('servicos.nome', DB::raw('count(*) as total'))
+         ->join('setores', 'setores.id', '=', 'servicos.setor_id')
+         ->join('secretarias', 'secretarias.id', '=', 'setores.secretaria_id')
+
          ->where('solicitacoes.created_at','>=', $data_inicio_ano_anterior)
          ->where('solicitacoes.created_at','<=', $data_fim_ano_anterior)
+         ->where('secretarias.id', $secretaria_funcionario_logado)
+
          ->groupBy('servicos.nome')
          ->orderBy('total','desc')
-         ->get();
-
+         ->take(10)->get();
+  
 
    // ==============================================================================================
    //    MAIORES SOLICITADOS ANO CORRENTE

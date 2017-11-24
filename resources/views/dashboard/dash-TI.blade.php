@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-  Painel - Prefeitura
+  Painel - {!! $funcionario_logado->setor->secretaria->nome !!}
 
 @endsection
 
@@ -74,11 +74,11 @@
              <div class="card-header card-header-icon" data-background-color="orange" style="color: #fff;">
                <i class="material-icons">dashboard</i>
             </div>
-            <div class="card-content-grafico" style="padding-bottom: 0px">
+            <div class="card-content-grafico" style="padding-bottom: 20px">
                <h4 class="card-title-grafico" style="width: 100% !important;">Serviços mais solicitados</h4>
             </div>
            
-            <div  id='sol_maiores' style="height:300px;" ></div>
+            <div  id='sol_maiores' style="height:400px;" ></div>
    
          </div>
       </div>
@@ -142,7 +142,7 @@
             feature : {
                mark : {show: false},
                dataView : {show: true, readOnly: false},
-               magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+               magicType : {show: true, type: ['line', 'bar']},
                restore : {show: true},
                saveAsImage : {show: true}
             }
@@ -164,27 +164,30 @@
               }
          },
          
-         series: [{
-            name:'{{ $resultados['ano'] }}',
-            type:'line',
-            smooth: true,
-            data: 
-            [ 
-               @foreach($resultados['sol_por_mes'] as $mes => $qtd) 
-                  {{ $qtd }}, 
-               @endforeach
-            ],
-         },{
-            name:'{{ $resultados['ano_anterior'] }}',
-            type:'line',
-            smooth: true,
-            data: 
-            [ 
-               @foreach($resultados['sol_por_mes_ano_anterior'] as $mes => $qtd) 
-                  {{ $qtd }}, 
-               @endforeach
-            ],
-         }]
+         series: [
+            {
+               name:'{{ $resultados['ano'] }}',
+               type:'line',
+               smooth: true,
+               data: 
+               [ 
+                  @foreach($resultados['sol_por_mes'] as $mes => $qtd) 
+                     {{ $qtd }}, 
+                  @endforeach
+               ],
+            },
+            {
+               name:'{{ $resultados['ano_anterior'] }}',
+               type:'line',
+               smooth: true,
+               data: 
+               [ 
+                  @foreach($resultados['sol_por_mes_ano_anterior'] as $mes => $qtd) 
+                     {{ $qtd }}, 
+                  @endforeach
+               ],
+            }
+         ]
       };
 
       // use configuration item and data specified to show chart
@@ -215,6 +218,7 @@
       var seriesData = [];
       var teste = [];
       var novo =[];
+      var seriesDataAnoAnterior =[];
 
       @foreach($resultados['sol_maiores'] as $sol) 
          nameList.push('{{ $sol->nome }}');
@@ -234,101 +238,106 @@
 
       @endforeach
 
+      @foreach($resultados['sol_maiores_ano_anterior'] as $sol) 
+
+         seriesDataAnoAnterior.push({
+            name: '{{ $sol->nome }}',
+            value: {{ $sol->total }}
+        });
+
+      @endforeach
+
+         
     
       // based on prepared DOM, initialize echarts instance
-      var maioresChart = echarts.init(document.getElementById('sol_maiores'),null, {renderer: 'svg'});
-
+      var maioresChart = echarts.init(document.getElementById('sol_maiores'));//,null, {renderer: 'svg'});
       
-
       maioresOpcoes = {
-
-         // legend: {
-         //    bottom: 10,
-         //    //left: 'center',
-         //    type: 'scroll',
-         //    orient: 'vertical',
-         //    right: 100,
-         //    top: 200,
-            
-         //    data: legendData
-         // },
-         tooltip: {
-            trigger: 'item',
-            formatter: "{d}%"
-         },
-         
-         // legend: {
-         //    orient: 'vertical',
-         //    x: 'left',
-         //    data:legendData
-         // },
-
-        
-         toolbox: {
-            height : 6,
-            show : true,
-            itensize : 5,
-            feature : {
-               mark : {show: false},
-               dataView : {show: true, readOnly: false},
-               // magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-               restore : {show: true},
-               saveAsImage : {show: true}
-            }
-         },
-
-
-         series : [
-         {
-            type: 'pie',
-            data: seriesData,
-            hoverAnimation : true,
-            hoverOffset : 10,
-            label: {
-                normal: {
-                    show: false,
-                    position: 'center'
-                },
-             },
-
-            name: '{{ $resultados['ano'] }}',
-
-            radius : [20, 150],
-            
-            selectedMode: 'single',
-            roseType : 'radius',
-            
-           }
-         ]
+          
+          tooltip : {
+              trigger: 'item',
+              formatter: "{a} <br/>{b} : {c} ({d}%)"
+          },
+          legend: {
+              x : 'center',
+              y : 'bottom',
+              data: legendData
+          },
+          toolbox: {
+              show : true,
+              feature : {
+                  mark : {show: true},
+                  dataView : {show: true, readOnly: false},
+                  magicType : {
+                      show: true,
+                      type: ['pie', 'funnel']
+                  },
+                  restore : {show: true},
+                  saveAsImage : {show: true}
+              }
+          },
+          calculable : true,
+          series : [
+              {
+                  
+                  name: '{{ $resultados['ano_anterior'] }}',
+                  type:'pie',
+                  radius : [20, 110],
+                  center : ['25%', '50%'],
+                  roseType : 'radius',
+                  legendHoverLink : true,
+                  hoverOffset :  20,
+                  label: {
+                      normal: {
+                          show: true
+                      },
+                      emphasis: {
+                          show: true
+                      }
+                  },
+                  lableLine: {
+                      normal: {
+                          show: false
+                      },
+                      emphasis: {
+                          show: true
+                      }
+                  },
+                  data: seriesDataAnoAnterior
+              },
+              {
+                  hoverOffset :  20,
+                  name: '{{ $resultados['ano'] }}',
+                  type:'pie',
+                  radius : [30, 110],
+                  center : ['75%', '50%'],
+                  roseType : 'area',
+                  label: {
+                      normal: {
+                          show: true,
+                          fontsize: 10
+                      },
+                      emphasis: {
+                          show: true
+                      }
+                  },
+                  lableLine: {
+                      normal: {
+                          show: false
+                      },
+                      emphasis: {
+                          show: true
+                      }
+                  },
+                  data: seriesData
+              }
+          ]
       };
+
+
+   
    
       maioresChart.setOption(maioresOpcoes);
-
-      // var currentIndex = -1;
-
-      // setInterval(function () {
-      //     var dataLen = option.series[0].data.length;
-
-      //     maioresChart.dispatchAction({
-      //         type: 'downplay',
-      //         seriesIndex: 0,
-      //         dataIndex: currentIndex
-      //     });
-      //     currentIndex = (currentIndex + 1) % dataLen;
-
-      //     maioresChart.dispatchAction({
-      //         type: 'highlight',
-      //         seriesIndex: 0,
-      //         dataIndex: currentIndex
-      //     });
-
-      //     maioresChart.dispatchAction({
-      //         type: 'showTip',
-      //         seriesIndex: 0,
-      //         dataIndex: currentIndex
-      //     });
-      // }, 1000);
-
 
 
    </script>

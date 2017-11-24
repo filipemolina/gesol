@@ -114,9 +114,7 @@
 
         <!-- Select Plugin -->
         <script src="{{ asset('js/jquery.select-bootstrap.js') }}"></script>
-        <!--  DataTables.net Plugin    -->
-        <script src="{{ asset('js/jquery.datatables.js') }}"></script>
-        <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
+        
 
         
 
@@ -161,6 +159,10 @@
                 
         {{-- API Google maps --}}
         <script src="http://maps.google.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
+
+        <!--  DataTables.net Plugin    -->
+        <script src="{{ asset('js/jquery.datatables.js') }}"></script>
+        <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
 
         @stack('scripts')
 
