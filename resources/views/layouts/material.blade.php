@@ -107,7 +107,6 @@
         <script src="{{ asset('js/nouislider.min.js') }}"></script>
 
         <script src="{{ asset('js/jquery.select-bootstrap.js') }}"></script>
-        
 
 
         <script src="{{ asset('js/sweetalert2.js') }}"></script>
