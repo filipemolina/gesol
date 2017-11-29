@@ -54,10 +54,12 @@ class SetoresSeeder extends Seeder
 
         DB::table('setores')->insert(['nome' => 'Denúncias'                     ,'secretaria_id' =>    17, 'icone' =>  'mdi-bullhorn', 'cor' => '#FF4500'  ]);
 
-
         DB::table('setores')->insert(['nome' => 'Guarda Municipal'              ,'secretaria_id' =>    13, 'icone' =>  'mdi-security', 'cor' => '#4169E1'  ]);
 
-        
+        DB::table('setores')->insert(['nome' => 'Desenvolvimento'               ,'secretaria_id' =>    20, 'icone' =>  'mdi-puzzle', 'cor' => '#000000'  ]);
+        DB::table('setores')->insert(['nome' => 'Servidores'                    ,'secretaria_id' =>    20, 'icone' =>  'mdi-server', 'cor' => '#000000'  ]);
+        DB::table('setores')->insert(['nome' => 'Rede'                          ,'secretaria_id' =>    20, 'icone' =>  'mdi-close-network', 'cor' => '#000000'  ]);
+        DB::table('setores')->insert(['nome' => 'Manutenção'                    ,'secretaria_id' =>    20, 'icone' =>  'mdi-mouse-variant', 'cor' => '#000000'  ]);
 
     }
 }
