@@ -42,8 +42,12 @@ class AuthController extends Controller
     public function entrar(Request $request)
     {
 
+        
+
     	// Obter o usuário 
     	$usuario = User::where('email', $request->email)->first();
+
+        //dd($request);
 
         //verifica se o email existe na base
         if($usuario)

@@ -40,7 +40,7 @@ demo = {
          });
 
          $('.datepicker').datetimepicker({
-            format: 'DD/MM/YYYY',
+            format: 'MM/DD/YYYY',
             icons: {
                 time: "fa fa-clock-o",
                 date: "fa fa-calendar",
@@ -114,7 +114,7 @@ demo = {
             onInit : function(tab, navigation, index){
 
               //check number of tabs and fill the entire row
-              var $total = navigation.find('li.wizard').length;
+              var $total = navigation.find('li').length;
               $width = 100/$total;
               var $wizard = navigation.closest('.wizard-card');
 
@@ -124,13 +124,12 @@ demo = {
                   $width = 50;
               }
 
-               navigation.find('li.wizard').css('width',$width + '%');
-               $first_li = navigation.find('li.wizard:first-child a').html();
+               navigation.find('li').css('width',$width + '%');
+               $first_li = navigation.find('li:first-child a').html();
                $moving_div = $('<div class="moving-tab">' + $first_li + '</div>');
                $('.wizard-card .wizard-navigation').append($moving_div);
                refreshAnimation($wizard, index);
                $('.moving-tab').css('transition','transform 0s');
-               $('.moving-tab').css('width', $width+'%');
            },
 
             onTabClick : function(tab, navigation, index){
@@ -144,7 +143,7 @@ demo = {
             },
 
             onTabShow: function(tab, navigation, index) {
-                var $total = navigation.find('li.wizard').length;
+                var $total = navigation.find('li').length;
                 var $current = index+1;
 
                 var $wizard = navigation.closest('.wizard-card');
@@ -158,7 +157,7 @@ demo = {
                     $($wizard).find('.btn-finish').hide();
                 }
 
-                button_text = navigation.find('li.wizard:nth-child(' + $current + ') a').html();
+                button_text = navigation.find('li:nth-child(' + $current + ') a').html();
 
                 setTimeout(function(){
                     $('.moving-tab').text(button_text);
@@ -235,7 +234,7 @@ demo = {
         });
 
         function refreshAnimation($wizard, index){
-            total_steps = $wizard.find('li.wizard').length;
+            total_steps = $wizard.find('li').length;
             move_distance = $wizard.width() / total_steps;
             step_width = move_distance;
             move_distance *= index;
@@ -963,22 +962,6 @@ demo = {
                 align: align
             }
         });
-	},
+	}
 
-    notificationRight: function(from, align, cor, comentario){
-        // type = ['','info','success','warning','danger','rose','primary'];
-
-        $.notify({
-            icon: "notifications",
-            message: comentario,
-
-        },{
-            type: cor,
-            timer: 3000,
-            placement: {
-                from: from,
-                align: align
-            }
-        });
-    }
 }

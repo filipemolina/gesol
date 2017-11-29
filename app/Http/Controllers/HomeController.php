@@ -32,16 +32,19 @@ class HomeController extends Controller
          //$resultados = $this->preparaDashboard($funcionario_logado->role->acesso);
 
          switch ($funcionario_logado->role->peso) {
-            case 10:  $viu='dash-Moderador'  ; $resultados = dashboardModerador(); break;
-            case 20:  $viu='dash-Sac'        ; $resultados = dashboardSAC(); break;
-            case 30:  $viu='dash-Funcionario'; $resultados = dashboardFuncionario(); break;
-            case 40:  $viu='dash-Funcionario'; $resultados = dashboardFuncionario(); break;
-            case 50:  $viu='dash-Funcionario'; $resultados = dashboardFuncionario(); break;
-            case 60:  $viu='dash-Secretario' ; $resultados = dashboardSecretario(); break;
-            case 70:  $viu='dash-Ouvidor'    ; $resultados = dashboardOuvidor(); break; 
-            case 80:  $viu='dash-Prefeito'   ; $resultados = dashboardPrefeito(); break;
-            case 90:  $viu='dash-TI'         ; $resultados = dashboardTI(); break;
-            case 100: $viu='dash-TI'         ; $resultados = dashboardTI(); break;
+            case 10:  $viu='dash-Moderador'     ; $resultados = dashboardModerador();     break;   //MODERADOR
+            case 20:  $viu='dash-Moderador'     ; $resultados = dashboardModerador();     break;   //SAC
+
+            case 30:  $viu='dash-Funcionario'   ; $resultados = dashboardFuncionario();   break;   //FUNCIONARIO
+            case 40:  $viu='dash-Funcionario'   ; $resultados = dashboardFuncionario();   break;   //FUNCIONARIO_SUP
+            case 50:  $viu='dash-Funcionario'   ; $resultados = dashboardFuncionario();   break;   //FUNCIONARIO_ADM
+            case 60:  $viu='dash-Funcionario'   ; $resultados = dashboardFuncionario();   break;   //SECRETARIO
+
+            case 70:  $viu='dash-Prefeito'      ; $resultados = dashboardPrefeito();      break;   //OUVIDOR
+            case 80:  $viu='dash-Prefeito'      ; $resultados = dashboardPrefeito();      break;   //PREFEITO
+            
+            case 90:  $viu='dash-TI'            ; $resultados = dashboardTI();            break;   //TI
+            case 100: $viu='dash-TI'            ; $resultados = dashboardTI();            break;   //DSV
          }
 
          return view('dashboard.'.$viu, compact('funcionario_logado', 'resultados'));
@@ -62,32 +65,8 @@ class HomeController extends Controller
       return $this->{'dashboard'.$acesso}();
    }
 
+   
 
-
-   private function dashboardModerador(){
-      $resultados = [];
-      $solicitacoes  = Solicitacao::with(['endereco', 'servico', 'servico.setor', 'servico.setor.secretaria'])->get();
-
-      $sol_por_mes   = solicitacoesPorMes($solicitacoes);
-      $sol_prazo     = solicitacoesPrazo($solicitacoes);
-      $sol_media     = mediaSolucao($solicitacoes);
-
-      $resultados['sol_por_mes']    = $sol_por_mes;
-      $resultados['sol_prazo']      = $sol_prazo;
-      $resultados['sol_media']      = $sol_media;
-      $resultados['solicitacoes']   = $solicitacoes;
-      return $resultados;
-   }
-
-   private function dashboardFuncionario_SUP(){
-      return $this->{'dashboardFuncionario'}();
-   }
-
-   private function dashboardFuncionario_ADM(){
-      return $this->{'dashboardFuncionario'}();
-   }
-
-      
    
 
 }
