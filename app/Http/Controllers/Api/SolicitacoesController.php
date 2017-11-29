@@ -140,7 +140,7 @@ class SolicitacoesController extends Controller
 		if($solicitacao->status == "Aberta"){
 
 		    $solicitacao->delete();
-	
+
 	    	$resposta = new \stdClass();
 	    	$resposta->status = true;
 
@@ -183,9 +183,13 @@ class SolicitacoesController extends Controller
         ])
         ->withCount('apoiadores')
         ->where("solicitante_id", $request->id)
-        ->orderBy('created_at', 'desc')
-        ->limit(10)
-        ->get();
+        ->orderBy('created_at', 'desc');
+
+	// Testar se o aplicativo está pedindo por todas as solicitacoes ou apenas as 10 primeiras
+	if($request->todos)
+	    $solicitacoes->get();
+	else
+	    $solicitacoes->limit(10)->get();
 
         return $solicitacoes->toJson();
 
@@ -193,7 +197,7 @@ class SolicitacoesController extends Controller
 
     public function scroll(Request $request){
 
-	
+
 
     }
 
