@@ -171,25 +171,41 @@ class SolicitacoesController extends Controller
 
     public function minhas(Request $request){
 
-        $solicitacoes = Solicitacao::with([
-            'solicitante', 
-            'comentarios', 
-            'comentarios.funcionario', 
-            'comentarios.funcionario.setor.secretaria',
-            'servico',
-            "servico.setor",
-            'servico.setor.secretaria',
-            'apoiadores'
-        ])
-        ->withCount('apoiadores')
-        ->where("solicitante_id", $request->id)
-        ->orderBy('created_at', 'desc');
+	if($request->todos){
 
-	// Testar se o aplicativo está pedindo por todas as solicitacoes ou apenas as 10 primeiras
-	if($request->todos)
-	    $solicitacoes->get();
-	else
-	    $solicitacoes->limit(10)->get();
+		$solicitacoes = Solicitacao::with([
+        	    'solicitante', 
+            	'comentarios', 
+            	'comentarios.funcionario', 
+	            'comentarios.funcionario.setor.secretaria',
+	            'servico',
+	            "servico.setor",
+	            'servico.setor.secretaria',
+	            'apoiadores'
+	        ])
+	        ->withCount('apoiadores')
+	        ->where("solicitante_id", $request->id)
+	        ->orderBy('created_at', 'desc')
+	        ->get();
+	} else {
+
+		$solicitacoes = Solicitacao::with([
+            		'solicitante', 
+            		'comentarios', 
+            		'comentarios.funcionario', 
+            		'comentarios.funcionario.setor.secretaria',
+            		'servico',
+            		"servico.setor",
+            		'servico.setor.secretaria',
+            		'apoiadores'
+        	])
+        	->withCount('apoiadores')
+        	->where("solicitante_id", $request->id)
+        	->orderBy('created_at', 'desc')
+		->limit(10)
+        	->get();
+
+	}
 
         return $solicitacoes->toJson();
 
