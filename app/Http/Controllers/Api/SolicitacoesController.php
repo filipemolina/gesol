@@ -140,7 +140,7 @@ class SolicitacoesController extends Controller
 		if($solicitacao->status == "Aberta"){
 
 		    $solicitacao->delete();
-	
+
 	    	$resposta = new \stdClass();
 	    	$resposta->status = true;
 
@@ -171,21 +171,41 @@ class SolicitacoesController extends Controller
 
     public function minhas(Request $request){
 
-        $solicitacoes = Solicitacao::with([
-            'solicitante', 
-            'comentarios', 
-            'comentarios.funcionario', 
-            'comentarios.funcionario.setor.secretaria',
-            'servico',
-            "servico.setor",
-            'servico.setor.secretaria',
-            'apoiadores'
-        ])
-        ->withCount('apoiadores')
-        ->where("solicitante_id", $request->id)
-        ->orderBy('created_at', 'desc')
-        ->limit(10)
-        ->get();
+	if($request->todos){
+
+		$solicitacoes = Solicitacao::with([
+        	    'solicitante', 
+            	'comentarios', 
+            	'comentarios.funcionario', 
+	            'comentarios.funcionario.setor.secretaria',
+	            'servico',
+	            "servico.setor",
+	            'servico.setor.secretaria',
+	            'apoiadores'
+	        ])
+	        ->withCount('apoiadores')
+	        ->where("solicitante_id", $request->id)
+	        ->orderBy('created_at', 'desc')
+	        ->get();
+	} else {
+
+		$solicitacoes = Solicitacao::with([
+            		'solicitante', 
+            		'comentarios', 
+            		'comentarios.funcionario', 
+            		'comentarios.funcionario.setor.secretaria',
+            		'servico',
+            		"servico.setor",
+            		'servico.setor.secretaria',
+            		'apoiadores'
+        	])
+        	->withCount('apoiadores')
+        	->where("solicitante_id", $request->id)
+        	->orderBy('created_at', 'desc')
+		->limit(10)
+        	->get();
+
+	}
 
         return $solicitacoes->toJson();
 
@@ -193,7 +213,7 @@ class SolicitacoesController extends Controller
 
     public function scroll(Request $request){
 
-	
+
 
     }
 
