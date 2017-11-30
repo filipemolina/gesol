@@ -11,3 +11,4 @@ npm-debug.log
 .env
 app/Models/Timeline.sublime-project
 app/Models/Timeline.sublime-workspace
+storage/framework/

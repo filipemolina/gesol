@@ -63,7 +63,8 @@ if (! function_exists('dashboardTI')) {
          ->where('solicitacoes.created_at','<=', $data_fim_ano_anterior)
          ->groupBy('servicos.nome')
          ->orderBy('total','desc')
-         ->get();
+         ->take(10)->get();
+
 
 
    // ==============================================================================================

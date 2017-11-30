@@ -1,6 +1,6 @@
 <footer class="footer">
     <div class="container-fluid">
-        <p class="copyright pull-right" style="font-size: 13px">
+        <p class="copyright {{-- pull-right --}}" style="font-size: 13px">
             &copy;
             <script>
                 document.write(new Date().getFullYear())
