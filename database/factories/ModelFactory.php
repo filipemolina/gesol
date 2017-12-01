@@ -150,7 +150,7 @@ $factory->define(App\Models\Solicitacao::class, function(Faker\Generator $faker)
 		'conteudo'          	=> $faker->realText($maxNbChars = 190, $indexSize = 2),
 		'status'					=> $faker->randomElement(['Aberta','Em análise','Em execução','Solucionada','Recusada','Encaminhada']),
 		'prioridade'			=> $faker->randomElement(['Baixa','Normal','Alta','Urgente']),
-		'created_at'         => $faker->dateTimeBetween('-5 weeks', 'now'),
+		'created_at'         => $faker->dateTimeBetween('-2 year', 'now'),
 
 		'servico_id'  			=> App\Models\Servico::all()->random()->id,
 		'solicitante_id'		=> App\Models\Solicitante::all()->random()->id,
