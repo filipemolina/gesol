@@ -19,7 +19,7 @@ Route::post('/login', 		"AuthController@entrar");
 Route::get ('/logout', 		'AuthController@logout');
 Route::get ('/register', 	function () {return view('solicitantes.create');});
 Route::get ('/', 				'HomeController@index')->name('home');
-
+Route::get ('/pusher', 'HomeController@pusher');
 
 
 //caminho para a tela de alteração de senha
@@ -53,7 +53,7 @@ Route::post('trilha',									'SolicitacaoController@trilha');
 
 
 // Rota para preencher o select de setores na edição/criação de funcionarios
-Route::get('setor', 					'FuncionarioController@setor');
+Route::get('setor','FuncionarioController@setor');
 
 
 

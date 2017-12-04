@@ -81,7 +81,7 @@ class FuncionarioController extends Controller
       $roles          = Role::where('peso','<', $funcionario_logado->role->peso)->where('peso','>=', 1)
          ->orderBy('peso', 'asc')->get();
 
-      //dd($roles);
+     // dd($roles);
       $secretarias    = Secretaria::all()->sortBy('nome');
       $setores        = Setor::all()->sortBy('nome');        
       $servicos       = Servico::all()->sortBy('nome');        

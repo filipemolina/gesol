@@ -402,7 +402,7 @@ Solicitações
                      $.post(url_base+"/comentario",{
                         comentario: "A solicitação foi transferida pelo seguinte motivo: "+$("#select-servico-motivo option:selected").html(),
                         solicitacao_id: <?php echo e($solicitacao->id); ?>, 
-                        funcionario_id: <?php echo e($funcionario->id); ?>,  //definido na material.blade
+                        funcionario_id: <?php echo e($funcionario_logado->id); ?>,  //definido na material.blade
                         _token: token,
                      });
 

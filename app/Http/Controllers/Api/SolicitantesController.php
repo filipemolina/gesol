@@ -142,9 +142,9 @@ class SolicitantesController extends Controller
 
         }
 
-	    $resposta = new \stdClass();
+        $resposta = new \stdClass();
         $resposta->token = $solicitante->user->createToken("Token APP");
-        $resposta->solicitante = $solicitante;
+        $resposta->solicitante =  Solicitante::with(['endereco', 'telefones', 'user'])->where('id', $id)->first();
 
         return json_encode($resposta);
     }

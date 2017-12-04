@@ -54,7 +54,30 @@ class HomeController extends Controller
       }
    }
 
-   
+   /**
+   * Função utilizada para testar o Pusher
+   */
+   public function pusher(){
+
+	$options = [
+	    'cluster'   => 'us2',
+	    'encrypted' => true
+	];
+
+	$pusher = new \Pusher\Pusher(
+	    'd5bbfbed2c038130dedf',
+	    '23711399b18b4f94212b',
+	    '435239',
+	    $options
+	);
+
+	$data['message'] = 'Ola Mundo';
+	$pusher->trigger('canal', 'evento', $data);
+	echo "<pre>";
+	echo "Mensagem enviada. Conteúdo: <br>";
+	print_r($data);
+
+   }
 
    /**
    *  Recebe o acesso da role do usuário logado e retorna um vetor com todas as variáveis necessárias para
