@@ -451,7 +451,7 @@ class SolicitacaoController extends Controller
 
             // Caso o usuário seja moderador, adicionar todas as solicitações à coleção sem fazer nenhum teste adicional
 
-            if($usuario->funcionario->acesso == "Moderador")
+            if($usuario->funcionario->role->acesso == "Moderador")
             {
                 $colecao->push([
                     'foto'          => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",

@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         //$this->call(ServicosSeeder::class);
         //$this->call(FuncionariosSeeder::class);
         
-        //$this->call(SolicitanteSeeder::class);
+        $this->call(SolicitanteSeeder::class);
         //$this->call(SolicitanteSeeder::class);
         //$this->call(SolicitanteSeeder::class);
         //$this->call(SolicitanteSeeder::class);
