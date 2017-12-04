@@ -240,7 +240,7 @@ Cria Funcionário
 	    	// Preencher o select de setores no load da pagina
 	    	if($("#select_secretaria").length)
 	    	{
-	 			console.log($("#select_secretaria").length);
+	 			//console.log($("#select_secretaria").length);
 	        	let secretaria_id = $("#select_secretaria").val();
 
 	        	carrega_select_setor_create(secretaria_id);
