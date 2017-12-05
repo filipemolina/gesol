@@ -370,7 +370,6 @@ class SolicitacaoController extends Controller
         // Obter o usuário atualmente logado
         $usuario = User::find(Auth::user()->id);
 
-        
 
         // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
         // Aqui  os botões PADRÃO serão criados, de acordo com a role do usuario será
@@ -476,7 +475,9 @@ class SolicitacaoController extends Controller
 
             // Caso o usuário seja moderador, adicionar todas as solicitações à coleção sem fazer nenhum teste adicional
 
-            if($usuario->funcionario->role->acesso == "Moderador")
+            //if($usuario->funcionario->role->acesso == "Moderador")
+            
+            if(verificaAcesso($usuario) == "PREFEITURA")
             {
                 $colecao->push([
                     'foto'          => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",

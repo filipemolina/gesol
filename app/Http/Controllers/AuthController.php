@@ -58,19 +58,22 @@ class AuthController extends Controller
         		// Verificar se o usuário possui um funcionário relacionado
         		if(count($usuario->funcionario))
         		{
-        			// Logar o usuário
-
-        			if(Auth::attempt(['email' => $request->email, 'password' => $request->senha]))
-        			{
-        				// Redirecionar para o Painel Principal
-
-                        //dd("logou");
-                        loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logon');
-        				return redirect()->intended('/');
-        			}
-        		}
-        		else
-        		{
+        			// verifica se o status do usuário é "Ativo"
+                    if($usuario->status == 'Ativo')
+                    {
+                        // Logar o usuário
+            			if(Auth::attempt(['email' => $request->email, 'password' => $request->senha]))
+            			{
+            				// Redirecionar para o Painel Principal
+                            //dd("logou");
+                            loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logon');
+            				return redirect()->intended('/');
+            			}
+                    } else {
+                        loga('R', 'USERS', '0', 'EMAIL',$request->email , 'Tentativa de Logon - Usuário com status INATIVO');
+                        return redirect("/login")->withErrors(['erros' => 'A conta de usuário não está ATIVA']);    
+                    }
+        		} else {
                     loga('R', 'USERS',  '0', 'EMAIL', $request->email , 'Tentativa de Logon - não é funcionario');
         			return redirect("/login")->withErrors(['erros' => 'Não é um funcionário']); //echo "Não é um funcionário<br/>";	
         		}

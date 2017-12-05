@@ -19,7 +19,7 @@ use App\Models\User;
 if (! function_exists('verificaAcesso')) {
    function verificaAcesso($usuario_logado) {
      
-      switch ($funcionario_logado->role->peso) {
+      switch ($usuario_logado->funcionario->role->peso) {
          case 10: return "PREFEITURA"; break;   //"Moderador"
          case 20: return "PREFEITURA"; break;   //"SAC"
          case 30: return "SETOR";      break;   //"Funcionario"
