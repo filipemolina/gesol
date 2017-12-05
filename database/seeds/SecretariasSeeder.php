@@ -22,37 +22,38 @@ class SecretariasSeeder extends Seeder
                 $secretaria->telefones()->saveMany(factory(App\Models\Telefone::class, rand(1,5))->make());                             
             });*/
 
-          DB::table('secretarias')->insert(['nome'=>'Gabinete Prefeito','secretario' => 'Jorge Lúcio Ferreira Miranda','sigla' => 'GABPRE'    ]); //1
+          $secretariaID = DB::table('secretarias')->insertGetId(['nome'=>'Gabinete Prefeito','secretario' => 'Jorge Lúcio Ferreira Miranda','sigla' => 'GABPRE']); 
           //====================================================================================================================================================================
-          DB::table('secretarias')->insert(['nome'=>'Gabinete Vice-Prefeito' ,'secretario' => 'Walter de Almeida Paixão' ,'sigla' => 'GABVICE'   ]); //2
+          $secretariaID = DB::table('secretarias')->insertGetId(['nome'=>'Gabinete Vice-Prefeito' ,'secretario' => 'Walter de Almeida Paixão' ,'sigla' => 'GABVICE']); 
           //====================================================================================================================================================================
-          DB::table('secretarias')->insert(['nome'=>'Controladoria Geral do Município'  ,'secretario' => 'Nicola Fabiano Palmier' ,'sigla' => 'CGM'       ]); //3
+         $secretariaID =  DB::table('secretarias')->insertGetId(['nome'=>'Controladoria Geral do Município'  ,'secretario' => 'Nicola Fabiano Palmier' ,'sigla' => 'CGM']);
           //====================================================================================================================================================================
-          DB::table('secretarias')->insert(['nome'=>'Instituto de Previdência - Mesquitaprev' ,'secretario' => 'Murilo Sanches Rodrigues' ,'sigla' => 'PREV'      ]); //4
+          $secretariaID = DB::table('secretarias')->insertGetId(['nome'=>'Instituto de Previdência - Mesquitaprev' ,'secretario' => 'Murilo Sanches Rodrigues' ,'sigla' => 'PREV']); 
           //====================================================================================================================================================================
-          DB::table('secretarias')->insert(['nome'=>'Procuradoria Geral do Município' ,'secretario' => 'Gilmar Brunizi' ,'sigla' => 'PGM'       ]); //5
+          $secretariaID = DB::table('secretarias')->insertGetId(['nome'=>'Procuradoria Geral do Município' ,'secretario' => 'Gilmar Brunizi' ,'sigla' => 'PGM']); 
           //====================================================================================================================================================================
-          $secretariaID = DB::table('secretarias')->insertGetId(['nome'=>'Secretaria Municipal de Assistência Social','secretario' => 'Luiza Cristina Quaresma de Oliveira '       ,'sigla' => 'SEMAS'     ]); //6
+          
+          $secretariaID = DB::table('secretarias')->insertGetId(['nome'=>'Secretaria Municipal de Assistência Social','secretario' => 'Luiza Cristina Quaresma de Oliveira ','sigla' => 'SEMAS']);
           $setorID = DB::table('setores')->insertGetId(['nome' => 'Pessoas em Situação de Risco'  ,'secretaria_id' => $secretariaID    , 'icone' =>  'mdi-account-multiple', 'cor' => '#CD853F'  ]);
             DB::table('servicos')->insert(['nome' => 'Acolhimento De Pessoas Em Situação De Risco'  ,'setor_id' => $setorID ,'prazo' =>10  ]);
           
           //====================================================================================================================================================================
 
-          DB::table('secretarias')->insert(['nome'=>'Secretaria Municipal de Educação' ,'secretario' => 'Thaís dos Santos de Lima'  ,'sigla' => 'SEMED'     ]); //7
-          DB::table('secretarias')->insert(['nome'=>'Secretaria Municipal de Esporte, Cultura, Lazer e Turismo' ,'secretario' => 'Luis Kleber Rodrigues Farias'  ,'sigla' => 'SEMCELT'   ]); //8
-          DB::table('secretarias')->insert(['nome'=>'Secretaria Municipal de Fazenda' ,'secretario' => 'Eduardo José Costa de Oliveira'  ,'sigla' => 'SEMEF'     ]); //9
+          $secretariaID = DB::table('secretarias')->insertGetId(['nome'=>'Secretaria Municipal de Educação' ,'secretario' => 'Thaís dos Santos de Lima'  ,'sigla' => 'SEMED']);
+          $secretariaID = DB::table('secretarias')->insertGetId(['nome'=>'Secretaria Municipal de Esporte, Cultura, Lazer e Turismo' ,'secretario' => 'Luis Kleber Rodrigues Farias'  ,'sigla' => 'SEMCELT']);
+          $secretariaID = DB::table('secretarias')->insertGetId(['nome'=>'Secretaria Municipal de Fazenda' ,'secretario' => 'Eduardo José Costa de Oliveira'  ,'sigla' => 'SEMEF']);
 
           //====================================================================================================================================================================
-          $secretariaID = DB::table('secretarias')->insertGetId(['nome'=>'Secretaria Municipal de Meio Ambiente e Urbanismo','secretario' => 'Luney Martins de Almeida','sigla' => 'SEMMURB'   ]); //10
+          $secretariaID = DB::table('secretarias')->insertGetId(['nome'=>'Secretaria Municipal de Meio Ambiente e Urbanismo','secretario' => 'Luney Martins de Almeida','sigla' => 'SEMMURB']);
           
-          $setorID = DB::table('setores')->insertGetId(['nome' => 'Fiscalização Ambiental'        ,'secretaria_id' => $secretariaID, 'icone' =>  'mdi-nature-people', 'cor' => '#228B22'  ]);
+          $setorID = DB::table('setores')->insertGetId(['nome' => 'Fiscalização Ambiental'        ,'secretaria_id' => $secretariaID, 'icone' =>  'mdi-nature-people', 'cor' => '#228B22']);
             DB::table('servicos')->insert(['nome' => 'Fiscalização Urbanismo'                       ,'setor_id' => $setorID ,'prazo' =>10  ]);
             DB::table('servicos')->insert(['nome' => 'Fiscalização Ambiental/poluição Sonora'       ,'setor_id' => $setorID ,'prazo' =>10  ]);
           
           $setorID = DB::table('setores')->insertGetId(['nome' => 'Poda de Árvore'                ,'secretaria_id' => $secretariaID, 'icone' =>  'mdi-tree', 'cor' => '#7CFC00'  ]);
             DB::table('servicos')->insert(['nome' => 'Poda De Árvore'                               ,'setor_id' => $setorID ,'prazo' =>10  ]);
 
-          $setorID = DB::table('setores')->insert(['nome' => 'Coleta Seletiva'               ,'secretaria_id' =>    $secretariaID, 'icone' =>  'mdi-recycle', 'cor' => '#32CD32'  ]);
+          $setorID = DB::table('setores')->insertGetId(['nome' => 'Coleta Seletiva'               ,'secretaria_id' =>    $secretariaID, 'icone' =>  'mdi-recycle', 'cor' => '#32CD32'  ]);
             DB::table('servicos')->insert(['nome' => 'Coleta Seletiva'                               ,'setor_id' => $setorID ,'prazo' =>10  ]);
 
 

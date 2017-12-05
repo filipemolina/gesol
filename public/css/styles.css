@@ -2146,11 +2146,13 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4 {
 
 }
 
-.status-aberta      { background-color: #fdd26d; color:#fff; }
-.status-analise     { background-color: #0214c2; color:#fff; }
-.status-execucao    { background-color: #246e06; color:#fff; }
-.status-solucionada { background-color: #000;    color:#fff; }
-.status-encaminhada { background-color: #f55e0d; color:#fff; }
+.status-aberta      { background-color: #fdd26d;  color:#fff; }
+.status-analise     { background-color: #0214c2;  color:#fff; }
+.status-execucao    { background-color: #246e06;  color:#fff; }
+.status-solucionada { background-color: #000;     color:#fff; }
+.status-encaminhada { background-color: #ff9505;  color:#fff; }
+.status-recusada    { background-color: black;    color:#fff; }
+
 
 div#div_por_em_execucao .form-group {
     margin-top: 0px;

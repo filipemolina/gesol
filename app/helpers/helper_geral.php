@@ -13,6 +13,30 @@ use App\Models\Sys_log;
 use App\Models\User;
 
 
+
+
+//verifica o tipo de acesso que o usuário logado tem no sistema
+if (! function_exists('verificaAcesso')) {
+   function verificaAcesso($usuario_logado) {
+     
+      switch ($funcionario_logado->role->peso) {
+         case 10: return "PREFEITURA"; break;   //"Moderador"
+         case 20: return "PREFEITURA"; break;   //"SAC"
+         case 30: return "SETOR";      break;   //"Funcionario"
+         case 40: return "SETOR";      break;   //"Funcionario_SUP"
+         case 50: return "SECRETARIA"; break;   //"Funcionario_ADM"
+         case 60: return "SECRETARIA"; break;   //"Secretario"
+         case 70: return "PREFEITURA"; break;   //"Ouvidor"
+         case 80: return "PREFEITURA"; break;   //"Prefeito"               
+         case 90: return "PREFEITURA"; break;   //"TI"
+         case 100:return "PREFEITURA"; break;   //"DSV"
+         default:return "SETOR"; break;   //"DSV"
+      }
+   }
+}
+
+
+
 //pega os valores enum em um campo
 if (! function_exists('pegaValorEnum')) {
    function pegaValorEnum($table, $column) {

@@ -63,6 +63,18 @@ Solicitações
 
                            <span id="span_satus" class='badge status-execucao'> {!! $solicitacao->status !!} </span>  
 
+                     @elseif($solicitacao->status =='Solucionada')
+
+                           <span id="span_satus" class='badge status-solucionada'> {!! $solicitacao->status !!} </span>  
+                     
+                     @elseif($solicitacao->status =='Recusada')
+
+                           <span id="span_satus" class='badge status-recusada'> {!! $solicitacao->status !!} </span>  
+
+                     @elseif($solicitacao->status =='Encaminhada')
+
+                           <span id="span_satus" class='badge status-encaminhada'> {!! $solicitacao->status !!} </span>  
+
                      @endif
 
                   </div>
@@ -289,30 +301,36 @@ Solicitações
                {{-------------------------- BOTAO PADRAO ------------------------}}
                <div id="div_botoes_iniciais" style="text-align:center; margin-top: -2px;">
 
-                  <button id="btn_por_execucao" class="botoes-acao-funcionario btn btn-round btn-success" >
-                     <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
-                     Pôr em Execução 
-                  </button>
+                  {{-- não deixa aparecer o botão para colocar EM EXECUÇÃO se a solicitação já estiver em execução  --}}
+                  @if($solicitacao->status !='Em execução')
+                     <button id="btn_por_execucao" class="botoes-acao-funcionario btn btn-round btn-success" >
+                           <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
+                           PÔR EM EXECUÇÃO 
+                     </button>
+                  @endif
 
                   <button id="btn_solucionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-success">
                      <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
-                     Solucionar 
+                     SOLUCIONAR 
                   </button>
 
 
                   <button id="btn_redirecionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-warning">
                      <span class="icone-botoes-acao-funcionario mdi mdi-redo-variant"></span>
-                     Redirecionar
+                     REDIRECIONAR
                   </button>
 
-                  <button id="btn_recusar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-danger">
-                     <span class="icone-botoes-acao-funcionario mdi mdi-delete-sweep"></span>
-                     Recusar
-                  </button>
+                  {{-- o sistema somente permite RECUSAR uma solicitação se ele não estiver em EXECUÇÃO --}}
+                  @if($solicitacao->status !='Em execução')
+                     <button id="btn_recusar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-danger">
+                        <span class="icone-botoes-acao-funcionario mdi mdi-delete-sweep"></span>
+                        RECUSAR
+                     </button>
+                  @endif
 
                   <a class="botoes-acao-funcionario btn btn-round btn-primary" href="{{ URL::previous() }}">
                      <span class="icone-botoes-acao-funcionario mdi mdi-backburger"></span>   
-                     Voltar
+                     VOLTAR
                   </a>
                </div>
 
