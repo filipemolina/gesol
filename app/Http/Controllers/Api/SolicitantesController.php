@@ -161,6 +161,19 @@ class SolicitantesController extends Controller
     }
 
     /**
+    * Altera a token do Firebase Cloud Message para o usuário fornecido
+    */
+
+    public function alteraFcmId(Request $request)
+    {
+
+	$solicitante = Solicitante::find($request->solicitante_id);
+	$solicitante->fcm_id = $request->fcm_id;
+	$solicitante->save();
+
+    }
+
+    /**
      * Retorna todas as opções de um enum do banco de dados
      * @param $table string
      * @param $column string
