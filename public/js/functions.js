@@ -140,25 +140,25 @@ function enviarComentario(elem, e){
 
               console.log("Dados recebidos do servidor", data);
 
-              // Apagar o campo de envio de comentario
-              $(".comentario_"+solicitacao).val("");
+              // // Apagar o campo de envio de comentario
+              // $(".comentario_"+solicitacao).val("");
 
-              // Colocar o novo card de comentarios embaixo da solicitação
-              var source      = $("#comentario-template").html();
-              var template    = Handlebars.compile(source)
+              // // Colocar o novo card de comentarios embaixo da solicitação
+              // var source      = $("#comentario-template").html();
+              // var template    = Handlebars.compile(source)
 
-              var context = { 
-                 nome:       nome_usuario,
-                 comentario: comentario, 
-                 foto:       foto_usuario,
-                 id:         data,
-                 token:      token,
-              };
+              // var context = { 
+              //    nome:       nome_usuario,
+              //    comentario: comentario, 
+              //    foto:       foto_usuario,
+              //    id:         data,
+              //    token:      token,
+              // };
 
-              var html        = template(context);
+              // var html        = template(context);
 
-              $("div.comentarios").append( $(html) );
-              //console.log(html);   
+              // $("div.comentarios").append( $(html) );
+              // //console.log(html);   
 
         });
 
