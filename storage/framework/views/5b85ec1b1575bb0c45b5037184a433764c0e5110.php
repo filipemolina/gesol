@@ -121,8 +121,6 @@
         
         <script src="<?php echo e(asset('js/vanillaMasker.min.js')); ?>"></script>
 
-
-
         <script src="<?php echo e(asset('js/echarts-en.min.js')); ?>"></script>
 
 

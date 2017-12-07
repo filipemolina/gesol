@@ -24,7 +24,7 @@ class SetoresController extends Controller
      */
     public function index()
     {
-        $setores = Setor::all();
+        $setores = Setor::where('oculto', 'false')->get();
 
         return $setores->toJson();
     }

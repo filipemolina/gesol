@@ -169,7 +169,7 @@ class UserController extends Controller
     {
         //dd("aqui");
         $usuario = User::find(Auth::user()->id);
-        $funcionario    = Funcionario::find(Auth::user()->funcionario_id);
+        $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
         if($usuario->password = bcrypt($usuario->created_at))
         {
@@ -178,7 +178,7 @@ class UserController extends Controller
             $senha_padrao = null; 
         }
 
-        return view('funcionarios.altera_senha',compact('usuario','funcionario','senha_padrao'));    
+        return view('funcionarios.altera_senha',compact('usuario','funcionario_logado','senha_padrao'));    
 
         
     }

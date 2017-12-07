@@ -1,213 +1,387 @@
-<!doctype html>
-<html lang="en">
+<?php $__env->startSection('titulo'); ?>
 
-<head>
-    <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="../../assets/img/apple-icon.png" />
-    <link rel="icon" type="image/png" href="../../assets/img/favicon.png" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Ouvidoria de Mesquita</title>
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
-    <!-- Bootstrap core CSS     -->
-    <link href="<?php echo e(asset('css/bootstrap.min.css')); ?>" rel="stylesheet" />
-    <!--  Material Dashboard CSS    -->
-    <link href="<?php echo e(asset('css/material-dashboard.css')); ?>" rel="stylesheet" />
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="<?php echo e(asset('css/demo.css')); ?>" rel="stylesheet" />
-    <!--     Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
+Registrar Solicitante
 
-     <link href="<?php echo e(asset('css/styles.css')); ?>" rel="stylesheet" />    
+<?php $__env->stopSection(); ?>
 
-</head>
+<?php $__env->startSection('content'); ?>
 
-<body>
-    <nav class="navbar navbar-primary navbar-transparent navbar-absolute">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
+<div class="row">
+   <div class="container">            
+      
+      <div class="col-md-10">
+         <div class="card card-singup">
+            <form method="get" action="" class="form-horizontal">
+               
+               
+               
+               <div class="card-header card-header-icon" data-background-color="dourado">
+                  <i class="material-icons">person</i>
+               </div>
+
+               
+               <div class="card-content">
+                  <h4 class="card-title no-padding">Dados</h4>
+               </div>         
+               
+               <div class="row">
+                  
+                  
+                  <div class="col-md-12">
+                     <div class="card-content">
                         
-                    </li>
-                    <li class=" active ">
-                        <a href="register.html">
-                            <i class="material-icons">person_add</i> Register
-                        </a>
-                    </li>
-                    <li class="">
-                        <a href="login.html">
-                            <i class="material-icons">fingerprint</i> Login
-                        </a>
-                    </li>
-                    <li class="">
                         
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="wrapper wrapper-full-page">
-        <div class="full-page register-page" filter-color="black" data-image="<?php echo e(asset('img/register.jpeg')); ?>">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <div class="card card-signup" style="opacity: 0.7;">
-                            <h2 class="card-title text-center">Registro</h2>
-                            <div class="row">
-                                <div class="col-md-5 col-md-offset-1">
-                                    <div class="card-content">
+                        <div class="row">
+                           <div class="col-md-6">
+                              <div class="input-group">
+                                 <span class="input-group-addon ">
+                                    <i class="material-icons">face</i>
+                                 </span>
+
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">Nome</label>
+                                    <input type="text" class="form-control error" 
+                                    value="">
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="col-md-4">
+                              <div class="input-group">
+                                       <span class="input-group-addon">
+                                    <i class="material-icons">email</i>
+                                 </span>
                                         
-                                    </div>
-                                </div>
-                                <div class="col-md-6" style="margin: 0 auto; float: none;">
-                                    <div class="social text-center" style="margin-top: 20px;">
-                                       
-                                        <button class="btn btn-just-icon btn-round btn-facebook">
-                                            <i class="fa fa-facebook"> </i>
-                                        </button>
-                                        <h4> Entre com Facebook ou Crie sua Conta!</h4>
-                                    </div>
+                                        <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">Email</label>
+                                    <input type="text" name="email" type="email" class="form-control error" 
+                                    value="">
+                                 </div>
+                              </div>
+                           </div>
+                        </div> 
 
-
-                                    <form class="form" method="POST" action="<?php echo e(route('solicitante.store')); ?>">
-                                            <?php echo e(csrf_field()); ?>
-
-                                        <div class="card-content">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="material-icons">face</i>
-                                                </span>
-                                                <input type="text" class="form-control" placeholder="Nome Completo">
-                                            </div>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="material-icons">email</i>
-                                                </span>
-                                                <input type="text" class="form-control" placeholder="Email">
-                                            </div>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="material-icons">credit_card</i>
-                                                </span>
-                                                <input id="cpf" type="text" class="form-control" placeholder="CPF">
-                                            </div>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="material-icons">lock_outline</i>
-                                                </span>
-                                                <input type="password" placeholder="Senha" class="form-control" />
-                                            </div>
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="material-icons">lock_outline</i>
-                                                </span>
-                                                <input type="password" placeholder="Confirmar Senha" class="form-control" />
-                                            </div>
-                                            <!-- If you want to add a checkbox to this form, uncomment this code -->
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" name="optionsCheckboxes" checked> Eu Concordo com os
-                                                    <a href="#something">termos e condições</a>.
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="footer text-center">
-                                            <input class="btn btn-primary btn-round " type="submit" value="Enviar"/>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <footer class="footer">
-                <div class="container">
-                    <nav class="pull-left">
                         
-                    </nav>
-                    <p class="copyright pull-right">
-                        &copy;
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>
-                        <a href="http://tecnologia.mesquita.rj.gov.br">Subsecretaria da Tecnologia da Informação</a><br>
-Equipe de Desenvolvimento de Sistemas
-                    </p>
-                </div>
-            </footer>
-        </div>
-    </div>
-</body>
-<!--   Core JS Files   -->
-<script src="<?php echo e(asset('js/jquery-3.1.1.min.js')); ?>" type="text/javascript"></script>
-<script src="<?php echo e(asset('js/jquery-ui.min.js')); ?>" type="text/javascript"></script>
-<script src="<?php echo e(asset('js/bootstrap.min.js')); ?>" type="text/javascript"></script>
-<script src="<?php echo e(asset('js/material.min.js')); ?>" type="text/javascript"></script>
-<script src="<?php echo e(asset('js/perfect-scrollbar.jquery.min.js')); ?>" type="text/javascript"></script>
-<!-- Forms Validations Plugin -->
-<script src="<?php echo e(asset('js/jquery.validate.min.js')); ?>"></script>
-<!--  Plugin for Date Time Picker and Full Calendar Plugin-->
-<script src="<?php echo e(asset('js/moment.min.js')); ?>"></script>
-<!--  Charts Plugin -->
-<script src="<?php echo e(asset('js/chartist.min.js')); ?>"></script>
-<!--  Plugin for the Wizard -->
-<script src="<?php echo e(asset('js/jquery.bootstrap-wizard.js')); ?>"></script>
-<!--  Notifications Plugin    -->
-<script src="<?php echo e(asset('js/bootstrap-notify.js')); ?>"></script>
-<!-- DateTimePicker Plugin -->
-<script src="<?php echo e(asset('js/bootstrap-datetimepicker.js')); ?>"></script>
-<!-- Vector Map plugin -->
-<script src="<?php echo e(asset('js/jquery-jvectormap.js')); ?>"></script>
-<!-- Sliders Plugin -->
-<script src="<?php echo e(asset('js/nouislider.min.js')); ?>"></script>
-<!-- Select Plugin -->
-<script src="<?php echo e(asset('js/jquery.select-bootstrap.js')); ?>"></script>
-<!--  DataTables.net Plugin    -->
-<script src="<?php echo e(asset('js/jquery.datatables.js')); ?>"></script>
-<!-- Sweet Alert 2 plugin -->
-<script src="<?php echo e(asset('js/sweetalert2.js')); ?>"></script>
-<!--	Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
-<script src="<?php echo e(asset('js/jasny-bootstrap.min.js')); ?>"></script>
-<!--  Full Calendar Plugin    -->
-<script src="<?php echo e(asset('js/fullcalendar.min.js')); ?>"></script>
-<!-- TagsInput Plugin -->
-<script src="<?php echo e(asset('js/jquery.tagsinput.js')); ?>"></script>
-<!-- Material Dashboard javascript methods -->
-<script src="<?php echo e(asset('js/material-dashboard.js')); ?>"></script>
+                        <div class="row">
+                           <div class="col-md-3">
+                              <div class="input-group">
+                                 <span class="input-group-addon">
+                                    <i class="material-icons">credit_card</i>
+                                 </span>
+                                        
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">CPF</label>
+                                    <input id="cpf" type="text" class="form-control error" 
+                                    value="">
+                                 </div>
+                              </div>
+                           </div>
 
-<script src="<?php echo e(asset('js/vanillaMasker.min.js')); ?>"></script>
+                           <div class="col-md-4">
+                              <div class="input-group">
+                                 <span class="input-group-addon">
+                                    <i class="material-icons">event</i>
+                                 </span>
 
-<!-- Material Dashboard DEMO methods, don't include it in your project! -->
-<script src="<?php echo e(asset('js/demo.js')); ?>"></script>
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">Nascimento</label>
+                                    <input type="type" class="form-control datetimepicker error" value="">
+                                 </div>
+                              </div>
+                           </div>
+                           
+                           <div class="col-md-3">
+                              <div class="input-group">
+                                       <span class="input-group-addon">
+                                    <i class="material-icons">wc</i>
+                                 </span>
 
-<script src="<?php echo e(asset('js/vanillaMasker.min.js')); ?>"></script>
+                                 <div class="control form-group label-floating has-dourado">
+                                    <label class="control-label">Sexo</label>
+                                    <select class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
+                                       <option >Sexo</option>
+                                       <option value="2">Masculino</option>
+                                       <option value="3">Feminino</option>
+                                    </select>
+                                 </div>
+                              </div>
+                           </div>
+                        </div> 
 
-<script src="<?php echo e(asset('js/scripts.js')); ?>"></script>
+                        
+                        <div class="row">
+                           <div class="col-md-4">
+                              <div class="input-group">
+                                       <span class="input-group-addon">
+                                    <i class="material-icons">card_membership</i>
+                                 </span>
 
-<script type="text/javascript">
-    $().ready(function() {
+                                 <div class="control form-group label-floating has-dourado">
+                                    <label class="control-label">Escolaridade</label>
+                                    <select class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
+                                       <option disabled selected>Escolaridade</option>
+                                       <option value="2">Fundamental</option>
+                                       <option value="3">Ensino médio</option>
+                                       <option value="3">Ensino superior</option>
+                                    </select>
+                                 </div>
+                              </div>
+                           </div>
 
-        VMasker ($("#cpf")).maskPattern("999.999.999-99");
+                           <div class="col-md-3">
+                              <div class="input-group ">
+                                 <span class="input-group-addon ">
+                                    <i class="material-icons">mail_outline</i>
+                                 </span>
 
-        demo.checkFullPageBackgroundImage();
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">CEP</label>
+                                    <input id="cep" type="text" class="form-control error" 
+                                    value="">
+                                 </div>
+                              </div>
+                           </div>
 
-        setTimeout(function() {
-            // after 1000 ms we add the class animated to the login/register card
-            $('.card').removeClass('card-hidden');
-        }, 700)
-    });
-</script>
+                           <div class="col-md-2">
+                              <div class="input-group">
+                                 <span class="input-group-addon">
+                                    <i class="material-icons">map</i>
+                                 </span>
+                                        
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">UF</label>
+                                    <select class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
+                                       <option disabled selected>UF</option>
+                                       <option value="2">RJ</option>
+                                       <option value="3">SP</option>
+                                    </select>
+                                 </div>
+                              </div>
+                           </div>
 
-</html>
+                           <div class="col-md-3">
+                              <div class="input-group">
+                                       <span class="input-group-addon">
+                                    <i class="material-icons">business</i>
+                                 </span>
+                                        
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">Município</label>
+                                    <input id="cidade" name="endereco[municipio]"  type="text" class="form-control error" value="">
+                                 </div>
+                              </div>
+                           </div>
+                        </div> 
+
+                        
+                        <div class="row">
+                           <div class="col-md-3">
+                              <div class="input-group">
+                                 <span class="input-group-addon">
+                                    <i class="material-icons">explore</i>
+                                 </span>
+
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">Bairro</label>
+                                    <input id="bairro" name="endereco[bairro]" type="text" class="form-control error" value="">
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="col-md-4">
+                              <div class="input-group">
+                                 <span class="input-group-addon">
+                                    <i class="material-icons">call_split</i>
+                                 </span>
+                                        
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">Logradouro</label>
+                                    <input id="rua" name="endereco[logradouro]" type="text" class="form-control error" value="">
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="col-md-2">
+                              <div class="input-group">
+                                 <span class="input-group-addon">
+                                    <i class="material-icons">home</i>
+                                 </span>
+
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">Número</label>
+                                    <input id="numero" name="endereco[numero]" type="text" class="form-control error" value="">
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="col-md-3">
+                              <div class="input-group">
+                                 <span class="input-group-addon">
+                                    <i class="material-icons">location_on</i>
+                                 </span>
+
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">Complemento</label>
+                                    <input id="numero" name="endereco[numero]" type="text" class="form-control error" value="">
+                                 </div>
+                              </div>
+                           </div>
+                        </div> 
+
+                        
+                        <div class="row">
+                           <div class="col-md-3">
+                              <div class="input-group">
+                                 <span class="input-group-addon">
+                                    <i class="material-icons">phone</i>
+                                 </span>
+                                        
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">Telefone</label>
+                                    <input id="telefone_fixo" name="telefones[0][numero]" type="text" class="form-control error" value="">
+                                 </div>
+                              </div>
+                           </div>
+
+                           
+                           <div class="col-md-3">
+                              <div class="input-group">
+                                 <span class="input-group-addon">
+                                    <i class="material-icons">stay_current_portrait</i>
+                                 </span>
+
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">Celular</label>
+                                    <input id="telefone_celular" name="telefones[1][numero]" type="text" class="form-control error" value="">
+                                    <input type="hidden" name="telefones[1][tipo_telefone]" value="Celular">
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="col-md-3">
+                              <div class="input-group">
+                                 <span class="input-group-addon">
+                                    <i class="material-icons">lock_outline</i>
+                                 </span>
+                                 
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">Senha</label>
+                                    <input type="password" name="password" class="form-control error" 
+                                    value="">
+                                 </div>
+                              </div>
+                           </div>
+
+                           <div class="col-md-3">
+                              <div class="input-group">
+                                 <span class="input-group-addon">
+                                    <i class="material-icons">lock_outline</i>
+                                 </span>
+                                 <div class="form-group label-floating has-dourado">
+                                    <label class="control-label">Confirmar senha</label>
+                                    <input type="password" name="password" type="password" class="form-control error" value="">
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div> 
+                  </div> 
+
+                  
+                  <div class="col-md-4 flt-r maior no-padding">
+                     <div class="fileinput fileinput-new text-center" data-provides="fileinput">
+                        <div class="fileinput-new thumbnail img-circle">
+                           <img src="<?php echo e(asset ('img/placeholder.jpg')); ?>" alt="...">
+                        </div>
+
+                        <div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
+                        <div>
+                           <span class="btn btn-round btn-dourado btn-file">
+                              <span class="fileinput-new">Adicionar</span>
+                              <span class="fileinput-exists">Alterar</span>
+                              <input type="file" name="..." />
+                           </span>
+                           <br />
+                           <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                        </div>
+                     </div>
+                  </div> 
+               </div> 
+            </form>
+         </div> 
+      </div> 
+
+      
+      <div class="col-md-4 col-md-offset-4">
+         <button type="submit" class="btn btn-dourado btn-lg">Salvar</button>
+      </div>
+   </div> 
+</div> 
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startPush('scripts'); ?>
+
+
+   <script src="<?php echo e(asset("js/endereco.js")); ?>"></script>
+
+   <!-- DateTimePicker Plugin -->
+   <script src="<?php echo e(asset('js/bootstrap-datetimepicker.js')); ?>"></script>
+
+   <script type="text/javascript">
+      $(document).ready(function() {
+         VMasker ($("#cep")).maskPattern("99999-999");
+         VMasker ($("#telefone_fixo")).maskPattern("(99) 9999-9999");
+         VMasker ($("#telefone_celular")).maskPattern("(99) 99999-9999");
+
+
+         //para adicionar a foto 
+         $("body").on("change.bs.fileinput", function(e){ 
+            var base64 = $(".fileinput-preview img").attr('src');
+            $("input[name=foto]").val(base64);
+         });
+
+
+
+         var tempo = 0;
+         var incremento = 500;
+
+        // Testar se há algum erro, e mostrar a notificação
+
+         <?php if($errors->any()): ?>
+            
+             <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+                setTimeout(function(){
+                    demo.notificationRight("top", "right", "rose", "<?php echo e($error); ?>");   
+                }, tempo);
+
+                tempo += incremento;
+
+             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                
+        <?php endif; ?>
+         demo.initFormExtendedDatetimepickers();
+      });
+   </script>
+
+   <script type="text/javascript">
+   
+   // javascript for init
+   $('.datetimepicker').datetimepicker({
+      icons: {
+         time: "fa fa-clock-o",
+         date: "fa fa-calendar",
+         up: "fa fa-chevron-up",
+         down: "fa fa-chevron-down",
+         previous: 'fa fa-chevron-left',
+         next: 'fa fa-chevron-right',
+         today: 'fa fa-screenshot',
+         clear: 'fa fa-trash',
+         close: 'fa fa-remove'
+      }
+   });
+   </script>
+
+<?php $__env->stopPush(); ?>
+<?php echo $__env->make('layouts.material', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -142,9 +142,9 @@ class SolicitantesController extends Controller
 
         }
 
-	    $resposta = new \stdClass();
+        $resposta = new \stdClass();
         $resposta->token = $solicitante->user->createToken("Token APP");
-        $resposta->solicitante = $solicitante;
+        $resposta->solicitante =  Solicitante::with(['endereco', 'telefones', 'user'])->where('id', $id)->first();
 
         return json_encode($resposta);
     }
@@ -158,6 +158,19 @@ class SolicitantesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+    * Altera a token do Firebase Cloud Message para o usuário fornecido
+    */
+
+    public function alteraFcmId(Request $request)
+    {
+
+	$solicitante = Solicitante::find($request->solicitante_id);
+	$solicitante->fcm_id = $request->fcm_id;
+	$solicitante->save();
+
     }
 
     /**

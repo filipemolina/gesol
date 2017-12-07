@@ -34,7 +34,7 @@ class SolicitacoesController extends Controller
             "servico.setor",
             'servico.setor.secretaria',
             'apoiadores'
-        ])->where('moderado', '1')->where('status', '<>', 'Recusada')->withCount('apoiadores')->orderBy('created_at', 'desc')->skip($offset)->limit(10)->get();
+        ])->where('moderado', '1')->where('status', '<>', 'Recusada')->withCount('apoiadores')->orderBy('updated_at', 'desc')->skip($offset)->limit(10)->get();
 
         return $Solicitacoes->toJson();
     }

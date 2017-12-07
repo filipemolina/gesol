@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
 use App\Models\Solicitacao;
 use App\Models\Solicitante;
 use App\Models\Funcionario;
@@ -54,7 +58,40 @@ class HomeController extends Controller
       }
    }
 
-   
+   /**
+   * Função utilizada para testar o Pusher
+   */
+   public function pusher(){
+
+	$solicitantes = Solicitante::all();
+	$tokens = [];
+
+	foreach($solicitantes as $solicitante){
+
+	    if($solicitante->fcm_id)
+                $tokens[] = $solicitante->fcm_id;
+
+	}
+
+	// Enviar mensagem pelo Firebase Cloud Message
+	$optionsBuilder = new OptionsBuilder();
+	$optionsBuilder->setTimeToLive(60*20);
+
+	$notificationBuilder = new PayloadNotificationBuilder('Teste para todos os usuários cadastrados');
+	$notificationBuilder->setBody('Olá Munícipes')->setSound('default');
+
+	$dataBuilder = new PayloadDataBuilder();
+	$dataBuilder->addData(['mensagem' => 'Teste de mensagem para todos os munícipes']);
+
+	$option = $optionsBuilder->build();
+	$notification = $notificationBuilder->build();
+	$data = $dataBuilder->build();
+
+	$downstreamResponse = FCM::sendTo($tokens, $option, $notification, $data);
+
+	dd([$downstreamResponse->numberSuccess(), $downstreamResponse->numberFailure(), $downstreamResponse->numberModification()]);
+
+   }
 
    /**
    *  Recebe o acesso da role do usuário logado e retorna um vetor com todas as variáveis necessárias para

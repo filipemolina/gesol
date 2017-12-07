@@ -18,9 +18,26 @@ use DataTables;
 
 class SolicitacaoController extends Controller
 {
-     public function __construct()
+	
+    private $pusher;
+    public function __construct()
     {
         $this->middleware('auth');
+
+
+	// Configurar o pusher para ser usado nas actions abaixo
+
+	$options = [
+            'cluster'   => 'us2',
+            'encrypted' => true
+        ];
+
+        $this->pusher = new \Pusher\Pusher(
+            'd5bbfbed2c038130dedf',
+            '23711399b18b4f94212b',
+            '435239',
+            $options
+        );
     }
 
     /**
@@ -401,12 +418,11 @@ class SolicitacaoController extends Controller
 
         }
 
-        
         // Montar a coleção que irá popular a tabela
         $colecao = collect();
 
-       
-        
+
+
 
         foreach($solicitacoes as $solicitacao)
         {
@@ -416,8 +432,7 @@ class SolicitacaoController extends Controller
                 $prazo_em_dias=$solicitacao->prazo;
             else
                 $prazo_em_dias=$solicitacao->servico->prazo;
-                
-                            
+
             //cria o prazo com a data setada acima
 
             $prazo = date('Ymd', strtotime($solicitacao->created_at." +$prazo_em_dias days"));
@@ -430,10 +445,6 @@ class SolicitacaoController extends Controller
             }else{
                 $inspan = "<span class='badge' style='background-color:green'>";    
             };
-
-            
-
-
 
             // Preparar a string de ações
             $acoes = str_replace(['{id}'], [$solicitacao->id], $padrao);
@@ -449,7 +460,7 @@ class SolicitacaoController extends Controller
 
             // Caso o usuário seja moderador, adicionar todas as solicitações à coleção sem fazer nenhum teste adicional
 
-            if($usuario->funcionario->acesso == "Moderador")
+            if($usuario->funcionario->role->acesso == "Moderador")
             {
                 $colecao->push([
                     'foto'          => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
@@ -497,8 +508,6 @@ class SolicitacaoController extends Controller
         ->make(true);
     }
 
-    
-
     /*
     =======================================================================================================
     ===============================                  AJAX                    ==============================
@@ -510,10 +519,10 @@ class SolicitacaoController extends Controller
     /**
     * Executa as ações do moderador
     * param    $id     int: ID da solicitação
-    *          $acao   int: ação que será executada 
+    *          $acao   int: ação que será executada
     * 1 =  Libera a solicitação
-    * 2 =  
-    * 3 =  
+    * 2 =
+    * 3 =
     */
     public function modera(Request $request)
     {
@@ -529,8 +538,9 @@ class SolicitacaoController extends Controller
 
                 if (trilha($solicitacao->id, null , null ,"Liberou",null,null))
                 {
+		    $this->pusher->trigger('solicitacoes', 'nova', ['message' => 'Nova Solicitação Moderada']);
                     return redirect('/solicitacao');
-                    
+
                 }
 
                 break;
@@ -543,10 +553,10 @@ class SolicitacaoController extends Controller
     /**
     * Executa as ações de MUDANÇA de STATUS
     * param    $id     int: ID da solicitação
-    *          $acao   int: ação que será executada 
-    * 1 =  muda STATUS para 
-    * 2 =  
-    * 3 =  
+    *          $acao   int: ação que será executada
+    * 1 =  muda STATUS para
+    * 2 =
+    * 3 =
     */
     public function status(Request $request)
     {
