@@ -96,7 +96,6 @@ class SolicitacaoController extends Controller
         }else{
             dd("Nenhuma solicitação cadastrada");
         }
-        //return view('solicitacoes.show', compact(/*'solicitacoes',*/'funcionario_logado'));
     }
 
     /**
