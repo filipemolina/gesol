@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
 use App\Models\Solicitacao;
 use App\Models\Solicitante;
 use App\Models\Funcionario;
@@ -59,23 +63,33 @@ class HomeController extends Controller
    */
    public function pusher(){
 
-	$options = [
-	    'cluster'   => 'us2',
-	    'encrypted' => true
-	];
+	$solicitantes = Solicitante::all();
+	$tokens = [];
 
-	$pusher = new \Pusher\Pusher(
-	    'd5bbfbed2c038130dedf',
-	    '23711399b18b4f94212b',
-	    '435239',
-	    $options
-	);
+	foreach($solicitantes as $solicitante){
 
-	$data['message'] = 'Ola Mundo';
-	$pusher->trigger('canal', 'evento', $data);
-	echo "<pre>";
-	echo "Mensagem enviada. Conteúdo: <br>";
-	print_r($data);
+	    if($solicitante->fcm_id)
+                $tokens[] = $solicitante->fcm_id;
+
+	}
+
+	// Enviar mensagem pelo Firebase Cloud Message
+	$optionsBuilder = new OptionsBuilder();
+	$optionsBuilder->setTimeToLive(60*20);
+
+	$notificationBuilder = new PayloadNotificationBuilder('Teste para todos os usuários cadastrados');
+	$notificationBuilder->setBody('Olá Munícipes')->setSound('default');
+
+	$dataBuilder = new PayloadDataBuilder();
+	$dataBuilder->addData(['mensagem' => 'Teste de mensagem para todos os munícipes']);
+
+	$option = $optionsBuilder->build();
+	$notification = $notificationBuilder->build();
+	$data = $dataBuilder->build();
+
+	$downstreamResponse = FCM::sendTo($tokens, $option, $notification, $data);
+
+	dd([$downstreamResponse->numberSuccess(), $downstreamResponse->numberFailure(), $downstreamResponse->numberModification()]);
 
    }
 

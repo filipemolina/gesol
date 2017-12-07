@@ -29,6 +29,7 @@ Route::post('/user/login', "Api\UsersController@login");
 Route::post("/user", "Api\UsersController@retornaToken");
 Route::post('/user/create', "Api\UsersController@create");
 Route::post('/servicosporsetor', "Api\ServicosController@servicosPorSetor");
+Route::post('/alteraFcmId', "Api\SolicitantesController@alteraFcmId");
 
 Route::get('/enum/{tabela}/{coluna}', "Api\SolicitantesController@pegaValorEnum");
 Route::get("/solicitacoes/minhas", "Api\SolicitacoesController@minhas");

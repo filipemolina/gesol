@@ -48,7 +48,6 @@ class SolicitacaoController extends Controller
     public function index()
     {
         $funcionario_logado   = Funcionario::find(Auth::user()->funcionario_id);
-        //dd(Solicitacao::count());
 
         if( Solicitacao::count() > 0)
         {
@@ -114,7 +113,6 @@ class SolicitacaoController extends Controller
         }else{
             dd("Nenhuma solicitação cadastrada");
         }
-        //return view('solicitacoes.show', compact(/*'solicitacoes',*/'funcionario_logado'));
     }
 
     /**
