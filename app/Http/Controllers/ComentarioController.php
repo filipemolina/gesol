@@ -51,7 +51,7 @@ class ComentarioController extends Controller
         ]);
 
         $comentario = new Comentario($request->all());
-	$solicitacao = Solicitacao::find($request->solicitacao_id);
+	    $solicitacao = Solicitacao::find($request->solicitacao_id);
 
         // Associar com uma solicitação e um funcionário
 
@@ -62,29 +62,26 @@ class ComentarioController extends Controller
 
         $comentario->save();
 
-	// Enviar uma notificação para o dispositivo do usuário que criou a solicitação
+        // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
 
-	$optionBuilder = new OptionsBuilder();
-	$optionBuilder->setTimeToLive(60*20);
+        $optionBuilder = new OptionsBuilder();
+        $optionBuilder->setTimeToLive(60*20);
 
-	$notificationBuilder = new PayloadNotificationBuilder('Sua solicitação foi respondida');
-	$notificationBuilder->setBody('Sua solicitação foi respondida')->setSound('default');
+        $notificationBuilder = new PayloadNotificationBuilder('Sua solicitação foi respondida');
+        $notificationBuilder->setBody('Sua solicitação foi respondida')->setSound('default');
 
-	$dataBuilder = new PayloadDataBuilder();
-	$dataBuilder->addData(['tipo' => 'atualizar', 'model'=>'comentario']);
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['tipo' => 'atualizar', 'model'=>'comentario']);
 
-	$option = $optionBuilder->build();
-	$notification = $notificationBuilder->build();
-	$data = $dataBuilder->build();
+        $option = $optionBuilder->build();
+        $notification = $notificationBuilder->build();
+        $data = $dataBuilder->build();
 
-	$token = $solicitacao->solicitante->fcm_id;
+        $token = $solicitacao->solicitante->fcm_id;
 
-	$downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+        $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
 
-	print_r($comentario->toJson());
-	exit;
-
-	// Fim do envio da notificação
+	    // Fim do envio da notificação
 
         $resposta                   = new \stdClass();
         $resposta->data             = \Carbon\Carbon::parse( $comentario->created_at)->format('d/m/Y - H:i:s');
