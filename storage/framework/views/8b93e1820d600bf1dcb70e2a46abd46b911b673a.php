@@ -77,6 +77,9 @@
             //variáveis globais ao sistema
             let url_base       = "<?php echo e(url("/")); ?>";
             let token          = "<?php echo e(csrf_token()); ?>";
+	    let nome  = "<?php echo e($funcionario_logado->nome); ?>";
+	    let setor = "<?php echo e($funcionario_logado->setor->nome); ?>";
+	    let sigla = "<?php echo e($funcionario_logado->setor->secretaria->sigla); ?>";
         </script>
 
 

@@ -77,6 +77,9 @@
             //variáveis globais ao sistema
             let url_base       = "{{ url("/") }}";
             let token          = "{{ csrf_token() }}";
+	    let nome  = "{{ $funcionario_logado->nome }}";
+	    let setor = "{{ $funcionario_logado->setor->nome }}";
+	    let sigla = "{{ $funcionario_logado->setor->secretaria->sigla }}";
         </script>
 
 

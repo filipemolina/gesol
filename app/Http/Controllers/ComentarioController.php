@@ -84,7 +84,7 @@ class ComentarioController extends Controller
 	    // Fim do envio da notificação
 
         $resposta                   = new \stdClass();
-        $resposta->data             = \Carbon\Carbon::parse( $comentario->created_at)->format('d/m/Y - H:i:s');
+        $resposta->data_criacao     = \Carbon\Carbon::parse( $comentario->created_at)->format('d/m/Y - H:i:s');
         $resposta->nome_funcionario = $comentario->funcionario->nome;
         $resposta->nome_setor       = $comentario->solicitacao->servico->setor->nome;
         $resposta->sigla            = $comentario->solicitacao->servico->setor->secretaria->sigla;
