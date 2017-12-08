@@ -140,6 +140,8 @@ $factory->define(App\Models\Setor::class, function(Faker\Generator $faker) {
 $factory->define(App\Models\Solicitacao::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
 
+	$gera_servico 	= App\Models\Servico::all()->random()->id;
+	$servico 		= App\Models\Servico::find($gera_servico); 
 	
 	$foto = 'data:image/jpg;base64,' . base64_encode(file_get_contents($faker->imageUrl(1024, 768, 'nature', true, 'Faker')));
 
@@ -151,8 +153,8 @@ $factory->define(App\Models\Solicitacao::class, function(Faker\Generator $faker)
 		'status'					=> $faker->randomElement(['Aberta','Em análise','Em execução','Solucionada','Recusada','Encaminhada']),
 		'prioridade'			=> $faker->randomElement(['Baixa','Normal','Alta','Urgente']),
 		'created_at'         => $faker->dateTimeBetween('-2 year', 'now'),
-
-		'servico_id'  			=> App\Models\Servico::all()->random()->id,
+		'prazo'  				=> $servico->prazo,
+		'servico_id'  			=> $servico->id,
 		'solicitante_id'		=> App\Models\Solicitante::all()->random()->id,
 	];
 });

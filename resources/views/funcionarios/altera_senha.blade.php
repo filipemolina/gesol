@@ -11,7 +11,7 @@ Alterar funcionário
 <div class="col-md-10 col-md-offset-1">
 
 	<div class="card card-singup">
-		<form action="{{ url('/users/alterarsenha') }}" method="POST" class="form-horizontal" id="form-cadastro-usuario">
+		<form action="{{ url('/users/alterarsenha') }}" method="POST" class="form-horizontal" id="form-altera-senha">
 			{{ csrf_field() }}
 
 			
@@ -56,27 +56,38 @@ Alterar funcionário
 
 				
 			</div>  <!-- FIM ROW  -->
-
-			<div class="footer text-center">
-				<button id="btn_salvar" class="botoes-acao btn btn-round btn-success ">
-               <span class="icone-botoes-acao mdi mdi-send"></span>
-               <span class="texto-botoes-acao"> Salvar </span>
-               <div class="ripple-container"></div>
-            </button>
-
-	        	<button id="btn_cancelar" class="botoes-acao btn btn-round btn-primary" href="http://gesol.dev/solicitacao">
-               <span class="icone-botoes-acao mdi mdi-backburger"></span>   
-               <span class="texto-botoes-acao"> Cancelar </span>
-               <div class="ripple-container"></div>
-            </button>
-			</div>
-
 		</form>
+
+		<div class="footer text-center">
+			<button id="btn_salvar" class="botoes-acao btn btn-round btn-success" onclick="enviaForm()">
+            <span class="icone-botoes-acao mdi mdi-send"></span>
+            <span class="texto-botoes-acao"> Salvar </span>
+            <div class="ripple-container"></div>
+         </button>
+        	<button  id="btn_cancelar" class="botoes-acao btn btn-round btn-primary" onclick="VoltaPagina()">
+            <span class="icone-botoes-acao mdi mdi-backburger"></span>   
+            <span class="texto-botoes-acao"> Cancelar </span>
+            <div class="ripple-container"></div>
+         </button>
+		</div>
+
 	</div>
 </div>
     
 @endsection
 
 @push('scripts')
+
+	<script type="text/javascript">
+		function enviaForm(){
+			document.getElementById("form-altera-senha").submit();
+		}
+
+		function VoltaPagina() {
+    		window.history.back();
+		}
+
+	</script>
+
 
 @endpush

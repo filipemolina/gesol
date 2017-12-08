@@ -81,7 +81,7 @@ class SolicitacaoController extends Controller
                 
                 case 60:
                     //"Secretario"
-                    dd($funcionario_logado->role->acesso);
+                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
                     break;
 
                 case 70:
@@ -361,13 +361,13 @@ class SolicitacaoController extends Controller
     * 1 =  Obter todos os dados de todos os solicitacoes que JÁ ESTÃO moderadas
     * 2 =  Obter todos os dados de todos os solicitacoes ATIVAS e MODERADAS
     * 3 =  Obter todos os dados de todos os solicitacoes SOLUCIONADAS e MODERADAS    
+    * 4 =  Obter todos os dados de todos os solicitacoes RECUSADAS
     */
     public function dados($liberado)
     {
         // Obter o usuário atualmente logado
         $usuario = User::find(Auth::user()->id);
 
-        
 
         // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
         // Aqui  os botões PADRÃO serão criados, de acordo com a role do usuario será
@@ -402,12 +402,13 @@ class SolicitacaoController extends Controller
             case 2:
                 // Obter todos os dados de todos os solicitacoes ATIVAS e MODERADAS; 
                 $solicitacoes = Solicitacao::where('status','<>','Solucionada')
+                                            ->where('status','<>','Recusada')    
                                             ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
                 break;
 
             case 3:
-                // Obter todos os dados de todos os solicitacoes FECHADAS e MODERADAS;
+                // Obter todos os dados de todos os solicitacoes FECHADAS, RECUSADAS e MODERADAS;
                 $solicitacoes = Solicitacao::where('status','=','Solucionada')
                                             ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
@@ -415,6 +416,18 @@ class SolicitacaoController extends Controller
                 $padrao = "<a href='" .url('solicitacao/{id}')."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
 
                 break;
+
+            case 4:
+
+                // Obter todos os dados de todos os solicitacoes RECUSADAS;
+                $solicitacoes = Solicitacao::where('status','=','Recusada')    
+                                            ->with('solicitante','servico','servico.setor','endereco')->get();
+
+                $padrao = "<a href='" .url('solicitacao/{id}')."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
+
+
+                break;
+
 
         }
 
@@ -460,7 +473,9 @@ class SolicitacaoController extends Controller
 
             // Caso o usuário seja moderador, adicionar todas as solicitações à coleção sem fazer nenhum teste adicional
 
-            if($usuario->funcionario->role->acesso == "Moderador")
+            //if($usuario->funcionario->role->acesso == "Moderador")
+            
+            if(verificaAcesso($usuario) == "PREFEITURA")
             {
                 $colecao->push([
                     'foto'          => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
@@ -498,13 +513,14 @@ class SolicitacaoController extends Controller
                                         .$inspan 
                                         . \Carbon\Carbon::parse( $prazo)->format('d/m/Y')
                                         ."</span>",
+                                                       
 
                 ]);
             }
         }
 
         return DataTables::of($colecao)
-        ->rawColumns(['foto','acoes', 'conteudo','abertura','prazo'])
+        ->rawColumns(['foto','acoes', 'conteudo','abertura','prazo','atualizacao'])
         ->make(true);
     }
 
@@ -570,7 +586,6 @@ class SolicitacaoController extends Controller
 
         return ("OK");
     }
-
 
 
     // /**
