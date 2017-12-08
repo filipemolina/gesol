@@ -36,6 +36,25 @@ if (! function_exists('verificaAcesso')) {
 }
 
 
+//verifica o tipo de acesso que o usuário logado tem no sistema
+if (! function_exists('mostraAcesso')) {
+   function mostraAcesso($funcionario_logado) {
+      //$funcionario_logado   = Funcionario::find(Auth::user()->funcionario_id);
+
+      if(verificaAcesso($funcionario_logado) == 'PREFEITURA' ){
+         return("- PREFEITURA");
+      } elseif(verificaAcesso($funcionario_logado) == 'SECRETARIA' ){
+
+         return("- " . $funcionario_logado->setor->secretaria->nome );
+      
+      } else if(verificaAcesso($funcionario_logado) == 'SETOR' ){
+         return("- " .$funcionario_logado->setor->nome );
+      };
+   }
+}
+
+
+
 
 //pega os valores enum em um campo
 if (! function_exists('pegaValorEnum')) {

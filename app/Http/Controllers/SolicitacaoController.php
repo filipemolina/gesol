@@ -366,8 +366,8 @@ class SolicitacaoController extends Controller
     public function dados($liberado)
     {
         // Obter o usuário atualmente logado
-        //$usuario            = User::find(Auth::user()->id);
-        $funcionario_logado = Funcionario::find($usuario->id);
+
+        $funcionario_logado = Funcionario::find(Auth::user()->id);
 
 
         // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.

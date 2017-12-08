@@ -2,13 +2,7 @@
 
 @section('titulo')
 
-	
-
-   @if($funcionario_logado->role->peso <= 60)
-		Funcionários - {!! $funcionario_logado->setor->secretaria->nome !!}
-	@elseif($funcionario_logado->role->peso >= 70)
-		Funcionários - Prefeitura
-	@endif
+	Funcionários {{ mostraAcesso($funcionario_logado) }}
 
 
 @endsection

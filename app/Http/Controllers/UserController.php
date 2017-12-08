@@ -196,10 +196,18 @@ class UserController extends Controller
         // Obter o usuário
         $usuario = User::find(Auth::user()->id);
 
+        // obter a senha atual - será usada para gaurdar no log
+        $senha_atual = bcrypt($request->password_atual);
+
 
         if (Hash::check($request->password_atual, $usuario->password))
         {
+
             $usuario->update(['password' => bcrypt($request->password)]);            
+
+            //salva na trilha
+            loga('U', 'USERS', $usuario->id, 'PASSWORD', $senha_atual, 'Alteração de password');
+
             return redirect('/')->with('sucesso_alteracao_senha','Senha alterada com sucesso.');
         }else{
 

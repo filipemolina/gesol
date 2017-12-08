@@ -2,16 +2,7 @@
 
 @section('titulo')
 
-  Painel - 
-
-          @if(verificaAcesso($funcionario_logado) == 'PREFEITURA' )
-            PREFEITURA
-          @elseif(verificaAcesso($funcionario_logado) == 'SECRETARIA' )
-            {!! $funcionario_logado->setor->secretaria->nome !!}
-          @elseif(verificaAcesso($funcionario_logado) == 'SETOR' )
-            {!! $funcionario_logado->setor->nome !!}
-          @endif
-  
+  Painel {{ mostraAcesso($funcionario_logado) }}
 
 @endsection
 

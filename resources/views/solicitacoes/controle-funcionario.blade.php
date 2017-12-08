@@ -1,7 +1,7 @@
 @extends('layouts.material')
 
 @section('titulo')
-   Solicitações
+   Solicitações {{ mostraAcesso($funcionario_logado) }}
 @endsection
 
 @section('content')

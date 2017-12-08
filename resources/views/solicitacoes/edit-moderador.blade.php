@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-Solicitações
+Andamento de Solicitação
 
 @endsection
 
