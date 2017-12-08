@@ -35,9 +35,18 @@ Alterar funcionário
                       	<i class="material-icons">lock_outline</i>
 							</span>
                    	<div class="form-group label-floating has-dourado">
-								<label class="control-label">Senha</label>
-								<input name="senha" type="password" name="password" class="form-control error" 
-								value=" {{ old('senha') }} ">
+								<label class="control-label">Senha Atual</label>
+								<input type="password" name="password_atual" class="form-control error">
+							</div>
+						</div>
+
+						<div class="input-group">
+                  	<span class="input-group-addon">
+                      	<i class="material-icons">lock_outline</i>
+							</span>
+                   	<div class="form-group label-floating has-dourado">
+								<label class="control-label">Nova Senha</label>
+								<input type="password" name="password" class="form-control error">
 							</div>
 						</div>
 
@@ -47,8 +56,7 @@ Alterar funcionário
 							</span>
                    	<div class="form-group label-floating has-dourado">
 								<label class="control-label">Confirmar senha</label>
-								<input name="confirma-senha" type="password" name="password" type="password" class="form-control error" 
-								value=" {{ old('confirma-senha') }} ">
+								<input type="password" name="password_confirmation" type="password" class="form-control error" >
 							</div>
                   </div>
 					</div>
@@ -79,6 +87,20 @@ Alterar funcionário
 @push('scripts')
 
 	<script type="text/javascript">
+		$(document).ready(function() {
+			var tempo = 0;
+			var incremento = 500;
+			
+			// Testar se há algum erro, e mostrar a notificação
+			@if ($errors->any())
+				@foreach ($errors->all() as $error)
+					setTimeout(function(){demo.notificationRight("top", "right", "rose", "{{ $error }}"); }, tempo);
+					tempo += incremento;
+				@endforeach
+			@endif
+			demo.initFormExtendedDatetimepickers();
+		});
+
 		function enviaForm(){
 			document.getElementById("form-altera-senha").submit();
 		}

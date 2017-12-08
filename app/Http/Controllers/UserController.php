@@ -171,7 +171,7 @@ class UserController extends Controller
         $usuario = User::find(Auth::user()->id);
         $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
-        if($usuario->password = bcrypt($usuario->created_at))
+        if($usuario->password == bcrypt($usuario->created_at))
         {
             $senha_padrao = $usuario->created_at;
         }else{
@@ -194,7 +194,7 @@ class UserController extends Controller
         ]);
 
         // Obter o usuário
-        $usuario = User::find($request->id);
+        $usuario = User::find(Auth::user()->id);
 
 
         if (Hash::check($request->password_atual, $usuario->password))
@@ -205,8 +205,6 @@ class UserController extends Controller
 
             return back()->withErrors('Senha atual não confere');
         }
-
-        return back()->withErrors();
 
     }
 
