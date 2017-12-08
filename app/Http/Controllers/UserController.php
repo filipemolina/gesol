@@ -206,6 +206,8 @@ class UserController extends Controller
             return back()->withErrors('Senha atual não confere');
         }
 
+        return back()->withErrors();
+
     }
 
 

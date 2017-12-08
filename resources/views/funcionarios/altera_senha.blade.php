@@ -11,7 +11,7 @@ Alterar funcionário
 <div class="col-md-10 col-md-offset-1">
 
 	<div class="card card-singup">
-		<form action="{{ url('/users/alterarsenha') }}" method="POST" class="form-horizontal" id="form-altera-senha">
+		<form action="{{ url('salvasenha') }}" method="POST" class="form-horizontal" id="form-altera-senha">
 			{{ csrf_field() }}
 
 			

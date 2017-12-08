@@ -24,10 +24,12 @@ Route::get ('/pusher', 'HomeController@pusher');
 
 //caminho para a tela de alteração de senha
 Route::get 	('/alterasenha',			'UserController@AlteraSenha');
-Route::put 	('/salvasenha',   		'UserController@SalvarSenha');
+Route::post 	('/salvasenha',   		'UserController@SalvarSenha');
+
 //caminho para a tela de alteração do avatar
 Route::get 	('/alteraavatar',			'UserController@AlteraAvatar');
 Route::put 	('/salvaavatar',   		'UserController@SalvarAvatar');
+
 //caminho para alterar o status do usuario ATIVO/INATIVO
 Route::post('/mudastatus',				'UserController@MudaStatus');
 

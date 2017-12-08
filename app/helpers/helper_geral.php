@@ -17,9 +17,9 @@ use App\Models\User;
 
 //verifica o tipo de acesso que o usuário logado tem no sistema
 if (! function_exists('verificaAcesso')) {
-   function verificaAcesso($usuario_logado) {
+   function verificaAcesso($funcionario_logado) {
      
-      switch ($usuario_logado->funcionario->role->peso) {
+      switch ($funcionario_logado->role->peso) {
          case 10: return "PREFEITURA"; break;   //"Moderador"
          case 20: return "PREFEITURA"; break;   //"SAC"
          case 30: return "SETOR";      break;   //"Funcionario"
