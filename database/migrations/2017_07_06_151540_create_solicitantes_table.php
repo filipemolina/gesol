@@ -30,7 +30,7 @@ class CreateSolicitantesTable extends Migration
                                 ])                          ->nullable();
 
             
-            $table->mediumText('foto')                          ->nullable();
+            $table->string('foto')                          ->nullable();
 
             $table->enum('status', ['Criado', 'Ativo', 'Inativo']) ->default('Criado');
 
@@ -97,7 +97,7 @@ class CreateSolicitantesTable extends Migration
                                         ])                  ->nullable();
 
 
-	    $table->string('fcm_id', 255)->nullable(); 
+
             $table->softDeletes();
 
             $table->timestamps();

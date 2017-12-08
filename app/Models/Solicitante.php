@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Solicitante extends Model
 {
-    protected $table = "solicitantes";
+ 	protected $table = "solicitantes";
 
     protected $fillable =[
-        'nome',
+	 	'nome',
         'email',
         'fb_uid',
         'fb_token',
@@ -49,16 +49,16 @@ class Solicitante extends Model
 
 
     public function endereco()
-    {
-        return $this->hasOne('App\Models\Endereco');
-    }
+	{
+		return $this->hasOne('App\Models\Endereco');
+	}
 
     public function telefones()
     {
         return $this->hasMany('App\Models\Telefone');
     }
 
-    public function solicitacoes()
+	public function solicitacoes()
     {
         return $this->hasMany('App\Models\Solicitacao');
     }
@@ -67,10 +67,4 @@ class Solicitante extends Model
     {
         return $this->hasOne('App\User');
     }
-
-    public function apoios()
-    {
-        return $this->belongsToMany('App\Models\Solicitacao', 'apoios');
-    }
-
 }

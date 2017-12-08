@@ -117,14 +117,11 @@ return [
     */
 
     'attributes' => [
-        'cpf'                => 'CPF',
-        'email'              => 'E-mail',
-        'nome'               => 'Nome',
-        'senha'              => 'Senha',
-        'senha_confirmation' => 'Confirmar Senha',
-        'solicitante.nome'   => 'Nome',
-        'solicitante.email'  => 'E-mail',
-        'solicitante.cpf'    => 'CPF'
+        'cpf' => 'CPF',
+        'email' => 'E-mail',
+        'nome' => 'Nome',
+        'senha' => 'Senha',
+        'senha_confirmation' => 'Confirmar Senha'
     ],
 
 ];

@@ -10,7 +10,6 @@ class Servico extends Model
 
     protected $fillable =[
         'nome',
-        'prazo',
 
     ];
 
@@ -24,5 +23,4 @@ class Servico extends Model
     {
         return $this->hasMany('App\Models\Solicitacao');
     }
-       
 }

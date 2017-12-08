@@ -116,10 +116,12 @@ function initAutocomplete() {
 
 function enviarComentario(elem, e){
 
-   // Executar essa função apenas se a tecla pressionada for o Enter ou caso nenhuma tecla tenha
-   // sido pressionada (click)
+    console.log("Elemento", elem);
 
-   if(e.keyCode == "13" || typeof e.keyCode === 'undefined'){
+    // Executar essa função apenas se a tecla pressionada for o Enter ou caso nenhuma tecla tenha
+    // sido pressionada (click)
+
+    if(e.keyCode == "13" || typeof e.keyCode === 'undefined'){
 
       let solicitacao = $(elem).data('solicitacao');
       let solicitante = $(elem).data('solicitante');
@@ -148,7 +150,7 @@ function enviarComentario(elem, e){
               var template    = Handlebars.compile(source)
 
               var context = {
-		nome_funcionario: dados.nome_funcionario,
+		            nome_funcionario: dados.nome_funcionario,
                 nome_setor:       dados.nome_setor,
                 sigla:            dados.sigla,
                 comentario:       dados.comentario,

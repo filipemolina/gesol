@@ -17,13 +17,12 @@ class CreateFuncionariosTable extends Migration
             $table->increments('id');
             $table->string('nome');                
             $table->char('cpf',14)                          ->nullable();
-            $table->string('matricula', 11)                 ->nullable();
+            $table->unsignedInteger('matricula')            ->nullable();
             $table->string('cargo',30)                      ->nullable();
-            $table->mediumtext('foto')                      ->nullable();
+            $table->string('foto')                          ->nullable();
 
             //------------------------FOREIGN--------------------------------
             $table->integer('setor_id')->unsigned();
-            $table->integer('role_id') ->nullable()->unsigned();            
             //---------------------------------------------------------------
 
 

@@ -20,8 +20,8 @@ class CreateSecretariasTable extends Migration
             $table->string('secretario',50)                 ->nullable();
             $table->string('sigla', 10)                     ->nullable();
             $table->string('email')                         ->nullable();
-            $table->time('inicio_atendimento')              ->nullable()    ->default('09:00:00');
-            $table->time('termino_atendimento')             ->nullable()    ->default('17:00:00');
+            $table->time('inicio_atendimento')              ->nullable();
+            $table->time('termino_atendimento')             ->nullable();
 
             $table->softDeletes();
 
