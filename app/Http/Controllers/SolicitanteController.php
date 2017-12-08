@@ -9,14 +9,19 @@ use Illuminate\Http\Request;
 
 class SolicitanteController extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
-        //
+        return view ('solicitantes.index');
     }
 
     public function create()
     {
-        //
+        return view ('solicitantes.create');
     }
 
     public function store(Request $request)
@@ -26,7 +31,7 @@ class SolicitanteController extends Controller
 
     public function show($id)
     {
-        //
+        return view ('solicitantes.show');
     }
 
     public function edit($id)

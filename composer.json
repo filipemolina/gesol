@@ -7,13 +7,17 @@
     "require": {
         "php": ">=5.6.4",
         "barryvdh/laravel-cors": "^0.9.2",
+        "brozot/laravel-fcm": "^1.2",
         "fzaninotto/faker": "^1.6",
         "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/psr7": "^1.4",
         "jailtonsc/validador-cpf-laravel": "^4.0",
         "laravel/framework": "5.4.*",
         "laravel/passport": "^3.0",
         "laravel/socialite": "^3.0",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "pusher/pusher-php-server": "^3.0",
+        "yajra/laravel-datatables": "1.0"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
@@ -25,7 +29,22 @@
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "app/helpers/helper_geral.php",
+            "app/helpers/helper_dashboard.php",
+
+            "app/helpers/helper_Moderador.php",
+            "app/helpers/helper_SAC.php",
+            "app/helpers/helper_Funcionario.php",
+            "app/helpers/helper_Funcionario_SUP.php",
+            "app/helpers/helper_Funcionario_ADM.php",
+            "app/helpers/helper_Secretario.php",
+            "app/helpers/helper_Ouvidor.php",
+            "app/helpers/helper_Prefeito.php",
+            "app/helpers/helper_TI.php",
+            "app/helpers/helper_DSV.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

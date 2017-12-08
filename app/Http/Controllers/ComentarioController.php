@@ -42,8 +42,6 @@ class ComentarioController extends Controller
     
     public function store(Request $request)
     {
-        // Variável que indica se uma notificação foi enviada para o dispositivo
-        $enviou = false;
         
         // Validar
 
@@ -64,30 +62,24 @@ class ComentarioController extends Controller
 
         $comentario->save();
 
-        // Testar se esse solicitatante tem um Id do FCM cadastrado. Caso tenha, enviar uma notificação para o seu
-        // dispositivo
+        // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
+
+        $optionBuilder = new OptionsBuilder();
+        $optionBuilder->setTimeToLive(60*20);
+
+        $notificationBuilder = new PayloadNotificationBuilder('Sua solicitação foi respondida');
+        $notificationBuilder->setBody('Sua solicitação foi respondida')->setSound('default');
+
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['tipo' => 'atualizar', 'model'=>'comentario']);
+
+        $option = $optionBuilder->build();
+        $notification = $notificationBuilder->build();
+        $data = $dataBuilder->build();
 
         $token = $solicitacao->solicitante->fcm_id;
 
-        if($token)
-        {
-            $optionBuilder = new OptionsBuilder();
-            $optionBuilder->setTimeToLive(60*20);
-
-            $notificationBuilder = new PayloadNotificationBuilder('Sua solicitação foi respondida');
-            $notificationBuilder->setBody('Sua solicitação foi respondida')->setSound('default');
-
-            $dataBuilder = new PayloadDataBuilder();
-            $dataBuilder->addData(['tipo' => 'atualizar', 'model'=>'comentario']);
-
-            $option = $optionBuilder->build();
-            $notification = $notificationBuilder->build();
-            $data = $dataBuilder->build();
-
-            $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
-
-            $enviou = true;
-        }
+        $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
 
 	    // Fim do envio da notificação
 
@@ -97,9 +89,9 @@ class ComentarioController extends Controller
         $resposta->nome_setor       = $comentario->solicitacao->servico->setor->nome;
         $resposta->sigla            = $comentario->solicitacao->servico->setor->secretaria->sigla;
         $resposta->comentario       = $comentario->comentario;
-        $resposta->enviou           = $enviou;
 
-        // Salvar na trilha de auditoria        
+        //trilha($comentario->solicitacao->id,    null , null ,"Respondeu" ,null);
+        
         trilha($request->solicitacao_id,        null , null ,"Respondeu" ,null, $comentario->id);
 
         return json_encode($resposta);

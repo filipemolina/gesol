@@ -14,12 +14,13 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
-
     return [
         
-        'email' 			=> $faker->unique()->safeEmail,
-        'password' 			=> $password ?: $password = bcrypt('secret'),
-        'remember_token' 	=> str_random(10),
+        'email' 		=> $faker->unique()->safeEmail,
+        'status' 		=> $faker->randomElement(['Ativo','Inativo']),
+        'password' 	=> $password ?: $password = bcrypt('secret'),
+        'avatar' 		=> $faker->imageUrl(120, 150, 'people', true, 'Faker'),
+        
     ];
 });
 
@@ -34,13 +35,16 @@ $factory->define(App\Models\Endereco::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
 	return [
 
-		'uf'			=> $faker->stateAbbr,
+		'uf'				=> $faker->stateAbbr,
 		'municipio'	 	=> $faker->city,
-		'bairro'		=> $faker->cityPrefix,
-		'logradouro'   	=> $faker->streetName,
+		'bairro'			=> $faker->cityPrefix,
+		'logradouro'   => $faker->streetName,
 		'numero'   		=> $faker->randomNumber(3),
-		'complemento'  	=> $faker->secondaryAddress,
-		'cep'          	=> $faker->randomNumber(5)."-".$faker->randomNumber(3),
+		'complemento'  => $faker->secondaryAddress,
+		'cep'          => $faker->randomNumber(5)."-".$faker->randomNumber(3),
+		'latitude'		=> $faker->latitude($min  = -22.7741, $max = -22.8000),
+		'longitude'		=> $faker->longitude($min = -43.4384, $max = -43.4129)     // 77.147489
+
 
 	];
 });
@@ -51,12 +55,16 @@ $factory->define(App\Models\Endereco::class, function(Faker\Generator $faker) {
 
 $factory->define(App\Models\Funcionario::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
+
+   $role_id = App\Models\Role::all()->random()->id;
+
 	return [
-		'nome'             	=> $faker->name,
-		'matricula'         => $faker->numberBetween($min = 1111, $max = 99999),
+		'nome'            => $faker->name,
+		'matricula'       => $faker->numberBetween($min = 1111, $max = 99999),
 		'cpf'           	=> $faker->cpf,
-		'cargo'			    => $faker->jobTitle,
+		'cargo'			   => $faker->jobTitle,
 		'foto'				=> $faker->imageUrl(120, 150, 'people', true, 'Faker'),
+		'role_id'			=> $role_id,
 	];
 });
 
@@ -65,10 +73,10 @@ $factory->define(App\Models\Funcionario::class, function(Faker\Generator $faker)
 // ========================================================================================================
 // ========================================================================================================
 
-$factory->define(App\Models\Mensagem::class, function(Faker\Generator $faker) {
+$factory->define(App\Models\Comentario::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
 
-	// Decidir se a mensagem é do solicitante ou do funcionário
+	// Decidir se a comentario é do solicitante ou do funcionário
 
 	if(rand(0,1)){
 		$funcionario_id = App\Models\Funcionario::all()->random()->id;
@@ -78,11 +86,10 @@ $factory->define(App\Models\Mensagem::class, function(Faker\Generator $faker) {
 
 
 	return [
-		'mensagem'          => $faker->realText($maxNbChars = 30, $indexSize = 2), 
-		'encerramento'      => $faker-> boolean($chanceOfGettingTrue = 90),
-		'lida'           	=> $faker-> boolean($chanceOfGettingTrue = 50),
-
-		'funcionario_id'	=> $funcionario_id,
+		'comentario'         => $faker->realText($maxNbChars = 30, $indexSize = 2), 
+		'encerramento'      	=> $faker-> boolean($chanceOfGettingTrue = 90),
+		'lida'           		=> $faker-> boolean($chanceOfGettingTrue = 50),
+		'funcionario_id'		=> $funcionario_id,
 
 	];
 });
@@ -96,9 +103,9 @@ $factory->define(App\Models\Secretaria::class, function(Faker\Generator $faker) 
 	return [
 		'nome'             		=> $faker->company,
 		'secretario'      		=> $faker->name,
-		'sigla'      			=> $faker->lexify('SEM????'),
-		'email' 				=> $faker->unique()->email,
-		'inicio_atendimento'	=> $faker->time('H:i:s','10:00:00'),
+		'sigla'      				=> $faker->lexify('SEM????'),
+		'email' 						=> $faker->unique()->email,
+		'inicio_atendimento'		=> $faker->time('H:i:s','10:00:00'),
 		'termino_atendimento'	=> $faker->time('H:i:s','19:00:00'),
 	];
 });
@@ -111,7 +118,7 @@ $factory->define(App\Models\Servico::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
 	return [
 		'nome'             		=> $faker->jobTitle,
-		'icone'					=> $faker->imageUrl(100, 100, 'abstract', true, 'Faker'),
+		'icone'						=> $faker->imageUrl(100, 100, 'abstract', true, 'Faker'),
 	];
 });
 
@@ -133,15 +140,21 @@ $factory->define(App\Models\Setor::class, function(Faker\Generator $faker) {
 $factory->define(App\Models\Solicitacao::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
 
-	return [
-		'foto'					=> $faker->imageUrl(1024, 768, 'nature', true, 'Faker'),
-		'moderado'				=>	rand(0, 1),
-		'conteudo'             	=> $faker->realText($maxNbChars = 190, $indexSize = 2),
-		'status'				=> $faker->randomElement(['Aberta','Encaminhada','Aguardando','Pendente','Em execução','Fechada']),
-		'prioridade'			=> $faker->randomElement(['Baixa','Normal','Alta','Urgente']),
-		'created_at'            => $faker->dateTimeBetween('-5 weeks', 'now'),
+	$gera_servico 	= App\Models\Servico::all()->random()->id;
+	$servico 		= App\Models\Servico::find($gera_servico); 
+	
+	$foto = 'data:image/jpg;base64,' . base64_encode(file_get_contents($faker->imageUrl(1024, 768, 'nature', true, 'Faker')));
 
-		'servico_id'  			=> App\Models\Servico::all()->random()->id,
+	return [
+		//'foto'					=> $faker->imageUrl(1024, 768, 'nature', true, 'Faker'),
+		'foto'		 => $foto,
+		'moderado'				=>	rand(0, 1),
+		'conteudo'          	=> $faker->realText($maxNbChars = 190, $indexSize = 2),
+		'status'					=> $faker->randomElement(['Aberta','Em análise','Em execução','Solucionada','Recusada','Encaminhada']),
+		'prioridade'			=> $faker->randomElement(['Baixa','Normal','Alta','Urgente']),
+		'created_at'         => $faker->dateTimeBetween('-2 year', 'now'),
+		'prazo'  				=> $servico->prazo,
+		'servico_id'  			=> $servico->id,
 		'solicitante_id'		=> App\Models\Solicitante::all()->random()->id,
 	];
 });
@@ -202,17 +215,19 @@ $factory->define(App\Models\Solicitante::class, function(Faker\Generator $faker)
     else
     	$tipo = null;
 
+ 	$foto = 'data:image/jpg;base64,' . base64_encode(file_get_contents($faker->imageUrl(120, 150, 'people', true, 'Faker')));
+
 	return [
 
 		'nome'                 		=> $faker->name,
-		'email' 					=> $faker->unique()->email,
+		'email' 							=> $faker->unique()->email,
 
 		'sexo'                    	=> $sexo,
 		
 		'fb_uid'               		=> $faker->numerify('#########'),
-		'fb_token' 					=> $faker->lexify('??????????????????'),
-		'foto'						=> $faker->imageUrl(120, 150, 'people', true, 'Faker'),
-		'status'					=> $faker->randomElement(['Criado', 'Ativo','Inativo']),
+		'fb_token' 						=> $faker->lexify('??????????????????'),
+		'foto'							=> $foto,
+		'status'							=> $faker->randomElement(['Criado', 'Ativo','Inativo']),
 		'mulher_responsavel'      	=> $mulher_responsavel,
 		'renda_familiar'          	=> $faker->randomFloat(2, 800, 9000),
 		'tempo_residencia'        	=> $faker->date('Y-m-d', '-1 year'),
@@ -221,7 +236,7 @@ $factory->define(App\Models\Solicitante::class, function(Faker\Generator $faker)
 		'nis'                     	=> $faker->numerify("###.#####.##-#"), // Número de Dígitos
 		'ctps'                    	=> $faker->numerify("####### ##-#"),
 		'bolsa_familia'           	=> $faker->boolean,
-		'vr_bolsa'					=> $faker->randomFloat(2, 80, 200),
+		'vr_bolsa'						=> $faker->randomFloat(2, 80, 200),
 		'codigo_inscricao'        	=> $faker->randomNumber(4),
 		'cpf'                     	=> $faker->cpf,
 		'rg'              		  	=> $faker->rg,
@@ -270,7 +285,7 @@ $factory->define(App\Models\Telefone::class, function(Faker\Generator $faker) {
 			'numero'  		=> "(21) ".$faker->cellphone(true, 21),
 			'tipo_telefone' => "Celular",
 
-		];	
+		];
 	}
 	else
 	{
