@@ -12,12 +12,16 @@
 */
 
 
+// Login e Registro
 
-Route::get('/home', 					'HomeController@index')->name('home');
-Route::get ('/logout', 					'Auth\LoginController@logout');
+Route::get ("/login", 		"AuthController@login")->name('login');
+Route::post('/login', 		"AuthController@entrar");
+Route::get ('/logout', 		'AuthController@logout');
+Route::get ('/register', 	function () {return view('solicitantes.create');});
+Route::get ('/', 				'HomeController@index')->name('home');
+Route::get ('/pusher', 'HomeController@pusher');
 
 
-<<<<<<< HEAD
 //caminho para a tela de alteração de senha
 Route::get 	('/alterasenha',			'UserController@AlteraSenha');
 Route::post 	('/salvasenha',   		'UserController@SalvarSenha');
@@ -28,21 +32,35 @@ Route::put 	('/salvaavatar',   		'UserController@SalvarAvatar');
 
 //caminho para alterar o status do usuario ATIVO/INATIVO
 Route::post('/mudastatus',				'UserController@MudaStatus');
-=======
-Route::middleware('auth')->get('/', function () {
-    return view('welcome');
-});
->>>>>>> deploy
 
 
-Route::get('/register', function () {
-    return view('solicitantes.create');
-});
 
+//caminho para envio de emails
+Route::post('/senhafuncionario',			'EmailController@EnviarSenhaFuncionario');
+Route::post('/zerarsenhafuncionario',	'EmailController@ZerarSenhaFuncionario');
+
+
+
+
+// Rota para o dataTables da dashboard
+Route::get('solicitacao/datatables/{liberado}', 'SolicitacaoController@dados');
+// Rota para o controle de moderação
+Route::post('modera',									'SolicitacaoController@modera');
+// Rota para alteração de status da solicitação
+Route::post('status',									'SolicitacaoController@status');
+// Rota inserir dados de trilha
+Route::post('trilha',									'SolicitacaoController@trilha');
+
+
+
+
+// Rota para preencher o select de setores na edição/criação de funcionarios
+Route::get('setor','FuncionarioController@setor');
 
 
 
 //resources
-Route::resource('solicitante','SolicitanteController');
-Route::resource('funcionario','FuncionarioController');
-//Route::resource('users', 'UsersController');
+Route::resource('solicitante',	'SolicitanteController');
+Route::resource('funcionario',	'FuncionarioController');
+Route::resource('solicitacao',	'SolicitacaoController');
+Route::resource('comentario',		'ComentarioController');

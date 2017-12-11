@@ -116,12 +116,10 @@ function initAutocomplete() {
 
 function enviarComentario(elem, e){
 
-    console.log("Elemento", elem);
+   // Executar essa função apenas se a tecla pressionada for o Enter ou caso nenhuma tecla tenha
+   // sido pressionada (click)
 
-    // Executar essa função apenas se a tecla pressionada for o Enter ou caso nenhuma tecla tenha
-    // sido pressionada (click)
-
-    if(e.keyCode == "13" || typeof e.keyCode === 'undefined'){
+   if(e.keyCode == "13" || typeof e.keyCode === 'undefined'){
 
       let solicitacao = $(elem).data('solicitacao');
       let solicitante = $(elem).data('solicitante');
@@ -140,27 +138,27 @@ function enviarComentario(elem, e){
             _token: token,
          }, function(data){
 
-   	      let dados = JSON.parse(data);
+              console.log("Dados recebidos do servidor", data);
 
-              // Apagar o campo de envio de comentario
-              $(".comentario_"+solicitacao).val("");
+              // // Apagar o campo de envio de comentario
+              // $(".comentario_"+solicitacao).val("");
 
-              // Colocar o novo card de comentarios embaixo da solicitação
-              var source      = $("#comentario-template").html();
-              var template    = Handlebars.compile(source)
+              // // Colocar o novo card de comentarios embaixo da solicitação
+              // var source      = $("#comentario-template").html();
+              // var template    = Handlebars.compile(source)
 
-              var context = {
-		            nome_funcionario: dados.nome_funcionario,
-                nome_setor:       dados.nome_setor,
-                sigla:            dados.sigla,
-                comentario:       dados.comentario,
-                data_criacao:     dados.data_criacao,
-              };
+              // var context = { 
+              //    nome:       nome_usuario,
+              //    comentario: comentario, 
+              //    foto:       foto_usuario,
+              //    id:         data,
+              //    token:      token,
+              // };
 
-              var html        = template(context);
+              // var html        = template(context);
 
-              $("div.comentarios").append( $(html) );
-              // //console.log(html);
+              // $("div.comentarios").append( $(html) );
+              // //console.log(html);   
 
         });
 

@@ -62,18 +62,6 @@ Solicitações
 
                            <span id="span_satus" class='badge status-execucao'> <?php echo $solicitacao->status; ?> </span>  
 
-                     <?php elseif($solicitacao->status =='Solucionada'): ?>
-
-                           <span id="span_satus" class='badge status-solucionada'> <?php echo $solicitacao->status; ?> </span>  
-                     
-                     <?php elseif($solicitacao->status =='Recusada'): ?>
-
-                           <span id="span_satus" class='badge status-recusada'> <?php echo $solicitacao->status; ?> </span>  
-
-                     <?php elseif($solicitacao->status =='Encaminhada'): ?>
-
-                           <span id="span_satus" class='badge status-encaminhada'> <?php echo $solicitacao->status; ?> </span>  
-
                      <?php endif; ?>
 
                   </div>
@@ -304,36 +292,30 @@ Solicitações
                
                <div id="div_botoes_iniciais" style="text-align:center; margin-top: -2px;">
 
-                  
-                  <?php if($solicitacao->status !='Em execução'): ?>
-                     <button id="btn_por_execucao" class="botoes-acao-funcionario btn btn-round btn-success" >
-                           <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
-                           PÔR EM EXECUÇÃO 
-                     </button>
-                  <?php endif; ?>
+                  <button id="btn_por_execucao" class="botoes-acao-funcionario btn btn-round btn-success" >
+                     <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
+                     Pôr em Execução 
+                  </button>
 
                   <button id="btn_solucionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-success">
                      <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
-                     SOLUCIONAR 
+                     Solucionar 
                   </button>
 
 
                   <button id="btn_redirecionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-warning">
                      <span class="icone-botoes-acao-funcionario mdi mdi-redo-variant"></span>
-                     REDIRECIONAR
+                     Redirecionar
                   </button>
 
-                  
-                  <?php if($solicitacao->status !='Em execução'): ?>
-                     <button id="btn_recusar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-danger">
-                        <span class="icone-botoes-acao-funcionario mdi mdi-delete-sweep"></span>
-                        RECUSAR
-                     </button>
-                  <?php endif; ?>
+                  <button id="btn_recusar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-danger">
+                     <span class="icone-botoes-acao-funcionario mdi mdi-delete-sweep"></span>
+                     Recusar
+                  </button>
 
                   <a class="botoes-acao-funcionario btn btn-round btn-primary" href="<?php echo e(URL::previous()); ?>">
                      <span class="icone-botoes-acao-funcionario mdi mdi-backburger"></span>   
-                     VOLTAR
+                     Voltar
                   </a>
                </div>
 

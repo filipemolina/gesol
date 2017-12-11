@@ -1,4 +1,3 @@
-
 @extends('layouts.material')
 
 @section('titulo')
