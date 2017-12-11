@@ -8,7 +8,7 @@
     
    <div class="logo" style="color: #000000;">
       <a href="#" class="simple-text">
-         GESOL
+         GESOL  <i style="font-size: 10px;">( v1.1.2 )</i>
       </a>
    </div>
    <div class="logo logo-mini">

@@ -66,25 +66,21 @@ class UsersController extends Controller
 
 			}
 
-			// Setar a variável para utilizar o solicitante criado
+			// Definir a variável para utilizar o solicitante criado
 
-			$solicitante = Solicitante::with(['endereco', 'telefones', 'user'])->where('email', $novo_solicitante->email)->first();
+			$solicitante = $novo_solicitante;
 
 		} else {
 
-			// Setar a variável para utilizar o solicitante existente
+			// Definir a variável para utilizar o solicitante existente
 
-			$solicitante = Solicitante::with(['endereco', 'telefones', 'user'])->where('email', $solicitante[0]->email)->first();
+			$solicitante = $solicitante[0];
 
 		}
 
 		// Criar um token de acesso pessoal
 
-		$resposta = new \stdClass();
-		$resposta->token = $solicitante->user->createToken('Token APP');
-		$resposta->solicitante = $solicitante;
-
-		return json_encode($resposta);
+		return $solicitante->user->createToken('Token APP');	
 	}
 
 	/**
@@ -104,14 +100,15 @@ class UsersController extends Controller
 		]);
 
 		// Criar um solicitante
+
 		$solicitante = Solicitante::create([
 			'cpf' => $request->cpf,
 			'nome' => $request->nome,
 			'email' => $request->email,
-			'foto' => "https://360.mesquita.rj.gov.br/img/blank.jpg",
+			'foto' => "http://lorempixel.com/200/200/people/",
 		]);
 
-		// Procurar por um usuário e um solicitante que tenha o email enviado na request
+		// Procurar por um usuário na tabela Users que tenha o email enviardo na request
 
 		$usuario = User::where('email', $request->email)->get();
 
@@ -124,25 +121,15 @@ class UsersController extends Controller
 				'password' => bcrypt($request->senha)
 			]);
 
-			// Criar o objeto para a resposta
-
-			$resposta = new \stdClass();
-			$resposta->token = $solicitante->user->createToken('Token App');
-			$resposta->solicitante = Solicitante::with(['endereco', 'telefones', 'user'])->where('email', $request->email)->first();
-
-			return json_encode($resposta);
+			return $solicitante->user->createToken('Token App');
 
 		} else {
 
-			// Caso contrário, utilizar o usuário encontrado para relacionar ao solicitante
+			// Caso contrário, utilizar o usuário encontrado para relacioar ao solicitante
 
 			$solicitante->user()->save($usuario[0]);
 
-			$resposta = new \stdClass();
-			$resposta->token = $solicitante->user->createToken('Token APP');
-			$resposta->solicitante = Solicitante::with(['endereco', 'telefones', 'user'])->where('email', $request->email)->first();
-
-			return json_encode($resposta);
+			return $solicitante->user->createToken('Token APP');
 
 		}
 
@@ -161,9 +148,9 @@ class UsersController extends Controller
 			'senha' => 'required|min:6'
 		]);
 
-		// Procurar pelo solicitante que esteja cadastrado com esse email
+		// Procurar pelo usuário que esteja cadastrado com esse email
 
-		$solicitante = Solicitante::with(['endereco', 'telefones', 'user'])->where('email', $request->email)->first();
+		$solicitante = Solicitante::where('email', $request->email)->first();
 
 		if($solicitante != null){
 
@@ -172,12 +159,11 @@ class UsersController extends Controller
 			if(Hash::check($request->senha, $solicitante->user->password)){
 
 				$resposta = new \stdClass();
-				$resposta->foto        = $solicitante->foto;
-				$resposta->nome        = $solicitante->nome;
-				$resposta->email       = $solicitante->email;
-				$resposta->token       = $solicitante->user->createToken("Token APP");
-				$resposta->id          = $solicitante->id;
-				$resposta->solicitante = $solicitante;
+				$resposta->foto  = $solicitante->foto;
+				$resposta->nome  = $solicitante->nome;
+				$resposta->email = $solicitante->email;
+				$resposta->token = $solicitante->user->createToken("Token APP");
+				$resposta->id    = $solicitante->id;
 
 
 				return json_encode($resposta);

@@ -315,5 +315,4 @@ Alteração de funcionário
 	   });
       
 	</script>
-
 @endpush

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServicosTable extends Migration
+class CreateMensagensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,18 @@ class CreateServicosTable extends Migration
      */
     public function up()
     {
-        Schema::create('servicos', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('mensagens', function (Blueprint $table) {
+            $table->BigIncrements('id');
 
-            $table->string('nome',50);
-            $table->string('icone');
+            $table->string('mensagem',30);
+            $table->boolean('encerramento')->nullable();
+            $table->boolean('lida')->default(false);
+
 
             //------------------------FOREIGN--------------------------------
-            $table->integer('setor_id')->unsigned();
+            $table->integer('solicitacao_id')->unsigned();
+            $table->integer('funcionario_id')->unsigned()->nullable();
             //---------------------------------------------------------------
-
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -35,6 +36,6 @@ class CreateServicosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('servicos');
+        Schema::dropIfExists('mensagens');
     }
 }

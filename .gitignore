@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/framework/views
 /vendor
 /.idea
 /.vagrant
@@ -11,8 +12,10 @@ npm-debug.log
 .env
 app/Models/Timeline.sublime-project
 app/Models/Timeline.sublime-workspace
+
 storage/framework
 storage/framework/views/*
 
 
 storage/framework/views/8ed85f77bbd3c55f378a4e00e6b3f0de6ff0d74a.php
+composer.lock

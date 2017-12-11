@@ -4,15 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Solicitacao;
+use App\Models\Mensagem;
 
-class SolicitacoesController extends Controller
+class MensagensController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -20,9 +15,7 @@ class SolicitacoesController extends Controller
      */
     public function index()
     {
-        $Solicitacoes = Solicitacao::with(['solicitante', 'mensagens', 'mensagens.funcionario', 'mensagens.funcionario.setor.secretaria'])->orderBy('created_at', 'desc')->limit(10)->get();
-
-        return $Solicitacoes->toJson();
+        //
     }
 
     /**
@@ -43,7 +36,20 @@ class SolicitacoesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validar
+
+        $this->validate($request, [
+            'mensagem'       => 'required|min:2',
+            'solicitacao_id' => 'required'
+        ]);
+
+        $mensagem = new Mensagem($request->all());
+
+        $mensagem->solicitacao_id = $request->solicitacao_id;
+
+        $mensagem->save();
+
+        return json_encode("ok");
     }
 
     /**

@@ -24,11 +24,15 @@
                               </li>
 
                               <li class="nav-item">
-                                 <a href="#fechadas" data-toggle="tab">Fechadas</a>
+                                 <a href="#solucionada" data-toggle="tab">Solucionadas</a>
                               </li>
 
                               <li class="nav-item">
                                  <a href="#nao-liberadas" data-toggle="tab">Aguardando Liberação</a>
+                              </li>
+
+                              <li class="nav-item">
+                                 <a href="#recusadas" data-toggle="tab">Recusadas</a>
                               </li>
 
                            </ul>
@@ -63,8 +67,8 @@
                               </div>
 
                               
-                              <div class="tab-pane" id="fechadas">
-                                 <table id="tabela-solicitacoes-fechadas" 
+                              <div class="tab-pane" id="solucionada">
+                                 <table id="tabela-solicitacoes-solucionada" 
                                        class="table table-striped table-no-bordered table-hover dataTable dtr-inline" 
                                        cellspacing="0" width="100%" 
                                        role="grid" aria-describedby="datatables_info"
@@ -97,6 +101,27 @@
                                           <th>Conteúdo</th>
                                           <th>Abertura</th>
                                           <th>Prazo</th>
+                                          <th>Ações</th>
+                                       </tr>                           
+                                    </thead>
+                                                   
+                                 </table>
+                              </div>
+
+                              
+                              <div class="tab-pane " id="recusadas">
+                                 <table id="tabela-solicitacoes-recusadas" 
+                                       class="table table-striped table-no-bordered table-hover dataTable dtr-inline" 
+                                       cellspacing="0" width="100%" 
+                                       role="grid" aria-describedby="datatables_info"
+                                       style="width: 100%; font-size: 12px;" >
+                                    <thead>
+                                       <tr>
+                                          <th>Foto</th>
+                                          <th>Serviço</th>
+                                          <th>Conteúdo</th>
+                                          <th>Abertura</th>
+                                          <th>Recusa</th>
                                           <th>Ações</th>
                                        </tr>                           
                                     </thead>
@@ -183,7 +208,7 @@
          
       });
 
-      $("#tabela-solicitacoes-fechadas").DataTable({
+      $("#tabela-solicitacoes-solucionada").DataTable({
          responsive : true,
          processing: true,
          serverSide: true,
@@ -235,6 +260,44 @@
             { data : 'conteudo',   name : 'conteudo' },
             { data : 'abertura',   name : 'abertura' },
             { data : 'prazo',      name : 'prazo' },
+            { data : 'acoes',      name : 'acoes' },
+         ],
+
+         order: [[ 4, 'asc' ]],
+         
+         language : 
+         {
+            "url":         "<?php echo e(asset('js/portugues.json')); ?>",
+            "decimal":     ",",
+            "thousands":   "."
+         }, 
+
+         stateSave: true,
+         stateDuration: -1,
+         columnDefs: 
+         [
+            { className:   "text-center", "targets": [0] },
+            { className:   "text-center", "targets": [1] },
+            { className:   "text-center", "targets": [3] },
+            { className:   "text-center", "targets": [4] },
+            { width:       "10%",         "targets": [1] },
+            { width:       "40%",         "targets": [2] },
+
+         ]
+      });
+
+      $("#tabela-solicitacoes-recusadas").DataTable({
+         responsive : true,
+         processing: true,
+         serverSide: true,
+         ajax      : "<?php echo e(url('/solicitacao/datatables/4')); ?>",
+         columns   : [
+
+            { data : 'foto',       name : 'foto' },
+            { data : 'servico',    name : 'servico' },
+            { data : 'conteudo',   name : 'conteudo' },
+            { data : 'abertura',   name : 'abertura' },
+            { data : 'atualizacao',name : 'atualizacao' },            
             { data : 'acoes',      name : 'acoes' },
          ],
 
