@@ -30,10 +30,11 @@ class CreateFk extends Migration
         
         Schema::table('funcionarios', function($table){
             $table->foreign('setor_id')->references('id')->on('setores')->onDelete('cascade');
+            $table->foreign('role_id') ->references('id')->on('roles')  ->onDelete('set null');
         });
         
 
-        Schema::table('mensagens', function($table){
+        Schema::table('comentarios', function($table){
             $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
             $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
         });
@@ -43,14 +44,29 @@ class CreateFk extends Migration
         });
 
         Schema::table('users', function($table){
-            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
-            $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
+            $table->foreign('funcionario_id')   ->references('id')->on('funcionarios')  ->onDelete('cascade');
+            $table->foreign('solicitante_id')   ->references('id')->on('solicitantes')  ->onDelete('cascade');
         });
             
         Schema::table('telefones', function($table){
             $table->foreign('solicitante_id')   ->references('id')->on('solicitantes')  ->onDelete('cascade');
             $table->foreign('secretaria_id')    ->references('id')->on('secretarias')   ->onDelete('cascade');
             $table->foreign('setor_id')         ->references('id')->on('setores')       ->onDelete('cascade');
+        });
+
+        Schema::table('apoios', function($table){
+            $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
+            $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
+        });
+
+        Schema::table('movimentos', function($table){
+            $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
+            $table->foreign('comentario_id')->references('id')->on('comentarios')->onDelete('cascade');            
+        });
+
+        Schema::table('sys_logs', function($table){
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
         });
 
 
@@ -82,8 +98,8 @@ class CreateFk extends Migration
            $table->dropForeign('users_secretaria_id_foreign');
         });
 
-        Schema::table('mensagens', function($table){
-            $table->dropForeign('mensagens_solicitacao_id_foreign');           
+        Schema::table('comentarios', function($table){
+            $table->dropForeign('comentarios_solicitacao_id_foreign');           
         });
 
         Schema::table('setores', function($table){
