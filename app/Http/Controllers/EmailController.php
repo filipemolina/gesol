@@ -7,7 +7,9 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EnviarSenhaFuncionario;
 
+use App\Models\Funcionario;
 use App\Models\User;
+
 
 
 
@@ -28,9 +30,10 @@ class EmailController extends Controller
    public function ZerarSenhaFuncionario(Request $request){
 
 	 	// busca o usuario
-      $usuario = User::find($request->id);
+      $funcionario   = Funcionario::find($request->id);        
+      $usuario       = $funcionario->user;
+      $enviar_email  = $usuario->email;
 
-      $enviar_email = $usuario->email;
 
       //$enviar_email = 'filipe.molina@mesquita.rj.gov.br';
 
@@ -43,7 +46,7 @@ class EmailController extends Controller
       $usuario->save();
 
       //salva na trilha
-      loga('U', 'USERS', $request->id, 'PASSWORD', 'senha', 'Gerou nova senha');
+      loga('U', 'USERS', $usuario->id, 'PASSWORD', 'senha', 'Gerou nova senha');
 
 	 	//envia email com a senha de acesso
       Mail::send('emails.zerasenhafuncionario',[ 'email' => $usuario->email, 'senha' => $senha_gerada ], function($message) use ($enviar_email){

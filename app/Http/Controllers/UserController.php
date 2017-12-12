@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use App\Models\Solicitante;
-use App\Models\funcionario;
+use App\Models\Funcionario;
 use App\Models\User;
 
 
@@ -168,8 +168,8 @@ class UserController extends Controller
     public function AlteraSenha()
     {
         //dd("aqui");
-        $usuario = User::find(Auth::user()->id);
-        $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
+        $usuario            = User::find(Auth::user()->id);
+        $funcionario_logado = Funcionario::find(Auth::user()->funcionario_id);
 
         if($usuario->password == bcrypt($usuario->created_at))
         {

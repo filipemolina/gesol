@@ -206,9 +206,9 @@
       });
 
 		$(".btn_email_senha").click(function(){
-			let id_usuario = $(this).data('funcionario');
+			let id_funcionario = $(this).data('funcionario');
 
-			console.log("botao btn_email_senha -> ", id_usuario );
+			console.log("botao btn_email_senha -> ", id_funcionario );
 
 	      swal({
 	         title: 'Confirma a REINICIALIZAÇÃO da senha do funcionário?',
@@ -221,9 +221,9 @@
 	      }).then(function () {
       	 
       	 	//chama a rota para zerar a senha e enviar email ao funcionário
-   	 	 	$.post('/zerarsenhafuncionario',{
+   	 	 	$.post('/zerarsenhafuncionario',{ 
                   _token: 	'{{ csrf_token() }}',
-      	 	 		id: 		id_usuario
+      	 	 		id: 		id_funcionario
    	 	 	},function(data){
 					 //mostrando o retorno do post
 				 	demo.notificationRight("top", "right", "success", "Email com nova senha enviado para o funcionário");
