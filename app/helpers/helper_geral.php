@@ -35,7 +35,7 @@ if (! function_exists('verificaAcesso')) {
    }
 }
 
-
+// serve para mostrar no título da TOPBAR a area de abrangencia do usuário logado --> novo
 //verifica o tipo de acesso que o usuário logado tem no sistema
 if (! function_exists('mostraAcesso')) {
    function mostraAcesso($funcionario_logado) {
