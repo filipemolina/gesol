@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-Alterar funcionário
+Alteração de funcionário 
 
 @endsection
 

@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-Informações do Funcionário
+	Informações do Funcionário {{ mostraAcesso($funcionario_logado) }}
 
 @endsection
 

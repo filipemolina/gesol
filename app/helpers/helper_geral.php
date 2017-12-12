@@ -17,9 +17,9 @@ use App\Models\User;
 
 //verifica o tipo de acesso que o usuário logado tem no sistema
 if (! function_exists('verificaAcesso')) {
-   function verificaAcesso($usuario_logado) {
+   function verificaAcesso($funcionario_logado) {
      
-      switch ($usuario_logado->funcionario->role->peso) {
+      switch ($funcionario_logado->role->peso) {
          case 10: return "PREFEITURA"; break;   //"Moderador"
          case 20: return "PREFEITURA"; break;   //"SAC"
          case 30: return "SETOR";      break;   //"Funcionario"
@@ -34,6 +34,25 @@ if (! function_exists('verificaAcesso')) {
       }
    }
 }
+
+// serve para mostrar no título da TOPBAR a area de abrangencia do usuário logado --> novo
+//verifica o tipo de acesso que o usuário logado tem no sistema
+if (! function_exists('mostraAcesso')) {
+   function mostraAcesso($funcionario_logado) {
+      //$funcionario_logado   = Funcionario::find(Auth::user()->funcionario_id);
+
+      if(verificaAcesso($funcionario_logado) == 'PREFEITURA' ){
+         return("- PREFEITURA");
+      } elseif(verificaAcesso($funcionario_logado) == 'SECRETARIA' ){
+
+         return("- " . $funcionario_logado->setor->secretaria->nome );
+      
+      } else if(verificaAcesso($funcionario_logado) == 'SETOR' ){
+         return("- " .$funcionario_logado->setor->nome );
+      };
+   }
+}
+
 
 
 

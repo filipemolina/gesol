@@ -2,8 +2,8 @@
 
 @section('titulo')
 
-  Painel - {!! $funcionario_logado->setor->secretaria->nome !!}
-
+  Painel {{ mostraAcesso($funcionario_logado) }}
+  
 @endsection
 
 @section('content')

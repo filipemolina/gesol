@@ -1,3 +1,6 @@
+storage/
+composer.lock
+composer.json
 /node_modules
 /public/hot
 /public/storage
@@ -11,5 +14,3 @@ npm-debug.log
 .env
 app/Models/Timeline.sublime-project
 app/Models/Timeline.sublime-workspace
-storage/framework/
-storage/framework/views/

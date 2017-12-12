@@ -13,7 +13,7 @@
         "guzzlehttp/psr7": "^1.4",
         "jailtonsc/validador-cpf-laravel": "^4.0",
         "laravel/framework": "5.4.*",
-        "laravel/passport": "^3.0",
+        "laravel/passport": "^4.0",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "pusher/pusher-php-server": "^3.0",

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use App\Models\Solicitante;
-use App\Models\funcionario;
+use App\Models\Funcionario;
 use App\Models\User;
 
 
@@ -168,10 +168,10 @@ class UserController extends Controller
     public function AlteraSenha()
     {
         //dd("aqui");
-        $usuario = User::find(Auth::user()->id);
-        $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
+        $usuario            = User::find(Auth::user()->id);
+        $funcionario_logado = Funcionario::find(Auth::user()->funcionario_id);
 
-        if($usuario->password = bcrypt($usuario->created_at))
+        if($usuario->password == bcrypt($usuario->created_at))
         {
             $senha_padrao = $usuario->created_at;
         }else{
@@ -194,12 +194,20 @@ class UserController extends Controller
         ]);
 
         // Obter o usuário
-        $usuario = User::find($request->id);
+        $usuario = User::find(Auth::user()->id);
+
+        // obter a senha atual - será usada para gaurdar no log
+        $senha_atual = bcrypt($request->password_atual);
 
 
         if (Hash::check($request->password_atual, $usuario->password))
         {
+
             $usuario->update(['password' => bcrypt($request->password)]);            
+
+            //salva na trilha
+            loga('U', 'USERS', $usuario->id, 'PASSWORD', $senha_atual, 'Alteração de password');
+
             return redirect('/')->with('sucesso_alteracao_senha','Senha alterada com sucesso.');
         }else{
 

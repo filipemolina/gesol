@@ -227,6 +227,9 @@ class FuncionarioController extends Controller
    public function update(Request $request, Funcionario $funcionario)
    {
 
+      // busca o usuario da edição
+      $usuario = $funcionario->user;    
+
       if($request->has('secretaria_id')){
          $request->merge(['secretaria_id' => $request->select_secretaria]);
       }else{
@@ -244,56 +247,59 @@ class FuncionarioController extends Controller
          'role_id'               => 'required',
       ]);
 
+      $original_funcionario   = $funcionario->toArray();
+      $original_usuario       = $usuario->toArray();
+      
+      $novo                   = $request->toArray();
+      $input                  = $request->all(); 
 
-      $original   = $funcionario->toArray();
-      $novo       = $request->toArray();
 
-      // busca o usuario da edição
-      $usuario = $funcionario->user;         
-
-
-      $input   = $request->all(); 
       $funcionario->fill($input);
-      $salvou = $funcionario->save();
+      $salvou_funcionario = $funcionario->save();
 
+      $usuario->fill($input);
+      $salvou_usuario = $usuario->save();
 
+      
+
+      //dd($original_usuario['email'], $novo['email']);
 
       //salva as alterações na trilha de auditoria (sys_logs)
-      if($original['nome'] != $novo['nome']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'nome', $original['nome'], null);
-      }
-
-      if($original['foto'] != $novo['foto']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'foto', $original['foto'], null);
-      }
-
-      if($usuario->email != $novo['email']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'email', $usuario['email'], null);
-      }
-
-      if($original['cpf'] != $novo['cpf']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'cpf', $original['cpf'], null);
-      }
-
-      if($original['matricula'] != $novo['matricula']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'matricula', $original['matricula'], null);
-      }
-
-      if($original['cargo'] != $novo['cargo']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'cargo', $original['cargo'], null);
-      }
-
-      if($original['setor_id'] != $novo['setor_id']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'setor_id', $original['setor_id'], null);
-      }
-
-      if($original['role_id'] != $novo['role_id']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'role_id', $original['role_id'], null);
+      if($original_usuario['email'] != $novo['email']){
+         loga('U', 'USUARIO', $usuario->id, 'email', $original_usuario['email'], null);
       }
 
 
+      if($original_funcionario['nome'] != $novo['nome']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'nome', $original_funcionario['nome'], null);
+      }
 
-      if($salvou)
+      if($original_funcionario['foto'] != $novo['foto']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'foto', $original_funcionario['foto'], null);
+      }
+
+      if($original_funcionario['cpf'] != $novo['cpf']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'cpf', $original_funcionario['cpf'], null);
+      }
+
+      if($original_funcionario['matricula'] != $novo['matricula']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'matricula', $original_funcionario['matricula'], null);
+      }
+
+      if($original_funcionario['cargo'] != $novo['cargo']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'cargo', $original_funcionario['cargo'], null);
+      }
+
+      if($original_funcionario['setor_id'] != $novo['setor_id']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'setor_id', $original_funcionario['setor_id'], null);
+      }
+
+      if($original_funcionario['role_id'] != $novo['role_id']){
+         loga('U', 'FUNCIONARIO', $funcionario->id, 'role_id', $original_funcionario['role_id'], null);
+      }
+
+
+      if($salvou_usuario && $salvou_funcionario)
       { 
          return redirect(url('/funcionario'))->with('sucesso', 'Informações do funcionario alteradas com sucesso.');    
       }else{

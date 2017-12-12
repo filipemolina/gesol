@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-  Painel - Prefeitura
+  Painel {{ mostraAcesso($funcionario_logado) }}
 
 @endsection
 

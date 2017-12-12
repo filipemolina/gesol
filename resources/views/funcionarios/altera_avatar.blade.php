@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-Alterar funcionário
+Alteraração de Avatar
 
 @endsection
 

@@ -366,7 +366,8 @@ class SolicitacaoController extends Controller
     public function dados($liberado)
     {
         // Obter o usuário atualmente logado
-        $usuario = User::find(Auth::user()->id);
+
+        $funcionario_logado = Funcionario::find(Auth::user()->id);
 
 
         // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
@@ -475,7 +476,7 @@ class SolicitacaoController extends Controller
 
             //if($usuario->funcionario->role->acesso == "Moderador")
             
-            if(verificaAcesso($usuario) == "PREFEITURA")
+            if(verificaAcesso($funcionario_logado) == "PREFEITURA")
             {
                 $colecao->push([
                     'foto'          => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
@@ -488,7 +489,7 @@ class SolicitacaoController extends Controller
                     'prazo'         => $prazo,
                 ]);
 
-            } elseif($solicitacao->servico->setor->secretaria->id == $usuario->funcionario->setor->secretaria->id){ 
+            } elseif($solicitacao->servico->setor->secretaria->id == $funcionario_logado->setor->secretaria->id){ 
 
                 // Caso contrário, adicionar à coleção apenas as solicitações que sejam da mesma secretaria que ele
 
