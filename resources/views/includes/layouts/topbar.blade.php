@@ -19,6 +19,8 @@
             @section('titulo')  
             @show 
          </a>
+
+         <button class="btn btn-danger" style="display:none" id="btn-permissao">Ative as Notificações para que o Gesol funcione corretamente!</button>
       </div>
 
       <div class="collapse navbar-collapse">

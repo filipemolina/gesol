@@ -79,10 +79,14 @@
             let token          = "{{ csrf_token() }}";
 
     	    let nome  = "{{ $funcionario_logado->nome }}";
+            let user_id = {{ $funcionario_logado->user->id }};
     	    let setor = "{{ $funcionario_logado->setor->nome }}";
     	    let sigla = "{{ $funcionario_logado->setor->secretaria->sigla }}";
+            let tokenGesol = "{{ $funcionario_logado->user->createToken('Web')->accessToken }}";
         </script>
 
+        <!-- Firebase - Enviar e receber notificações do google -->
+        <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
 
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"  type="text/javascript"></script>
         <script src="{{ asset('js/jquery-ui.min.js') }}" type="text/javascript"></script>
@@ -141,6 +145,9 @@
 
         {{-- Funções Javascript --}}
         <script src="{{ asset('js/functions.js') }}"></script>
+
+        {{-- Funções do Firebase --}}
+        <script src="{{ asset('js/firebase.js') }}"></script>
 
         {{-- Javascript do Projeto --}}
         <script src="{{ asset('js/scripts.js') }}"></script>

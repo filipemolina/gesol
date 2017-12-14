@@ -36,17 +36,10 @@ var helper = {
     }, //Fim showSwal1
 }; //Fim Helper
 
-
-
-
-
-
 // Mascaras
-  VMasker ($("#cpf")).maskPattern("999.999.999-99");
-  VMasker ($("#matricula")).maskPattern("99/99.999-9");
-  VMasker ($(".datepicker")).maskPattern("99/99/9999");
-
-
+VMasker ($("#cpf")).maskPattern("999.999.999-99");
+VMasker ($("#matricula")).maskPattern("99/99.999-9");
+VMasker ($(".datepicker")).maskPattern("99/99/9999");
     
 $(function(){
   
@@ -152,7 +145,7 @@ $(function(){
 
             });
 
-    })
+    });
 
     //Botão desfazer, exibir coment-fix, ocultar botão desfazer, demonstrar botões editar e excluir
     $('.btn-coment-des').click(function () {

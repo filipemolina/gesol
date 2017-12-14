@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'solicitante_id','avatar','role_id','status'
+        'name', 'email', 'password', 'solicitante_id','avatar','role_id','status', 'fcm_id'
     ];
 
     /**
@@ -38,6 +38,10 @@ class User extends Authenticatable
     public function solicitante()
     {
         return $this->belongsTo('App\Models\Solicitante');
+    }
+
+    public function fcm_tokens(){
+        return $this->hasMany('App\Models\FCM_Token');
     }
 
 }

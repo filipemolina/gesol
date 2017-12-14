@@ -17,11 +17,12 @@ class UsersController extends Controller
 		// Validar os dados
 
 		$this->validate($request, [
-			'nome'  => 'required',
-			'email' => 'required',
-			'token' => 'required',
-			'uid'   => 'required',
-			'foto'  => 'required',
+			'nome'   => 'required',
+			'email'  => 'required',
+			'token'  => 'required',
+			'uid'    => 'required',
+			'foto'   => 'required',
+			'fcm_id' => 'required',
 		]);
 
 		// Obter os dados enviados, incluindo o Token do facebook
@@ -41,7 +42,8 @@ class UsersController extends Controller
 				'email'    => $request->email,
 				'fb_token' => $request->token,
 				'fb_uid'   => $request->uid,
-				'foto'     => $request->foto
+				'foto'     => $request->foto,
+				'fcm_id'   => $request->fcm_id
 			]);
 
 			// Procurar por um usuário na tabela Users que tenha o email enviardo na request
@@ -54,7 +56,8 @@ class UsersController extends Controller
 
 				$novo_solicitante->user()->create([
 					'email'          => $request->email,
-					'password'       => Hash::make(123456)
+					'password'       => Hash::make(123456),
+					'status'         => 'Ativo',
 				]);
 
 			} else {
@@ -73,8 +76,11 @@ class UsersController extends Controller
 		} else {
 
 			// Setar a variável para utilizar o solicitante existente
-
 			$solicitante = Solicitante::with(['endereco', 'telefones', 'user'])->where('email', $solicitante[0]->email)->first();
+
+			// Atualizar a token do FCM
+			$solicitante->fcm_id = $request->fcm_id;
+			$solicitante->save();
 
 		}
 
@@ -83,6 +89,7 @@ class UsersController extends Controller
 		$resposta = new \stdClass();
 		$resposta->token = $solicitante->user->createToken('Token APP');
 		$resposta->solicitante = $solicitante;
+		$resposta->fcm_id = $request->fcm_id;
 
 		return json_encode($resposta);
 	}
@@ -109,6 +116,7 @@ class UsersController extends Controller
 			'nome' => $request->nome,
 			'email' => $request->email,
 			'foto' => "https://360.mesquita.rj.gov.br/img/blank.jpg",
+			'fcm_id' => $request->fcm_id
 		]);
 
 		// Procurar por um usuário e um solicitante que tenha o email enviado na request

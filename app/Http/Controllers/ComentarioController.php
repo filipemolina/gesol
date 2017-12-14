@@ -4,10 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use LaravelFCM\Message\OptionsBuilder;
-use LaravelFCM\Message\PayloadDataBuilder;
-use LaravelFCM\Message\PayloadNotificationBuilder;
-use FCM;
 use App\Models\Solicitacao;
 use App\Models\Solicitante;
 use App\Models\Funcionario;
@@ -64,22 +60,13 @@ class ComentarioController extends Controller
 
         // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
 
-        $optionBuilder = new OptionsBuilder();
-        $optionBuilder->setTimeToLive(60*20);
-
-        $notificationBuilder = new PayloadNotificationBuilder('Sua solicitação foi respondida');
-        $notificationBuilder->setBody('Sua solicitação foi respondida')->setSound('default');
-
-        $dataBuilder = new PayloadDataBuilder();
-        $dataBuilder->addData(['tipo' => 'atualizar', 'model'=>'comentario']);
-
-        $option = $optionBuilder->build();
-        $notification = $notificationBuilder->build();
-        $data = $dataBuilder->build();
+        $dados = ['model'=>'comentario', 'solicitacao'=>$request->solicitacao_id, 'acao'=>'atualizar'];
 
         $token = $solicitacao->solicitante->fcm_id;
 
-        $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+        // Função que envia a notificação para o aparelho do usuário, definida no arquivo helper_geral.php
+
+        enviarNotificacao("Sua solicitação foi respondida", "Verifique na área 'Minhas Solicitações' no menu principal", $token, $dados);
 
 	    // Fim do envio da notificação
 
