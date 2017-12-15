@@ -149,7 +149,8 @@ class SecretariasSeeder extends Seeder
           
           $user = new User;
           $user->email        = 'gesol@mesquita.rj.gov.br';
-          $user->password     = bcrypt('gesol#beiradinhamaior');
+          $user->password     = bcrypt('gesol123');
+          $user->status       = 'Ativo';
           // Associar user ao funcionario
           $user->funcionario()->associate($funcionario);
           $user->save();

@@ -63,7 +63,7 @@ if (! function_exists('dashboardPrefeito')) {
          ->where('solicitacoes.created_at','<=', $data_fim_ano_anterior)
          ->groupBy('servicos.nome')
          ->orderBy('total','desc')
-         ->get();
+         ->take(10)->get();
 
 
    // ==============================================================================================
@@ -75,10 +75,42 @@ if (! function_exists('dashboardPrefeito')) {
          ->select('servicos.nome', DB::raw('count(*) as total'))
          ->where('solicitacoes.created_at','>=', $data_inicio)
          ->where('solicitacoes.created_at','<=', $data_fim)         
-         //->select('solicitacoes.id', 'servicos.nome')
          ->groupBy('servicos.nome')
          ->orderBy('total','desc')
          ->take(10)->get();
+
+   // ==============================================================================================
+   //    SOLICITAÇÕES POR SECRETARIAS
+   // ==============================================================================================
+
+      $solicitacoes_secretaria_total = DB::table('solicitacoes')
+         ->join('servicos',   'servicos.id',    '=', 'solicitacoes.servico_id')
+         ->join('setores',    'setores.id',     '=', 'servicos.setor_id')
+         ->join('secretarias','secretarias.id', '=', 'setores.secretaria_id')
+
+         ->select('secretarias.sigla', DB::raw('count(*) as total'))
+
+         ->where('solicitacoes.created_at','>=', $data_inicio)
+         ->where('solicitacoes.created_at','<=', $data_fim)         
+         ->groupBy('secretarias.sigla')
+         ->orderBy('secretarias.sigla','asc')
+         ->get();
+
+      $solicitacoes_secretaria_aberta = DB::table('solicitacoes')
+         ->join('servicos',   'servicos.id',    '=', 'solicitacoes.servico_id')
+         ->join('setores',    'setores.id',     '=', 'servicos.setor_id')
+         ->join('secretarias','secretarias.id', '=', 'setores.secretaria_id')
+
+         ->select('secretarias.sigla', DB::raw('count(*) as total'))
+
+         ->where('solicitacoes.created_at','>=', $data_inicio)
+         ->where('solicitacoes.created_at','<=', $data_fim)         
+         ->where('solicitacoes.status','<>', 'Solucionada')         
+         ->where('solicitacoes.status','<>', 'Recusada')         
+
+         ->groupBy('secretarias.sigla')
+         ->orderBy('secretarias.sigla','asc')
+         ->get();
 
       
    // ==============================================================================================
@@ -96,6 +128,9 @@ if (! function_exists('dashboardPrefeito')) {
 
       $resultados['sol_maiores']                = $solicitacoes_maiores;
       $resultados['sol_maiores_ano_anterior']   = $solicitacoes_maiores_ano_anterior;
+      $resultados['sol_secretaria_total']       = $solicitacoes_secretaria_total;
+      $resultados['sol_secretaria_aberta']       = $solicitacoes_secretaria_aberta;
+      
 
       //dd($resultados['sol_maiores']);
 

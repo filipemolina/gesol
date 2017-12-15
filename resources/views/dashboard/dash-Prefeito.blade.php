@@ -84,6 +84,22 @@
       </div>
    </div>
 
+
+<div class="row" style="margin-top: 0px;">
+      <div class="col-md-8">
+         <div class="card" style="padding-bottom: 30px;">
+             <div class="card-header card-header-icon" data-background-color="orange" style="color: #fff;">
+               <i class="material-icons">dashboard</i>
+            </div>
+            <div class="card-content-grafico" style="padding-bottom: 20px">
+               <h4 class="card-title-grafico" style="width: 100% !important;">Solicitações por Secretaria</h4>
+            </div>
+           
+            <div  id='sol_secretaria' style="height:400px;" ></div>
+   
+         </div>
+      </div>
+   </div>
   
 
 
@@ -359,6 +375,95 @@
       //         dataIndex: currentIndex
       //     });
       // }, 1000);
+
+
+
+      //=============================================================================================
+      //=============================================================================================
+      //=============================================================================================
+      //=============================================================================================
+      //=============================================================================================
+
+      var nameList = [];
+      var legendData = [];
+      var seriesData = [];
+      var seriesData2 = [];
+
+      @foreach($resultados['sol_secretaria_total'] as $sol) 
+         nameList.push('{{ $sol->sigla }}');
+         legendData.push('{{ $sol->sigla }}');
+
+
+         seriesData.push({
+            name: '{{ $sol->sigla }}',
+            value: {{ $sol->total }}
+        });
+
+      @endforeach
+
+      @foreach($resultados['sol_secretaria_aberta'] as $sol) 
+         seriesData2.push({
+            name: '{{ $sol->sigla }}',
+            value: {{ $sol->total }}
+        });
+
+      @endforeach      
+
+      // based on prepared DOM, initialize echarts instance
+      var totalChart = echarts.init(document.getElementById('sol_secretaria'));
+
+        // specify chart configuration item and data
+      var option = {
+
+         tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+               type: 'shadow'
+            }
+         },
+
+         grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+         },
+         
+         xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+         },
+         
+         yAxis: {
+            type: 'category',
+            data: legendData
+         },
+
+        series: [
+          {
+              name: 'Total',
+              type: 'bar',
+              data: seriesData
+          },
+          {
+              name: 'Não solucionadas ainda',
+              type: 'bar',
+              data: seriesData2
+          }
+        ]
+        
+      };
+
+      // use configuration item and data specified to show chart
+      totalChart.setOption(option);
+
+      //=============================================================================================
+      //=============================================================================================
+      //=============================================================================================
+      //=============================================================================================
+      //=============================================================================================
+
+
 
 
 
