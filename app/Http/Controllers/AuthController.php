@@ -42,16 +42,16 @@ class AuthController extends Controller
     public function entrar(Request $request)
     {
 
-        
-
     	// Obter o usuário 
     	$usuario = User::where('email', $request->email)->first();
 
-        //dd($request);
+        
 
         //verifica se o email existe na base
         if($usuario)
         { 
+            //dd(bcrypt($request->senha), $usuario->password);
+
             // Testar a senha
         	if(Hash::check($request->senha, $usuario->password))
         	{
@@ -69,10 +69,12 @@ class AuthController extends Controller
                             loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logon');
             				return redirect()->intended('/');
             			}
+
                     } else {
                         loga('R', 'USERS', '0', 'EMAIL',$request->email , 'Tentativa de Logon - Usuário com status INATIVO');
                         return redirect("/login")->withErrors(['erros' => 'A conta de usuário não está ATIVA']);    
                     }
+
         		} else {
                     loga('R', 'USERS',  '0', 'EMAIL', $request->email , 'Tentativa de Logon - não é funcionario');
         			return redirect("/login")->withErrors(['erros' => 'Não é um funcionário']); //echo "Não é um funcionário<br/>";	

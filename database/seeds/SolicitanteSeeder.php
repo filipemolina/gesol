@@ -9,7 +9,7 @@ class SolicitanteSeeder extends Seeder
     public function run()
     {
 
- 		factory(App\Models\Solicitante::class, 30)->create()->each(function($solicitante)
+ 		factory(App\Models\Solicitante::class, 110)->create()->each(function($solicitante)
         {
             // Obter todos os serviços
 
@@ -27,11 +27,11 @@ class SolicitanteSeeder extends Seeder
            /* // Criar solicitacoes
             $solicitante->solicitacoes()->saveMany(factory(App\Models\Solicitacao::class, rand(1,5))->make());*/
 
-            factory(App\Models\Solicitacao::class, rand(10,21))->create()->each(function($solicitacao)
+            factory(App\Models\Solicitacao::class, rand(1,2))->create()->each(function($solicitacao)
             {
                 $solicitacao->endereco()->save(factory(App\Models\Endereco::class)->make());
                 // Criar comentarios
-                $solicitacao->comentarios()->saveMany(factory(App\Models\Comentario::class, rand(1, 5))->make());
+                $solicitacao->comentarios()->saveMany(factory(App\Models\Comentario::class, rand(1, 2))->make());
             });
         });
     }
