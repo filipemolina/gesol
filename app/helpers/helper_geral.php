@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -12,7 +14,10 @@ use App\Models\Endereco;
 use App\Models\Sys_log;
 use App\Models\User;
 
-
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
 
 
 //verifica o tipo de acesso que o usuário logado tem no sistema
@@ -174,3 +179,81 @@ if (! function_exists('camelcase')) {
   
 }
 
+if(!function_exists("enviarNotificacao")){
+
+   function enviarNotificacao($titulo, $subtitulo, $destinatarios, $dados){
+
+      // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
+
+      $optionBuilder = new OptionsBuilder();
+      $optionBuilder->setTimeToLive(60*20);
+
+      $notificationBuilder = new PayloadNotificationBuilder($titulo);
+      $notificationBuilder
+         ->setTitle($titulo)
+         ->setBody($subtitulo)
+         ->setSound('default')
+         ->setIcon('https://360.mesquita.rj.gov.br/gesol/img/brasao.png');
+
+      $dataBuilder = new PayloadDataBuilder();
+
+      foreach($dados as $key => $value){
+
+         $dataBuilder->addData([$key => $value]);
+
+      }
+
+      $option = $optionBuilder->build();
+      $notification = $notificationBuilder->build();
+      $data = $dataBuilder->build();
+
+      $downstreamResponse = FCM::sendTo($destinatarios, $option, $notification, $data);
+
+      return [
+         'sucesso' => $downstreamResponse->numberSuccess(),
+         'falha' => $downstreamResponse->numberFailure(),
+         'modificar' => $downstreamResponse->numberModification(),
+         'tokens' => [
+            'deletar' => $downstreamResponse->tokensToDelete(),
+            'modificar' => $downstreamResponse->tokensToModify(),
+            'tentar_denovo' => $downstreamResponse->tokensToRetry()
+         ]
+      ];
+
+      // Fim do envio da notificação
+
+   }
+
+}
+
+if(!function_exists("enviarDadosParaApp")){
+
+   function enviarDadosParaApp($destinatarios, $dados){
+
+      // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
+
+      $optionBuilder = new OptionsBuilder();
+      $optionBuilder->setTimeToLive(60*20);
+
+      $dataBuilder = new PayloadDataBuilder();
+      $dataBuilder->addData($dados);
+
+      $option = $optionBuilder->build();
+      $data = $dataBuilder->build();
+
+      $downstreamResponse = FCM::sendTo($destinatarios, $option, null, $data);
+
+      return [
+         'sucesso' => $downstreamResponse->numberSuccess(),
+         'falha' => $downstreamResponse->numberFailure(),
+         'modificar' => $downstreamResponse->numberModification(),
+         'tokens' => [
+            'deletar' => $downstreamResponse->tokensToDelete(),
+            'modificar' => $downstreamResponse->tokensToModify(),
+            'tentar_denovo' => $downstreamResponse->tokensToRetry()
+         ]
+      ];
+
+   }
+
+}

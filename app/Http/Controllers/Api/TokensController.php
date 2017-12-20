@@ -4,17 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Comentario;
+use App\Models\FCM_Token;
 
-class ComentariosController extends Controller
+class TokensController extends Controller
 {
-    /**
-     * Proteger a rota com o middleware de autenticação da api
-     */
+    public function __construct(){
 
-    public function __construct()
-    {
         $this->middleware("auth:api");
+
     }
 
     /**
@@ -45,20 +42,25 @@ class ComentariosController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar
-
         $this->validate($request, [
-            'comentario'       => 'required|min:2',
-            'solicitacao_id' => 'required'
+            'token'  => 'required',
+            'user_id'=> 'required',
         ]);
 
-        $comentario = new Comentario($request->all());
+        $token = FCM_Token::where('token', $request->token)->where('user_id', $request->user_id)->first();
 
-        $comentario->solicitacao_id = $request->solicitacao_id;
+        if($token){
+            
+            // Atualizar os timestamps
+            $token->touch();
 
-        $comentario->save();
+        } else {
+            
+            $token = FCM_Token::create($request->all());
 
-        return json_encode(["ok" => "ok"]);
+        }
+
+        return $token->user->toJson();
     }
 
     /**
@@ -69,8 +71,7 @@ class ComentariosController extends Controller
      */
     public function show($id)
     {
-        // Retornar um JSON com os dados do comentário 
-        return Comentario::where('id', $id)->with('funcionario', 'funcionario.setor', 'funcionario.setor.secretaria')->first()->toJson();
+        //
     }
 
     /**

@@ -23,21 +23,6 @@ class SolicitacaoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
-
-	// Configurar o pusher para ser usado nas actions abaixo
-
-	$options = [
-            'cluster'   => 'us2',
-            'encrypted' => true
-        ];
-
-        $this->pusher = new \Pusher\Pusher(
-            'd5bbfbed2c038130dedf',
-            '23711399b18b4f94212b',
-            '435239',
-            $options
-        );
     }
 
     /**
@@ -367,7 +352,7 @@ class SolicitacaoController extends Controller
     {
         // Obter o usuário atualmente logado
 
-        $funcionario_logado = Funcionario::find(Auth::user()->id);
+        $funcionario_logado = Funcionario::find(Auth::user()->funcionario_id);
 
 
         // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
@@ -555,9 +540,18 @@ class SolicitacaoController extends Controller
 
                 if (trilha($solicitacao->id, null , null ,"Liberou",null,null))
                 {
-		    $this->pusher->trigger('solicitacoes', 'nova', ['message' => 'Nova Solicitação Moderada']);
-                    return redirect('/solicitacao');
+                    // inserir código do FCM para enviar mensagem para todos os aplicativos dizendo 
+                    // que uma nova solicitação foi criada
+                    $tokens = Solicitante::all()->pluck('fcm_id')->toArray();
 
+                    $dados = [
+                        'acao' => 'recarregar',
+                        'model' => 'solicitacoes'
+                    ];
+
+                    enviarDadosParaApp($tokens, $dados);
+
+                    return redirect('/solicitacao');
                 }
 
                 break;

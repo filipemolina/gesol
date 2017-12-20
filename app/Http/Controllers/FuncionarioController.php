@@ -247,7 +247,6 @@ class FuncionarioController extends Controller
          'role_id'               => 'required',
       ]);
 
-
       $original_funcionario   = $funcionario->toArray();
       $original_usuario       = $usuario->toArray();
       
@@ -298,7 +297,6 @@ class FuncionarioController extends Controller
       if($original_funcionario['role_id'] != $novo['role_id']){
          loga('U', 'FUNCIONARIO', $funcionario->id, 'role_id', $original_funcionario['role_id'], null);
       }
-
 
 
       if($salvou_usuario && $salvou_funcionario)

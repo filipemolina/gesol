@@ -14,10 +14,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
          </button>
+
          <a class="navbar-brand" href="#"> 
             @section('titulo')  
             @show 
          </a>
+
+         <button class="btn btn-danger" style="display:none" id="btn-permissao">Ative as Notificações para que o Gesol funcione corretamente!</button>
       </div>
 
       <div class="collapse navbar-collapse">

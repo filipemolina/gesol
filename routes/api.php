@@ -33,8 +33,13 @@ Route::post('/alteraFcmId', "Api\SolicitantesController@alteraFcmId");
 
 Route::get('/enum/{tabela}/{coluna}', "Api\SolicitantesController@pegaValorEnum");
 Route::get("/solicitacoes/minhas", "Api\SolicitacoesController@minhas");
+Route::get("/versao", "Api\HomeController@versao");
+
+// Notificações
+Route::post("/notificacoes/enviar", "Api\NotificacoesController@enviaNotificacao");
 
 Route::resource('/solicitacoes', 'Api\SolicitacoesController');
 Route::resource('/solicitantes', 'Api\SolicitantesController');
-Route::resource('/comentarios', 'Api\ComentariosController');
-Route::resource('/setores', 'Api\SetoresController');
+Route::resource('/comentarios',  'Api\ComentariosController');
+Route::resource('/setores',      'Api\SetoresController');
+Route::resource('/tokens',       'Api\TokensController');
