@@ -353,7 +353,7 @@ function carrega_select_setor_edit(secretaria_id, setor_id){
 // Carrega select de setor na página de edição de funcionário
 function carrega_select_setor_create(secretaria_id, setor_id){
 
-  $.get('/setor?secretaria='+secretaria_id, function(res){
+  $.get(url_base+'/setor?secretaria='+secretaria_id, function(res){
 
     let resposta = JSON.parse(res);
     console.log(resposta);     
