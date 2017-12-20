@@ -77,7 +77,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'pt-br',
 
     /*
     |--------------------------------------------------------------------------
@@ -181,6 +181,7 @@ return [
         Barryvdh\Cors\ServiceProvider::class,
         ValidadorCpf\CpfServiceProvider54::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+	LaravelFCM\FCMServiceProvider::class,
 
     ],
 
@@ -232,6 +233,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+	'FCM'      => LaravelFCM\Facades\FCM::class,
+	'FCMGroup' => LaravelFCM\Facades\FCMGroup::class
 
     ],
 

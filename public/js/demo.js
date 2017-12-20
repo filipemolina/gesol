@@ -945,16 +945,16 @@ demo = {
 		});
     },
 
-	showNotification: function(from, align){
-        type = ['','info','success','warning','danger','rose','primary'];
+    showNotification: function(from, align) {
+        type = ['', 'info', 'success', 'warning', 'danger', 'rose', 'primary'];
 
         color = Math.floor((Math.random() * 6) + 1);
 
-    	$.notify({
-        	icon: "notifications",
-        	message: "Welcome to <b>Material Dashboard</b> - a beautiful freebie for every web developer."
+        $.notify({
+            icon: "notifications",
+            message: "Welcome to <b>Material Dashboard</b> - a beautiful freebie for every web developer."
 
-        },{
+        }, {
             type: type[color],
             timer: 3000,
             placement: {
@@ -962,7 +962,7 @@ demo = {
                 align: align
             }
         });
-	},
+    },
 
     notificationRight: function(from, align, cor, comentario){
         // type = ['','info','success','warning','danger','rose','primary'];

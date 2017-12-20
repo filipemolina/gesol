@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'solicitante_id','avatar'
+        'name', 'email', 'password', 'solicitante_id','avatar','role_id','status'
     ];
 
     /**
@@ -34,6 +34,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Models\Funcionario');
     }
-}
 
- //04177348000100
+    public function solicitante()
+    {
+        return $this->belongsTo('App\Models\Solicitante');
+    }
+
+}

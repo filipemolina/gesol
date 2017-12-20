@@ -21,7 +21,7 @@
    <!--  CSS for Demo Purpose, don't include it in your project     -->
    <link href="css/demo.css" rel="stylesheet" />
    <!--     Fonts and icons     -->
-   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
 
    <link href="{{ asset('css/animate.css') }}" rel="stylesheet" />
@@ -50,9 +50,7 @@
                         <div id="login-municipe" class="card card-login card-hidden">
                            <div class="logo-dourado logo-pn"></div>
                            <div class="card-header text-center" data-background-color="dourado">
-                              <div class="social-line">
-                                 <br><br><br>
-                              </div>
+                              <div class="social-line"><br><br><br></div>
                            </div>
                            <div class="card-content">
                               <div class="input-group">

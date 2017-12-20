@@ -13,7 +13,9 @@ class Comentario extends Model
 
 	  	'comentario',
 		'encerramento',
-	    'lida',
+	        'lida',
+		'solicitacao_id',
+		'funcionario_id',
  	];
 
  	public function solicitacao()

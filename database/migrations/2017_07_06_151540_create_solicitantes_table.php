@@ -97,7 +97,7 @@ class CreateSolicitantesTable extends Migration
                                         ])                  ->nullable();
 
 
-
+	    $table->string('fcm_id', 255)->nullable(); 
             $table->softDeletes();
 
             $table->timestamps();

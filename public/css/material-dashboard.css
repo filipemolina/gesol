@@ -5373,12 +5373,12 @@ h2.title {
   left: 0;
   z-index: 1;
   width: 260px;
-  background: #3D276B;
+  background: #FFFFFF;
   box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
 .sidebar[data-background-color="black"],
 .off-canvas-sidebar[data-background-color="black"] {
-  background-color: #3D276B;
+  background-color: #191919;
 }
 .sidebar .sidebar-wrapper,
 .off-canvas-sidebar .sidebar-wrapper {
@@ -5638,7 +5638,7 @@ h2.title {
 }
 .sidebar[data-background-color="black"] .sidebar-background:after,
 .off-canvas-sidebar[data-background-color="black"] .sidebar-background:after {
-  background: #3D276B;
+  background: #000;
   opacity: .8;
 }
 .sidebar[data-active-color="purple"] li.active > a,
@@ -6448,7 +6448,6 @@ h2.title {
 }
 .btn.btn-facebook,
 .navbar .navbar-nav > li > a.btn.btn-facebook {
-  margin-left: -225px;
   background-color: #3b5998;
   color: #fff;
   box-shadow: 0 2px 2px 0 rgba(59, 89, 152, 0.14), 0 3px 1px -2px rgba(59, 89, 152, 0.2), 0 1px 5px 0 rgba(59, 89, 152, 0.12);
@@ -6770,7 +6769,7 @@ h2.title {
 .btn.btn-just-icon,
 .navbar .navbar-nav > li > a.btn.btn-just-icon {
   font-size: 20px;
-  padding: 15px 15px;
+  padding: 11px 11px;
   line-height: 1em;
 }
 .btn.btn-just-icon i,
@@ -9167,7 +9166,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 .ripple.ripple-on {
   transition: opacity 0.15s ease-in 0s, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
-  opacity: 0.4;
+  opacity: 0.1;
 }
 
 .ripple.ripple-out {
@@ -10035,8 +10034,7 @@ footer ul li a:hover {
 }
 footer .copyright {
   padding: 15px;
-  text-align: -webkit-center;
-  float: none !important;
+  margin: 0;
 }
 footer .copyright .material-icons {
   font-size: 18px;
@@ -11586,4 +11584,3 @@ footer .btn {
     max-width: 211px;
   }
 }
-

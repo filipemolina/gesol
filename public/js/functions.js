@@ -138,28 +138,30 @@ function enviarComentario(elem, e){
             _token: token,
          }, function(data){
 
-                  // Apagar o campo de envio de comentario
-                  $(".comentario_"+solicitacao).val("");
+              console.log("Dados recebidos do servidor", data);
 
-                  // Colocar o novo card de comentarios embaixo da solicitação
-                  var source      = $("#comentario-template").html();
-                  var template    = Handlebars.compile(source)
+              // // Apagar o campo de envio de comentario
+              // $(".comentario_"+solicitacao).val("");
 
-                  var context = { 
-                     nome:       nome_usuario,
-                     comentario: comentario, 
-                     foto:       foto_usuario,
-                     id:         data,
-                     token:      token,
-                  };
+              // // Colocar o novo card de comentarios embaixo da solicitação
+              // var source      = $("#comentario-template").html();
+              // var template    = Handlebars.compile(source)
 
-                  var html        = template(context);
+              // var context = { 
+              //    nome:       nome_usuario,
+              //    comentario: comentario, 
+              //    foto:       foto_usuario,
+              //    id:         data,
+              //    token:      token,
+              // };
 
-                  $("div.comentarios").append( $(html) );
-                  //console.log(html);   
+              // var html        = template(context);
 
-               }       
-               );
+              // $("div.comentarios").append( $(html) );
+              // //console.log(html);   
+
+        });
+
        }
 
     }
@@ -317,4 +319,54 @@ function trocaTexto(elemento, novo_texto) // javascript
   // console.log("Novo texto", newText);
 
   txtarea.innerHTML=newText;
+}
+
+// Carrega select de setor na página de edição de funcionário
+function carrega_select_setor_edit(secretaria_id, setor_id){
+
+    $.get('/setor?secretaria='+secretaria_id, function(res){
+
+    let resposta = JSON.parse(res);
+
+    $("#setor_id option").remove();
+
+    $("<option value=''>Selecione</option>").appendTo("#setor_id");
+
+    // Iterar por todos os setores para incluí-los no supra-citado "select"
+
+    for(i=0; i<resposta.length; i++){
+      
+      
+        if( setor_id == resposta[i].id ){
+            $("<option value='"+resposta[i].id+"' selected='true'>"+resposta[i].nome+"</option>").appendTo("#setor_id");
+        }else{
+          $("<option value='"+resposta[i].id+"'>"+resposta[i].nome+"</option>").appendTo("#setor_id");
+        }
+      }
+
+      // Atualizar o Bootstrap Select
+
+      $("#setor_id").selectpicker('refresh');
+    });
+}
+
+// Carrega select de setor na página de edição de funcionário
+function carrega_select_setor_create(secretaria_id, setor_id){
+
+  $.get('/setor?secretaria='+secretaria_id, function(res){
+
+    let resposta = JSON.parse(res);
+    console.log(resposta);     
+
+    $("#setor_id option").remove();
+
+    $("<option value=''>Selecione</option>").appendTo("#setor_id");
+
+    // Iterar por todos os setores para incluí-los no supra-citado "select"
+   for(i=0; i<resposta.length; i++){
+        $("<option value='"+resposta[i].id+"'>"+resposta[i].nome+"</option>").appendTo("#setor_id");
+    }
+    // Atualizar o Bootstrap Select
+    $("#setor_id").selectpicker('refresh');
+  });
 }

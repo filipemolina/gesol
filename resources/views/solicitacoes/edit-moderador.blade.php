@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-Solicitações
+Andamento de Solicitação
 
 @endsection
 
@@ -103,15 +103,17 @@ Solicitações
                
                <h4>Endereço</h4>
 
-               <span class="endereco" 
-                  onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
-                  <i class="material-icons" style="font-size: 20px; margin-top: 5px;">place</i>  
+               @if($solicitacao->endereco)
+                  <span class="endereco" 
+                     onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
+                     <i class="material-icons" style="font-size: 20px; margin-top: 5px;">place</i>  
 
-                  {{ $solicitacao->endereco->logradouro }} 
-                  {{ $solicitacao->endereco->numero }} -
-                  {{ $solicitacao->endereco->bairro }} -
-                  {{ $solicitacao->endereco->cep }} 
-               </span>
+                     {{ $solicitacao->endereco->logradouro }} 
+                     {{ $solicitacao->endereco->numero }} -
+                     {{ $solicitacao->endereco->bairro }} -
+                     {{ $solicitacao->endereco->cep }} 
+                  </span>
+               @endif
 
                <br><br>
                <div id="linha"></div>
@@ -400,7 +402,7 @@ Solicitações
                      $.post(url_base+"/comentario",{
                         comentario: "A solicitação foi transferida pelo seguinte motivo: "+$("#select-servico-motivo option:selected").html(),
                         solicitacao_id: {{ $solicitacao->id }}, 
-                        funcionario_id: {{ $funcionario->id }},  //definido na material.blade
+                        funcionario_id: {{ $funcionario_logado->id }},  //definido na material.blade
                         _token: token,
                      });
 
