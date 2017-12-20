@@ -11,7 +11,7 @@ firebase.initializeApp(config);
 
 const messaging  = firebase.messaging();
 
-// Tenta obter permissão e eretorna uma promise
+// Tenta obter permissão e retorna uma promise
 messaging.requestPermission()
 .then(() => {
 	// Permissão obtida, retorna outra promise com a token do navegador
@@ -51,10 +51,10 @@ messaging.requestPermission()
 	$("#btn-permissao").css("display", block);
 });
 
-// FUnção que é executada quando uma mensagem é recebida e a página está aberta
+// Função que é executada quando uma mensagem é recebida e a página está aberta
 
-messaging.onMessage((payload) => {
-	console.log("onMessage: ", payload);
+messaging.onMessage(function(payload){
+	console.log("RECEBIDA UMA NOTIFICAÇÃO", payload);
 });
 
 $(function(){

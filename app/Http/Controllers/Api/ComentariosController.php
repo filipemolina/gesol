@@ -69,7 +69,8 @@ class ComentariosController extends Controller
      */
     public function show($id)
     {
-        //
+        // Retornar um JSON com os dados do comentário 
+        return Comentario::where('id', $id)->with('funcionario', 'funcionario.setor', 'funcionario.setor.secretaria')->first()->toJson();
     }
 
     /**

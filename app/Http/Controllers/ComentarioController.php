@@ -60,7 +60,13 @@ class ComentarioController extends Controller
 
         // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
 
-        $dados = ['model'=>'comentario', 'solicitacao'=>$request->solicitacao_id, 'acao'=>'atualizar'];
+        $dados = [
+            'operacao' => 'atualizar',
+            'model' => 'comentario',
+            'solicitacao' => $request->solicitacao_id, 
+            'comentario_id' => $comentario->id,
+            'acao' => 'atualizar'
+        ];
 
         $token = $solicitacao->solicitante->fcm_id;
 
@@ -77,9 +83,8 @@ class ComentarioController extends Controller
         $resposta->sigla            = $comentario->solicitacao->servico->setor->secretaria->sigla;
         $resposta->comentario       = $comentario->comentario;
 
-        //trilha($comentario->solicitacao->id,    null , null ,"Respondeu" ,null);
-        
-        trilha($request->solicitacao_id,        null , null ,"Respondeu" ,null, $comentario->id);
+        // Registrar na trilha de auditoria        
+        trilha($request->solicitacao_id, null, null, "Respondeu", null, $comentario->id);
 
         return json_encode($resposta);
 

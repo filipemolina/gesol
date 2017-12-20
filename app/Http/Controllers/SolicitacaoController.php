@@ -545,7 +545,7 @@ class SolicitacaoController extends Controller
                     $tokens = Solicitante::all()->pluck('fcm_id')->toArray();
 
                     $dados = [
-                        'tipo' => 'recarregar',
+                        'acao' => 'recarregar',
                         'model' => 'solicitacoes'
                     ];
 

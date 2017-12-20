@@ -60,7 +60,7 @@ class TokensController extends Controller
 
         }
 
-        return $token->user->solicitante->toJson();
+        return $token->user->toJson();
     }
 
     /**

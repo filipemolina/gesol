@@ -187,10 +187,19 @@ if(!function_exists("enviarNotificacao")){
       $optionBuilder->setTimeToLive(60*20);
 
       $notificationBuilder = new PayloadNotificationBuilder($titulo);
-      $notificationBuilder->setBody($subtitulo)->setSound('default');
+      $notificationBuilder
+         ->setTitle($titulo)
+         ->setBody($subtitulo)
+         ->setSound('default')
+         ->setIcon('https://360.mesquita.rj.gov.br/gesol/img/brasao.png');
 
       $dataBuilder = new PayloadDataBuilder();
-      $dataBuilder->addData($dados);
+
+      foreach($dados as $key => $value){
+
+         $dataBuilder->addData([$key => $value]);
+
+      }
 
       $option = $optionBuilder->build();
       $notification = $notificationBuilder->build();
