@@ -554,6 +554,11 @@ Andamento de Solicitação
             document.getElementById("span_satus").classList.remove('status-analise');
             document.getElementById("span_satus").classList.add('status-execucao');
 
+            //esconde o botão "PÔR EM EXECUÇÃO" (btn_por_execucao)
+           $("#btn_por_execucao").css('display','none');
+
+           demo.notificationRight("top", "right", "success", "Solicitação entrou \"EM EXECUÇÃO\" com sucesso!");     
+
          }
       });
 

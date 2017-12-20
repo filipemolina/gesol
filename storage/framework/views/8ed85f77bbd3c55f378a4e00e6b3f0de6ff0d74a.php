@@ -1,4 +1,4 @@
-<div class="sidebar" data-active-color="" data-background-color="dourado" data-image="{{ asset('img/prefeitura.png') }}">
+<div class="sidebar" data-active-color="" data-background-color="dourado" data-image="<?php echo e(asset('img/prefeitura.png')); ?>">
 
     <!--
     Tip 1: You can change the color of active element of the sidebar using: data-active-color="purple | blue | green | orange | red | rose"
@@ -8,7 +8,7 @@
     
    <div class="logo" style="color: #000000;">
       <a href="#" class="simple-text">
-         GESOL  <i style="font-size: 10px;">( v0.2.0.0.0 )</i>
+         GESOL  <i style="font-size: 10px;">( v0.1.7 )</i>
       </a>
    </div>
    <div class="logo logo-mini">
@@ -19,13 +19,14 @@
    <div class="sidebar-wrapper">
       <div class="user">
          <div class="photo">
-            <img src="{{ $funcionario_logado->user->avatar }}" />
+            <img src="<?php echo e($funcionario_logado->user->avatar); ?>" />
          </div>
          <div class="info">
             <a data-toggle="collapse" href="#collapseExample" class="collapsed">
-               {{ $funcionario_logado->nome }}
+               <?php echo e($funcionario_logado->nome); ?>
+
                <b class="caret"></b>
-               <p style="font-size: 10px;">({{ $funcionario_logado->role->acesso }} - {{ $funcionario_logado->role->peso }})</p>
+               <p style="font-size: 10px;">(<?php echo e($funcionario_logado->role->acesso); ?> - <?php echo e($funcionario_logado->role->peso); ?>)</p>
 
                
             </a>
@@ -34,18 +35,18 @@
       </div>
 
 
-      {{-------------- Menu Principal --------------}}
+      
 
       <ul class="nav">
          <li>
-            <a href="{{ url("/") }}">
+            <a href="<?php echo e(url("/")); ?>">
                <i class="material-icons">dashboard</i>
                <p>Painel</p>
             </a>
          </li>
 
          <li>
-            <a href="{{ url("/solicitacao") }}">
+            <a href="<?php echo e(url("/solicitacao")); ?>">
                <i class="material-icons">assignment</i>
                <p>Solicitações</p>
             </a>
@@ -65,79 +66,79 @@
 
          
          
-           {{-- chama a view de acordo com o tipo de acesso do usuario logado --}}
+           
           
           
 
-         @if($funcionario_logado->role->peso == 10 )          
+         <?php if($funcionario_logado->role->peso == 10 ): ?>          
 
-         @elseif($funcionario_logado->role->peso == 20)             
+         <?php elseif($funcionario_logado->role->peso == 20): ?>             
 
-         @elseif($funcionario_logado->role->peso == 30)
+         <?php elseif($funcionario_logado->role->peso == 30): ?>
 
 
-         @elseif($funcionario_logado->role->peso == 40)    
+         <?php elseif($funcionario_logado->role->peso == 40): ?>    
 
             <li>
-               <a href="{{ url("/funcionario") }}">
+               <a href="<?php echo e(url("/funcionario")); ?>">
                   <i class=" mdi mdi-account-multiple"></i> 
                   <p>Funcionarios</p>
                </a>
             </li>             
 
-         @elseif($funcionario_logado->role->peso == 50)    
+         <?php elseif($funcionario_logado->role->peso == 50): ?>    
 
             <li>
-               <a href="{{ url("/funcionario") }}">
+               <a href="<?php echo e(url("/funcionario")); ?>">
                   <i class=" mdi mdi-account-multiple"></i> 
                   <p>Funcionarios</p>
                </a>
             </li>             
          
-         @elseif($funcionario_logado->role->peso == 60)
+         <?php elseif($funcionario_logado->role->peso == 60): ?>
             
             <li>
-               <a href="{{ url("/funcionario") }}">
+               <a href="<?php echo e(url("/funcionario")); ?>">
                   <i class=" mdi mdi-account-multiple"></i> 
                   <p>Funcionarios</p>
                </a>
             </li>                 
                          
-         @elseif($funcionario_logado->role->peso == 70)
+         <?php elseif($funcionario_logado->role->peso == 70): ?>
              
             <li>
-               <a href="{{ url("/funcionario") }}">
+               <a href="<?php echo e(url("/funcionario")); ?>">
                   <i class=" mdi mdi-account-multiple"></i> 
                   <p>Funcionarios</p>
                </a>
             </li>                                                      
 
-         @elseif($funcionario_logado->role->peso == 80)
+         <?php elseif($funcionario_logado->role->peso == 80): ?>
              
             <li>
-               <a href="{{ url("/funcionario") }}">
+               <a href="<?php echo e(url("/funcionario")); ?>">
                   <i class=" mdi mdi-account-multiple"></i> 
                   <p>Funcionarios</p>
                </a>
             </li>                        
           
-         @elseif($funcionario_logado->role->peso == 90)
+         <?php elseif($funcionario_logado->role->peso == 90): ?>
             <li>
-               <a href="{{ url("/funcionario") }}">
+               <a href="<?php echo e(url("/funcionario")); ?>">
                   <i class=" mdi mdi-account-multiple"></i> 
                   <p>Funcionarios</p>
                </a>
             </li>
 
-          @elseif($funcionario_logado->role->peso == 100)
+          <?php elseif($funcionario_logado->role->peso == 100): ?>
             <li>
-               <a href="{{ url("/funcionario") }}">
+               <a href="<?php echo e(url("/funcionario")); ?>">
                   <i class=" mdi mdi-account-multiple"></i> 
                   <p>Funcionarios</p>
                </a>
             </li>
            
-         @endif
+         <?php endif; ?>
 
 
       </ul>

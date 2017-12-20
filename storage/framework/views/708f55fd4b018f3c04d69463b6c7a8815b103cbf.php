@@ -1,12 +1,10 @@
-@extends('layouts.material')
+<?php $__env->startSection('titulo'); ?>
 
-@section('titulo')
+  Painel - Prefeitura
 
-  Painel {{ mostraAcesso($funcionario_logado) }}
+<?php $__env->stopSection(); ?>
 
-@endsection
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
  <div class="row tile_count">
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -14,36 +12,36 @@
                <i class="material-icons" style="font-size: 14px">assignment</i> 
                Total de Solicitações
             </span>
-            <div class="count">{{ $resultados['solicitacoes']->count() }}</div>
-            {{-- <span class="count_bottom"><i class="dourado">4% </i> de aumento</span> --}}
+            <div class="count"><?php echo e($resultados['solicitacoes']->count()); ?></div>
+            
         </div>
 
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-bullhorn"></i> Total de Abertas</span>
-            <div class="count">{{ $resultados['abertas'] }}</div>
-            {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>3% </i> de aumento</span> --}}
+            <div class="count"><?php echo e($resultados['abertas']); ?></div>
+            
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-check"></i> Total de Solucionadas</span>
-            <div class="count" style="color: green">{{ $resultados['solicitacoes']->where('status', 'Solucionada')->count() }}</div>
-            {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>34% </i> de aumento</span> --}}
+            <div class="count" style="color: green"><?php echo e($resultados['solicitacoes']->where('status', 'Solucionada')->count()); ?></div>
+            
         </div>
 
          <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-calendar-times-o"></i> Atrasadas</span>
-            <div class="count" style="color: red">{{ $resultados['sol_prazo']["vencida"] }}</div>
-            {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>34% </i> de aumento</span> --}}
+            <div class="count" style="color: red"><?php echo e($resultados['sol_prazo']["vencida"]); ?></div>
+            
          </div>
 
          <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-calendar-minus-o "></i> Vencendo hoje</span>
-            <div class="count" style="color: orange">{{ $resultados['sol_prazo']["vencendo"] }}</div>
-            {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>34% </i> de aumento</span> --}}
+            <div class="count" style="color: orange"><?php echo e($resultados['sol_prazo']["vencendo"]); ?></div>
+            
         </div>
    
          <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> Tempo de solução</span>
-            <div class="count">{{ $resultados['sol_media'] }}</div>
+            <div class="count"><?php echo e($resultados['sol_media']); ?></div>
             <span class="count_bottom"><i class="dourado">dias</span>
         </div>
     </div>
@@ -84,35 +82,19 @@
       </div>
    </div>
 
-
-<div class="row" style="margin-top: 0px;">
-      <div class="col-md-8">
-         <div class="card" style="padding-bottom: 30px;">
-             <div class="card-header card-header-icon" data-background-color="orange" style="color: #fff;">
-               <i class="material-icons">dashboard</i>
-            </div>
-            <div class="card-content-grafico" style="padding-bottom: 20px">
-               <h4 class="card-title-grafico" style="width: 100% !important;">Solicitações por Secretaria</h4>
-            </div>
-           
-            <div  id='sol_secretaria' style="height:400px;" ></div>
-   
-         </div>
-      </div>
-   </div>
   
 
 
    
-@endsection
+<?php $__env->stopSection(); ?>
 
 
-@push('scripts')
-            {{-- {  "name": "{{ $resultados['ano_anterior'] }}",  --}}
-               {{-- "data":  [@foreach($resultados['sol_por_mes_ano_anterior']  as $mes => $qtd)  --}}
-                           {{-- {{ $qtd }},  --}}
-                        {{-- @endforeach]    --}}
-            {{-- }, --}}
+<?php $__env->startPush('scripts'); ?>
+            
+               
+                           
+                        
+            
 
 
    <script type="text/javascript">
@@ -135,12 +117,12 @@
             orient: 'horizontal',
             top : 30,
             left: 10,
-            data: ['{{ $resultados['ano_anterior'] }}','{{ $resultados['ano'] }}']
+            data: ['<?php echo e($resultados['ano_anterior']); ?>','<?php echo e($resultados['ano']); ?>']
          },
 
          // title : {
          //    text: 'Solicitações Registradas',
-         //    subtext: '{{ $resultados['ano_anterior'] }} e {{ $resultados['ano'] }}',
+         //    subtext: '<?php echo e($resultados['ano_anterior']); ?> e <?php echo e($resultados['ano']); ?>',
          //    x:'center'
          // },
 
@@ -182,25 +164,25 @@
          
          series: [
             {
-               name:'{{ $resultados['ano'] }}',
+               name:'<?php echo e($resultados['ano']); ?>',
                type:'line',
                smooth: true,
                data: 
                [ 
-                  @foreach($resultados['sol_por_mes'] as $mes => $qtd) 
-                     {{ $qtd }}, 
-                  @endforeach
+                  <?php $__currentLoopData = $resultados['sol_por_mes']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mes => $qtd): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+                     <?php echo e($qtd); ?>, 
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                ],
             },
             {
-               name:'{{ $resultados['ano_anterior'] }}',
+               name:'<?php echo e($resultados['ano_anterior']); ?>',
                type:'line',
                smooth: true,
                data: 
                [ 
-                  @foreach($resultados['sol_por_mes_ano_anterior'] as $mes => $qtd) 
-                     {{ $qtd }}, 
-                  @endforeach
+                  <?php $__currentLoopData = $resultados['sol_por_mes_ano_anterior']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mes => $qtd): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+                     <?php echo e($qtd); ?>, 
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                ],
             }
          ]
@@ -218,11 +200,11 @@
 
       // var dados2 = [];
 
-      // @foreach($resultados['sol_maiores'] as $sol) 
-      //    dados2.push("{value: {{ $sol->total }}, name: '{{ $sol->nome }}\'}," );
+      // <?php $__currentLoopData = $resultados['sol_maiores']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+      //    dados2.push("{value: <?php echo e($sol->total); ?>, name: '<?php echo e($sol->nome); ?>\'}," );
 
       //    //          {value:335, name:'asdasd'},
-      // @endforeach
+      // <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                
       // console.log(dados2);
 
@@ -236,32 +218,35 @@
       var novo =[];
       var seriesDataAnoAnterior =[];
 
-      @foreach($resultados['sol_maiores'] as $sol) 
-         nameList.push('{{ $sol->nome }}');
-         legendData.push('{{ $sol->nome }}');
-         //seriesData.push({{ $sol->total }});
-         //teste.push({{ $sol->total }}, '{{ $sol->nome }}');
+      <?php $__currentLoopData = $resultados['sol_maiores']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+         nameList.push('<?php echo e($sol->nome); ?>');
+         legendData.push('<?php echo e($sol->nome); ?>');
+         //seriesData.push(<?php echo e($sol->total); ?>);
+         //teste.push(<?php echo e($sol->total); ?>, '<?php echo e($sol->nome); ?>');
 
          seriesData.push({
-            name: '{{ $sol->nome }}',
-            value: {{ $sol->total }}
+            name: '<?php echo e($sol->nome); ?>',
+            value: <?php echo e($sol->total); ?>
+
         });
 
          novo.push({
-            name: '{{ $sol->nome }}',
-            y: {{ $sol->total }}
+            name: '<?php echo e($sol->nome); ?>',
+            y: <?php echo e($sol->total); ?>
+
         });
 
-      @endforeach
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-      @foreach($resultados['sol_maiores_ano_anterior'] as $sol) 
+      <?php $__currentLoopData = $resultados['sol_maiores_ano_anterior']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
 
          seriesDataAnoAnterior.push({
-            name: '{{ $sol->nome }}',
-            value: {{ $sol->total }}
+            name: '<?php echo e($sol->nome); ?>',
+            value: <?php echo e($sol->total); ?>
+
         });
 
-      @endforeach
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
          
     
@@ -295,7 +280,7 @@
           calculable : true,
           series : [
               {
-                  name: '{{ $resultados['ano_anterior'] }}',
+                  name: '<?php echo e($resultados['ano_anterior']); ?>',
                   type:'pie',
                   radius : [20, 110],
                   center : ['25%', '50%'],
@@ -319,7 +304,7 @@
                   data: seriesDataAnoAnterior
               },
               {
-                  name: '{{ $resultados['ano'] }}',
+                  name: '<?php echo e($resultados['ano']); ?>',
                   type:'pie',
                   radius : [30, 110],
                   center : ['75%', '50%'],
@@ -378,98 +363,11 @@
 
 
 
-      //=============================================================================================
-      //=============================================================================================
-      //=============================================================================================
-      //=============================================================================================
-      //=============================================================================================
-
-      var nameList = [];
-      var legendData = [];
-      var seriesData = [];
-      var seriesData2 = [];
-
-      @foreach($resultados['sol_secretaria_total'] as $sol) 
-         nameList.push('{{ $sol->sigla }}');
-         legendData.push('{{ $sol->sigla }}');
-
-
-         seriesData.push({
-            name: '{{ $sol->sigla }}',
-            value: {{ $sol->total }}
-        });
-
-      @endforeach
-
-      @foreach($resultados['sol_secretaria_aberta'] as $sol) 
-         seriesData2.push({
-            name: '{{ $sol->sigla }}',
-            value: {{ $sol->total }}
-        });
-
-      @endforeach      
-
-      // based on prepared DOM, initialize echarts instance
-      var totalChart = echarts.init(document.getElementById('sol_secretaria'));
-
-        // specify chart configuration item and data
-      var option = {
-
-         tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-               type: 'shadow'
-            }
-         },
-
-         grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-         },
-         
-         xAxis: {
-            type: 'value',
-            boundaryGap: [0, 0.01]
-         },
-         
-         yAxis: {
-            type: 'category',
-            data: legendData
-         },
-
-        series: [
-          {
-              name: 'Total',
-              type: 'bar',
-              data: seriesData
-          },
-          {
-              name: 'Não solucionadas ainda',
-              type: 'bar',
-              data: seriesData2
-          }
-        ]
-        
-      };
-
-      // use configuration item and data specified to show chart
-      totalChart.setOption(option);
-
-      //=============================================================================================
-      //=============================================================================================
-      //=============================================================================================
-      //=============================================================================================
-      //=============================================================================================
-
-
-
-
-
    </script>
-@endpush
+<?php $__env->stopPush(); ?>
 
 
 
 
+
+<?php echo $__env->make('layouts.material', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -103,15 +103,17 @@ Andamento de Solicitação
                
                <h4>Endereço</h4>
 
-               <span class="endereco" 
-                  onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
-                  <i class="material-icons" style="font-size: 20px; margin-top: 5px;">place</i>  
+               @if($solicitacao->endereco)
+                  <span class="endereco" 
+                     onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
+                     <i class="material-icons" style="font-size: 20px; margin-top: 5px;">place</i>  
 
-                  {{ $solicitacao->endereco->logradouro }} 
-                  {{ $solicitacao->endereco->numero }} -
-                  {{ $solicitacao->endereco->bairro }} -
-                  {{ $solicitacao->endereco->cep }} 
-               </span>
+                     {{ $solicitacao->endereco->logradouro }} 
+                     {{ $solicitacao->endereco->numero }} -
+                     {{ $solicitacao->endereco->bairro }} -
+                     {{ $solicitacao->endereco->cep }} 
+                  </span>
+               @endif
 
                <br><br>
                <div id="linha"></div>
