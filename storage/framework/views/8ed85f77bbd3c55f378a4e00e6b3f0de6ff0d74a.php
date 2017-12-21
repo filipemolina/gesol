@@ -8,11 +8,7 @@
     
    <div class="logo" style="color: #000000;">
       <a href="#" class="simple-text">
-<<<<<<< HEAD
          GESOL  <i style="font-size: 10px;">( v0.2.0.0.0 )</i>
-=======
-         GESOL  <i style="font-size: 10px;">( v0.1.7 )</i>
->>>>>>> origin/deploy
       </a>
    </div>
    <div class="logo logo-mini">

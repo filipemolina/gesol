@@ -1,7 +1,5 @@
 <?php
 
-namespace App;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -17,7 +15,7 @@ use App\Models\User;
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
-use FCM;
+use App\FCM;
 
 
 //verifica o tipo de acesso que o usuário logado tem no sistema
