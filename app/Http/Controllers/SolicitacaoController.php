@@ -140,6 +140,7 @@ class SolicitacaoController extends Controller
      */
     public function edit($id)
     {
+
         //busca o funcionario
         $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
@@ -188,6 +189,9 @@ class SolicitacaoController extends Controller
         }else if($funcionario_logado->role->peso >= 30 and $funcionario_logado->role->peso <= 100 ){
             return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario_logado','setores','motivos_recusa','motivos_transferencia','prazo_calculado','motivos_prazo','prazo_em_dias'));
         }
+
+
+
 
     }
 

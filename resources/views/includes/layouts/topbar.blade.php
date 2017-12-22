@@ -1,4 +1,5 @@
 <nav class="navbar navbar-absolute" style="background: #ad9a75;">
+
    <div class="container-fluid">
       <div class="navbar-minimize">
          <button id="minimizeSidebar" class="btn btn-round btn-white btn-fill btn-just-icon">
@@ -59,18 +60,12 @@
    </ul>
 </li>  -->
 
-            <li class="dropdown">
-               <a href="#pablo" class="dropdown-toggle" data-toggle="dropdown" style="color: #000000; font-weight: bold">
-                  <i class="material-icons">settings</i>
-                  <p class="hidden-lg hidden-md">Profile</p>
-               </a>
+                <li class="dropdown">
+                    <a href="#pablo" class="dropdown-toggle" data-toggle="dropdown" style="color: #000000; font-weight: bold">
+                        <i class="material-icons">person</i>
+                        <p class="hidden-lg hidden-md">Profile</p>
+                    </a>
 
-               <ul class="dropdown-menu">
-               <li>
-                  <a href="{{ url("/alteraavatar") }}" >
-                     <i class="material-icons">person</i> Alterar Avatar
-                  </a>
-               </li>
 
                @if($funcionario_logado->role == 'Adm Sistema')
       

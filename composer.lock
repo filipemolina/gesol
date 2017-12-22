@@ -2417,6 +2417,7 @@
         },
         {
             "name": "symfony/console",
+
             "version": "v3.4.2",
             "source": {
                 "type": "git",
@@ -2482,6 +2483,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
+
             "time": "2017-12-14T19:40:10+00:00"
         },
         {
@@ -2496,6 +2498,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/css-selector/zipball/eac760b414cf1f64362c3dd047b989e4db121332",
                 "reference": "eac760b414cf1f64362c3dd047b989e4db121332",
+
                 "shasum": ""
             },
             "require": {
@@ -2535,6 +2538,7 @@
             ],
             "description": "Symfony CssSelector Component",
             "homepage": "https://symfony.com",
+
             "time": "2017-12-14T19:40:10+00:00"
         },
         {
@@ -2591,6 +2595,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
+
             "time": "2017-12-12T08:27:14+00:00"
         },
         {
@@ -2654,6 +2659,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
+
             "time": "2017-12-14T19:48:22+00:00"
         },
         {
@@ -2703,6 +2709,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
+
             "time": "2017-11-05T16:10:10+00:00"
         },
         {
@@ -2757,6 +2764,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
+
             "time": "2017-12-14T19:40:10+00:00"
         },
         {
@@ -2845,6 +2853,7 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
+
             "time": "2017-12-15T02:05:18+00:00"
         },
         {
@@ -3075,6 +3084,7 @@
         },
         {
             "name": "symfony/process",
+
             "version": "v3.4.2",
             "source": {
                 "type": "git",
@@ -3120,6 +3130,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
+
             "time": "2017-12-14T19:40:10+00:00"
         },
         {
@@ -3184,6 +3195,7 @@
         },
         {
             "name": "symfony/routing",
+
             "version": "v3.4.2",
             "source": {
                 "type": "git",
@@ -3258,6 +3270,7 @@
                 "uri",
                 "url"
             ],
+
             "time": "2017-12-14T22:37:31+00:00"
         },
         {
@@ -3326,6 +3339,7 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
+
             "time": "2017-12-12T08:27:14+00:00"
         },
         {
@@ -3395,6 +3409,7 @@
                 "debug",
                 "dump"
             ],
+
             "time": "2017-12-11T22:06:16+00:00"
         },
         {
@@ -3541,6 +3556,7 @@
         },
         {
             "name": "yajra/laravel-datatables-buttons",
+
             "version": "v3.1.1",
             "source": {
                 "type": "git",
@@ -3601,6 +3617,7 @@
                 "jquery",
                 "laravel"
             ],
+
             "time": "2017-11-23T00:38:56+00:00"
         },
         {
@@ -3722,6 +3739,7 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
+
             "version": "v8.3.2",
             "source": {
                 "type": "git",
@@ -3788,6 +3806,7 @@
                 "jquery",
                 "laravel"
             ],
+
             "time": "2017-11-02T02:30:46+00:00"
         },
         {
@@ -3846,32 +3865,32 @@
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
-            "version": "1.1.0",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda"
+                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
-                "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8e884e78f9f0eb1329e445619e04456e64d8051d",
+                "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": ">=5.3,<8.0-DEV"
             },
             "require-dev": {
                 "athletic/athletic": "~0.1.8",
                 "ext-pdo": "*",
                 "ext-phar": "*",
-                "phpunit/phpunit": "^6.2.3",
-                "squizlabs/php_codesniffer": "^3.0.2"
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
@@ -3896,7 +3915,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2017-07-22T11:58:36+00:00"
+            "time": "2015-06-14T21:17:01+00:00"
         },
         {
             "name": "hamcrest/hamcrest-php",
@@ -5173,6 +5192,7 @@
         },
         {
             "name": "symfony/yaml",
+
             "version": "v4.0.2",
             "source": {
                 "type": "git",
@@ -5227,6 +5247,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
+
             "time": "2017-12-12T08:41:51+00:00"
         },
         {

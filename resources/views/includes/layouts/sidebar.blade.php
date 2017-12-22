@@ -6,6 +6,7 @@
     Tip 3: you can change the color of the sidebar with data-background-color="white | black"
     -->
     
+
    <div class="logo" style="color: #000000;">
       <a href="#" class="simple-text">
          GESOL  <i style="font-size: 10px;">( v0.2.1 )</i>
@@ -77,15 +78,6 @@
 
 
          @elseif($funcionario_logado->role->peso == 40)    
-
-            <li>
-               <a href="{{ url("/funcionario") }}">
-                  <i class=" mdi mdi-account-multiple"></i> 
-                  <p>Funcionarios</p>
-               </a>
-            </li>             
-
-         @elseif($funcionario_logado->role->peso == 50)    
 
             <li>
                <a href="{{ url("/funcionario") }}">
