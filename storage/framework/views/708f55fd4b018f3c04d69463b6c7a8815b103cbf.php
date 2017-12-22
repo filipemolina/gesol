@@ -235,177 +235,7 @@
       // use configuration item and data specified to show chart
       totalChart.setOption(option);
 
-      //=============================================================================================
-      //=============================================================================================
-      //=============================================================================================
-      //=============================================================================================
-      //=============================================================================================
-
-
-      // var dados2 = [];
-
-      // <?php $__currentLoopData = $resultados['sol_maiores']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
-      //    dados2.push("{value: <?php echo e($sol->total); ?>, name: '<?php echo e($sol->nome); ?>\'}," );
-
-      //    //          {value:335, name:'asdasd'},
-      // <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-               
-      // console.log(dados2);
-
-
-
-
-      var nameList = [];
-      var legendData = [];
-      var seriesData = [];
-      var teste = [];
-      var novo =[];
-      var seriesDataAnoAnterior =[];
-
-      <?php $__currentLoopData = $resultados['sol_maiores']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
-         nameList.push('<?php echo e($sol->nome); ?>');
-         legendData.push('<?php echo e($sol->nome); ?>');
-         //seriesData.push(<?php echo e($sol->total); ?>);
-         //teste.push(<?php echo e($sol->total); ?>, '<?php echo e($sol->nome); ?>');
-
-         seriesData.push({
-            name: '<?php echo e($sol->nome); ?>',
-            value: <?php echo e($sol->total); ?>
-
-        });
-
-         novo.push({
-            name: '<?php echo e($sol->nome); ?>',
-            y: <?php echo e($sol->total); ?>
-
-        });
-
-      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-      <?php $__currentLoopData = $resultados['sol_maiores_ano_anterior']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
-
-         seriesDataAnoAnterior.push({
-            name: '<?php echo e($sol->nome); ?>',
-            value: <?php echo e($sol->total); ?>
-
-        });
-
-      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-         
-    
-      // based on prepared DOM, initialize echarts instance
-      var maioresChart = echarts.init(document.getElementById('sol_maiores'));//,null, {renderer: 'svg'});
       
-      maioresOpcoes = {
-          
-          tooltip : {
-              trigger: 'item',
-              formatter: "{a} <br/>{b} : {c} ({d}%)"
-          },
-          legend: {
-              x : 'center',
-              y : 'bottom',
-              data: legendData
-          },
-          toolbox: {
-              show : true,
-              feature : {
-                  mark : {show: true},
-                  dataView : {show: true, readOnly: false},
-                  magicType : {
-                      show: true,
-                      type: ['pie', 'funnel']
-                  },
-                  restore : {show: true},
-                  saveAsImage : {show: true}
-              }
-          },
-          calculable : true,
-          series : [
-              // {
-              //     name: '<?php echo e($resultados['ano_anterior']); ?>',
-              //     type:'pie',
-              //     radius : [20, 110],
-              //     center : ['25%', '50%'],
-              //     roseType : 'radius',
-              //     label: {
-              //         normal: {
-              //             show: true
-              //         },
-              //         emphasis: {
-              //             show: true
-              //         }
-              //     },
-              //     lableLine: {
-              //         normal: {
-              //             show: false
-              //         },
-              //         emphasis: {
-              //             show: true
-              //         }
-              //     },
-              //     data: seriesDataAnoAnterior
-              // },
-              {
-                
-                  name: '<?php echo e($resultados['ano']); ?>',
-                  type:'pie',
-                  radius : [10, 110],
-                  //center : ['75%', '50%'],
-                  roseType : 'area',
-                  label: {
-                      normal: {
-                          show: false,
-                          fontsize: 10
-                      },
-                      emphasis: {
-                          show: false
-                      }
-                  },
-                  lableLine: {
-                      normal: {
-                          show: false
-                      },
-                      emphasis: {
-                          show: false
-                      }
-                  },
-                  data: seriesData
-              }
-          ]
-      };
-
-
-   
-   
-      maioresChart.setOption(maioresOpcoes);
-
-      // var currentIndex = -1;
-
-      // setInterval(function () {
-      //     var dataLen = option.series[0].data.length;
-
-      //     maioresChart.dispatchAction({
-      //         type: 'downplay',
-      //         seriesIndex: 0,
-      //         dataIndex: currentIndex
-      //     });
-      //     currentIndex = (currentIndex + 1) % dataLen;
-
-      //     maioresChart.dispatchAction({
-      //         type: 'highlight',
-      //         seriesIndex: 0,
-      //         dataIndex: currentIndex
-      //     });
-
-      //     maioresChart.dispatchAction({
-      //         type: 'showTip',
-      //         seriesIndex: 0,
-      //         dataIndex: currentIndex
-      //     });
-      // }, 1000);
-
 
 
       //=============================================================================================
@@ -572,6 +402,121 @@
   
    
       bairroChart.setOption(bairroOpcoes);
+
+
+
+      //=============================================================================================
+      //=============================================================================================
+      //===========  SERVIÇOS MAIS SOLICITADOS                          =============================
+      //=============================================================================================
+      //=============================================================================================
+
+      var nameList = [];
+      var legendData = [];
+      var seriesData = [];
+      var teste = [];
+      var novo =[];
+      var seriesDataAnoAnterior =[];
+
+      <?php $__currentLoopData = $resultados['sol_maiores']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+         nameList.push('<?php echo e($sol->nome); ?>');
+         legendData.push('<?php echo e($sol->nome); ?>');
+
+         seriesData.push({
+            name: '<?php echo e($sol->nome); ?>',
+            value: <?php echo e($sol->total); ?>
+
+        });
+
+         novo.push({
+            name: '<?php echo e($sol->nome); ?>',
+            y: <?php echo e($sol->total); ?>
+
+        });
+
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+        
+    
+      // based on prepared DOM, initialize echarts instance
+      var maioresChart = echarts.init(document.getElementById('sol_maiores'));//,null, {renderer: 'svg'});
+      
+      maioresOpcoes = {
+          
+         tooltip : {
+            trigger: 'axis',
+            axisPointer : {            
+               type : 'shadow'        
+            }
+          },
+
+          legend: {
+              x : 'center',
+              y : 'bottom',
+              data: legendData
+          },
+
+         grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+         },
+
+         xAxis : [
+            {
+               type : 'category',
+               data : legendData
+            }
+         ],
+
+         yAxis : [
+            {
+               type : 'value'
+            }
+         ],
+
+        
+          series : [
+              {
+                
+                  name: '<?php echo e($resultados['ano']); ?>',
+                  type:'bar',
+                  label: {
+                      normal: {
+                          show: false,
+                          fontsize: 10
+                      },
+                      emphasis: {
+                          show: false
+                      }
+                  },
+                  lableLine: {
+                      normal: {
+                          show: false
+                      },
+                      emphasis: {
+                          show: false
+                      }
+                  },
+                  data: seriesData
+              }
+          ]
+      };
+
+  
+      maioresChart.setOption(maioresOpcoes);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
