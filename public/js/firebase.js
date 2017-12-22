@@ -26,7 +26,7 @@ messaging.requestPermission()
 	//Gravar a token no Banco de dados
 
 	$.ajax({
-		url: "https://360.mesquita.rj.gov.br/gesol/api/tokens",
+		url: "https://gesol.mesquita.rj.gov.br/api/tokens",
 		method: "POST",
 		headers: {
 			'Accept'       : 'application/json',
@@ -47,7 +47,7 @@ messaging.requestPermission()
 	console.log("Token desse navegador", token);
 })
 .catch(() => {
-	console.log("Permissão Negada");
+	console.log("Permissão Negadona");
 	$("#btn-permissao").css("display", block);
 });
 
