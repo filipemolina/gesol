@@ -15,7 +15,6 @@ use App\Models\User;
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
-use FCM;
 
 
 //verifica o tipo de acesso que o usuário logado tem no sistema

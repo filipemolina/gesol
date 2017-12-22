@@ -182,6 +182,7 @@ class SolicitacaoController extends Controller
         
         // chama a view de acordo com o tipo de acesso do usuario logado
         //$funcionario_logado->role->acesso
+        
         if($funcionario_logado->role->peso == 10){
             return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario_logado','setores','motivos_recusa','motivos_transferencia','prazo_calculado','motivos_prazo','prazo_em_dias'));
 
