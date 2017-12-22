@@ -111,7 +111,22 @@ if (! function_exists('dashboardPrefeito')) {
          ->groupBy('secretarias.sigla')
          ->orderBy('secretarias.sigla','asc')
          ->get();
+   
+   // ==============================================================================================
+   //    SOLICITAÇÕES POR BAIRRO
+   // ==============================================================================================
 
+      $solicitacoes_bairro = DB::table('enderecos')
+
+         ->join('solicitacoes',   'solicitacoes.id',    '=', 'enderecos.solicitacao_id')
+
+         ->select('enderecos.bairro', DB::raw('count(*) as total'))
+
+         ->where('solicitacoes.created_at','>=', $data_inicio)
+         ->where('solicitacoes.created_at','<=', $data_fim)         
+         ->groupBy('enderecos.bairro')
+         ->orderBy('enderecos.bairro','asc')
+         ->get();
       
    // ==============================================================================================
    // ==============================================================================================   
@@ -129,10 +144,13 @@ if (! function_exists('dashboardPrefeito')) {
       $resultados['sol_maiores']                = $solicitacoes_maiores;
       $resultados['sol_maiores_ano_anterior']   = $solicitacoes_maiores_ano_anterior;
       $resultados['sol_secretaria_total']       = $solicitacoes_secretaria_total;
-      $resultados['sol_secretaria_aberta']       = $solicitacoes_secretaria_aberta;
+      $resultados['sol_secretaria_aberta']      = $solicitacoes_secretaria_aberta;
+
+      $resultados['sol_bairro']                 = $solicitacoes_bairro;
+      
       
 
-      //dd($resultados['sol_maiores']);
+      //dd($resultados['sol_bairro']);
 
       return $resultados;
    }

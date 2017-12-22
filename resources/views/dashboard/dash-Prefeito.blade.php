@@ -50,6 +50,12 @@
 
    <!-- <div id="sol_total" style="width: 600px;height:400px;"></div> -->
 
+
+
+
+
+
+
    <div class="row">
       <div class="col-md-12">
          <div class="card">
@@ -68,6 +74,42 @@
       </div>
    </div>
 
+  <div class="row" style="margin-top: 0px;">
+      <div class="col-md-6">
+         <div class="card" style="padding-bottom: 30px;">
+             <div class="card-header card-header-icon" data-background-color="orange" style="color: #fff;">
+               <i class="material-icons">dashboard</i>
+            </div>
+            <div class="card-content-grafico" style="padding-bottom: 20px">
+               <h4 class="card-title-grafico" style="width: 100% !important;">Solicitações por Secretaria</h4>
+            </div>
+           
+            <div  id='sol_secretaria' style="height:400px;" ></div>
+   
+         </div>
+      </div>
+
+
+      <div class="col-md-6">
+         <div class="card" style="padding-bottom: 30px;">
+             <div class="card-header card-header-icon" data-background-color="orange" style="color: #fff;">
+               <i class="material-icons">dashboard</i>
+            </div>
+            <div class="card-content-grafico" style="padding-bottom: 20px">
+               <h4 class="card-title-grafico" style="width: 100% !important;">Solicitações por Bairros</h4>
+            </div>
+           
+            <div  id='sol_bairro' style="height:400px;" ></div>
+   
+         </div>
+      </div>
+
+   </div>
+
+  
+
+
+
    <div class="row" style="margin-top: 0px;">
       <div class="col-md-12">
          <div class="card" style="padding-bottom: 30px;">
@@ -85,21 +127,6 @@
    </div>
 
 
-<div class="row" style="margin-top: 0px;">
-      <div class="col-md-8">
-         <div class="card" style="padding-bottom: 30px;">
-             <div class="card-header card-header-icon" data-background-color="orange" style="color: #fff;">
-               <i class="material-icons">dashboard</i>
-            </div>
-            <div class="card-content-grafico" style="padding-bottom: 20px">
-               <h4 class="card-title-grafico" style="width: 100% !important;">Solicitações por Secretaria</h4>
-            </div>
-           
-            <div  id='sol_secretaria' style="height:400px;" ></div>
-   
-         </div>
-      </div>
-   </div>
   
 
 
@@ -294,43 +321,44 @@
           },
           calculable : true,
           series : [
+              // {
+              //     name: '{{ $resultados['ano_anterior'] }}',
+              //     type:'pie',
+              //     radius : [20, 110],
+              //     center : ['25%', '50%'],
+              //     roseType : 'radius',
+              //     label: {
+              //         normal: {
+              //             show: true
+              //         },
+              //         emphasis: {
+              //             show: true
+              //         }
+              //     },
+              //     lableLine: {
+              //         normal: {
+              //             show: false
+              //         },
+              //         emphasis: {
+              //             show: true
+              //         }
+              //     },
+              //     data: seriesDataAnoAnterior
+              // },
               {
-                  name: '{{ $resultados['ano_anterior'] }}',
-                  type:'pie',
-                  radius : [20, 110],
-                  center : ['25%', '50%'],
-                  roseType : 'radius',
-                  label: {
-                      normal: {
-                          show: true
-                      },
-                      emphasis: {
-                          show: true
-                      }
-                  },
-                  lableLine: {
-                      normal: {
-                          show: false
-                      },
-                      emphasis: {
-                          show: true
-                      }
-                  },
-                  data: seriesDataAnoAnterior
-              },
-              {
+                
                   name: '{{ $resultados['ano'] }}',
                   type:'pie',
-                  radius : [30, 110],
-                  center : ['75%', '50%'],
+                  radius : [10, 110],
+                  //center : ['75%', '50%'],
                   roseType : 'area',
                   label: {
                       normal: {
-                          show: true,
+                          show: false,
                           fontsize: 10
                       },
                       emphasis: {
-                          show: true
+                          show: false
                       }
                   },
                   lableLine: {
@@ -338,7 +366,7 @@
                           show: false
                       },
                       emphasis: {
-                          show: true
+                          show: false
                       }
                   },
                   data: seriesData
@@ -462,6 +490,83 @@
       //=============================================================================================
       //=============================================================================================
       //=============================================================================================
+
+
+      var nameList = [];
+      var legendData = [];
+      var seriesData = [];
+      var teste = [];
+      var novo =[];
+      var seriesDataAnoAnterior =[];
+
+      @foreach($resultados['sol_bairro'] as $sol) 
+         nameList.push('{{ $sol->bairro }}');
+         legendData.push('{{ $sol->bairro }}');
+
+         seriesData.push({
+            name: '{{ $sol->bairro }}',
+            value: {{ $sol->total }}
+        });
+
+         novo.push({
+            name: '{{ $sol->bairro }}',
+            y: {{ $sol->total }}
+        });
+
+      @endforeach
+
+        
+    
+      // based on prepared DOM, initialize echarts instance
+      var bairroChart = echarts.init(document.getElementById('sol_bairro'));//,null, {renderer: 'svg'});
+      
+      bairroOpcoes = {
+          
+          tooltip : {
+              trigger: 'item',
+              formatter: "{b} : {c} <br/> ({d}%)"
+          },
+          legend: {
+              type: 'scroll',
+              orient: 'vertical',
+              right: 10,
+              top: 20,
+              bottom: 20,
+              data: legendData
+          },
+          calculable : true,
+          series : [
+             {
+                  
+                  type:'pie',
+                  radius : [20, 110],
+                  
+                  roseType : 'area',
+                  label: {
+                      normal: {
+                          show: true,
+                          fontsize: 10
+                      },
+                      emphasis: {
+                          show: true
+                      }
+                  },
+                  lableLine: {
+                      normal: {
+                          show: false
+                      },
+                      emphasis: {
+                          show: true
+                      }
+                  },
+                  data: seriesData
+              }
+          ]
+      };
+  
+   
+      bairroChart.setOption(bairroOpcoes);
+
 
 
 
