@@ -79,7 +79,9 @@ Route::post('trilha',									'SolicitacaoController@trilha');
 // Rota para preencher o select de setores na edição/criação de funcionarios
 Route::get('setor','FuncionarioController@setor');
 
-
+// Rota para preencher os comunicados do prefeito
+Route::get('comunicados', 'HomeController@comunicados');
+Route::get('comunicados/create', 'HomeController@create');
 
 //resources
 Route::resource('solicitante',	'SolicitanteController');

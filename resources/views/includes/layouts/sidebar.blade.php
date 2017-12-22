@@ -139,6 +139,13 @@
            
          @endif
 
+         <li>
+            <a href="{{ url("/comunicados") }}">
+               <i class="material-icons">chat bubble</i>
+               <p>Comunicados</p>
+            </a>
+         </li>
+
 
       </ul>
    </div>
