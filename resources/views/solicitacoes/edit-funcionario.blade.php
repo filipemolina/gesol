@@ -92,15 +92,17 @@ Andamento de Solicitação
                            </a>
                         </div>
 
-                        <div class="endereco" style="margin-left:36px; margin-top: -26px;"
-                           onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
-                           <i class="material-icons" style="font-size: 20px; ">place</i>  
+                        @if($solicitacao->endereco)
+                           <div class="endereco" style="margin-left:36px; margin-top: -26px;"
+                              onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
+                              <i class="material-icons" style="font-size: 20px; ">place</i>  
 
-                           {{ $solicitacao->endereco->logradouro }} 
-                           {{ $solicitacao->endereco->numero }} -
-                           {{ $solicitacao->endereco->bairro }} -
-                           {{ $solicitacao->endereco->cep }} 
-                        </div>
+                              {{ $solicitacao->endereco->logradouro }} 
+                              {{ $solicitacao->endereco->numero }} -
+                              {{ $solicitacao->endereco->bairro }} -
+                              {{ $solicitacao->endereco->cep }} 
+                           </div>
+                        @endif
                          
                      </div>
                   </div>
