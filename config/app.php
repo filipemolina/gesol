@@ -233,8 +233,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
-	'FCM'      => LaravelFCM\Facades\FCM::class,
-	'FCMGroup' => LaravelFCM\Facades\FCMGroup::class
+    	'FCM'      => LaravelFCM\Facades\FCM::class,
+    	'FCMGroup' => LaravelFCM\Facades\FCMGroup::class
 
     ],
 

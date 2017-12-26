@@ -34,6 +34,27 @@ Route::put 	('/salvaavatar',   		'UserController@SalvarAvatar');
 //caminho para alterar o status do usuario ATIVO/INATIVO
 Route::post('/mudastatus',				'UserController@MudaStatus');
 
+//caminho para envio de emails
+Route::post('/senhafuncionario',			'EmailController@EnviarSenhaFuncionario');
+Route::post('/zerarsenhafuncionario',	'EmailController@ZerarSenhaFuncionario');
+
+
+
+
+// Rota para o dataTables da dashboard
+Route::get('solicitacao/datatables/{liberado}', 'SolicitacaoController@dados');
+// Rota para o controle de moderação
+Route::post('modera',									'SolicitacaoController@modera');
+// Rota para alteração de status da solicitação
+Route::post('status',									'SolicitacaoController@status');
+// Rota inserir dados de trilha
+Route::post('trilha',									'SolicitacaoController@trilha');
+
+
+
+
+// Rota para preencher o select de setores na edição/criação de funcionarios
+Route::get('setor','FuncionarioController@setor');
 
 
 //caminho para envio de emails
@@ -58,7 +79,9 @@ Route::post('trilha',									'SolicitacaoController@trilha');
 // Rota para preencher o select de setores na edição/criação de funcionarios
 Route::get('setor','FuncionarioController@setor');
 
-
+// Rota para preencher os comunicados do prefeito
+Route::get('comunicados', 'HomeController@comunicados');
+Route::get('comunicados/create', 'HomeController@create');
 
 //resources
 Route::resource('solicitante',	'SolicitanteController');

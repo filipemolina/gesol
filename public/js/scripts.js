@@ -36,17 +36,10 @@ var helper = {
     }, //Fim showSwal1
 }; //Fim Helper
 
-
-
-
-
-
 // Mascaras
-  VMasker ($("#cpf")).maskPattern("999.999.999-99");
-  VMasker ($("#matricula")).maskPattern("99/99.999-9");
-  VMasker ($(".datepicker")).maskPattern("99/99/9999");
-
-
+VMasker ($("#cpf")).maskPattern("999.999.999-99");
+VMasker ($("#matricula")).maskPattern("99/99.999-9");
+VMasker ($(".datepicker")).maskPattern("99/99/9999");
     
 $(function(){
   
@@ -152,7 +145,7 @@ $(function(){
 
             });
 
-    })
+    });
 
     //Botão desfazer, exibir coment-fix, ocultar botão desfazer, demonstrar botões editar e excluir
     $('.btn-coment-des').click(function () {
@@ -228,17 +221,19 @@ function enviarComentario(elem, e){
    // Executar essa função apenas se a tecla pressionada for o Enter ou caso nenhuma tecla tenha
    // sido pressionada (click)
 
+   console.log("KeyCode", e.keyCode);
+
    if(e.keyCode == "13" || typeof e.keyCode === 'undefined'){
 
       let solicitacao = $(elem).data('solicitacao');
       let funcionario = $(elem).data('funcionario');
 
-      var comentario = $(".comentario_"+solicitacao).val().trim();
+      var comentario = $("textarea.comentario_"+solicitacao).val().trim();
 
       // Testar se a comentario está em branco
-      if( $(".comentario_"+solicitacao).val().trim() ) 
+      if(comentario)
       {
-
+        console.log("Vai enviar a solicitação");
          // Enviar a comentario para o banco
          $.post(
             url_base+"/comentario",
@@ -251,6 +246,8 @@ function enviarComentario(elem, e){
                {
 
                   let dados = JSON.parse(resposta);
+
+                  console.log("Resposta", dados);
 
                   // Apagar o campo de envio de comentario
                   $(".comentario_"+solicitacao).val("");

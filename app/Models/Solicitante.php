@@ -13,6 +13,7 @@ class Solicitante extends Model
         'email',
         'fb_uid',
         'fb_token',
+        'fcm_id',
         'celular',
         'sexo',
         'telefone',
