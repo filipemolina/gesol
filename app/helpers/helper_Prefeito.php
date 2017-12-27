@@ -18,11 +18,11 @@ use Carbon\Carbon;
 if (! function_exists('dashboardPrefeito')) {
    function dashboardPrefeito(){
 
-      $resultados = [];
-   
+
       $resultados = [];
       $funcionario_logado              = Funcionario::find(Auth::user()->funcionario_id);
-      $secretaria_funcionario_logado   = $funcionario_logado->setor->secretaria->id;
+      
+      //$secretaria_funcionario_logado   = $funcionario_logado->setor->secretaria->id;
 
       //limites de datas para pegar apenas as solicitações do ANO ANTERIOR
       $ano_anterior              = Carbon::now()->year-1;
@@ -79,6 +79,9 @@ if (! function_exists('dashboardPrefeito')) {
          ->orderBy('total','desc')
          ->take(10)->get();
 
+
+
+
    // ==============================================================================================
    //    SOLICITAÇÕES POR SECRETARIAS
    // ==============================================================================================
@@ -93,7 +96,7 @@ if (! function_exists('dashboardPrefeito')) {
          ->where('solicitacoes.created_at','>=', $data_inicio)
          ->where('solicitacoes.created_at','<=', $data_fim)         
          ->groupBy('secretarias.sigla')
-         ->orderBy('secretarias.sigla','asc')
+         ->orderBy('secretarias.sigla','desc')
          ->get();
 
       $solicitacoes_secretaria_aberta = DB::table('solicitacoes')
@@ -109,7 +112,7 @@ if (! function_exists('dashboardPrefeito')) {
          ->where('solicitacoes.status','<>', 'Recusada')         
 
          ->groupBy('secretarias.sigla')
-         ->orderBy('secretarias.sigla','asc')
+         ->orderBy('secretarias.sigla','desc')
          ->get();
    
    // ==============================================================================================
@@ -127,6 +130,29 @@ if (! function_exists('dashboardPrefeito')) {
          ->groupBy('enderecos.bairro')
          ->orderBy('enderecos.bairro','asc')
          ->get();
+
+
+
+   // ==============================================================================================
+   //    SERVIÇOS MAIS SOLICITADOS  POR SECRETARIAS
+   // ==============================================================================================
+
+      $servicos_mais_solicitados_secretaria = DB::table('solicitacoes')
+         ->join('servicos',   'servicos.id',    '=', 'solicitacoes.servico_id')
+         ->join('setores',    'setores.id',     '=', 'servicos.setor_id')
+         ->join('secretarias','secretarias.id', '=', 'setores.secretaria_id')
+
+         ->select('secretarias.sigla as secretaria','servicos.nome', DB::raw('count(*) as total'))
+
+         ->where('solicitacoes.created_at','>=', $data_inicio)
+         ->where('solicitacoes.created_at','<=', $data_fim)         
+         ->groupBy('secretarias.sigla','servicos.nome')
+         ->orderBy('servicos.nome','asc')
+         ->orderBy('total','desc')
+         ->get();
+
+
+
       
    // ==============================================================================================
    // ==============================================================================================   
@@ -147,10 +173,13 @@ if (! function_exists('dashboardPrefeito')) {
       $resultados['sol_secretaria_aberta']      = $solicitacoes_secretaria_aberta;
 
       $resultados['sol_bairro']                 = $solicitacoes_bairro;
+
+      $resultados['ser_mais_solicitados_secretaria'] = $servicos_mais_solicitados_secretaria;
+
       
       
 
-      //dd($resultados['sol_bairro']);
+      //dd($resultados['ser_mais_solicitados_secretaria']);
 
       return $resultados;
    }

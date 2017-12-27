@@ -119,8 +119,17 @@
             <div class="card-content-grafico" style="padding-bottom: 20px">
                <h4 class="card-title-grafico" style="width: 100% !important;">Serviços mais solicitados</h4>
             </div>
+            <label class="control-label" style="margin-left: 20px;">Secretaria</label>
+
+            <select name="select_secretaria" id="select_secretaria" class="dourado selectpicker error"  data-style="select-with-transition has-dourado" data-size="7" >
+
+               @foreach($secretarias as $secretaria)
+                  <option value="{{$secretaria->id}}">{{$secretaria->nome}}</option>  
+               @endforeach
+
+            </select>
            
-            <div  id='sol_maiores' style="height:400px;" ></div>
+            <div  id='ser_mais_solicitados_secretaria' style="height:400px;" ></div>
    
          </div>
       </div>
@@ -354,7 +363,9 @@
       var bairroChart = echarts.init(document.getElementById('sol_bairro'));//,null, {renderer: 'svg'});
       
       bairroOpcoes = {
-          
+         
+         
+
           tooltip : {
               trigger: 'item',
               formatter: "{b} : {c} <br/> ({d}%)"
@@ -370,23 +381,28 @@
           calculable : true,
           series : [
              {
-                  
+  
                   type:'pie',
-                  radius : [20, 110],
+                  radius : [10, 130],
+
+                  hoverOffset: 20,
+                  selectedOffset: 30,
+
                   
-                  roseType : 'area',
+                  
                   label: {
                       normal: {
                           show: true,
-                          fontsize: 10
+                          fontsize: 10,
                       },
                       emphasis: {
                           show: true
                       }
+                      
                   },
                   lableLine: {
                       normal: {
-                          show: false
+                          show: true
                       },
                       emphasis: {
                           show: true
@@ -404,37 +420,29 @@
 
       //=============================================================================================
       //=============================================================================================
-      //===========  SERVIÇOS MAIS SOLICITADOS                          =============================
+      //===========  SERVIÇOS MAIS SOLICITADOS  POR SECRETARIAS         =============================
       //=============================================================================================
       //=============================================================================================
 
-      var nameList = [];
       var legendData = [];
       var seriesData = [];
-      var teste = [];
-      var novo =[];
+      
       var seriesDataAnoAnterior =[];
 
-      @foreach($resultados['sol_maiores'] as $sol) 
-         nameList.push('{{ $sol->nome }}');
-         legendData.push('{{ $sol->nome }}');
+      @foreach($resultados['ser_mais_solicitados_secretaria'] as $sol) 
+
+         legendData.push('{{ $sol->secretaria }}');
 
          seriesData.push({
             name: '{{ $sol->nome }}',
             value: {{ $sol->total }}
         });
-
-         novo.push({
-            name: '{{ $sol->nome }}',
-            y: {{ $sol->total }}
-        });
-
       @endforeach
 
         
     
       // based on prepared DOM, initialize echarts instance
-      var maioresChart = echarts.init(document.getElementById('sol_maiores'));//,null, {renderer: 'svg'});
+      var maioresChart = echarts.init(document.getElementById('ser_mais_solicitados_secretaria'));//,null, {renderer: 'svg'});
       
       maioresOpcoes = {
           
@@ -461,7 +469,8 @@
          xAxis : [
             {
                type : 'category',
-               data : legendData
+               data : legendData,
+
             }
          ],
 
@@ -475,7 +484,6 @@
           series : [
               {
                 
-                  name: '{{ $resultados['ano'] }}',
                   type:'bar',
                   label: {
                       normal: {
@@ -501,17 +509,6 @@
 
   
       maioresChart.setOption(maioresOpcoes);
-
-
-
-
-
-
-
-
-
-
-
 
 
 
