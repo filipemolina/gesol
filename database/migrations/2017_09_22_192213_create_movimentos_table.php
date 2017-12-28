@@ -28,13 +28,14 @@ class CreateMovimentosTable extends Migration
                                 'Respondeu',
                                 'Alterou',
                                 'Recusou',
-
+                                'Leu',
                             ]);
 
 
             //------------------------FOREIGN--------------------------------
             $table->integer('solicitacao_id')   ->unsigned();
-            $table->integer('funcionario_id')   ->unsigned();
+            $table->integer('funcionario_id')   ->unsigned()    ->nullable();
+            $table->integer('solicitante_id')   ->unsigned()    ->nullable();
             $table->bigInteger('comentario_id') ->unsigned()    ->nullable();
             //---------------------------------------------------------------
 

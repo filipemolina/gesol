@@ -211,7 +211,9 @@ $(function(){
         }else {
             $(isto).find('i').addClass('animated girar')
         }
-    })
+    });
+
+    atualizarNotificacoes();
 
 });
 
@@ -270,7 +272,7 @@ function enviarComentario(elem, e){
 
                   //posiciona a div "scrolavel" para o final
                   var objDiv = document.getElementById("div-comentarios");
-                  objDiv.scrollTo(0, objDiv.scrollHeight);
+                  objDiv.scrollTop = objDiv.scrollHeight;
             }      
             ).fail(function(erro){
                demo.notificationRight("top", "right", "rose", "Sessão do usuário expirada. Você será redirecionado a tela de Login em alguns segundos!"); 
@@ -305,3 +307,30 @@ function comentarioAutomatico(sol, fun, com){
 }
 
 
+function atualizarNotificacoes(){
+
+  console.log("Chamou aualizar notificações");
+
+  // Mostrar o número correto de notificações
+
+    $.post("https://gesol.mesquita.rj.gov.br/naolidas/" + setor_id, { _token: token }, function(data){
+      
+      let dados = JSON.parse(data);
+
+      // Atualizar o número de notificaçoes
+
+      if(dados.qtd){
+        $("<span class='notification'>"+dados.qtd+"</span>").insertAfter('#icone-notificacoes');
+      }
+
+      // Atualizar a lista de notificações
+
+      for(i=0; i < dados.links.length; i++){
+
+        $("#lista-notificacoes").append(dados.links[i]);
+
+      }
+
+    });
+
+}

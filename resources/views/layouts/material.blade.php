@@ -81,12 +81,18 @@
     	    let nome  = "{{ $funcionario_logado->nome }}";
             let user_id = {{ $funcionario_logado->user->id }};
     	    let setor = "{{ $funcionario_logado->setor->nome }}";
+            let setor_id = "{{ $funcionario_logado->setor->id }}";
     	    let sigla = "{{ $funcionario_logado->setor->secretaria->sigla }}";
             let tokenGesol = "{{ $funcionario_logado->user->createToken('Web')->accessToken }}";
+
+            let qtd_notificacoes = 0;
+            let notificacoes = [];
         </script>
 
         <!-- Firebase - Enviar e receber notificações do google -->
         <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+
+        <script src="https://maps.google.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
 
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"  type="text/javascript"></script>
         <script src="{{ asset('js/jquery-ui.min.js') }}" type="text/javascript"></script>
@@ -99,7 +105,6 @@
 
         <script src="{{ asset('js/moment.min.js') }}"></script>
 
-
         <script src="{{ asset('js/chartist.min.js') }}"></script>
 
         <script src="{{ asset('js/jquery.bootstrap-wizard.js') }}"></script>
@@ -111,8 +116,6 @@
         <script src="{{ asset('js/jquery-jvectormap.js') }}"></script>
 
         <script src="{{ asset('js/nouislider.min.js') }}"></script>
-
-        <script src="https://maps.google.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
 
         <script src="{{ asset('js/jquery.select-bootstrap.js') }}"></script>
 
@@ -127,10 +130,10 @@
         <script src="{{ asset('js/demo.js') }}"></script>
 
         {{-- Vanilla Masker --}}
+
         <script src="{{ asset('js/vanillaMasker.min.js') }}"></script>
 
         <script src="{{ asset('js/echarts-en.min.js') }}"></script>
-
 
         {{-- DataTables --}}
 
@@ -146,11 +149,11 @@
         {{-- Funções Javascript --}}
         <script src="{{ asset('js/functions.js') }}"></script>
 
-        {{-- Funções do Firebase --}}
-        <script src="{{ asset('js/firebase.js') }}"></script>
-
         {{-- Javascript do Projeto --}}
         <script src="{{ asset('js/scripts.js') }}"></script>
+
+        {{-- Funções do Firebase --}}
+        <script src="{{ asset('js/firebase.js') }}"></script>
 
         @stack('scripts')
 

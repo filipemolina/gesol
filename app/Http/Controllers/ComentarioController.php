@@ -47,6 +47,9 @@ class ComentarioController extends Controller
         ]);
 
         $comentario = new Comentario($request->all());
+        $comentario->lida = true;
+        $comentario->save();
+        
 	    $solicitacao = Solicitacao::find($request->solicitacao_id);
 
         // Associar com uma solicitação e um funcionário
@@ -93,7 +96,7 @@ class ComentarioController extends Controller
     
     public function show($id)
     {
-        //
+        return Comentario::where('id', $id)->with('solicitacao.solicitante')->first()->toJson();
     }
 
     

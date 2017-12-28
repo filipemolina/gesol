@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Solicitacao;
 use App\Models\Solicitante;
 use App\Models\Endereco;
+use App\Models\FCM_Token;
 
 class SolicitacoesController extends Controller
 {
@@ -58,7 +59,6 @@ class SolicitacoesController extends Controller
     public function store(Request $request)
     {
         // Validar a requisição
-
         $this->validate($request, [
             'conteudo'       => 'required',
             'logradouro'     => 'required',
@@ -77,16 +77,31 @@ class SolicitacoesController extends Controller
 
         $solicitacao = $solicitante->solicitacoes()->create($request->all());
 
-	// Obter o prazo padrão para o tipo de serviço selecionado
+    	// Obter o prazo padrão para o tipo de serviço selecionado
+    	$prazo = $solicitacao->servico->prazo;
 
-	$prazo = $solicitacao->servico->prazo;
+    	// Gravar o prazo padrão no momento da criação da solicitação
+    	$solicitacao->prazo = $prazo;
+    	$solicitacao->save();
 
-	// Gravar o prazo padrão no momento da criação da solicitação
-
-	$solicitacao->prazo = $prazo;
-	$solicitacao->save();
-
+        // Gravar o endereço
         $solicitacao->endereco()->create($request->all());
+
+        // Enviar uma notificação para os navegadores atualizarem-se
+
+        $tokens = FCM_Token::where('celular', 0)->whereHas('user.funcionario.setor', function($query) use ($solicitacao)
+        {
+            // Buscar apenas pelas tokens dos funcionários que pertençam ao setor da solicitação feita
+            $query->where('id', $solicitacao->servico->setor->id);
+
+        })->get()->pluck('token')->toArray();
+
+        $dados = [
+            'operacao' => 'atualizar',
+            'acao'     => 'atualizar'
+        ];
+
+        enviarNotificacao("Nova Solicitação", $solicitacao->servico->setor->secretaria->nome, $tokens, $dados);
 
         return $solicitacao->toJson();
     }
@@ -135,33 +150,57 @@ class SolicitacoesController extends Controller
     {
         $solicitacao = Solicitacao::find($id);
 
-	if($solicitacao){
+    	if($solicitacao){
 
-		if($solicitacao->status == "Aberta"){
+    		if($solicitacao->status == "Aberta"){
 
-		    $solicitacao->delete();
+                $id_solicitacao = $solicitacao->id;
 
-	    	$resposta = new \stdClass();
-	    	$resposta->status = true;
+    		    $solicitacao->delete();
 
-	    	return json_encode($resposta);
+                // Enviar uma notificação para que os navegadores atualizem-se
 
-		} else {
+                $tokens = FCM_Token::where('celular', 0)->whereHas('user.funcionario.setor', function($query) use ($solicitacao)
+                {
+                    // Buscar apenas os tokens de funcionários do mesmo setor da solicitação relacionada ao comentário
 
-	    	$resposta = new \stdClass();
-	    	$resposta->status = false;
-	    	$resposta->mensagem = "Essa solicitação não pode ser excluída pois já está sendo analisada pela Prefeitura.";
+                    $query->where('id', $solicitacao->servico->setor->id);
 
-	    	return json_encode($resposta);
+                })->get()->pluck('token')->toArray();
 
-		}
-	} else {
+                $dados = [
+                    'operacao' => 'atualizar',
+                    'acao'     => 'atualizar'
+                ];
 
-		$resposta = new \stdClass();
-		$resposta->status = false;
-		$resposta->mensagem = "Essa solicitação não existe.";
+                $resultados = enviarNotificacao("Solicitacao ".$solicitacao->id, "Excluída pelo próprio usuário", $tokens, $dados);
 
-	}
+    	    	$resposta = new \stdClass();
+    	    	$resposta->status = true;
+                $resposta->resultados = $resultados;
+
+                //////////////////// Auditar
+
+                trilha_solicitante_exclui_solicitacao($solicitacao->solicitante->id, $solicitacao->id);
+
+    	    	return json_encode($resposta);
+
+    		} else {
+
+    	    	$resposta = new \stdClass();
+    	    	$resposta->status = false;
+    	    	$resposta->mensagem = "Essa solicitação não pode ser excluída pois já está sendo analisada pela Prefeitura.";
+
+    	    	return json_encode($resposta);
+
+    		}
+    	} else {
+
+    		$resposta = new \stdClass();
+    		$resposta->status = false;
+    		$resposta->mensagem = "Essa solicitação não existe.";
+
+    	}
     }
 
     /**
@@ -208,12 +247,6 @@ class SolicitacoesController extends Controller
 	}
 
         return $solicitacoes->toJson();
-
-    }
-
-    public function scroll(Request $request){
-
-
 
     }
 

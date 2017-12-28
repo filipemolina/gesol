@@ -148,6 +148,10 @@
 @push('scripts')
 
 <script type="text/javascript">
+
+   // Variáveis que guardam as referências para as tablas com o propósito de autalizá-las programaticamente
+   let tabelas = [];
+
    $(function(){
       {{-- Testar se há algum erro, e mostrar a notificação --}}
       @if ($errors->any())
@@ -164,7 +168,7 @@
       } );
 
 
-      $("#tabela-solicitacoes-ativas").DataTable({
+      tabelas.push($("#tabela-solicitacoes-ativas").DataTable({
          responsive : true,
          processing: true,
          serverSide: true,
@@ -208,9 +212,9 @@
          ],
 
          
-      });
+      }));
 
-      $("#tabela-solicitacoes-solucionada").DataTable({
+      tabelas.push($("#tabela-solicitacoes-solucionada").DataTable({
          responsive : true,
          processing: true,
          serverSide: true,
@@ -247,10 +251,10 @@
             { width:       "40%",         "targets": [2] },
             { width:       "10%",         "targets": [1] }
          ]
-      });
+      }));
 
 
-      $("#tabela-solicitacoes-nao-liberadas").DataTable({
+      tabelas.push($("#tabela-solicitacoes-nao-liberadas").DataTable({
          responsive : true,
          processing: true,
          serverSide: true,
@@ -286,9 +290,9 @@
             { width:       "40%",         "targets": [2] },
 
          ]
-      });
+      }));
 
-      $("#tabela-solicitacoes-recusadas").DataTable({
+      tabelas.push($("#tabela-solicitacoes-recusadas").DataTable({
          responsive : true,
          processing: true,
          serverSide: true,
@@ -324,7 +328,7 @@
             { width:       "40%",         "targets": [2] },
 
          ]
-      });
+      }));
 
 
    });

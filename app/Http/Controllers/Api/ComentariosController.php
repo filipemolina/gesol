@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Comentario;
+use App\Models\FCM_Token;
+use App\Models\Solicitacao;
 
 class ComentariosController extends Controller
 {
@@ -52,11 +54,37 @@ class ComentariosController extends Controller
             'solicitacao_id' => 'required'
         ]);
 
+        // Criar o comentário
+
         $comentario = new Comentario($request->all());
 
         $comentario->solicitacao_id = $request->solicitacao_id;
 
         $comentario->save();
+
+        // Obter a solicitação relacionada ao comentário
+
+        $solicitacao = Solicitacao::find($request->solicitacao_id);
+
+        // Enviar uma notificação para que os navegadores atualizem-se
+
+        $tokens = FCM_Token::where('celular', 0)->whereHas('user.funcionario.setor', function($query) use ($solicitacao)
+        {
+            // Buscar apenas os tokens de funcionários do mesmo setor da solicitação relacionada ao comentário
+
+            $query->where('id', $solicitacao->servico->setor->id);
+
+        })->get()->pluck('token')->toArray();
+
+        $dados = [
+            'operacao' => 'atualizar',
+            'acao'     => 'atualizar',
+            'model'    => 'comentario',
+            'solicitacao' => $request->solicitacao_id,
+            'comentario_id' => $comentario->id
+        ];
+
+        enviarNotificacao("Novo Comentário na Solicitacao ".$request->solicitacao_id, substr($request->comentario, 0, 140), $tokens, $dados);
 
         return json_encode(["ok" => "ok"]);
     }

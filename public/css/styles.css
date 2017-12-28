@@ -2298,12 +2298,21 @@ table.tile_info span.right {
 
 .copyright{
   text-align: center!important;
-=======
+}
+
 .icon-secretaria{
     background-color: #696969 !important;
     margin: -5px 68px !important;
     padding: 10px 10px !important;
     width: 50px !important;
     height: 50px !important;
->>>>>>> ee6461fd88545b4d7989da653a177d1a0487c2b1
+}
+
+.table td { position: relative; }
+
+/*  */
+span.badge.nao_lidas {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
 }
