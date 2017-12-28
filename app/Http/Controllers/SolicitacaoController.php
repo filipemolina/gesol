@@ -603,11 +603,12 @@ class SolicitacaoController extends Controller
                     $tokens = Solicitante::all()->pluck('fcm_id')->toArray();
 
                     $dados = [
-                        'acao' => 'recarregar',
+                        'operacao' => 'atualizar',
+                        'acao'     => 'atualizar',
                         'model' => 'solicitacoes'
                     ];
 
-                    enviarDadosParaApp($tokens, $dados);
+                    enviarNotificacao("Solicitacao $solicitacao->id liberada", "", $tokens, $dados);
 
                     return redirect('/solicitacao');
                 }
@@ -640,6 +641,11 @@ class SolicitacaoController extends Controller
         return ("OK");
     }
 
+    /**
+     * Retorna o número de solicitações com mensagens não lidas e um texto para cada uma delas
+     * para que seja colocado na lista de notificações dos funcionários 
+     */
+
     public function naoLidas($setor_id){
 
         // Obter as solicitações não lidas de um setor (solicitações com comentários não lidos)
@@ -660,7 +666,7 @@ class SolicitacaoController extends Controller
 
         foreach($nao_lidas as $nao_lida){
 
-            $links[] = "<li><a href='https://gesol.mesquita.rj.gov.br/solicitacao/$nao_lida->id/edit'>Mensagens não lidas na Solicitação $nao_lida->id</a><li>";
+            $links[] = "<li><a href='https://gesol.mesquita.rj.gov.br/solicitacao/$nao_lida->id/edit'><i class='material-icons' style='margin-right: 5px'>message</i>Mensagens não lidas na Solicitação $nao_lida->id</a><li>";
 
         }
 

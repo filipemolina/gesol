@@ -82,6 +82,18 @@ messaging.onMessage(function(payload){
 
 		}
 
+		if(payload.data.motivo == "nova" && payload.data.model == "solicitacao"){
+
+			// Adicionar um link para a nova solicitação na lista de notificações
+			$("#lista-notificacoes").prepend("<li><a href='https://gesol.mesquita.rj.gov.br/solicitacao/"+payload.data.solicitacao_id+"/edit'><i class='material-icons'>new_releases</i> Nova Solicitacao ID : "+payload.data.solicitacao_id+"</a></li>");
+
+			// Incrementar o número de notificações
+			let novo_valor = parseInt($("span.notification").html()) + 1;
+
+			$("span.notification").html(novo_valor);
+
+		}
+
 		if(url.includes('solicitacao') && url.includes('edit') && url.includes(payload.data.solicitacao)){
 			
 			// Obter os dados do comentário que acabou de chegar

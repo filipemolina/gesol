@@ -98,10 +98,13 @@ class SolicitacoesController extends Controller
 
         $dados = [
             'operacao' => 'atualizar',
-            'acao'     => 'atualizar'
+            'acao'     => 'atualizar',
+            'model'    => 'solicitacao',
+            'motivo'   => 'nova',
+            'solicitacao_id' => $solicitacao->id,
         ];
 
-        enviarNotificacao("Nova Solicitação", $solicitacao->servico->setor->secretaria->nome, $tokens, $dados);
+        enviarNotificacao("Nova Solicitação", "ID $solicitacao->id", $tokens, $dados);
 
         return $solicitacao->toJson();
     }
