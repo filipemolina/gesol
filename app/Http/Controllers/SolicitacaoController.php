@@ -648,7 +648,7 @@ class SolicitacaoController extends Controller
 
     public function naoLidas($setor_id){
 
-        // Obter as solicitações não lidas de um setor (solicitações com comentários não lidos)
+        // Obter as solicitações de um setor que possuam comentários não lidos
 
         $nao_lidas = Solicitacao::whereHas('comentarios', function($query){
 
