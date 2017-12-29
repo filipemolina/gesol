@@ -11,7 +11,6 @@ use LaravelFCM\Message\PayloadNotificationBuilder;
 use FCM;
 use App\Models\Solicitacao;
 use App\Models\Solicitante;
-use App\Models\Secretaria;
 use App\Models\Funcionario;
 use App\Models\Endereco;
 use App\Models\User;
@@ -30,7 +29,6 @@ class HomeController extends Controller
    public function index()
    {
 
-      $secretarias           = Secretaria::all()->sortBy('nome');
       $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
       if( Solicitacao::count() > 0)
@@ -53,7 +51,7 @@ class HomeController extends Controller
             case 100: $viu='dash-TI'            ; $resultados = dashboardTI();            break;   //DSV
          }
 
-         return view('dashboard.'.$viu, compact('funcionario_logado', 'resultados','secretarias'));
+         return view('dashboard.'.$viu, compact('funcionario_logado', 'resultados'));
 
       }else{
          dd("Nenhuma solicitação cadastrada");

@@ -76,8 +76,7 @@ class SolicitacaoController extends Controller
 
                 case 80:
                     //"Prefeito"
-                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
-                    //dd($funcionario_logado->role->acesso);
+                    dd($funcionario_logado->role->acesso);
                     break;                    
 
                 case 90:
@@ -373,7 +372,9 @@ class SolicitacaoController extends Controller
         // Aqui  os botões PADRÃO serão criados, de acordo com a role do usuario será
         // atearada no SWITCH abaixo
         $padrao = "  <a href='" .url('solicitacao/{id}/edit')    
-                    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a>";
+                    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a><a href='" 
+                    .url('solicitacao/{id}')         
+                    ."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
 
         // Vetor que vai guardar uma estrutura da seguinte forma:
         //
@@ -435,7 +436,6 @@ class SolicitacaoController extends Controller
                                             ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
 
-
                 foreach($solicitacoes as $solicitacao){
 
                     $nao_lidas[$solicitacao->id] = $solicitacao->comentarios()->where('lida', 0)->get()->count();
@@ -443,7 +443,6 @@ class SolicitacaoController extends Controller
                 }
 
                 $padrao = "<a href='" .url('solicitacao/{id}')."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
-
 
                 break;
 
@@ -529,7 +528,6 @@ class SolicitacaoController extends Controller
                     'moderado'      => $moderado,
                     'atualizacao'    => \Carbon\Carbon::parse( $solicitacao->updated_at)->format('d/m/Y - H:i:s'),
                     'abertura'      => "<span style='display:none'>" .\Carbon\Carbon::parse( $solicitacao->created_at)->format('Ymd') ."</span>". \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
-                    'atualizacao'   => \Carbon\Carbon::parse( $solicitacao->updated_at)->format('d/m/Y - H:i:s'),
                     'acoes'         => $acoes,
                     'prazo'         => $prazo,
                 ]);
@@ -560,7 +558,8 @@ class SolicitacaoController extends Controller
                                         . \Carbon\Carbon::parse( $prazo)->format('d/m/Y')
                                         ."</span>",
                                                        
-                 ]);
+
+                ]);
             }
         }
 

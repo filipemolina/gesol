@@ -442,29 +442,6 @@ function detectaNavegador(){
   };
 }
 
-
-// Função que atualiza os dados de um gráfico que for criado usando Echarts
-function atualizaGrafico(grafico, legendas, series){
-
-  // console.log("CHamou a função atualizaGrafico");
-  // console.log(grafico, legendas, series);
-
-  grafico.setOption({
-
-    series:{
-        data: series,
-    },
-    legend: {
-      data: legendas
-    },
-    xAxis : {
-      type : 'category',
-      data : legendas,
-    },
-         
-  });
-}
-
 // Inclui um comentário enviando pelo solicitante na tela de edição da solicitação
 // para que possa ser visualizado em tempo real pelo funcionário
 

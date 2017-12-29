@@ -313,7 +313,7 @@ function atualizarNotificacoes(){
 
   // Mostrar o número correto de notificações
 
-    $.post(url_base + "/naolidas/" + setor_id, { _token: token }, function(data){
+    $.post("https://gesol.mesquita.rj.gov.br/naolidas/" + setor_id, { _token: token }, function(data){
       
       let dados = JSON.parse(data);
 
