@@ -213,7 +213,7 @@
       $("#tabela-solicitacoes-solucionada").DataTable({
          responsive : true,
          processing: true,
-         serverSide: true,
+         serverSide: true, 
          ajax      : "{{ url('/solicitacao/datatables/3') }}",
          columns   : [
 
