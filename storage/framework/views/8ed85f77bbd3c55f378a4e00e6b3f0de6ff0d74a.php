@@ -6,9 +6,10 @@
     Tip 3: you can change the color of the sidebar with data-background-color="white | black"
     -->
     
+
    <div class="logo" style="color: #000000;">
       <a href="#" class="simple-text">
-         GESOL  <i style="font-size: 10px;">( v0.2.2 )</i>
+         GESOL  <i style="font-size: 10px;">( v0.2.6 )</i>
       </a>
    </div>
    <div class="logo logo-mini">
@@ -85,15 +86,6 @@
                   <p>Funcionarios</p>
                </a>
             </li>             
-
-         <?php elseif($funcionario_logado->role->peso == 50): ?>    
-
-            <li>
-               <a href="<?php echo e(url("/funcionario")); ?>">
-                  <i class=" mdi mdi-account-multiple"></i> 
-                  <p>Funcionarios</p>
-               </a>
-            </li>             
          
          <?php elseif($funcionario_logado->role->peso == 60): ?>
             
@@ -139,6 +131,13 @@
             </li>
            
          <?php endif; ?>
+
+         <li>
+            <a href="<?php echo e(url("/comunicados")); ?>">
+               <i class="material-icons">chat bubble</i>
+               <p>Comunicados</p>
+            </a>
+         </li>
 
 
       </ul>
