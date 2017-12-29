@@ -17,10 +17,7 @@
     <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
 
-    <!-- =============================================================================== -->
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
     <link href="{{ asset('css/demo.css') }}" rel="stylesheet" />
-    <!-- =============================================================================== -->
 
     <!--  Material styles CSS    -->
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
@@ -71,7 +68,12 @@
         </div>
     </div>
 
+    {{-- Áudio das Notificações --}}
 
+    <audio id='audio_notificacao'>
+        <source src="{{ asset('js/super_mario_coin.mp3') }}" type="audio/mpeg">
+    </audio>
+        
         <script>
             
             //variáveis globais ao sistema
@@ -96,54 +98,34 @@
 
         <script src="{{ asset('js/jquery-3.1.1.min.js') }}"  type="text/javascript"></script>
         <script src="{{ asset('js/jquery-ui.min.js') }}" type="text/javascript"></script>
-
         <script src="{{ asset('js/bootstrap.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/material.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/perfect-scrollbar.jquery.min.js') }}" type="text/javascript"></script>
-
         <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
-
         <script src="{{ asset('js/moment.min.js') }}"></script>
-
         <script src="{{ asset('js/chartist.min.js') }}"></script>
-
         <script src="{{ asset('js/jquery.bootstrap-wizard.js') }}"></script>
-
         <script src="{{ asset('js/bootstrap-notify.js') }}"></script>
-
         <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
-
         <script src="{{ asset('js/jquery-jvectormap.js') }}"></script>
-
         <script src="{{ asset('js/nouislider.min.js') }}"></script>
-
         <script src="{{ asset('js/jquery.select-bootstrap.js') }}"></script>
-
         <script src="{{ asset('js/sweetalert2.js') }}"></script>
-
         <script src="{{ asset('js/jasny-bootstrap.min.js') }}"></script>
-
         <script src="{{ asset('js/jquery.tagsinput.js') }}"></script>
-
         <script src="{{ asset('js/material-dashboard.js') }}"></script>
-
         <script src="{{ asset('js/demo.js') }}"></script>
 
         {{-- Vanilla Masker --}}
-
         <script src="{{ asset('js/vanillaMasker.min.js') }}"></script>
-
         <script src="{{ asset('js/echarts-en.min.js') }}"></script>
 
         {{-- DataTables --}}
-
         <script type="text/javascript" src="{{ asset('js/jquery.datatables.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
 
         {{-- Moment --}}
-
         <script src="{{ asset('js/datetime-moment.js') }}"></script>
-
         <script src="{{ asset('js/fullcalendar.min.js') }}"></script>
 
         {{-- Funções Javascript --}}
