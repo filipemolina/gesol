@@ -232,29 +232,32 @@ Andamento de Solicitação
                      @endforeach
                   </div>
 
-                  {{-- Escrever comentário --}}
-                  <div id="div_escrever_comentario" class="input-group"  >
-                     <textarea 
-                           data-solicitacao="{{$solicitacao->id }}" 
-                           data-funcionario="{{$funcionario_logado->id }}" 
-                           id="comentario" 
-                           name="comentario" 
-                           class="form-control comentario comentario_{{ $solicitacao->id }}" 
-                           placeholder="Escreva um comentário" 
-                           style="margin-top: 0px;padding-bottom: 0px;padding-top: 0px;"></textarea>
-                     <span class="input-group-addon">
-                        <button type="button" 
-                              id="enviar-comentario"
+                  @if(($solicitacao->status !='Solucionada') and ($solicitacao->status !='Recusada'))
+                     {{-- Escrever comentário --}}
+                     <div id="div_escrever_comentario" class="input-group"  >
+                        <textarea 
                               data-solicitacao="{{$solicitacao->id }}" 
                               data-funcionario="{{$funcionario_logado->id }}" 
-                              class="btn btn-primary btn-sm enviar-comentario">
-                           Enviar
-                        </button>
-                     </span>
-                  </div>
-                  {{-- Fim escrever comentário --}}
-                  {{-- termino das mensagens --}}
+                              id="comentario" 
+                              name="comentario" 
+                              class="form-control comentario comentario_{{ $solicitacao->id }}" 
+                              placeholder="Escreva um comentário" 
+                              style="margin-top: 0px;padding-bottom: 0px;padding-top: 0px;"></textarea>
+                        <span class="input-group-addon">
+                           <button type="button" 
+                                 id="enviar-comentario"
+                                 data-solicitacao="{{$solicitacao->id }}" 
+                                 data-funcionario="{{$funcionario_logado->id }}" 
+                                 class="btn btn-primary btn-sm enviar-comentario">
+                              Enviar
+                           </button>
+                        </span>
+                     </div>
+                     {{-- Fim escrever comentário --}}
+                     {{-- termino das mensagens --}}
+                  @endif
                </div>
+               <div style="clear:both"></div>
             </div> {{-- Fim da Primeira Linha --}}
 
             <div class="row">
@@ -301,37 +304,43 @@ Andamento de Solicitação
                {{-------------------------- BOTAO PADRAO ------------------------}}
                <div id="div_botoes_iniciais" style="text-align:center; margin-top: -2px;">
 
-                  {{-- não deixa aparecer o botão para colocar EM EXECUÇÃO se a solicitação já estiver em execução  --}}
-                  @if($solicitacao->status !='Em execução')
-                     <button id="btn_por_execucao" class="botoes-acao-funcionario btn btn-round btn-success" >
-                           <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
-                           PÔR EM EXECUÇÃO 
+                  {{-- esconde os botões para as solicitações que estão SOLUCIONADAS OU RECUSADAS --}}
+                  @if(($solicitacao->status !='Solucionada') and ($solicitacao->status !='Recusada'))
+
+                     {{-- não deixa aparecer o botão para colocar EM EXECUÇÃO se a solicitação já estiver em execução  --}}
+                     @if($solicitacao->status !='Em execução')
+                        <button id="btn_por_execucao" class="botoes-acao-funcionario btn btn-round btn-success" >
+                              <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
+                              PÔR EM EXECUÇÃO 
+                        </button>
+                     @endif
+
+                     <button id="btn_solucionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-success">
+                        <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
+                        SOLUCIONAR 
                      </button>
-                  @endif
-
-                  <button id="btn_solucionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-success">
-                     <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
-                     SOLUCIONAR 
-                  </button>
 
 
-                  <button id="btn_redirecionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-warning">
-                     <span class="icone-botoes-acao-funcionario mdi mdi-redo-variant"></span>
-                     REDIRECIONAR
-                  </button>
-
-                  {{-- o sistema somente permite RECUSAR uma solicitação se ele não estiver em EXECUÇÃO --}}
-                  @if($solicitacao->status !='Em execução')
-                     <button id="btn_recusar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-danger">
-                        <span class="icone-botoes-acao-funcionario mdi mdi-delete-sweep"></span>
-                        RECUSAR
+                     <button id="btn_redirecionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-warning">
+                        <span class="icone-botoes-acao-funcionario mdi mdi-redo-variant"></span>
+                        REDIRECIONAR
                      </button>
+
+                     {{-- o sistema somente permite RECUSAR uma solicitação se ele não estiver em EXECUÇÃO --}}
+                     @if($solicitacao->status !='Em execução')
+                        <button id="btn_recusar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-danger">
+                           <span class="icone-botoes-acao-funcionario mdi mdi-delete-sweep"></span>
+                           RECUSAR
+                        </button>
+                     @endif
+
                   @endif
 
                   <a class="botoes-acao-funcionario btn btn-round btn-primary" href="{{ URL::previous() }}">
                      <span class="icone-botoes-acao-funcionario mdi mdi-backburger"></span>   
                      VOLTAR
                   </a>
+
                </div>
 
                {{-------------------------- BOTAO EXECUCAO ------------------------}}

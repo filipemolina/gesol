@@ -555,7 +555,8 @@
         
          series : [
             {
-             
+               barMaxWidth: 60,
+               z: 20, 
                type:'bar',
                label: {
                    normal: {
