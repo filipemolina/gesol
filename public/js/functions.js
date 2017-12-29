@@ -463,6 +463,7 @@ function atualizaGrafico(grafico, legendas, series){
     },
          
   });
+}
 
 // Inclui um comentário enviando pelo solicitante na tela de edição da solicitação
 // para que possa ser visualizado em tempo real pelo funcionário
