@@ -47,8 +47,8 @@ messaging.requestPermission()
 	console.log("Token desse navegador", token);
 })
 .catch(() => {
-	console.log("Permissão Negadona");
-	$("#btn-permissao").css("display", block);
+	//console.log("Permissão Negadona");
+	$("#btn-permissao").css("display", "block");
 });
 
 // Função que é executada quando uma mensagem é recebida e a página está aberta

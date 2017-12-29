@@ -118,23 +118,27 @@
             <div class="card-content-grafico" style="padding-bottom: 20px">
                <h4 class="card-title-grafico" style="width: 100% !important;">Serviços mais solicitados</h4>
             </div>
-            <label class="control-label" style="margin-left: 20px;">Secretaria</label>
+            
 
-            <select name="select_secretaria" id="select_secretaria" class="dourado selectpicker error"  data-style="select-with-transition has-dourado" data-size="7" >
+            <div class="col-lg-6 col-md-7 col-sm-3" style="margin-left: 20px;" >
+               <select style="margin-bottom: 0px;" name="select_secretaria" id="select_secretaria" class="selectpicker"  data-style="select-with-transition" data-size="7" >
 
-               <?php $__currentLoopData = $secretarias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $secretaria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                  <option value="<?php echo e($secretaria->id); ?>"><?php echo e($secretaria->nome); ?></option>  
-               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                  <?php $__currentLoopData = $resultados['secretarias_graficos']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $secretaria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                     <option value="" ><?php echo $secretaria['nome']; ?></option>  
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-            </select>
+               </select>
+            </div>
            
             <div  id='ser_mais_solicitados_secretaria' style="height:400px;" ></div>
    
+            <div>
+                   
+            </div>
+
          </div>
       </div>
    </div>
-
-
   
 
 
@@ -151,6 +155,70 @@
 
 
    <script type="text/javascript">
+
+      let secretarias_graficos = [];
+      
+      // Criar os vetores que irão abastecer o gráfico
+      let legendas = [];
+      let series = [];
+
+      <?php $__currentLoopData = $resultados['secretarias_graficos']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $secretaria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+         secretarias_graficos.push(<?php echo json_encode($secretaria); ?>);
+
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+      $(function(){
+
+         
+         $("#select_secretaria").on("changed.bs.select", function(e){
+
+            //console.log($("#select_secretaria :selected").text());
+            legendas = [];
+            series = [];
+            data = [];
+
+            // Obter todos os serviços da secretaria
+
+            let secretaria_selecionada = secretarias_graficos.filter(function(valor){
+
+               return valor.nome == $("#select_secretaria :selected").text();
+
+            });
+
+            // Obter apenas o primeiro resultado da busca
+            secretaria_selecionada = secretaria_selecionada[0];
+
+            //console.log(secretaria_selecionada);
+            //console.log(secretarias_graficos);
+
+            // Iterar por todos os serviços da secretaria selecionada
+            for(var servico in secretaria_selecionada.servicos){
+
+               if(secretaria_selecionada.servicos.hasOwnProperty(servico)){
+
+                  // Colocar o nome do serviço no vetor de legendas
+                  legendas.push(servico);
+
+                  // Inserir os dados
+                  data.push({
+                    name : servico,
+                    value: secretaria_selecionada.servicos[servico]
+                  });
+
+               }
+
+            }
+
+            // Atualizar o gráfico com a função definida no arquivo functions.js
+
+            atualizaGrafico(maioresChart, legendas, data);
+
+         });
+
+         $("#select_secretaria").trigger("changed.bs.select");
+
+      });
 
 
 
@@ -427,40 +495,35 @@
       //=============================================================================================
       //=============================================================================================
 
+
       var legendData = [];
       var seriesData = [];
       
       var seriesDataAnoAnterior =[];
 
+   
       <?php $__currentLoopData = $resultados['ser_mais_solicitados_secretaria']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+            legendData.push('<?php echo e($sol->secretaria); ?>');
+            seriesData.push({
+               name: '<?php echo e($sol->nome); ?>',
+               value: <?php echo e($sol->total); ?>
 
-         legendData.push('<?php echo e($sol->secretaria); ?>');
-
-         seriesData.push({
-            name: '<?php echo e($sol->nome); ?>',
-            value: <?php echo e($sol->total); ?>
-
-        });
+           });
+         
       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-        
+      /////////////////////////////////////////// CÓDIGO DO MOLINA        
     
       // based on prepared DOM, initialize echarts instance
       var maioresChart = echarts.init(document.getElementById('ser_mais_solicitados_secretaria'));//,null, {renderer: 'svg'});
       
       maioresOpcoes = {
-          
+
          tooltip : {
             trigger: 'axis',
             axisPointer : {            
                type : 'shadow'        
             }
-          },
-
-          legend: {
-              x : 'center',
-              y : 'bottom',
-              data: legendData
           },
 
          grid: {
@@ -473,7 +536,12 @@
          xAxis : [
             {
                type : 'category',
-               data : legendData,
+
+               axisLabel : {
+                  rotate: -20,
+                  fontSize: 10
+               }
+               // data : legendData,
 
             }
          ],
@@ -485,38 +553,27 @@
          ],
 
         
-          series : [
-              {
-                
-                  type:'bar',
-                  label: {
-                      normal: {
-                          show: false,
-                          fontsize: 10
-                      },
-                      emphasis: {
-                          show: false
-                      }
-                  },
-                  lableLine: {
-                      normal: {
-                          show: false
-                      },
-                      emphasis: {
-                          show: false
-                      }
-                  },
-                  data: seriesData
-              }
-          ]
+         series : [
+            {
+             
+               type:'bar',
+               label: {
+                   normal: {
+                       show: false,
+                       fontsize: 10
+                   },
+                   emphasis: {
+                       show: false
+                   }
+               },
+
+               // data: seriesData
+            }
+         ]
       };
 
   
       maioresChart.setOption(maioresOpcoes);
-
-
-
-
 
 
    </script>
