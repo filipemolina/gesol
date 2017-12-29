@@ -95,6 +95,21 @@ class HomeController extends Controller
 
    }
 
+   public function comunicados(){
+
+      $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
+
+      return view("comunicados.comunicados", compact('funcionario_logado'));
+
+   }
+
+    public function create(){
+
+      $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
+
+      return view("comunicados.create", compact('funcionario_logado'));
+   }
+
    /**
    *  Recebe o acesso da role do usuário logado e retorna um vetor com todas as variáveis necessárias para
    *  montar a dashboard

@@ -141,6 +141,7 @@ class SolicitacaoController extends Controller
      */
     public function edit($id)
     {
+
         //busca o funcionario
         $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
@@ -155,11 +156,19 @@ class SolicitacaoController extends Controller
             $prazo_em_dias=$solicitacao->prazo;
         else
             $prazo_em_dias=$solicitacao->servico->prazo;*/
+
+        ////////////////////////////////////////////// Marcar todas as mensagens nessa solicitação como lidas e guardar na trilha de auditoria quem leu
+
+        $solicitacao->comentarios()->update(['lida' => '1']);
+
+        trilha($solicitacao->id, null, null, 'Leu', null, null);
+
+        /////////////////////////////////////////////// Cálculo do prazo
             
         $prazo_em_dias=$solicitacao->prazo;
         
         //cria o prazo com a data setada acima
-       $prazo_calculado = date('Ymd', strtotime($solicitacao->created_at." +$prazo_em_dias days"));
+        $prazo_calculado = date('Ymd', strtotime($solicitacao->created_at." +$prazo_em_dias days"));
 
 
         //pega os motivos de RECUSA de solicitação
@@ -190,6 +199,9 @@ class SolicitacaoController extends Controller
         }else if($funcionario_logado->role->peso >= 30 and $funcionario_logado->role->peso <= 100 ){
             return view('solicitacoes.edit-funcionario', compact('solicitacao','funcionario_logado','setores','motivos_recusa','motivos_transferencia','prazo_calculado','motivos_prazo','prazo_em_dias'));
         }
+
+
+
 
     }
 
@@ -245,7 +257,7 @@ class SolicitacaoController extends Controller
                 // Gravar o valor antigo do ID do SERVIÇO da solicitação para utilizar na trilha de auditoria
                 $valor_antigo = $solicitacao->servico->id;
 
-                //salva na trilha
+                //salva na trilha (id do objeto sendo mudado, )
                 trilha($solicitacao->id, 'servico_id', $valor_antigo ,"Redirecionou",$request->motivo, null);
 
 
@@ -363,6 +375,12 @@ class SolicitacaoController extends Controller
         $padrao = "  <a href='" .url('solicitacao/{id}/edit')    
                     ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a>";
 
+        // Vetor que vai guardar uma estrutura da seguinte forma:
+        //
+        // id_da_solicitacao => numero_de_comentarios_nao_lidos
+
+        $nao_lidas = [];
+
 
 
         //faz a buscas das solicitações de acordo com o filtro selecionado
@@ -373,6 +391,12 @@ class SolicitacaoController extends Controller
                 $solicitacoes = Solicitacao::where('moderado','=', '0')
                                 ->where('status','<>', 'Recusada')
                                 ->with('solicitante','servico','servico.setor','endereco')->get();
+
+                foreach($solicitacoes as $solicitacao){
+
+                    $nao_lidas[$solicitacao->id] = $solicitacao->comentarios()->where('lida', 0)->get()->count();
+
+                }
                 // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
                 $padrao = "  <a href='" .url('solicitacao/{id}/edit')    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a>";
 
@@ -383,6 +407,12 @@ class SolicitacaoController extends Controller
                 $solicitacoes = Solicitacao::where('moderado','=', '1')
                                 ->where('status','<>', 'Recusada')
                                 ->with('solicitante','servico','servico.setor','endereco')->get();
+
+                foreach($solicitacoes as $solicitacao){
+
+                    $nao_lidas[$solicitacao->id] = $solicitacao->comentarios()->where('lida', 0)->get()->count();
+
+                }
                 break;
 
             case 2:
@@ -391,6 +421,12 @@ class SolicitacaoController extends Controller
                                             ->where('status','<>','Recusada')    
                                             ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
+
+                foreach($solicitacoes as $solicitacao){
+
+                    $nao_lidas[$solicitacao->id] = $solicitacao->comentarios()->where('lida', 0)->get()->count();
+
+                }
                 break;
 
             case 3:
@@ -399,6 +435,16 @@ class SolicitacaoController extends Controller
                                             ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
 
+
+                foreach($solicitacoes as $solicitacao){
+
+                    $nao_lidas[$solicitacao->id] = $solicitacao->comentarios()->where('lida', 0)->get()->count();
+
+                }
+
+                $padrao = "<a href='" .url('solicitacao/{id}')."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
+
+
                 break;
 
             case 4:
@@ -406,6 +452,12 @@ class SolicitacaoController extends Controller
                 // Obter todos os dados de todos os solicitacoes RECUSADAS;
                 $solicitacoes = Solicitacao::where('status','=','Recusada')    
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
+
+                foreach($solicitacoes as $solicitacao){
+
+                    $nao_lidas[$solicitacao->id] = $solicitacao->comentarios()->where('lida', 0)->get()->count();
+
+                }
 
                 $padrao = "<a href='" .url('solicitacao/{id}')."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
 
@@ -455,6 +507,14 @@ class SolicitacaoController extends Controller
             else
                 $moderado = "Não";
 
+            // Caso haja comentários não lidos nesta solicitação, colocar um badge ao lado da imagem indicando a 
+            // quantidade
+
+            if($nao_lidas[$solicitacao->id])
+                $foto = "<img src='$solicitacao->foto' style='height:60px; width:60px'><span class='badge nao_lidas' style='background-color: #3d276b'>".$nao_lidas[$solicitacao->id]."</span>";
+            else
+                $foto = "<img src='$solicitacao->foto' style='height:60px; width:60px'>";
+
             // Caso o usuário seja moderador, adicionar todas as solicitações à coleção sem fazer nenhum teste adicional
 
             //if($usuario->funcionario->role->acesso == "Moderador")
@@ -462,11 +522,12 @@ class SolicitacaoController extends Controller
             if(verificaAcesso($funcionario_logado) == "PREFEITURA")
             {
                 $colecao->push([
-                    'foto'          => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
+                    'foto'          => $foto,
                     'conteudo'      => $solicitacao->conteudo, 
                     'servico'       => $solicitacao->servico->nome,
                     'status'        => $solicitacao->status,
                     'moderado'      => $moderado,
+                    'atualizacao'    => \Carbon\Carbon::parse( $solicitacao->updated_at)->format('d/m/Y - H:i:s'),
                     'abertura'      => "<span style='display:none'>" .\Carbon\Carbon::parse( $solicitacao->created_at)->format('Ymd') ."</span>". \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
                     'atualizacao'   => \Carbon\Carbon::parse( $solicitacao->updated_at)->format('d/m/Y - H:i:s'),
                     'acoes'         => $acoes,
@@ -478,7 +539,7 @@ class SolicitacaoController extends Controller
                 // Caso contrário, adicionar à coleção apenas as solicitações que sejam da mesma secretaria que ele
 
                 $colecao->push([
-                    'foto'           => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
+                    'foto'           => $foto,
                     'conteudo'       => $solicitacao->conteudo, 
                     'servico'        => $solicitacao->servico->nome,
                     'status'         => $solicitacao->status,
@@ -543,11 +604,12 @@ class SolicitacaoController extends Controller
                     $tokens = Solicitante::all()->pluck('fcm_id')->toArray();
 
                     $dados = [
-                        'acao' => 'recarregar',
+                        'operacao' => 'atualizar',
+                        'acao'     => 'atualizar',
                         'model' => 'solicitacoes'
                     ];
 
-                    enviarDadosParaApp($tokens, $dados);
+                    enviarNotificacao("Solicitacao $solicitacao->id liberada", "", $tokens, $dados);
 
                     return redirect('/solicitacao');
                 }
@@ -578,6 +640,42 @@ class SolicitacaoController extends Controller
         //trilha($solicitacao->id, null , null ,$request->status,null,null);
 
         return ("OK");
+    }
+
+    /**
+     * Retorna o número de solicitações com mensagens não lidas e um texto para cada uma delas
+     * para que seja colocado na lista de notificações dos funcionários 
+     */
+
+    public function naoLidas($setor_id){
+
+        // Obter as solicitações não lidas de um setor (solicitações com comentários não lidos)
+
+        $nao_lidas = Solicitacao::whereHas('comentarios', function($query){
+
+            $query->where('lida', 0);
+
+        })->whereHas('servico.setor', function($q2) use ($setor_id){
+
+            $q2->where('id', $setor_id);
+
+        })->where('status', '<>', 'Solucionada')->where('status', '<>', 'Recusada')->get();
+
+        $qtd = $nao_lidas->count();
+
+        $links = [];
+
+        foreach($nao_lidas as $nao_lida){
+
+            $links[] = "<li><a href='https://gesol.mesquita.rj.gov.br/solicitacao/$nao_lida->id/edit'><i class='material-icons' style='margin-right: 5px'>message</i>Mensagens não lidas na Solicitação $nao_lida->id</a><li>";
+
+        }
+
+        return json_encode([
+            'qtd' => $qtd,
+            'links' => $links
+        ]);
+
     }
 
 

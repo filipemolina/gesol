@@ -241,9 +241,7 @@ Andamento de Solicitação
                            name="comentario" 
                            class="form-control comentario comentario_{{ $solicitacao->id }}" 
                            placeholder="Escreva um comentário" 
-                           style="margin-top: 0px;padding-bottom: 0px;padding-top: 0px;">
-
-                     </textarea>
+                           style="margin-top: 0px;padding-bottom: 0px;padding-top: 0px;"></textarea>
                      <span class="input-group-addon">
                         <button type="button" 
                               id="enviar-comentario"
@@ -739,23 +737,6 @@ Andamento de Solicitação
                   });
                })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       });
 
       {{-------------------- cancela-servico ----------------------}}
@@ -846,7 +827,6 @@ Andamento de Solicitação
          
             if( '{{ $solicitacao->status }}' == 'Aberta' )
             {
-               console.log("enviou para o /status");
                $.post(
                      url_base+"/status",
                      {
@@ -869,9 +849,15 @@ Andamento de Solicitação
 
    <script type="text/javascript">
 
-      //configura o datepicker que recebe a data do NOVO PRAZO para ser alterado 
-      //LOCAL: edit-funcionario.blade.php->botão "execucao" - (POR EM EXECUÇÃO)
       $( function() {
+
+         //posiciona a div "scrolavel" para o final
+         var objDiv = document.getElementById("div-comentarios");
+         objDiv.scrollTop = objDiv.scrollHeight;
+
+         //configura o datepicker que recebe a data do NOVO PRAZO para ser alterado 
+         //LOCAL: edit-funcionario.blade.php->botão "execucao" - (POR EM EXECUÇÃO)
+
          $( "#picker_data_prazo" ).datepicker({
             dateFormat: 'dd/mm/yy',
             dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
@@ -947,6 +933,33 @@ Andamento de Solicitação
                   {{ nome_funcionario }} - 
                   {{ nome_setor }} - 
                   {{ sigla }}
+               </label>
+
+            
+               <div class="col-coment-fix">
+                  <div class=" col-md-7 no-margin" >
+                     <p class="">
+                        {{ comentario }}
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+      @endverbatim
+   </script>
+
+   <script id="comentario-template-solicitante" type="text/x-handlebars-template">
+      @verbatim
+         <div class="card-solicitante card margin7" style="color: black; font-size: 12px;">
+            <div class="row" style="margin-left: 15px;margin-right: 15px;">
+               <label class="pull-right" style="color: #522d2d; font-size: 11px;"> 
+                  {{ data_criacao }} 
+               </label>
+               
+            
+               <label class="h6  nome-solicitante">
+                  {{ nome }}
                </label>
 
             

@@ -814,8 +814,10 @@ h4.card-title {
   100% { color:#3D276B; } 
 }
 
-label.nome-secretaria{  font-size:  12px; margin-right: 20px; }
-label.nome-solicitante{ font-size:  12px; margin-right: 10px; }
+
+label.nome-secretaria{  font-size:  12px; margin-right: 10px; }
+label.nome-solicitante{ font-size:  12px; margin-right: 10px; margin-top: 0px; }
+
 
 div.nome-solicitante-card{ 
   font-size:  14px; 
@@ -1601,6 +1603,7 @@ z-index: -1;
  transform: scaleX(-1);
 }
 
+<<<<<<< HEAD
 .card .card-avatar.card-header-icon {
   float: left;
 }
@@ -2295,4 +2298,21 @@ table.tile_info span.right {
 
 .copyright{
   text-align: center!important;
+}
+
+.icon-secretaria{
+    background-color: #696969 !important;
+    margin: -5px 68px !important;
+    padding: 10px 10px !important;
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.table td { position: relative; }
+
+/*  */
+span.badge.nao_lidas {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
 }

@@ -113,6 +113,21 @@ if (! function_exists('camelcase')) {
          return $movimento->save(); 
       }
    }
+
+   if (! function_exists('trilha_solicitante_exclui_solicitacao')) {
+      function trilha_solicitante_exclui_solicitacao($solicitante, $solicitacao)
+      {
+
+         $movimento = new Movimento([
+            'solicitante_id'  => $solicitante,
+            'solicitacao_id'  => $solicitacao,
+            'andamento'       => "Excluída",
+            'comentario_id'   => "Solicitante excluíu a própria solicitação",
+         ]);
+         
+         return $movimento->save(); 
+      }
+   }
   
    function pega_ip() 
    {
@@ -233,7 +248,12 @@ if(!function_exists("enviarDadosParaApp")){
       $optionBuilder->setTimeToLive(60*20);
 
       $dataBuilder = new PayloadDataBuilder();
-      $dataBuilder->addData($dados);
+      
+      foreach($dados as $key => $value){
+
+         $dataBuilder->addData([$key => $value]);
+
+      }
 
       $option = $optionBuilder->build();
       $data = $dataBuilder->build();

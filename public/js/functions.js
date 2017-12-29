@@ -138,8 +138,6 @@ function enviarComentario(elem, e){
             _token: token,
          }, function(data){
 
-              console.log("Dados recebidos do servidor", data);
-
               // Apagar o campo de envio de comentario
               $(".comentario_"+solicitacao).val("");
 
@@ -444,8 +442,8 @@ function detectaNavegador(){
   };
 }
 
-// Função que atualiza os dados de um gráfico que for criado usando Echarts
 
+// Função que atualiza os dados de um gráfico que for criado usando Echarts
 function atualizaGrafico(grafico, legendas, series){
 
   // console.log("CHamou a função atualizaGrafico");
@@ -465,5 +463,34 @@ function atualizaGrafico(grafico, legendas, series){
     },
          
   });
+
+// Inclui um comentário enviando pelo solicitante na tela de edição da solicitação
+// para que possa ser visualizado em tempo real pelo funcionário
+
+function incluirComentario(solicitacao, comentario){
+
+  console.log("Chamou a função de incluir comentario");
+
+  $(".comentario_"+solicitacao).val("");
+
+  // Colocar o novo card de comentarios embaixo da solicitação
+  var source      = $("#comentario-template-solicitante").html();
+  var template    = Handlebars.compile(source)
+
+  var context = { 
+     data_criacao : comentario.created_at,
+     comentario   : comentario.comentario,
+     nome         : comentario.solicitacao.solicitante.nome
+  };
+
+  console.log("COntexto chamado no template", context);
+
+  var html        = template(context);
+
+  $("div.comentarios").append( $(html) );
+
+  //posiciona a div "scrolavel" para o final
+  var objDiv = document.getElementById("div-comentarios");
+  objDiv.scrollTop = objDiv.scrollHeight;
 
 }
