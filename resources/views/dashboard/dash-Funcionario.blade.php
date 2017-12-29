@@ -278,35 +278,35 @@
           },
           calculable : true,
           series : [
-              {
-                  name: '{{ $resultados['ano_anterior'] }}',
-                  type:'pie',
-                  radius : [20, 110],
-                  center : ['25%', '50%'],
-                  roseType : 'radius',
-                  label: {
-                      normal: {
-                          show: true
-                      },
-                      emphasis: {
-                          show: true
-                      }
-                  },
-                  lableLine: {
-                      normal: {
-                          show: false
-                      },
-                      emphasis: {
-                          show: true
-                      }
-                  },
-                  data: seriesDataAnoAnterior
-              },
+              // {
+              //     name: '{{ $resultados['ano_anterior'] }}',
+              //     type:'pie',
+              //     radius : [20, 110],
+              //     center : ['25%', '50%'],
+              //     roseType : 'radius',
+              //     label: {
+              //         normal: {
+              //             show: true
+              //         },
+              //         emphasis: {
+              //             show: true
+              //         }
+              //     },
+              //     lableLine: {
+              //         normal: {
+              //             show: false
+              //         },
+              //         emphasis: {
+              //             show: true
+              //         }
+              //     },
+              //     data: seriesDataAnoAnterior
+              // },
               {
                   name: '{{ $resultados['ano'] }}',
                   type:'pie',
                   radius : [30, 110],
-                  center : ['75%', '50%'],
+                  //center : ['75%', '50%'],
                   roseType : 'area',
                   label: {
                       normal: {
