@@ -14,36 +14,36 @@
                <i class="material-icons" style="font-size: 14px">assignment</i> 
                Total de Solicitações
             </span>
-            <div class="count">{{ $resultados['solicitacoes']->count() }}</div>
+            <div class="count">{{ $solicitacoes->count() }}</div>
             {{-- <span class="count_bottom"><i class="dourado">4% </i> de aumento</span> --}}
         </div>
 
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-bullhorn"></i> Total de Abertas</span>
-            <div class="count">{{ $resultados['abertas'] }}</div>
+            <div class="count">{{ $abertas }}</div>
             {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>3% </i> de aumento</span> --}}
         </div>
         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-check"></i> Total de Solucionadas</span>
-            <div class="count" style="color: green">{{ $resultados['solicitacoes']->where('status', 'Solucionada')->count() }}</div>
+            <div class="count" style="color: green">{{ $solicitacoes->where('status', 'Solucionada')->count() }}</div>
             {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>34% </i> de aumento</span> --}}
         </div>
 
          <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-calendar-times-o"></i> Atrasadas</span>
-            <div class="count" style="color: red">{{ $resultados['sol_prazo']["vencida"] }}</div>
+            <div class="count" style="color: red">{{ $sol_prazo["vencida"] }}</div>
             {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>34% </i> de aumento</span> --}}
          </div>
 
          <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-calendar-minus-o "></i> Vencendo hoje</span>
-            <div class="count" style="color: orange">{{ $resultados['sol_prazo']["vencendo"] }}</div>
+            <div class="count" style="color: orange">{{ $sol_prazo["vencendo"] }}</div>
             {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>34% </i> de aumento</span> --}}
         </div>
    
          <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-clock-o"></i> Tempo de solução</span>
-            <div class="count">{{ $resultados['sol_media'] }}</div>
+            <div class="count">{{ $sol_media }}</div>
             <span class="count_bottom"><i class="dourado">dias</span>
         </div>
     </div>
@@ -92,8 +92,8 @@
 
 
 @push('scripts')
-            {{-- {  "name": "{{ $resultados['ano_anterior'] }}",  --}}
-               {{-- "data":  [@foreach($resultados['sol_por_mes_ano_anterior']  as $mes => $qtd)  --}}
+            {{-- {  "name": "{{ $ano_anterior }}",  --}}
+               {{-- "data":  [@foreach($sol_por_mes_ano_anterior  as $mes => $qtd)  --}}
                            {{-- {{ $qtd }},  --}}
                         {{-- @endforeach]    --}}
             {{-- }, --}}
@@ -119,12 +119,12 @@
             orient: 'horizontal',
             top : 30,
             left: 10,
-            data: ['{{ $resultados['ano_anterior'] }}','{{ $resultados['ano'] }}']
+            data: ['{{ $ano_anterior }}','{{ $ano }}']
          },
 
          // title : {
          //    text: 'Solicitações Registradas',
-         //    subtext: '{{ $resultados['ano_anterior'] }} e {{ $resultados['ano'] }}',
+         //    subtext: '{{ $ano_anterior }} e {{ $ano }}',
          //    x:'center'
          // },
 
@@ -166,23 +166,23 @@
          
          series: [
             {
-               name:'{{ $resultados['ano'] }}',
+               name:'{{ $ano }}',
                type:'line',
                smooth: true,
                data: 
                [ 
-                  @foreach($resultados['sol_por_mes'] as $mes => $qtd) 
+                  @foreach($sol_por_mes as $mes => $qtd) 
                      {{ $qtd }}, 
                   @endforeach
                ],
             },
             {
-               name:'{{ $resultados['ano_anterior'] }}',
+               name:'{{ $ano_anterior }}',
                type:'line',
                smooth: true,
                data: 
                [ 
-                  @foreach($resultados['sol_por_mes_ano_anterior'] as $mes => $qtd) 
+                  @foreach($sol_por_mes_ano_anterior as $mes => $qtd) 
                      {{ $qtd }}, 
                   @endforeach
                ],
@@ -200,19 +200,6 @@
       //=============================================================================================
 
 
-      // var dados2 = [];
-
-      // @foreach($resultados['sol_maiores'] as $sol) 
-      //    dados2.push("{value: {{ $sol->total }}, name: '{{ $sol->nome }}\'}," );
-
-      //    //          {value:335, name:'asdasd'},
-      // @endforeach
-               
-      // console.log(dados2);
-
-
-
-
       var nameList = [];
       var legendData = [];
       var seriesData = [];
@@ -220,7 +207,7 @@
       var novo =[];
       var seriesDataAnoAnterior =[];
 
-      @foreach($resultados['sol_maiores'] as $sol) 
+      @foreach($solicitacoes_maiores as $sol) 
          nameList.push('{{ $sol->nome }}');
          legendData.push('{{ $sol->nome }}');
          //seriesData.push({{ $sol->total }});
@@ -238,7 +225,7 @@
 
       @endforeach
 
-      @foreach($resultados['sol_maiores_ano_anterior'] as $sol) 
+      @foreach($solicitacoes_maiores_ano_anterior as $sol) 
 
          seriesDataAnoAnterior.push({
             name: '{{ $sol->nome }}',
@@ -280,7 +267,7 @@
           series : [
               {
                   
-                  name: '{{ $resultados['ano_anterior'] }}',
+                  name: '{{ $ano_anterior }}',
                   type:'pie',
                   radius : [20, 110],
                   center : ['25%', '50%'],
@@ -307,7 +294,7 @@
               },
               {
                   hoverOffset :  20,
-                  name: '{{ $resultados['ano'] }}',
+                  name: '{{ $ano }}',
                   type:'pie',
                   radius : [30, 110],
                   center : ['75%', '50%'],

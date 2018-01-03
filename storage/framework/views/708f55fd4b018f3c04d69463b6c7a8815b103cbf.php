@@ -77,7 +77,7 @@
             <div class="col-lg-6 col-md-7 col-sm-3" style="margin-left: 20px;" >
                <select style="margin-bottom: 0px;" name="select_secretaria" id="select_secretaria" class="selectpicker"  data-style="select-with-transition" data-size="7" >
 
-                  <?php $__currentLoopData = $resultados['secretarias_graficos']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $secretaria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                  <?php $__currentLoopData = $secretarias_graficos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $secretaria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                      <option value="" ><?php echo $secretaria['nome']; ?></option>  
                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -102,11 +102,6 @@
 
 <?php $__env->startPush('scripts'); ?>
             
-               
-                           
-                        
-            
-
 
    <script type="text/javascript">
 
@@ -116,7 +111,7 @@
       let legendas = [];
       let series = [];
 
-      <?php $__currentLoopData = $resultados['secretarias_graficos']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $secretaria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+      <?php $__currentLoopData = $secretarias_graficos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $secretaria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
          secretarias_graficos.push(<?php echo json_encode($secretaria); ?>);
 
@@ -192,12 +187,12 @@
             orient: 'horizontal',
             top : 30,
             left: 10,
-            data: ['<?php echo e($resultados['ano_anterior']); ?>','<?php echo e($resultados['ano']); ?>']
+            data: ['<?php echo e($ano_anterior); ?>','<?php echo e($ano); ?>']
          },
 
          // title : {
          //    text: 'Solicitações Registradas',
-         //    subtext: '<?php echo e($resultados['ano_anterior']); ?> e <?php echo e($resultados['ano']); ?>',
+         //    subtext: '<?php echo e($ano_anterior); ?> e <?php echo e($ano); ?>',
          //    x:'center'
          // },
 
@@ -239,23 +234,23 @@
          
          series: [
             {
-               name:'<?php echo e($resultados['ano']); ?>',
+               name:'<?php echo e($ano); ?>',
                type:'line',
                smooth: true,
                data: 
                [ 
-                  <?php $__currentLoopData = $resultados['sol_por_mes']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mes => $qtd): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+                  <?php $__currentLoopData = $sol_por_mes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mes => $qtd): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
                      <?php echo e($qtd); ?>, 
                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                ],
             },
             {
-               name:'<?php echo e($resultados['ano_anterior']); ?>',
+               name:'<?php echo e($ano_anterior); ?>',
                type:'line',
                smooth: true,
                data: 
                [ 
-                  <?php $__currentLoopData = $resultados['sol_por_mes_ano_anterior']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mes => $qtd): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+                  <?php $__currentLoopData = $sol_por_mes_ano_anterior; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mes => $qtd): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
                      <?php echo e($qtd); ?>, 
                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                ],
@@ -280,7 +275,7 @@
       var seriesData = [];
       var seriesData2 = [];
 
-      <?php $__currentLoopData = $resultados['sol_secretaria_total']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+      <?php $__currentLoopData = $solicitacoes_secretaria_total; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
          nameList.push('<?php echo e($sol->sigla); ?>');
          legendData.push('<?php echo e($sol->sigla); ?>');
 
@@ -293,7 +288,7 @@
 
       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-      <?php $__currentLoopData = $resultados['sol_secretaria_aberta']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+      <?php $__currentLoopData = $solicitacoes_secretaria_aberta; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
          seriesData2.push({
             name: '<?php echo e($sol->sigla); ?>',
             value: <?php echo e($sol->total); ?>
@@ -364,7 +359,7 @@
       var novo =[];
       var seriesDataAnoAnterior =[];
 
-      <?php $__currentLoopData = $resultados['sol_bairro']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+      <?php $__currentLoopData = $solicitacoes_bairro; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
          nameList.push('<?php echo e($sol->bairro); ?>');
          legendData.push('<?php echo e($sol->bairro); ?>');
 
@@ -456,7 +451,7 @@
       var seriesDataAnoAnterior =[];
 
    
-      <?php $__currentLoopData = $resultados['ser_mais_solicitados_secretaria']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
+      <?php $__currentLoopData = $servicos_mais_solicitados_secretaria; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sol): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> 
             legendData.push('<?php echo e($sol->secretaria); ?>');
             seriesData.push({
                name: '<?php echo e($sol->nome); ?>',

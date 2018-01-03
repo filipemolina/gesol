@@ -57,55 +57,55 @@ class HomeController extends Controller
          switch ($funcionario_logado->role->peso) {
             case 10:  
                   $viu='dash-Moderador'     ; 
-                  $resultados = dashboardModerador();     
+                  //$resultados = dashboardModerador();     
                   break;   //MODERADOR
                   
             case 20:  
                   $viu='dash-Moderador'     ; 
-                  $resultados = dashboardModerador();     
+                  //$resultados = dashboardModerador();     
                   break;   //SAC
                   
 
             case 30:  
                   $viu='dash-Funcionario'   ; 
-                  $resultados = dashboardFuncionario();   
+                  //$resultados = dashboardFuncionario();   
                   break;   //FUNCIONARIO
                   
             case 40:  
                   $viu='dash-Funcionario'   ; 
-                  $resultados = dashboardFuncionario();   
+                  //$resultados = dashboardFuncionario();   
                   break;   //FUNCIONARIO_SUP
                   
             case 50:  
                   $viu='dash-Funcionario'   ; 
-                  $resultados = dashboardFuncionario();   
+                  //$resultados = dashboardFuncionario();   
                   break;   //FUNCIONARIO_ADM
                   
             case 60:  
                   $viu='dash-Funcionario'   ; 
-                  $resultados = dashboardFuncionario();   
+                  //$resultados = dashboardFuncionario();   
                   break;   //SECRETARIO
                   
 
             case 70:  
                   $viu='dash-Prefeito'      ; 
-                  $resultados = dashboardPrefeito();      
+                  //$resultados = dashboardPrefeito();      
                   break;   //OUVIDOR
                   
             case 80:  
                   $viu='dash-Prefeito'      ; 
-                  $resultados = dashboardPrefeito();      
+                  //$resultados = dashboardPrefeito();      
                   break;   //PREFEITO
                   
             
             case 90:  
                   $viu='dash-TI'            ; 
-                  $resultados = dashboardTI();            
+                  //$resultados = dashboardTI();            
                   break;   //TI
                   
             case 100: 
                   $viu='dash-TI'            ; 
-                  $resultados = dashboardTI();            
+                  //$resultados = dashboardTI();            
                   break;   //DSV
                   
          }
@@ -356,6 +356,7 @@ class HomeController extends Controller
          $abertas                    = $solicitacoes_todas->where('status', 'Aberta')->count();
 
 
+
          return view('dashboard.'.$viu, compact('funcionario_logado', 'resultados','secretarias',
             'ano',
             'ano_anterior', 
@@ -367,12 +368,12 @@ class HomeController extends Controller
             'sol_media', 
             'sol_por_mes',
             'sol_por_mes_ano_anterior',
-            'sol_maiores',
-            'sol_maiores_ano_anterior',
-            'sol_secretaria_total',
-            'sol_secretaria_aberta', 
-            'sol_bairro', 
-            'ser_mais_solicitados_secretaria', 
+            'solicitacoes_maiores',
+            'solicitacoes_maiores_ano_anterior',
+            'solicitacoes_secretaria_total',
+            'solicitacoes_secretaria_aberta', 
+            'solicitacoes_bairro', 
+            'servicos_mais_solicitados_secretaria', 
             'secretarias_graficos',
             'secretarias_select'
          ));

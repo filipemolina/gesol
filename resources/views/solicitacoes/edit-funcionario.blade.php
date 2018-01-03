@@ -836,6 +836,7 @@ Andamento de Solicitação
          
             if( '{{ $solicitacao->status }}' == 'Aberta' )
             {
+               
                $.post(
                      url_base+"/status",
                      {

@@ -78,7 +78,7 @@
             <div class="col-lg-6 col-md-7 col-sm-3" style="margin-left: 20px;" >
                <select style="margin-bottom: 0px;" name="select_secretaria" id="select_secretaria" class="selectpicker"  data-style="select-with-transition" data-size="7" >
 
-                  @foreach($resultados['secretarias_graficos'] as $secretaria)
+                  @foreach($secretarias_graficos as $secretaria)
                      <option value="" >{!! $secretaria['nome'] !!}</option>  
                   @endforeach
 
@@ -102,12 +102,7 @@
 
 
 @push('scripts')
-            {{-- {  "name": "{{ $resultados['ano_anterior'] }}",  --}}
-               {{-- "data":  [@foreach($resultados['sol_por_mes_ano_anterior']  as $mes => $qtd)  --}}
-                           {{-- {{ $qtd }},  --}}
-                        {{-- @endforeach]    --}}
-            {{-- }, --}}
-
+            
 
    <script type="text/javascript">
 
@@ -117,7 +112,7 @@
       let legendas = [];
       let series = [];
 
-      @foreach($resultados['secretarias_graficos'] as $secretaria)
+      @foreach($secretarias_graficos as $secretaria)
 
          secretarias_graficos.push({!! json_encode($secretaria) !!});
 
@@ -193,12 +188,12 @@
             orient: 'horizontal',
             top : 30,
             left: 10,
-            data: ['{{ $resultados['ano_anterior'] }}','{{ $resultados['ano'] }}']
+            data: ['{{ $ano_anterior }}','{{ $ano }}']
          },
 
          // title : {
          //    text: 'Solicitações Registradas',
-         //    subtext: '{{ $resultados['ano_anterior'] }} e {{ $resultados['ano'] }}',
+         //    subtext: '{{ $ano_anterior }} e {{ $ano }}',
          //    x:'center'
          // },
 
@@ -240,23 +235,23 @@
          
          series: [
             {
-               name:'{{ $resultados['ano'] }}',
+               name:'{{ $ano }}',
                type:'line',
                smooth: true,
                data: 
                [ 
-                  @foreach($resultados['sol_por_mes'] as $mes => $qtd) 
+                  @foreach($sol_por_mes as $mes => $qtd) 
                      {{ $qtd }}, 
                   @endforeach
                ],
             },
             {
-               name:'{{ $resultados['ano_anterior'] }}',
+               name:'{{ $ano_anterior }}',
                type:'line',
                smooth: true,
                data: 
                [ 
-                  @foreach($resultados['sol_por_mes_ano_anterior'] as $mes => $qtd) 
+                  @foreach($sol_por_mes_ano_anterior as $mes => $qtd) 
                      {{ $qtd }}, 
                   @endforeach
                ],
@@ -281,7 +276,7 @@
       var seriesData = [];
       var seriesData2 = [];
 
-      @foreach($resultados['sol_secretaria_total'] as $sol) 
+      @foreach($solicitacoes_secretaria_total as $sol) 
          nameList.push('{{ $sol->sigla }}');
          legendData.push('{{ $sol->sigla }}');
 
@@ -293,7 +288,7 @@
 
       @endforeach
 
-      @foreach($resultados['sol_secretaria_aberta'] as $sol) 
+      @foreach($solicitacoes_secretaria_aberta as $sol) 
          seriesData2.push({
             name: '{{ $sol->sigla }}',
             value: {{ $sol->total }}
@@ -363,7 +358,7 @@
       var novo =[];
       var seriesDataAnoAnterior =[];
 
-      @foreach($resultados['sol_bairro'] as $sol) 
+      @foreach($solicitacoes_bairro as $sol) 
          nameList.push('{{ $sol->bairro }}');
          legendData.push('{{ $sol->bairro }}');
 
@@ -453,7 +448,7 @@
       var seriesDataAnoAnterior =[];
 
    
-      @foreach($resultados['ser_mais_solicitados_secretaria'] as $sol) 
+      @foreach($servicos_mais_solicitados_secretaria as $sol) 
             legendData.push('{{ $sol->secretaria }}');
             seriesData.push({
                name: '{{ $sol->nome }}',
