@@ -23,6 +23,8 @@ class CreateSecretariasTable extends Migration
             $table->time('inicio_atendimento')              ->nullable()    ->default('09:00:00');
             $table->time('termino_atendimento')             ->nullable()    ->default('17:00:00');
 
+            $table->enum('status',['Ativa','Inativa',])     ->default('Ativa');
+
             $table->softDeletes();
 
             $table->timestamps();

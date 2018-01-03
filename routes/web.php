@@ -38,6 +38,9 @@ Route::post('/mudastatus',				'UserController@MudaStatus');
 Route::post('/senhafuncionario',			'EmailController@EnviarSenhaFuncionario');
 Route::post('/zerarsenhafuncionario',	'EmailController@ZerarSenhaFuncionario');
 
+//caminho para alterar o status da SECRETARIA ATIVA/INATIVA
+Route::post('/mudastatus_secretaria',				'SecretariaController@MudaStatus_Secretaria');
+
 
 // Rota para o dataTables da dashboard
 Route::get('solicitacao/datatables/{liberado}', 'SolicitacaoController@dados');
@@ -63,3 +66,4 @@ Route::resource('solicitante',	'SolicitanteController');
 Route::resource('funcionario',	'FuncionarioController');
 Route::resource('solicitacao',	'SolicitacaoController');
 Route::resource('comentario',		'ComentarioController');
+Route::resource('secretaria',		'SecretariaController');

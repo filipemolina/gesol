@@ -52,8 +52,8 @@
 
 
 @push('scripts')
-            {{-- {  "name": "{{ $resultados['ano_anterior'] }}",  --}}
-               {{-- "data":  [@foreach($resultados['sol_por_mes_ano_anterior']  as $mes => $qtd)  --}}
+            {{-- {  "name": "{{ $ano_anterior'] }}",  --}}
+               {{-- "data":  [@foreach($sol_por_mes_ano_anterior']  as $mes => $qtd)  --}}
                            {{-- {{ $qtd }},  --}}
                         {{-- @endforeach]    --}}
             {{-- }, --}}
@@ -79,12 +79,12 @@
             orient: 'horizontal',
             top : 30,
             left: 10,
-            data: ['{{ $resultados['ano_anterior'] }}','{{ $resultados['ano'] }}']
+            data: ['{{ $ano_anterior }}','{{ $ano }}']
          },
 
          // title : {
          //    text: 'Solicitações Registradas',
-         //    subtext: '{{ $resultados['ano_anterior'] }} e {{ $resultados['ano'] }}',
+         //    subtext: '{{ $ano_anterior }} e {{ $ano }}',
          //    x:'center'
          // },
 
@@ -126,23 +126,23 @@
          
          series: [
             {
-               name:'{{ $resultados['ano'] }}',
+               name:'{{ $ano }}',
                type:'line',
                smooth: true,
                data: 
                [ 
-                  @foreach($resultados['sol_por_mes'] as $mes => $qtd) 
+                  @foreach($sol_por_mes as $mes => $qtd) 
                      {{ $qtd }}, 
                   @endforeach
                ],
             },
             {
-               name:'{{ $resultados['ano_anterior'] }}',
+               name:'{{ $ano_anterior }}',
                type:'line',
                smooth: true,
                data: 
                [ 
-                  @foreach($resultados['sol_por_mes_ano_anterior'] as $mes => $qtd) 
+                  @foreach($sol_por_mes_ano_anterior as $mes => $qtd) 
                      {{ $qtd }}, 
                   @endforeach
                ],
@@ -160,19 +160,6 @@
       //=============================================================================================
 
 
-      // var dados2 = [];
-
-      // @foreach($resultados['sol_maiores'] as $sol) 
-      //    dados2.push("{value: {{ $sol->total }}, name: '{{ $sol->nome }}\'}," );
-
-      //    //          {value:335, name:'asdasd'},
-      // @endforeach
-               
-      // console.log(dados2);
-
-
-
-
       var nameList = [];
       var legendData = [];
       var seriesData = [];
@@ -180,7 +167,7 @@
       var novo =[];
       var seriesDataAnoAnterior =[];
 
-      @foreach($resultados['sol_maiores'] as $sol) 
+      @foreach($solicitacoes_maiores as $sol) 
          nameList.push('{{ $sol->nome }}');
          legendData.push('{{ $sol->nome }}');
          //seriesData.push({{ $sol->total }});
@@ -198,7 +185,7 @@
 
       @endforeach
 
-      @foreach($resultados['sol_maiores_ano_anterior'] as $sol) 
+      @foreach($solicitacoes_maiores_ano_anterior as $sol) 
 
          seriesDataAnoAnterior.push({
             name: '{{ $sol->nome }}',
@@ -239,7 +226,7 @@
           calculable : true,
           series : [
               {
-                  name: '{{ $resultados['ano_anterior'] }}',
+                  name: '{{ $ano_anterior }}',
                   type:'pie',
                   radius : [20, 110],
                   center : ['25%', '50%'],
@@ -263,7 +250,7 @@
                   data: seriesDataAnoAnterior
               },
               {
-                  name: '{{ $resultados['ano'] }}',
+                  name: '{{ $ano }}',
                   type:'pie',
                   radius : [30, 110],
                   center : ['75%', '50%'],
