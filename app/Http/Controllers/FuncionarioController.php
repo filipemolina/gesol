@@ -266,36 +266,36 @@ class FuncionarioController extends Controller
 
       //salva as alterações na trilha de auditoria (sys_logs)
       if($original_usuario['email'] != $novo['email']){
-         loga('U', 'USUARIO', $usuario->id, 'email', $original_usuario['email'], null);
+         loga('U', 'USERS', $usuario->id, 'email', $original_usuario['email'], null);
       }
 
 
       if($original_funcionario['nome'] != $novo['nome']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'nome', $original_funcionario['nome'], null);
+         loga('U', 'FUNCIONARIOS', $funcionario->id, 'nome', $original_funcionario['nome'], null);
       }
 
       if($original_funcionario['foto'] != $novo['foto']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'foto', $original_funcionario['foto'], null);
+         loga('U', 'FUNCIONARIOS', $funcionario->id, 'foto', $original_funcionario['foto'], null);
       }
 
       if($original_funcionario['cpf'] != $novo['cpf']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'cpf', $original_funcionario['cpf'], null);
+         loga('U', 'FUNCIONARIOS', $funcionario->id, 'cpf', $original_funcionario['cpf'], null);
       }
 
       if($original_funcionario['matricula'] != $novo['matricula']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'matricula', $original_funcionario['matricula'], null);
+         loga('U', 'FUNCIONARIOS', $funcionario->id, 'matricula', $original_funcionario['matricula'], null);
       }
 
       if($original_funcionario['cargo'] != $novo['cargo']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'cargo', $original_funcionario['cargo'], null);
+         loga('U', 'FUNCIONARIOS', $funcionario->id, 'cargo', $original_funcionario['cargo'], null);
       }
 
       if($original_funcionario['setor_id'] != $novo['setor_id']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'setor_id', $original_funcionario['setor_id'], null);
+         loga('U', 'FUNCIONARIOS', $funcionario->id, 'setor_id', $original_funcionario['setor_id'], null);
       }
 
       if($original_funcionario['role_id'] != $novo['role_id']){
-         loga('U', 'FUNCIONARIO', $funcionario->id, 'role_id', $original_funcionario['role_id'], null);
+         loga('U', 'FUNCIONARIOS', $funcionario->id, 'role_id', $original_funcionario['role_id'], null);
       }
 
 
@@ -328,7 +328,7 @@ class FuncionarioController extends Controller
 
     
     
-   public function setor(Request $request)
+   public function setores(Request $request)
    {
       $secretaria = Secretaria::with(['setores'])->where('id', $request->secretaria)->first();   
       return json_encode($secretaria->setores);

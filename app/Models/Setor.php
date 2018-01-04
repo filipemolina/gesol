@@ -10,6 +10,11 @@ class Setor extends Model
 
     protected $fillable =[
     	'nome',
+        'oculto',
+        'icone',
+        'cor',
+        'secretaria_id',
+        'operante',
     ];
 
 

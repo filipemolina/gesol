@@ -9,7 +9,7 @@
 
    <div class="logo" style="color: #000000;">
       <a href="#" class="simple-text">
-         GESOL  <i style="font-size: 10px;">( v0.2.7 )</i>
+         GESOL  <i style="font-size: 10px;">( v0.3.0 )</i>
       </a>
    </div>
    <div class="logo logo-mini">
@@ -128,6 +128,35 @@
                   <p>Funcionarios</p>
                </a>
             </li>
+
+            <li>
+               <a data-toggle="collapse" href="#componentsExamples" class="collapsed" aria-expanded="false">
+                   <i class="material-icons">settings</i>
+                   <p> Configurações
+                       <b class="caret"></b>
+                   </p>
+               </a>
+
+               <div class="collapse" id="componentsExamples" aria-expanded="false" style="height: 0px;">
+                   <ul class="nav">
+                       <li>
+                           <a href="{{ url("/secretaria") }}">
+                               <span class="sidebar-normal"> Secretarias </span>
+                           </a>
+                       </li>
+                       <li>
+                           <a href="{{ url("/setor") }}">
+                               <span class="sidebar-normal"> Setores </span>
+                           </a>
+                       </li>
+                       <li>
+                           <a href="{{ url("/servico") }}">
+                               <span class="sidebar-normal"> Serviços </span>
+                           </a>
+                       </li>
+                   </ul>
+               </div>
+           </li>
            
          @endif
 

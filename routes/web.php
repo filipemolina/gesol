@@ -38,6 +38,12 @@ Route::post('/mudastatus',				'UserController@MudaStatus');
 Route::post('/senhafuncionario',			'EmailController@EnviarSenhaFuncionario');
 Route::post('/zerarsenhafuncionario',	'EmailController@ZerarSenhaFuncionario');
 
+//caminho para alterar o status da SECRETARIA operante=boolean
+Route::post('/mudastatus_secretaria',			'SecretariaController@MudaStatus_Secretaria');
+
+//caminho para alterar o status da SETOR operante=boolean
+Route::post('/mudastatus_setor',					'SetorController@MudaStatus_Setor');
+
 
 // Rota para o dataTables da dashboard
 Route::get('solicitacao/datatables/{liberado}', 'SolicitacaoController@dados');
@@ -49,7 +55,7 @@ Route::post('status',									'SolicitacaoController@status');
 Route::post('trilha',									'SolicitacaoController@trilha');
 
 // Rota para preencher o select de setores na edição/criação de funcionarios
-Route::get('setor','FuncionarioController@setor');
+Route::get('setores','FuncionarioController@setores');
 
 // Rota para preencher os comunicados do prefeito
 Route::get('comunicados', 'HomeController@comunicados');
@@ -63,3 +69,5 @@ Route::resource('solicitante',	'SolicitanteController');
 Route::resource('funcionario',	'FuncionarioController');
 Route::resource('solicitacao',	'SolicitacaoController');
 Route::resource('comentario',		'ComentarioController');
+Route::resource('secretaria',		'SecretariaController');
+Route::resource('setor',			'SetorController');

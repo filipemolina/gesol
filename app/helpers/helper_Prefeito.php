@@ -37,6 +37,13 @@ if (! function_exists('dashboardPrefeito')) {
 
 
    // ==============================================================================================
+   //    TOTAL TODAS AS SOLICITAÇÕES
+   // ==============================================================================================
+
+      $solicitacoes_todas  = Solicitacao::with(['endereco', 'servico', 'servico.setor', 'servico.setor.secretaria'])->get();
+
+
+   // ==============================================================================================
    //    TOTAL ANO ANTERIOR 
    // ==============================================================================================
 
@@ -51,6 +58,7 @@ if (! function_exists('dashboardPrefeito')) {
       $solicitacoes  = Solicitacao::with(['endereco', 'servico', 'servico.setor', 'servico.setor.secretaria'])
          ->where('created_at','>=', $data_inicio)->where('created_at','<=', $data_fim)
          ->get();
+
       
       
 
@@ -176,9 +184,13 @@ if (! function_exists('dashboardPrefeito')) {
             foreach($um_setor->servicos as $um_servico){
 
                //só adiciona o setor se tiver ao menos uma solicitação
-               if ($um_servico->solicitacoes()->count() >= 1)
+               if ($um_servico->solicitacoes()->where('solicitacoes.created_at','>=', $data_inicio)
+                                              ->where('solicitacoes.created_at','<=', $data_fim)->count() >= 1)
                {
-                  $item[$um_servico->nome] = $um_servico->solicitacoes()->count();
+                  //$item[$um_servico->nome] = $um_servico->solicitacoes()->count();
+                  $item[$um_servico->nome] = $um_servico->solicitacoes()
+                                                            ->where('solicitacoes.created_at','>=', $data_inicio)
+                                                            ->where('solicitacoes.created_at','<=', $data_fim)->count();
                }
 
             }
@@ -210,15 +222,20 @@ if (! function_exists('dashboardPrefeito')) {
    // ==============================================================================================
    // ==============================================================================================   
 
+      $resultados['solicitacoes_todas']         = $solicitacoes_todas;
+
+
+      
       $resultados['solicitacoes']               = $solicitacoes;
+      $resultados['solicitacoes_ano_anterior']  = $solicitacoes_ano_anterior;
       $resultados['abertas']                    = $solicitacoes->where('status', 'Aberta')->count();
       $resultados['ano']                        = $ano;
       $resultados['ano_anterior']               = $ano_anterior;
 
       $resultados['sol_por_mes']                = solicitacoesPorMes($solicitacoes);
       $resultados['sol_por_mes_ano_anterior']   = solicitacoesPorMes($solicitacoes_ano_anterior);
-      $resultados['sol_prazo']                  = solicitacoesPrazo($solicitacoes);
-      $resultados['sol_media']                  = mediaSolucao($solicitacoes);
+      $resultados['sol_prazo']                  = solicitacoesPrazo($solicitacoes_todas);
+      $resultados['sol_media']                  = mediaSolucao($solicitacoes_todas);
 
       $resultados['sol_maiores']                = $solicitacoes_maiores;
       $resultados['sol_maiores_ano_anterior']   = $solicitacoes_maiores_ano_anterior;

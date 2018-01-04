@@ -48,7 +48,26 @@ messaging.requestPermission()
 })
 .catch(() => {
 	console.log("Permissão Negadona");
-	$("#btn-permissao").css("display", 'block');
+	//$("#btn-permissao").css("display", 'block');
+
+	 $.notify({
+        icon: "add_alert",
+        message: "Ative as Notificações para que o Gesol funcione corretamente!",
+        url: "https://support.google.com/chrome/answer/3220216?co=GENIE.Platform%3DDesktop&hl=pt"
+
+    	},{
+        type: 'danger',
+        timer: 4000,
+        		animate: {
+				enter: 'animated lightSpeedIn',
+				exit: 'animated lightSpeedOut'
+			}
+      
+    });
+
+
+
+
 });
 
 ///////////////////////////////////////////////////////////////////////////////
