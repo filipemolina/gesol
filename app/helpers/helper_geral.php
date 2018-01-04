@@ -195,8 +195,6 @@ if(!function_exists("enviarNotificacao")){
 
    function enviarNotificacao($titulo, $subtitulo, $destinatarios, $dados){
 
-      // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
-
       $optionBuilder = new OptionsBuilder();
       $optionBuilder->setTimeToLive(60*20);
 

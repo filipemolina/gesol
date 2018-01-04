@@ -101,6 +101,8 @@ messaging.onMessage(function(payload){
 
 		}
 
+		// Caso seja uma nova solicitação, adicionar a notificação correspondente
+
 		if(payload.data.motivo == "nova" && payload.data.model == "solicitacao"){
 
 			// Adicionar um link para a nova solicitação na lista de notificações
@@ -112,6 +114,8 @@ messaging.onMessage(function(payload){
 			$("span.notification").html(novo_valor);
 
 		}
+
+		// Caso a página de edição da solicitação esteja aberta, apenas adicionar o novo comentário na página
 
 		if(url.includes('solicitacao') && url.includes('edit') && url.includes(payload.data.solicitacao)){
 			

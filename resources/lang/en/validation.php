@@ -124,7 +124,11 @@ return [
         'senha_confirmation' => 'Confirmar Senha',
         'solicitante.nome'   => 'Nome',
         'solicitante.email'  => 'E-mail',
-        'solicitante.cpf'    => 'CPF'
+        'solicitante.cpf'    => 'CPF',
+        'imagem'             => 'Imagem',
+        'titulo'             => 'Titulo',
+        'subtitulo'          => 'Subtítulo',
+        'texto'              => 'Texto',
     ],
 
 ];
