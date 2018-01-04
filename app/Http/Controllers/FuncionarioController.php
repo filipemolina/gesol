@@ -328,7 +328,7 @@ class FuncionarioController extends Controller
 
     
     
-   public function setor(Request $request)
+   public function setores(Request $request)
    {
       $secretaria = Secretaria::with(['setores'])->where('id', $request->secretaria)->first();   
       return json_encode($secretaria->setores);

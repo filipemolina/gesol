@@ -16,9 +16,8 @@ use Carbon\Carbon;
 use DataTables;
 
 
-class SecretariaController extends Controller
+class SetorController extends Controller
 {
-    
    public function __construct()
    {
       $this->middleware('auth');
@@ -36,29 +35,31 @@ class SecretariaController extends Controller
 
    public function index()
    {
-
       // busca o usuario
       $usuario = User::find(Auth::user()->id);
 
       // busca o funcionario logado
       $funcionario_logado = $usuario->funcionario;
 
-      // busca as secretarias
+      // busca as secretarias 
       $secretarias = Secretaria::all();
 
-      return view ('secretarias.index', compact('secretarias','funcionario_logado'));
+      // busca os setores
+      $setores = Setor::all();
 
+      //dd($setores);
+      return view ('setores.index', compact('secretarias','setores','funcionario_logado'));
    }
 
 
-    
+
    public function create()
    {
       $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
       return view('secretarias.create_edit', compact('funcionario_logado'));
    }
 
-    
+
    public function store(Request $request)
    {
 
@@ -105,13 +106,13 @@ class SecretariaController extends Controller
       return redirect(url('/secretaria'))->with('sucesso', 'Secretaria criada com sucesso.');    
    }
 
-    
-    public function show($id)
-    {
-        //
-    }
 
-    
+   public function show($id)
+   {
+        //
+   }
+
+
    public function edit($id)
    {
       $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
@@ -124,8 +125,8 @@ class SecretariaController extends Controller
    }
 
 
-    public function update(Request $request, $id)
-    {
+   public function update(Request $request, $id)
+   {
 
       if($request->has('inicio_atendimento')){
          $inicio_atendimento = \Carbon\Carbon::createFromFormat('g:i A',$request->inicio_atendimento)->toTimeString();
@@ -136,7 +137,7 @@ class SecretariaController extends Controller
          $termino_atendimento = \Carbon\Carbon::createFromFormat('g:i A',$request->termino_atendimento)->toTimeString();
          $request->merge(['termino_atendimento' => $termino_atendimento ]);
       }
-     
+
       //coloca a SIGLA em UPPERCASE no request
       if($request->has('sigla')){
          $request->merge(['sigla' => trim(strtoupper($request->sigla)) ]);
@@ -206,31 +207,29 @@ class SecretariaController extends Controller
          return redirect(url('/secretaria'));    
       }    }
 
-    public function destroy($id)
-    {
+      public function destroy($id)
+      {
         //
-    }
+      }
 
-   public function MudaStatus_Secretaria(Request $request)
-   {
+      public function MudaStatus_Secretaria(Request $request)
+      {
    // busca a secretaria
-     $secretaria = Secretaria::find($request->id);        
-     
+       $secretaria = Secretaria::find($request->id);        
+
      //return json_encode($usuario);     
 
-     $status_antigo = $secretaria->operante;    
+       $status_antigo = $secretaria->operante;    
 
-     $secretaria->operante = $request->operante;
+       $secretaria->operante = $request->operante;
 
-     
       //salva a secretaria
-     $secretaria->save();
+       $secretaria->save();
 
      //salva na trilha
-     loga('U', 'SECRETARIAS', $secretaria->id, 'OPERANTE', $status_antigo, null);
+       loga('U', 'SECRETARIAS', $secretaria->id, 'OPERANTE', $status_antigo, null);
 
-     return json_encode($status_antigo);     
+       return json_encode($status_antigo);     
 
-   }
-   
-}
+    }
+ }

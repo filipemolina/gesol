@@ -18,6 +18,7 @@ class Secretaria extends Model
         'telefone',
         'inicio_atendimento',
         'termino_atendimento',
+        'operante',
     ];
 
 

@@ -148,7 +148,7 @@
 			let id_usuario = $(this).data('funcionario');
 			let btn = $(this);
 
-			console.log("botao btn_desativa -> ", $(this).data('funcionario'));
+			//console.log("botao btn_desativa -> ", $(this).data('funcionario'));
 	      swal({
 	         title: 'Confirma a DESATIVAÇÃO do funcionário?',
 	         type: 'question',
@@ -167,7 +167,7 @@
 
 				 	btn.css('display', 'none').siblings('button.btn_ativa').css('display', 'block');
 				 	demo.notificationRight("top", "right", "success", "O funcionário foi Desativado");
- 					console.log(data)
+ 					//console.log(data)
 
 			 	})
 
@@ -177,7 +177,7 @@
 		$("table#datatables").on("click", ".btn_ativa",function(){
 			let id_usuario = $(this).data('funcionario');
 			let btn = $(this);
-			console.log("botao btn_ativa -> ", $(this).data('funcionario'));
+			//console.log("botao btn_ativa -> ", $(this).data('funcionario'));
 	      
 	      swal({
 	         title: 'Confirma a ATIVAÇÃO do funcionário?',
@@ -198,7 +198,7 @@
 				  	btn.css('display', 'none').siblings('button.btn_desativa').css('display', 'block');
 
 				 	demo.notificationRight("top", "right", "success", "O funcionário foi Ativado");
- 					console.log(data)
+ 					//console.log(data)
 			 	})
 
          });
@@ -207,7 +207,7 @@
 		$(".btn_email_senha").click(function(){
 			let id_usuario = $(this).data('funcionario');
 
-			console.log("botao btn_email_senha -> ", id_usuario );
+			//console.log("botao btn_email_senha -> ", id_usuario );
 
 	      swal({
 	         title: 'Confirma a REINICIALIZAÇÃO da senha do funcionário?',
@@ -228,7 +228,7 @@
    	 	 	},function(data){
 					 //mostrando o retorno do post
 				 	demo.notificationRight("top", "right", "success", "Email com nova senha enviado para o funcionário");
- 					console.log(data)
+ 					//console.log(data)
 			 	})
 
          });

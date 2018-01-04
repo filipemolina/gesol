@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-	Secretarias {{ mostraAcesso($funcionario_logado) }}
+	Setores {{ mostraAcesso($funcionario_logado) }}
 
 @endsection
 
@@ -16,32 +16,32 @@
 			</div>
 
 			<div class="card-content">
-				<h4 class="card-title">Lista de Secretarias</h4>
+				<h4 class="card-title">Lista de Setores</h4>
 				<div class="toolbar">
 					<!--        Here you can write extra buttons/actions for the toolbar              -->
 				</div>
 				
-				<a href="{{ url("/secretaria/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Adicionar Secretaria"></i></a>
+				<a href="{{ url("/setores/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Adicionar Secretaria"></i></a>
 
 				<div class="material-datatables">
-					<table id="datatable_secretaria" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+					<table id="datatable_setor" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
 						<thead>
 							<tr>
-								<th>Nome</th>
-								<th>Sigla</th>
-								<th>Secretario</th>
+								<th>Secretaria</th>
+								<th>Setor</th>
+								
 								<th class="disabled-sorting text-right">Ações</th>
 							</tr>
 						</thead>
 						<tbody>
 
-							@foreach($secretarias as $secretaria)
+							@foreach($setores as $setor)
 								<tr>
-									<td>{{ $secretaria->nome                                             }}</td>
-									<td>{{ $secretaria->sigla                                      		}}</td>
-									<td>{{ $secretaria->secretario                                     	}}</td>
+									<td>{{ $setor->secretaria->nome                             }}</td>
+									<td>{{ $setor->nome                                      		}}</td>
+									
 									<td>
-										<a href="{{ url("/secretaria/$secretaria->id/edit") }}"
+										<a href="{{ url("/setor/$setor->id/edit") }}"
 											class="btn btn-warning btn-xs action  pull-right botao_acao " 
 											data-toggle="tooltip" 
 											data-placement="bottom" 
@@ -49,12 +49,12 @@
 											<i class="glyphicon glyphicon-pencil "></i>
 										</a>
 
-										@if($secretaria->operante == true)
+										@if($setor->operante == true)
 												
 											<button  
 												class="btn_desativa btn btn-danger btn-xs action  pull-right  botao_acao" 
 												data-toggle="tooltip" 
-												data-secretaria = {{ $secretaria->id }}
+												data-setor = {{ $setor->id }}
 												data-placement="bottom" 
 												title="Desativa a Secretaria" >  
 												<i class="glyphicon glyphicon-remove "></i>
@@ -63,20 +63,20 @@
 											<button  
 												class="btn_ativa btn btn-success btn-xs action  pull-right  botao_acao" 
 												data-toggle="tooltip" 
-												data-secretaria = {{ $secretaria->id }}
+												data-setor = {{ $setor->id }}
 												data-placement="bottom" 
 												title="Ativa a Secretaria"
 												style="display: none">  
 												<i class="glyphicon glyphicon-plus "></i>
 											</button>
 
-										{{-- @elseif($secretaria->status == 'Inativa') --}}
+										{{-- @elseif($setor->status == 'Inativa') --}}
 										@else
 											
 											<button  
 												class="btn_desativa btn btn-danger btn-xs action  pull-right  botao_acao" 
 												data-toggle="tooltip" 
-												data-secretaria = {{ $secretaria->id }}
+												data-setor = {{ $setor->id }}
 												data-placement="bottom" 
 												title="Desativa a Secretaria" 
 												style="display: none">  
@@ -86,7 +86,7 @@
 											<button  
 												class="btn_ativa btn btn-success btn-xs action  pull-right  botao_acao" 
 												data-toggle="tooltip" 
-												data-secretaria = {{ $secretaria->id }}
+												data-setor = {{ $setor->id }}
 												data-placement="bottom" 
 												title="Ativa a Secretaria" >  
 												<i class="glyphicon glyphicon-plus "></i>
@@ -129,7 +129,7 @@
 			demo.notificationRight("top", "right", "success", "{{ session('sucesso') }}");
 		@endif
 
-		$('#datatable_secretaria').DataTable({
+		$('#datatable_setor').DataTable({
 			language : {
                       'url' : '{{ asset('js/portugues.json') }}',
                       "decimal": ",",
@@ -142,9 +142,11 @@
 			compact: true,
 
 			"columnDefs": [
-    			{ "width": "15%", "targets": 3 },
-    			{ className: "text-center", "targets": [3] },
-  			]
+    			{ "width": "15%", "targets": 2 },
+    			{ className: "text-center", "targets": [2] },
+  			],
+
+		 	"order": [[ 0, 'asc' ], [ 1, 'asc' ]],
 		});
 
 
@@ -152,13 +154,13 @@
 		$.fn.dataTable.moment( 'DD/MM/YYYY' );
 
 
-		$("table#datatable_secretaria").on("click", ".btn_desativa",function(){
-			let id_secretaria = $(this).data('secretaria');
+		$("table#datatable_setor").on("click", ".btn_desativa",function(){
+			let id_setor = $(this).data('setor');
 			let btn = $(this);
 
-			console.log("botao btn_desativa -> ", $(this).data('secretaria'));
+			console.log("botao btn_desativa -> ", $(this).data('setor'));
 	      swal({
-	         title: 'Confirma a DESATIVAÇÃO da Secretaria?',
+	         title: 'Confirma a DESATIVAÇÃO da Setor?',
 	         text: "Essa alteração será refletida no \"Mesquita 360\"!",
 	         type: 'question',
 	         showCancelButton: true,
@@ -167,11 +169,11 @@
 	         confirmButtonText: 'Sim',
 	         cancelButtonText: 'Não',
 	      }).then(function () {
-      		//chama a rota para desativar o secretaria
-   	 	 	$.post('/mudastatus_secretaria',{
+      		//chama a rota para desativar o setor
+   	 	 	$.post('/mudastatus_setor',{
                _token: 	'{{ csrf_token() }}',
-   	 	 		id: 		id_secretaria,
-   	 	 		operante: 	0
+   	 	 		id: 		id_setor,
+   	 	 		status: 	false
    	 	 	},function(data){
 
 				 	btn.css('display', 'none').siblings('button.btn_ativa').css('display', 'block');
@@ -183,13 +185,13 @@
          });
       });
 
-		$("table#datatable_secretaria").on("click", ".btn_ativa",function(){
-			let id_secretaria = $(this).data('secretaria');
+		$("table#datatable_setor").on("click", ".btn_ativa",function(){
+			let id_setor = $(this).data('setor');
 			let btn = $(this);
-			console.log("botao btn_ativa -> ", $(this).data('secretaria'));
+			console.log("botao btn_ativa -> ", $(this).data('setor'));
 	      
 	      swal({
-	         title: 'Confirma a ATIVAÇÃO da Secretaria?',
+	         title: 'Confirma a ATIVAÇÃO do Setor?',
 	         text: "Essa alteração será refletida no \"Mesquita 360\"!",
 	         type: 'question',
 	         showCancelButton: true,
@@ -198,11 +200,11 @@
 	         confirmButtonText: 'Sim',
 	         cancelButtonText: 'Não',
 	      }).then(function () {
-      		//chama a rota para desativar o secretaria
-   	 	 	$.post('/mudastatus_secretaria',{
+      		//chama a rota para desativar o setor
+   	 	 	$.post('/mudastatus_setor',{
                _token: 	'{{ csrf_token() }}',
-   	 	 		id: 		id_secretaria,
-   	 	 		operante: 1
+   	 	 		id: 		id_setor,
+   	 	 		status: 	true
    	 	 	},function(data){
 					
 				  	btn.css('display', 'none').siblings('button.btn_desativa').css('display', 'block');

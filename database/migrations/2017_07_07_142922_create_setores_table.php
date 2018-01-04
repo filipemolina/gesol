@@ -24,7 +24,7 @@ class CreateSetoresTable extends Migration
 
             $table->string('cor')->default('#3D276B');
 
-
+            $table->boolean('operante')                        ->default(true);
 
             //------------------------FOREIGN--------------------------------
             $table->integer('secretaria_id')->unsigned();
