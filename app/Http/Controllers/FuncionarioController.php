@@ -113,7 +113,6 @@ class FuncionarioController extends Controller
          $request->merge(['secretaria_id' => $funcionario_logado->setor->secretaria->id]);    
       }
 
-       
       //dd($request->all());
 
       $this->validate($request, [

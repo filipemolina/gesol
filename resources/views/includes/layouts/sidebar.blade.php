@@ -132,7 +132,7 @@
          @endif
 
          <li>
-            <a href="{{ url("/comunicados") }}">
+            <a href="{{ url("/comunicado") }}">
                <i class="material-icons">chat bubble</i>
                <p>Comunicados</p>
             </a>

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Solicitacao;
 use App\Models\Solicitante;
 use App\Models\Funcionario;
+use App\Models\FCM_Token;
 use App\Models\Movimento;
 use App\Models\Parametro;
 use App\Models\Endereco;
@@ -599,9 +600,9 @@ class SolicitacaoController extends Controller
 
                 if (trilha($solicitacao->id, null , null ,"Liberou",null,null))
                 {
-                    // inserir código do FCM para enviar mensagem para todos os aplicativos dizendo 
-                    // que uma nova solicitação foi criada
-                    $tokens = Solicitante::all()->pluck('fcm_id')->toArray();
+                    // Obter todos os FCM Tokens dos navegadores
+
+                    $tokens = FCM_Token::whereNotNull('token')->where('celular', 0)->get()->pluck('token')->toArray();
 
                     $dados = [
                         'operacao' => 'atualizar',
@@ -609,7 +610,7 @@ class SolicitacaoController extends Controller
                         'model' => 'solicitacoes'
                     ];
 
-                    enviarNotificacao("Solicitacao $solicitacao->id liberada", "", $tokens, $dados);
+                    enviarDadosParaApp($tokens, $dados);
 
                     return redirect('/solicitacao');
                 }
