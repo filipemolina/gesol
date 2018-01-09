@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Funcionario;
 use App\Models\Secretaria;
 use App\Models\Servico;
+use App\Models\Icone;
 use App\Models\Setor;
 use App\Models\Role;
 use App\Models\User;
@@ -55,55 +56,36 @@ class SetorController extends Controller
 
    public function create()
    {
-      $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
-      return view('secretarias.create_edit', compact('funcionario_logado'));
+      $funcionario_logado   = Funcionario::find(Auth::user()->funcionario_id);
+      $secretarias          = Secretaria::all();
+      $icones               = Icone::all();
+
+      return view('setores.create_edit', compact('funcionario_logado','secretarias','icones'));
    }
 
 
    public function store(Request $request)
    {
 
-      //formata o inicio_atendimento no request
-      if($request->has('inicio_atendimento')){
-         $inicio_atendimento = \Carbon\Carbon::createFromFormat('g:i A',$request->inicio_atendimento)->toTimeString();
-         $request->merge(['inicio_atendimento' => $inicio_atendimento ]);
-      }
-
-      //formata a hora no request
-      if($request->has('termino_atendimento')){
-         $termino_atendimento = \Carbon\Carbon::createFromFormat('g:i A',$request->termino_atendimento)->toTimeString();
-         $request->merge(['termino_atendimento' => $termino_atendimento ]);
-      }
-
-      //coloca a SIGLA em UPPERCASE no request
-      if($request->has('sigla')){
-         $request->merge(['sigla' => trim(strtoupper($request->sigla)) ]);
-      }
-
+      //dd($request);
       $this->validate($request, [
-         'nome'                  => 'required|max:100',
-         'sigla'                 => 'required|max:10|unique:secretarias',
+         'nome'             => 'required|max:50',
+         'secretaria_id'    => 'required',
+         'cor'              => 'required',
+         'icone'            => 'required',
+
       ]);
 
-
-      //se existir email no request ele deve ser validado
-      if($request->has('email')){
-         $this->validate($request, [
-            'email' => 'email|max:191'
-         ]);
-      }
-
-
-      // Criar uma nova secretaria
-      $secretaria = new Secretaria($request->all());
+      // Criar um nova setor
+      $setor = new Setor($request->all());
 
       // Salvar no banco para obter o ID
-      $secretaria->save();
+      $setor->save();
 
       //salva na trilha
-      loga('C', 'SECRETARIAS',    $secretaria->id,   null, null, 'Criou a Secretaria ID: '.$secretaria->id);
+      loga('C', 'SETORES',    $setor->id,   null, null, 'Criou o Setor ID: '.$setor->id);
 
-      return redirect(url('/secretaria'))->with('sucesso', 'Secretaria criada com sucesso.');    
+      return redirect(url('/setor'))->with('sucesso', 'Setor criado com sucesso.');    
    }
 
 
@@ -117,104 +99,72 @@ class SetorController extends Controller
    {
       $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
-      $secretaria     = Secretaria::find($id);
-      $setores        = Setor::all()->sortBy('nome');        
-      $servicos       = Servico::all()->sortBy('nome');        
+      $setor                = Setor::find($id);
+      $secretarias          = Secretaria::all();
+      $icones               = Icone::all();
 
-      return view('secretarias.create_edit', compact('funcionario_logado','secretaria','setores','servicos','roles'));
+      return view('setores.create_edit', compact('funcionario_logado','secretarias','icones','setor'));
    }
 
 
    public function update(Request $request, $id)
    {
 
-      if($request->has('inicio_atendimento')){
-         $inicio_atendimento = \Carbon\Carbon::createFromFormat('g:i A',$request->inicio_atendimento)->toTimeString();
-         $request->merge(['inicio_atendimento' => $inicio_atendimento ]);
-      }
-
-      if($request->has('termino_atendimento')){
-         $termino_atendimento = \Carbon\Carbon::createFromFormat('g:i A',$request->termino_atendimento)->toTimeString();
-         $request->merge(['termino_atendimento' => $termino_atendimento ]);
-      }
-
-      //coloca a SIGLA em UPPERCASE no request
-      if($request->has('sigla')){
-         $request->merge(['sigla' => trim(strtoupper($request->sigla)) ]);
-      }
-
-      //dd($request);
-
-      $secretaria    = Secretaria::find($id);
-
       $this->validate($request, [
-         'nome'                  => 'required|max:100',
-         'sigla'                 => 'required|max:10|unique:secretarias,id,'.$id
+         'nome'             => 'required|max:50',
+         'secretaria_id'    => 'required',
+         'cor'              => 'required',
+         'icone'            => 'required',
+
       ]);
 
+      $setor            = setor::find($id);
 
-      if($request->has('email')){
-         $this->validate($request, [
-            'email' => 'email|max:191'
-         ]);
-      }
-
-
-
-
-      $original_secretaria   = $secretaria->toArray();
+      $original_setor   = $setor->toArray();
       
-      $novo                   = $request->toArray();
-      $input                  = $request->all(); 
+      $novo             = $request->toArray();
+      $input            = $request->all(); 
 
 
-      $secretaria->fill($input);
-      $salvou_secretaria = $secretaria->save();
+      $setor->fill($input);
+      $salvou_setor = $setor->save();
 
       
 
       //salva as alterações na trilha de auditoria (sys_logs)
-      if($original_secretaria['nome'] != $novo['nome']){
-         loga('U', 'SECRETARIAS', $secretaria->id, 'nome', $original_secretaria['nome'], null);
+      if($original_setor['nome'] != $novo['nome']){
+         loga('U', 'SETORES', $setor->id, 'nome', $original_setor['nome'], null);
       }
 
-      if($original_secretaria['secretario'] != $novo['secretario']){
-         loga('U', 'SECRETARIAS', $secretaria->id, 'secretario', $original_secretaria['secretario'], null);
+      if($original_setor['secretaria_id'] != $novo['secretaria_id']){
+         loga('U', 'SETORES', $setor->id, 'secretaria_id', $original_setor['secretaria_id'], null);
       }
 
-      if($original_secretaria['sigla'] != $novo['sigla']){
-         loga('U', 'SECRETARIAS', $secretaria->id, 'sigla', $original_secretaria['sigla'], null);
-      }
-
-      if($original_secretaria['email'] != $novo['email']){
-         loga('U', 'SECRETARIAS', $secretaria->id, 'email', $original_secretaria['email'], null);
+      if($original_setor['cor'] != $novo['cor']){
+         loga('U', 'SETORES', $setor->id, 'cor', $original_setor['cor'], null);
       }
 
 
-      if($original_secretaria['inicio_atendimento'] != $novo['inicio_atendimento']){
-         loga('U', 'SECRETARIAS', $secretaria->id, 'inicio_atendimento', $original_secretaria['inicio_atendimento'], null);
-      }
-
-      if($original_secretaria['termino_atendimento'] != $novo['termino_atendimento']){
-         loga('U', 'SECRETARIAS', $secretaria->id, 'termino_atendimento', $original_secretaria['termino_atendimento'], null);
+      if($original_setor['icone'] != $novo['icone']){
+         loga('U', 'SETORES', $setor->id, 'icone', $original_setor['icone'], null);
       }
 
 
-      if($salvou_secretaria)
+      if($salvou_setor)
       { 
-         return redirect(url('/secretaria'))->with('sucesso', 'Informações da Secretaria alteradas com sucesso.');    
+         return redirect(url('/setor'))->with('sucesso', 'Informações do Setor alteradas com sucesso.');    
       }else{
-         return redirect(url('/secretaria'));    
+         return redirect(url('/setor'));    
       }    }
 
       public function destroy($id)
       {
         //
-      }
+   }
 
-      public function MudaStatus_Secretaria(Request $request)
-      {
-   // busca a secretaria
+   public function MudaStatus_Secretaria(Request $request)
+   {
+      // busca a secretaria
        $secretaria = Secretaria::find($request->id);        
 
      //return json_encode($usuario);     
@@ -230,6 +180,27 @@ class SetorController extends Controller
        loga('U', 'SECRETARIAS', $secretaria->id, 'OPERANTE', $status_antigo, null);
 
        return json_encode($status_antigo);     
+   }
 
-    }
- }
+
+   public function MudaVisualizacao_Setor(Request $request)
+   {
+      // busca a setor
+       $setor = Setor::find($request->id);        
+
+     //return json_encode($usuario);     
+
+       $oculto_antigo = $setor->oculto;    
+
+       $setor->oculto = $request->oculto;
+
+      //salva a setor
+       $setor->save();
+
+     //salva na trilha
+       loga('U', 'SETORES', $setor->id, 'OCULTO', $oculto_antigo, null);
+
+       return json_encode($oculto_antigo);     
+   }
+
+}
