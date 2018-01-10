@@ -6,17 +6,15 @@
     Tip 3: you can change the color of the sidebar with data-background-color="white | black"
     -->
     
-
-   <div class="logo" style="color: #000000;">
-      <a href="#" class="simple-text">
-         GESOL  <i style="font-size: 10px;">( v0.3.3 )</i>
-      </a>
-   </div>
-   <div class="logo logo-mini">
-      <a href="#" class="simple-text">
+   <div class="logo">
+      <a href="#" class="simple-text logo-mini">
          GS
       </a>
+      <a href="#" class="simple-text logo-normal">
+         GESOL  <i style="font-size: 8px;">( v0.3.3 )</i>
+      </a>
    </div>
+
    <div class="sidebar-wrapper">
       <div class="user">
          <div class="photo">
@@ -24,13 +22,37 @@
          </div>
          <div class="info">
             <a data-toggle="collapse" href="#collapseExample" class="collapsed">
-               <?php echo e($funcionario_logado->nome); ?>
+               <span>
+                  <?php echo e($funcionario_logado->nome); ?>
 
-               <b class="caret"></b>
-               <p style="font-size: 10px;">(<?php echo e($funcionario_logado->role->acesso); ?> - <?php echo e($funcionario_logado->role->peso); ?>)</p>
-
+                  <b class="caret"></b>
+               </span>
                
             </a>
+
+            <div class="clearfix"></div>
+               <div class="collapse" id="collapseExample">
+                   <ul class="nav">
+                       <li>
+                           <a href="#">
+                              <a href="<?php echo e(url("/alteraavatar")); ?>">
+                                    <i class="material-icons">person</i> Alterar Avatar
+                              </a>
+                           </a>
+                       </li>
+                       <li>
+                           <a href="<?php echo e(url('/alterasenha')); ?>" >
+                              <i class="material-icons">lock_outline</i> Alterar Senha
+                           </a>
+                       </li>
+                       <!-- <li>
+                           <a href="#">
+                               <span class="sidebar-mini"> S </span>
+                               <span class="sidebar-normal"> Settings </span>
+                           </a>
+                       </li> -->
+                   </ul>
+            </div>
 
          </div>
       </div>
@@ -170,8 +192,7 @@
                <p>Comunicados</p>
             </a>
          </li>
-
-
       </ul>
+      <p>(<?php echo e($funcionario_logado->role->acesso); ?> - <?php echo e($funcionario_logado->role->peso); ?>)</p>
    </div>
 </div>

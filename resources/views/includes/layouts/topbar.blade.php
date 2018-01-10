@@ -56,6 +56,7 @@
                   <a href="{{ url("/alteraavatar") }}">
                     <i class="material-icons">person</i> Alterar Avatar
                   </a>
+                  
                 </li>
 
                 @if($funcionario_logado->role == 'Adm Sistema')
