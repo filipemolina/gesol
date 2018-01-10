@@ -9,7 +9,7 @@
 
    <div class="logo" style="color: #000000;">
       <a href="#" class="simple-text">
-         GESOL  <i style="font-size: 10px;">( v0.3.2 )</i>
+         GESOL  <i style="font-size: 10px;">( v0.3.3 )</i>
       </a>
    </div>
    <div class="logo logo-mini">
@@ -142,17 +142,20 @@
                    <ul class="nav">
                        <li>
                            <a href="<?php echo e(url("/secretaria")); ?>">
-                               <span class="sidebar-normal"> Secretarias </span>
+                              <i class="material-icons">account_balance</i>
+                              <span class="sidebar-normal"> Secretarias </span>
                            </a>
                        </li>
                        <li>
                            <a href="<?php echo e(url("/setor")); ?>">
-                               <span class="sidebar-normal"> Setores </span>
+                              <i class="material-icons">folder_shared</i>
+                              <span class="sidebar-normal"> Setores </span>
                            </a>
                        </li>
                        <li>
                            <a href="<?php echo e(url("/servico")); ?>">
-                               <span class="sidebar-normal"> Serviços </span>
+                              <i class="material-icons">build</i>
+                              <span class="sidebar-normal"> Serviços </span>
                            </a>
                        </li>
                    </ul>
