@@ -203,7 +203,8 @@ if(!function_exists("enviarNotificacao")){
          ->setTitle($titulo)
          ->setBody($subtitulo)
          ->setSound('default')
-         ->setIcon('https://360.mesquita.rj.gov.br/gesol/img/brasao.png');
+         ->setIcon('https://360.mesquita.rj.gov.br/gesol/img/brasao.png')
+         ->setClickAction("FCM_PLUGIN_ACTIVITY");
 
       $dataBuilder = new PayloadDataBuilder();
 

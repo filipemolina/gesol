@@ -84,12 +84,7 @@ class ComunicadoController extends Controller
 
         $tokens = Solicitante::whereNotNull('fcm_id')->get()->pluck('fcm_id')->toArray();
 
-        // Função que envia a notificação para o aparelho do usuário, definida no arquivo helper_geral.php
-
-        $resultados = enviarNotificacao($comunicado->titulo, $comunicado->subtitulo, $tokens, $dados);
-
-        $comunicado->num_dispositivos = $resultados['sucesso'];
-        $comunicado->save();
+        enviarNotificacao($comunicado->titulo, $comunicado->subtitulo, $tokens, $dados);
 
         return redirect('/comunicado');
 
