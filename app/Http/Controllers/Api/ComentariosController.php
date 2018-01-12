@@ -136,6 +136,9 @@ class ComentariosController extends Controller
         $comentario = Comentario::find($id);
 
         $comentario->comentario = "Comentário apagado pelo usuário";
+        $comentario->apagado = true;
         $comentario->save();
+
+        return $comentario->toJson();
     }
 }
