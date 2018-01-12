@@ -162,6 +162,9 @@ class ComunicadoController extends Controller
      
      public function dados()
      {
+        // Usuário Logado
+        $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
+
         // Coleção que será retornada
         $resultado = collect();
 
@@ -171,13 +174,24 @@ class ComunicadoController extends Controller
         // Iterar pelos comunicados e inserí-los na coleção
         foreach($comunicados as $comunicado)
         {
+            if($funcionario_logado->role->peso == 80 )      
+            {
+                $acao   = "<a href='".url("/comunicado/$comunicado->id/edit")."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a><a href='#' class='btn btn-simple btn-danger btn-icon like btn-excluir' data-id='$comunicado->id'><i class='material-icons'>close</i></a>";
+            
+            } else {
+//                $acao   = "<a href='".url("/comunicado/$comunicado->id/edit")."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>visibility</i></a>";
+
+                    $acao   = "";
+  
+            };
+
             $resultado->push([
                 'imagem'  => "<img src='$comunicado->imagem'></img>",
                 'titulo'  => $comunicado->titulo,
                 'data'    => \Carbon\Carbon::parse($comunicado->created_at)->format('d/m/Y'),
                 'hora'    => \Carbon\Carbon::parse($comunicado->created_at)->format('H:i:s'),
                 'alcance' => $comunicado->num_dispositivos." dispositivos",
-                'acoes'   => "<a href='".url("/comunicado/$comunicado->id/edit")."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a><a href='#' class='btn btn-simple btn-danger btn-icon like btn-excluir' data-id='$comunicado->id'><i class='material-icons'>close</i></a>"
+                'acoes'   => $acao
             ]);
         }
 

@@ -11,7 +11,7 @@
          GS
       </a>
       <a href="#" class="simple-text logo-normal">
-         GESOL  <i style="font-size: 8px;">( v0.3.4 )</i>
+         GESOL  <i style="font-size: 8px;">( v1.0.0 )</i>
       </a>
    </div>
 
@@ -192,6 +192,6 @@
             </a>
          </li>
       </ul>
-      <p>({{ $funcionario_logado->role->acesso }} - {{ $funcionario_logado->role->peso }})</p>
+      {{-- <p>({{ $funcionario_logado->role->acesso }} - {{ $funcionario_logado->role->peso }})</p> --}}
    </div>
 </div>

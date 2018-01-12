@@ -6,7 +6,6 @@ use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\CanResetPassword;
 use App\Notifications\enviaEmaildeDefinicaodeSenha;
 
 class User extends Authenticatable

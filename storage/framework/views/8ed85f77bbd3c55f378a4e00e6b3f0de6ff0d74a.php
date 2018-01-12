@@ -11,7 +11,7 @@
          GS
       </a>
       <a href="#" class="simple-text logo-normal">
-         GESOL  <i style="font-size: 8px;">( v0.3.3 )</i>
+         GESOL  <i style="font-size: 8px;">( v1.0.0 )</i>
       </a>
    </div>
 
@@ -187,12 +187,12 @@
          <?php endif; ?>
 
          <li>
-            <a href="<?php echo e(url("/comunicados")); ?>">
+            <a href="<?php echo e(url("/comunicado")); ?>">
                <i class="material-icons">chat bubble</i>
                <p>Comunicados</p>
             </a>
          </li>
       </ul>
-      <p>(<?php echo e($funcionario_logado->role->acesso); ?> - <?php echo e($funcionario_logado->role->peso); ?>)</p>
+      
    </div>
 </div>

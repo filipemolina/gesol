@@ -20,8 +20,9 @@
 				<div class="toolbar">
 					<!--        Here you can write extra buttons/actions for the toolbar              -->
 				</div>
-				
-				<a href="{{ url("/comunicado/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Novo Comunicado"></i></a>
+				@if($funcionario_logado->role->peso == 80 )      
+					<a href="{{ url("/comunicado/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Novo Comunicado"></i></a>
+				@endif
 
 				<div class="material-datatables">
 					<table id="comunicados" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
