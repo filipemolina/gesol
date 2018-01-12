@@ -32,6 +32,8 @@
     <!-- meterial fonts     -->
     <link href="{{ asset('css/materialdesignicons.min.css') }}" rel="stylesheet" />
 
+    <!-- bootstrap-colorpicker     -->
+    <link href="{{ asset('bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet" />
 
 
     @stack('css')
@@ -101,7 +103,7 @@
 
         <script src="https://maps.google.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
 
-        <script src="{{ asset('js/jquery-3.1.1.min.js') }}"  type="text/javascript"></script>
+        <script src="{{ asset('js/jquery-3.2.1.min.js') }}"  type="text/javascript"></script>
         <script src="{{ asset('js/jquery-ui.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('js/material.min.js') }}" type="text/javascript"></script>
@@ -112,6 +114,10 @@
         <script src="{{ asset('js/jquery.bootstrap-wizard.js') }}"></script>
         <script src="{{ asset('js/bootstrap-notify.js') }}"></script>
         <script src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script>
+
+        <!-- bootstrap-colorpicker     -->
+        <script src="{{ asset('/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"> </script>
+
         <script src="{{ asset('js/jquery-jvectormap.js') }}"></script>
         <script src="{{ asset('js/nouislider.min.js') }}"></script>
         <script src="{{ asset('js/jquery.select-bootstrap.js') }}"></script>
@@ -132,6 +138,7 @@
         {{-- Moment --}}
         <script src="{{ asset('js/datetime-moment.js') }}"></script>
         <script src="{{ asset('js/fullcalendar.min.js') }}"></script>
+
 
         {{-- Funções Javascript --}}
         <script src="{{ asset('js/functions.js') }}"></script>

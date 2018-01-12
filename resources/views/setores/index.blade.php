@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-	Setores {{ mostraAcesso($funcionario_logado) }}
+	Configurações - Setores {{ mostraAcesso($funcionario_logado) }}
 
 @endsection
 
@@ -21,7 +21,7 @@
 					<!--        Here you can write extra buttons/actions for the toolbar              -->
 				</div>
 				
-				<a href="{{ url("/setores/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Adicionar Secretaria"></i></a>
+				<a href="{{ url("/setor/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Adicionar Setor"></i></a>
 
 				<div class="material-datatables">
 					<table id="datatable_setor" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
@@ -37,15 +37,15 @@
 
 							@foreach($setores as $setor)
 								<tr>
-									<td>{{ $setor->secretaria->nome                             }}</td>
-									<td>{{ $setor->nome                                      		}}</td>
+									<td>{{ $setor->secretaria->nome                            	}}</td>
+									<td>{{ $setor->nome                           					}}</td>
 									
 									<td>
 										<a href="{{ url("/setor/$setor->id/edit") }}"
 											class="btn btn-warning btn-xs action  pull-right botao_acao " 
 											data-toggle="tooltip" 
 											data-placement="bottom" 
-											title="Edita essa Secretaria">  
+											title="Edita esse Setor">  
 											<i class="glyphicon glyphicon-pencil "></i>
 										</a>
 
@@ -56,7 +56,7 @@
 												data-toggle="tooltip" 
 												data-setor = {{ $setor->id }}
 												data-placement="bottom" 
-												title="Desativa a Secretaria" >  
+												title="Desativa o Setor" >  
 												<i class="glyphicon glyphicon-remove "></i>
 											</button>
 
@@ -65,7 +65,7 @@
 												data-toggle="tooltip" 
 												data-setor = {{ $setor->id }}
 												data-placement="bottom" 
-												title="Ativa a Secretaria"
+												title="Ativa o Setor"
 												style="display: none">  
 												<i class="glyphicon glyphicon-plus "></i>
 											</button>
@@ -78,7 +78,7 @@
 												data-toggle="tooltip" 
 												data-setor = {{ $setor->id }}
 												data-placement="bottom" 
-												title="Desativa a Secretaria" 
+												title="Desativa o Setor" 
 												style="display: none">  
 												<i class="glyphicon glyphicon-remove "></i>
 											</button>
@@ -88,10 +88,56 @@
 												data-toggle="tooltip" 
 												data-setor = {{ $setor->id }}
 												data-placement="bottom" 
-												title="Ativa a Secretaria" >  
+												title="Ativa o Setor" >  
 												<i class="glyphicon glyphicon-plus "></i>
 											</button>
 										@endif
+
+										@if($setor->oculto == true)
+											<button  
+												class="btn_mostra btn btn-success btn-xs action  pull-right  botao_acao" 
+												data-toggle="tooltip" 
+												data-setor = {{ $setor->id }}
+												data-placement="bottom" 
+												title='Deixa o Setor visível no "Mesquita 360" ' >  
+												<i class="glyphicon glyphicon-eye-open"></i>
+											</button>
+
+											<button  
+												class="btn_oculta btn btn-danger btn-xs action  pull-right  botao_acao" 
+												data-toggle="tooltip" 
+												data-setor = {{ $setor->id }}
+												data-placement="bottom" 
+												title='Oculta o Setor no "Mesquita 360\" '   
+												style="display: none">  
+												<i class="glyphicon glyphicon-eye-close"></i>
+												
+											</button>
+
+										{{-- @elseif($setor->status == 'Inativa') --}}
+										@else
+											
+											<button  
+												class="btn_mostra btn btn-success btn-xs action  pull-right  botao_acao" 
+												data-toggle="tooltip" 
+												data-setor = {{ $setor->id }}
+												data-placement="bottom" 
+												title='Deixa o Setor visível no "Mesquita 360" '   
+												style="display: none">  
+												<i class="glyphicon glyphicon-eye-open"></i>
+											</button>
+
+											<button  
+												class="btn_oculta btn btn-danger btn-xs action  pull-right  botao_acao" 
+												data-toggle="tooltip" 
+												data-setor = {{ $setor->id }}
+												data-placement="bottom" 
+												title='Oculta o Setor no "Mesquita 360" '>
+												
+												<i class="glyphicon glyphicon-eye-close"></i>
+											</button>
+										@endif
+
 									</td>
 								</tr>
 							@endforeach
@@ -215,6 +261,71 @@
 
          });
       });
+
+		//=======================================================================================
+		// ROTINA DE MOSTRAR/CULTAR O SETOR NO 360 DE ACORDO COM O BOTÃO ACIONADO NO DATATABLES
+		//=======================================================================================
+		$("table#datatable_setor").on("click", ".btn_oculta",function(){
+			let id_setor = $(this).data('setor');
+			let btn = $(this);
+
+			console.log("botao btn_oculta -> ", $(this).data('setor'));
+	      swal({
+	         title: 'Confirma a OCULTAÇÃO do Setor no "Mesquita 360"?',
+	         type: 'question',
+	         showCancelButton: true,
+	         confirmButtonColor: '#3085d6',
+	         cancelButtonColor: '#d33',
+	         confirmButtonText: 'Sim',
+	         cancelButtonText: 'Não',
+	      }).then(function () {
+      		//chama a rota para desativar o setor
+   	 	 	$.post('/mudavisualizacao_setor',{
+               _token: 	'{{ csrf_token() }}',
+   	 	 		id: 		id_setor,
+   	 	 		oculto: 	1
+   	 	 	},function(data){
+
+				 	btn.css('display', 'none').siblings('button.btn_mostra').css('display', 'block');
+				 	demo.notificationRight("top", "right", "success", "A Setor foi Ocultado");
+ 					console.log(data)
+
+			 	})
+
+         });
+      });
+
+		$("table#datatable_setor").on("click", ".btn_mostra",function(){
+			let id_setor = $(this).data('setor');
+			let btn = $(this);
+			console.log("botao btn_mostra -> ", $(this).data('setor'));
+	      
+	      swal({
+	         title: 'Confirma deixar VISÍVEL o Setor no "Mesquita 360"?',
+	         type: 'question',
+	         showCancelButton: true,
+	         confirmButtonColor: '#3085d6',
+	         cancelButtonColor: '#d33',
+	         confirmButtonText: 'Sim',
+	         cancelButtonText: 'Não',
+	      }).then(function () {
+      		//chama a rota para desativar o setor
+   	 	 	$.post('/mudavisualizacao_setor',{
+               _token: 	'{{ csrf_token() }}',
+   	 	 		id: 		id_setor,
+   	 	 		oculto: 	0
+   	 	 	},function(data){
+					
+				  	btn.css('display', 'none').siblings('button.btn_oculta').css('display', 'block');
+
+				 	demo.notificationRight("top", "right", "success", "A Secretaria está Visível");
+ 					console.log(data)
+			 	})
+
+         });
+      });
+
+		//FIM ROTINA
 
   });
 </script>

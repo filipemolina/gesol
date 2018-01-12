@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-	Secretarias {{ mostraAcesso($funcionario_logado) }}
+	Configurações - Secretarias {{ mostraAcesso($funcionario_logado) }}
 
 @endsection
 

@@ -164,54 +164,52 @@
       //$.fn.dataTable.moment( 'DD/MM/YYYY' );
 
       $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
-        $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
-      } );
+         $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+         } );
 
 
-      tabelas.push($("#tabela-solicitacoes-ativas").DataTable({
-         responsive : true,
-         processing: true,
-         serverSide: true,
-         ajax      : "{{ url('/solicitacao/datatables/2') }}",
-         columns   : [
+         tabelas.push($("#tabela-solicitacoes-ativas").DataTable({
+            responsive : true,
+            processing: true,
+            serverSide: true,
+            ajax      : "{{ url('/solicitacao/datatables/2') }}",
+            columns   : [
 
-            { data : 'foto',        name : 'foto' },
-            { data : 'servico',     name : 'servico' },
-            { data : 'conteudo',    name : 'conteudo' },
-            { data : 'status',      name : 'status' },
-            { data : 'abertura',    name : 'abertura' },
-            { data : 'prazo',       name : 'prazo' },
-            { data : 'acoes',       name : 'acoes' },
-         ],
+               { data : 'foto',        name : 'foto' },
+               { data : 'servico',     name : 'servico' },
+               { data : 'conteudo',    name : 'conteudo' },
+               { data : 'status',      name : 'status' },
+               { data : 'abertura',    name : 'abertura' },
+               { data : 'prazo',       name : 'prazo' },
+               { data : 'acoes',       name : 'acoes' },
+            ],
 
-         order: [[ 5, 'asc' ]],
-         
-         language : 
-         {
-            "url":         "{{ asset('js/portugues.json') }}",
-            "decimal":     ",",
-            "thousands":   "."
-         }, 
+            order: [[ 5, 'asc' ]],
+            
+            language : 
+            {
+               "url":         "{{ asset('js/portugues.json') }}",
+               "decimal":     ",",
+               "thousands":   "."
+            }, 
 
-         stateSave: false,
-         stateDuration: -1,
-         columnDefs: 
-         [
-            { className:   "text-center", "targets": [0] },
-            { className:   "text-center", "targets": [1] },
-            { className:   "text-center", "targets": [3] },
-            { className:   "text-center", "targets": [4] },
-            { className:   "text-center", "targets": [5] },
+            stateSave: false,
+            stateDuration: -1,
+            columnDefs: 
+            [
+               { className:   "text-center", "targets": [0] },
+               { className:   "text-center", "targets": [1] },
+               { className:   "text-center", "targets": [3] },
+               { className:   "text-center", "targets": [4] },
+               { className:   "text-center", "targets": [5] },
 
-            /*{ type:        "date-eu",     "targets": [5] },*/
+               /*{ type:        "date-eu",     "targets": [5] },*/
 
-            { width:       "10%",         "targets": [1] },
-            { width:       "40%",         "targets": [2] },
-            { width:       "10%",         "targets": [4] },
+               { width:       "10%",         "targets": [1] },
+               { width:       "40%",         "targets": [2] },
+               { width:       "10%",         "targets": [4] },
 
-         ],
-
-         
+            ],
       }));
 
       tabelas.push($("#tabela-solicitacoes-solucionada").DataTable({
