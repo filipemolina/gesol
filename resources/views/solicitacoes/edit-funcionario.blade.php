@@ -299,7 +299,7 @@ Andamento de Solicitação
                </div>        
             </div>             
 
-            <div class="col">
+            <div class="row">
                {{-- Linha de Botões --}}
                {{-------------------------- BOTAO PADRAO ------------------------}}
                <div id="div_botoes_iniciais" style="text-align:center; margin-top: -2px;">

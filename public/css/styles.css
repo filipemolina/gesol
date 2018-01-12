@@ -1876,10 +1876,12 @@ div.data-inclusao-card{
   margin-bottom: 0px;  
 }
 
-span.endereco:hover {
-  text-shadow: 0px 0px 0px black, 0 0 20px #AD9A75;
+div.endereco:hover {
+  text-shadow: 0px 0px 0px red, 0 0 20px #AD9A75;
+  cursor:pointer;
 }
-span.endereco{ 
+
+div.endereco{ 
   font-size:  12px; 
   /* margin-left: 65px;  */
   color: #999999;
