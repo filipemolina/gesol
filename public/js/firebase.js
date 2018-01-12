@@ -101,6 +101,8 @@ messaging.onMessage(function(payload){
 
 		}
 
+		// Caso seja uma nova solicitação, adicionar a notificação correspondente
+
 		if(payload.data.motivo == "nova" && payload.data.model == "solicitacao"){
 
 			// Adicionar um link para a nova solicitação na lista de notificações
@@ -112,6 +114,8 @@ messaging.onMessage(function(payload){
 			$("span.notification").html(novo_valor);
 
 		}
+
+		// Caso a página de edição da solicitação esteja aberta, apenas adicionar o novo comentário na página
 
 		if(url.includes('solicitacao') && url.includes('edit') && url.includes(payload.data.solicitacao)){
 			
@@ -191,7 +195,7 @@ function atualizarNotificacao(){
 
 	// Mostrar o número correto de notificações
 
-    $.post("https://gesol.mesquita.rj.gov.br/naolidas/" + setor_id, { _token: token }, function(data){
+    $.post(url_base + "/naolidas/" + setor_id, { _token: token }, function(data){
       
       let dados = JSON.parse(data);
 
@@ -200,6 +204,7 @@ function atualizarNotificacao(){
       if(dados.qtd){
       	$("span.notification").remove();
         $("<span class='notification'>"+dados.qtd+"</span>").insertAfter('#icone-notificacoes');
+        tocarAudio();
       }
 
       // Atualizar a lista de notificações

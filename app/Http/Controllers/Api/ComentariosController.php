@@ -132,6 +132,10 @@ class ComentariosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Obter o comentário
+        $comentario = Comentario::find($id);
+
+        $comentario->comentario = "Comentário apagado pelo usuário";
+        $comentario->save();
     }
 }

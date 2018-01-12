@@ -96,8 +96,11 @@ Route::get('setores','FuncionarioController@setores');
 // 										COMUNICADOS
 //========================================================================================
 // Rota para preencher os comunicados do prefeito
-Route::get('comunicados', 			'HomeController@comunicados');
-Route::get('comunicados/create', 'HomeController@create');
+// Rota utilizada pelo gesol para atualizar o número de notificações mostradas na tela
+Route::post('naolidas/{setor_id}', 'SolicitacaoController@naoLidas');
+
+// DataTables dos Comunicados
+Route::get('comunicado/datatables', 'ComunicadoController@dados');
 
 
 //========================================================================================
@@ -107,6 +110,7 @@ Route::get('comunicados/create', 'HomeController@create');
 Route::resource('solicitante',	'SolicitanteController');
 Route::resource('funcionario',	'FuncionarioController');
 Route::resource('solicitacao',	'SolicitacaoController');
+Route::resource('comunicado',    'ComunicadoController');
 Route::resource('comentario',		'ComentarioController');
 Route::resource('secretaria',		'SecretariaController');
 Route::resource('setor',			'SetorController');

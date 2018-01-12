@@ -195,8 +195,6 @@ if(!function_exists("enviarNotificacao")){
 
    function enviarNotificacao($titulo, $subtitulo, $destinatarios, $dados){
 
-      // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
-
       $optionBuilder = new OptionsBuilder();
       $optionBuilder->setTimeToLive(60*20);
 
@@ -205,7 +203,8 @@ if(!function_exists("enviarNotificacao")){
          ->setTitle($titulo)
          ->setBody($subtitulo)
          ->setSound('default')
-         ->setIcon('https://360.mesquita.rj.gov.br/gesol/img/brasao.png');
+         ->setIcon('https://360.mesquita.rj.gov.br/gesol/img/brasao.png')
+         ->setClickAction("FCM_PLUGIN_ACTIVITY");
 
       $dataBuilder = new PayloadDataBuilder();
 

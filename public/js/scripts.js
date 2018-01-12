@@ -331,3 +331,13 @@ function atualizarNotificacoes(){
     });
 
 }
+
+// Tocar o áudio da notificação
+
+function tocarAudio(){
+
+  let audio = document.getElementById("audio_notificacao");
+
+  audio.play();
+
+}

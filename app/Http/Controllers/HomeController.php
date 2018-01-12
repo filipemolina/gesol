@@ -388,49 +388,38 @@ class HomeController extends Controller
    */
    public function pusher(){
 
-    $solicitantes = Solicitante::all();
-    $tokens = [];
+   	$solicitantes = Solicitante::all();
+   	$tokens = [];
 
-    foreach($solicitantes as $solicitante){
+   	foreach($solicitantes as $solicitante){
 
-        if($solicitante->fcm_id)
-                $tokens[] = $solicitante->fcm_id;
+   	    if($solicitante->fcm_id)
+                   $tokens[] = $solicitante->fcm_id;
 
-    }
+   	}
 
-    // Enviar mensagem pelo Firebase Cloud Message
-    $optionsBuilder = new OptionsBuilder();
-    $optionsBuilder->setTimeToLive(60*20);
+   	// Enviar mensagem pelo Firebase Cloud Message
+   	$optionsBuilder = new OptionsBuilder();
+   	$optionsBuilder->setTimeToLive(60*20);
 
-    $notificationBuilder = new PayloadNotificationBuilder('Teste para todos os usuários cadastrados');
-    $notificationBuilder->setBody('Olá Munícipes')->setSound('default');
+   	$notificationBuilder = new PayloadNotificationBuilder('Teste para todos os usuários cadastrados');
+   	$notificationBuilder->setBody('Olá Munícipes')->setSound('default')->setClickAction("FCM_PLUGIN_ACTIVITY");
 
-    $dataBuilder = new PayloadDataBuilder();
-    $dataBuilder->addData(['mensagem' => 'Teste de mensagem para todos os munícipes']);
+   	$dataBuilder = new PayloadDataBuilder();
+   	$dataBuilder->addData([
+                              'mensagem' => 'Teste de mensagem para todos os munícipes', 
+                              'operacao' => 'atualizar',
+                              'acao'     => 'atualizar',
+                              'model'    => 'comunicado'
+                              ]);
 
-    $option = $optionsBuilder->build();
-    $notification = $notificationBuilder->build();
-    $data = $dataBuilder->build();
+   	$option = $optionsBuilder->build();
+   	$notification = $notificationBuilder->build();
+   	$data = $dataBuilder->build();
 
-    $downstreamResponse = FCM::sendTo($tokens, $option, $notification, $data);
+   	$downstreamResponse = FCM::sendTo(['fB7YNSkJIx4:APA91bHzgmalYWq9D5BNfyklQQDkD-1l3_N7s0Fx6BFBoGKtvaqX5PR5SR0pM3uCYoLqeRG4-Oc17h9bmpL4E6g2EkX3tbkskWmeKfi0Hft0XE-IrSyVBlJTKcxwIXeyepy6RjwAOCP9'], $option, $notification, $data);
 
-    dd([$downstreamResponse->numberSuccess(), $downstreamResponse->numberFailure(), $downstreamResponse->numberModification()]);
-
-   }
-
-   public function comunicados(){
-
-      $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
-
-      return view("comunicados.comunicados", compact('funcionario_logado'));
-
-   }
-
-    public function create(){
-
-      $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
-
-      return view("comunicados.create", compact('funcionario_logado'));
+   	dd([$downstreamResponse->numberSuccess(), $downstreamResponse->numberFailure(), $downstreamResponse->numberModification()]);
    }
 
    /**
@@ -441,5 +430,5 @@ class HomeController extends Controller
    private function preparaDashboard($acesso){
       return $this->{'dashboard'.$acesso}();
    }
-  
+
 }

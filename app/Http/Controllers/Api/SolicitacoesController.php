@@ -71,6 +71,8 @@ class SolicitacoesController extends Controller
             'foto'           => 'required',
             'solicitante_id' => 'required',
             'servico_id'     => 'required'
+        ], [
+            'conteudo.required' => "Por favor, descreva sua solicitação."
         ]);
 
         $solicitante = Solicitante::find($request->solicitante_id);
