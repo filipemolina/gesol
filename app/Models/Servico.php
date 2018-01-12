@@ -12,6 +12,7 @@ class Servico extends Model
         'nome',
         'prazo',
         'operante',
+        'setor_id',
 
     ];
 
@@ -25,5 +26,7 @@ class Servico extends Model
     {
         return $this->hasMany('App\Models\Solicitacao');
     }
+
+
        
 }

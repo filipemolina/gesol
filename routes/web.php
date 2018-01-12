@@ -11,6 +11,8 @@
 |
 */
 
+Route::get ('/', 				'HomeController@index')->name('home');
+
 //========================================================================================
 // 										LOGIN/REGISTRO
 //========================================================================================
@@ -19,9 +21,8 @@ Route::get ("/login", 		"AuthController@login")->name('login');
 Route::post('/login', 		"AuthController@entrar");
 Route::get ('/logout', 		'AuthController@logout');
 
-Route::get ('/register', 	function () {return view('solicitantes.create');});
-Route::get ('/', 				'HomeController@index')->name('home');
-Route::get ('/pusher', 'HomeController@pusher');
+Route::get ('/register', 	function () {return view('solicitantes.create');})->name('register');
+Route::get ('/pusher', 		'HomeController@pusher');
 
 //caminho para a tela de alteração de senha
 Route::get 	('/alterasenha',			'UserController@AlteraSenha');
@@ -56,6 +57,14 @@ Route::post('/mudastatus_setor',					'SetorController@MudaStatus_Setor');
 
 //caminho para alterar o status da SETOR operante=boolean
 Route::post('/mudavisualizacao_setor',		   'SetorController@MudaVisualizacao_Setor');
+
+
+//========================================================================================
+// 										SERVIÇO	
+//========================================================================================
+// Rota para preencher o select de secretarias na edição/criação de servicos
+Route::get('setoresDaSecretaria', 'ServicoController@setoresDaSecretaria');
+Route::post('/MudaStatus_Servico','ServicoController@MudaStatus_Servico');
 
 //========================================================================================
 // 										ICONE
@@ -101,3 +110,18 @@ Route::resource('solicitacao',	'SolicitacaoController');
 Route::resource('comentario',		'ComentarioController');
 Route::resource('secretaria',		'SecretariaController');
 Route::resource('setor',			'SetorController');
+Route::resource('servico',			'ServicoController');
+
+
+// Password Reset Routes...
+// Route::get ('password/reset', 			'Auth\ForgotPasswordController@showLinkRequestForm');
+// Route::post('password/email', 			'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+// Route::get ('password/nova/{token}', 	'Auth\ResetPasswordController@showResetForm');
+// Route::post('password/reset', 			'Auth\ResetPasswordController@reset')->name('password.reset');
+
+
+// Password Reset Routes...
+$this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+$this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+$this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+$this->post('password/reset', 'Auth\ResetPasswordController@reset');

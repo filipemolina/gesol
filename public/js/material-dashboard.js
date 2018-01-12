@@ -211,7 +211,8 @@ $(window).resize(function() {
     seq = seq2 = 0;
 
     setTimeout(function() {
-        demo.initDashboardPageCharts();
+        //MARCELO MIRANDA - comentei em 10/01/18 - estava dando erro na dash quando minificava o menu sidebar
+        //demo.initDashboardPageCharts();
     }, 500);
 });
 

@@ -371,6 +371,11 @@ function carrega_select_setor_create(secretaria_id, setor_id){
 }
 
 
+
+
+
+
+
 // Detectar o navegador sendo usado
 function detectaNavegador(){
   var nVer = navigator.appVersion;

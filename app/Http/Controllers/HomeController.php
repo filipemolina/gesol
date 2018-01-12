@@ -388,33 +388,33 @@ class HomeController extends Controller
    */
    public function pusher(){
 
-	$solicitantes = Solicitante::all();
-	$tokens = [];
+    $solicitantes = Solicitante::all();
+    $tokens = [];
 
-	foreach($solicitantes as $solicitante){
+    foreach($solicitantes as $solicitante){
 
-	    if($solicitante->fcm_id)
+        if($solicitante->fcm_id)
                 $tokens[] = $solicitante->fcm_id;
 
-	}
+    }
 
-	// Enviar mensagem pelo Firebase Cloud Message
-	$optionsBuilder = new OptionsBuilder();
-	$optionsBuilder->setTimeToLive(60*20);
+    // Enviar mensagem pelo Firebase Cloud Message
+    $optionsBuilder = new OptionsBuilder();
+    $optionsBuilder->setTimeToLive(60*20);
 
-	$notificationBuilder = new PayloadNotificationBuilder('Teste para todos os usuários cadastrados');
-	$notificationBuilder->setBody('Olá Munícipes')->setSound('default');
+    $notificationBuilder = new PayloadNotificationBuilder('Teste para todos os usuários cadastrados');
+    $notificationBuilder->setBody('Olá Munícipes')->setSound('default');
 
-	$dataBuilder = new PayloadDataBuilder();
-	$dataBuilder->addData(['mensagem' => 'Teste de mensagem para todos os munícipes']);
+    $dataBuilder = new PayloadDataBuilder();
+    $dataBuilder->addData(['mensagem' => 'Teste de mensagem para todos os munícipes']);
 
-	$option = $optionsBuilder->build();
-	$notification = $notificationBuilder->build();
-	$data = $dataBuilder->build();
+    $option = $optionsBuilder->build();
+    $notification = $notificationBuilder->build();
+    $data = $dataBuilder->build();
 
-	$downstreamResponse = FCM::sendTo($tokens, $option, $notification, $data);
+    $downstreamResponse = FCM::sendTo($tokens, $option, $notification, $data);
 
-	dd([$downstreamResponse->numberSuccess(), $downstreamResponse->numberFailure(), $downstreamResponse->numberModification()]);
+    dd([$downstreamResponse->numberSuccess(), $downstreamResponse->numberFailure(), $downstreamResponse->numberModification()]);
 
    }
 
@@ -441,9 +441,5 @@ class HomeController extends Controller
    private function preparaDashboard($acesso){
       return $this->{'dashboard'.$acesso}();
    }
-
-   
-
-   
-
+  
 }

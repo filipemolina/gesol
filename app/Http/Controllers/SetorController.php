@@ -23,14 +23,14 @@ class SetorController extends Controller
    {
       $this->middleware('auth');
 
-      // $this->middleware('is_Gerir_Usuarios')->only([
-      //    'index',
-      //    'edit',
-      //    'update',
-      //    'destroy',
-      //    'create',
-      //    'store',
-      // ]);
+      $this->middleware('is_Adm_Sistema')->only([
+         'index',
+         'edit',
+         'update',
+         'destroy',
+         'create',
+         'store',
+      ]);
    }
 
 
@@ -66,6 +66,9 @@ class SetorController extends Controller
 
    public function store(Request $request)
    {
+
+      //o setor é criado sempre como coulto
+      $request->merge(['oculto' => 1 ]);
 
       //dd($request);
       $this->validate($request, [
@@ -155,9 +158,10 @@ class SetorController extends Controller
          return redirect(url('/setor'))->with('sucesso', 'Informações do Setor alteradas com sucesso.');    
       }else{
          return redirect(url('/setor'));    
-      }    }
+      }    
+    }
 
-      public function destroy($id)
+    public function destroy($id)
       {
         //
    }

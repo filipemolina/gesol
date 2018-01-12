@@ -61,7 +61,7 @@
 							<div class="form-group label-floating has-dourado">
 								<label class="control-label">Secretaria</label>
 								<input name="nome" id="nome" type="text" class="form-control error"
-								value=" {{ $secretaria->nome or old('nome') }} ">
+								value="{{ $secretaria->nome or old('nome') }}">
 							</div>
 						</div>
 					</div>
@@ -75,7 +75,7 @@
 							<div class="form-group label-floating has-dourado">
 								<label class="control-label">Sigla</label>
 								<input id="sigla" name="sigla" type="text" class="form-control error text-uppercase" 
-								value=" {{ $secretaria->sigla or old('sigla') }} ">
+								value="{{ $secretaria->sigla or old('sigla') }}">
 							</div>
 						</div>
 					</div>
@@ -94,7 +94,7 @@
 							<div class="form-group label-floating has-dourado">
 								<label class="control-label">Secretário</label>
 								<input name="secretario" id="secretario" type="text" class="form-control error"
-								value=" {{ $secretaria->secretario or old('secretario') }} ">
+								value="{{ $secretaria->secretario or old('secretario') }}">
 							</div>
 						</div>
 					</div>
@@ -107,7 +107,7 @@
                    	<div class="form-group label-floating has-dourado">
 								<label class="control-label">Email</label>
 								<input name="email" type="text" name="email" type="email" class="form-control error" 
-								value="{{ $secretaria->email or  old('email') }} ">
+								value="{{ $secretaria->email or  old('email') }}">
 							</div>
 						</div>
 					</div>
@@ -125,7 +125,7 @@
 							<div class="form-group label-floating has-dourado">
 								<label class="control-label">Inicio Atendimento</label>
 								<input name="inicio_atendimento" id="inicio_atendimento" type="text" class="form-control error datetimepicker"
-								value=" {{ $secretaria->inicio_atendimento or old('inicio_atendimento') }} ">
+								value="{{ $secretaria->inicio_atendimento or old('inicio_atendimento') }}">
 							</div>
 						</div>
 					</div>
@@ -138,7 +138,7 @@
                    	<div class="form-group label-floating has-dourado">
 								<label class="control-label">Término Atendimento</label>
 								<input name="termino_atendimento" type="text" name="termino_atendimento" type="termino_atendimento" class="form-control error datetimepicker" 
-								value="{{ $secretaria->termino_atendimento or  old('termino_atendimento') }} ">
+								value="{{ $secretaria->termino_atendimento or  old('termino_atendimento') }}">
 							</div>
 						</div>
 					</div>

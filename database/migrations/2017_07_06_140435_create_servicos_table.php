@@ -19,7 +19,7 @@ class CreateServicosTable extends Migration
             $table->string('nome',50);
             $table->tinyInteger('prazo')->nullable();
             
-            $table->boolean('operante')                        ->default(true);
+            $table->boolean('operante')                        ->default(false);
             //------------------------FOREIGN--------------------------------
             $table->integer('setor_id')->unsigned();
             //---------------------------------------------------------------

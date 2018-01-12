@@ -23,15 +23,16 @@ class SecretariaController extends Controller
    {
       $this->middleware('auth');
 
-      // $this->middleware('is_Gerir_Usuarios')->only([
-      //    'index',
-      //    'edit',
-      //    'update',
-      //    'destroy',
-      //    'create',
-      //    'store',
-      // ]);
+      $this->middleware('is_Adm_Sistema')->only([
+         'index',
+         'edit',
+         'update',
+         'destroy',
+         'create',
+         'store',
+      ]);
    }
+
 
 
    public function index()
