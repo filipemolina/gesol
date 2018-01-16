@@ -46,4 +46,8 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\FCM_Token');
     }
 
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new enviaEmaildeDefinicaodeSenha($token));
+    }
 }
