@@ -229,16 +229,16 @@
          ajax      : "{{ url('/solicitacao/datatables/3') }}",
          columns   : [
 
-            { data : 'foto',       name : 'foto' },
-            { data : 'servico',    name : 'servico' },
-            { data : 'conteudo',   name : 'conteudo' },
+            { data : 'foto',        name : 'foto' },
+            { data : 'servico',     name : 'servico' },
+            { data : 'conteudo',    name : 'conteudo' },
             { data : 'solicitante', name : 'solicitante' },
-            { data : 'abertura',   name : 'abertura' },
-            { data : 'atualizacao',name : 'fechamento' },            
-            { data : 'acoes',      name : 'acoes' },
+            { data : 'abertura',    name : 'abertura' },
+            { data : 'atualizacao', name : 'fechamento' },            
+            { data : 'acoes',       name : 'acoes' },
          ],
 
-         order: [[ 5, 'asc' ]],
+         order: [[ 4, 'asc' ]],
          
          language : 
          {
@@ -270,13 +270,13 @@
          ajax      : "{{ url('/solicitacao/datatables/0') }}",
          columns   : [
 
-            { data : 'foto',       name : 'foto' },
-            { data : 'servico',    name : 'servico' },
-            { data : 'conteudo',   name : 'conteudo' },
+            { data : 'foto',        name : 'foto' },
+            { data : 'servico',     name : 'servico' },
+            { data : 'conteudo',    name : 'conteudo' },
             { data : 'solicitante', name : 'solicitante' },
-            { data : 'abertura',   name : 'abertura' },
-            { data : 'prazo',      name : 'prazo' },
-            { data : 'acoes',      name : 'acoes' },
+            { data : 'abertura',    name : 'abertura' },
+            { data : 'prazo',       name : 'prazo' },
+            { data : 'acoes',       name : 'acoes' },
          ],
 
          order: [[ 4, 'asc' ]],
@@ -309,13 +309,13 @@
          ajax      : "{{ url('/solicitacao/datatables/4') }}",
          columns   : [
 
-            { data : 'foto',       name : 'foto' },
-            { data : 'servico',    name : 'servico' },
-            { data : 'conteudo',   name : 'conteudo' },
+            { data : 'foto',        name : 'foto' },
+            { data : 'servico',     name : 'servico' },
+            { data : 'conteudo',    name : 'conteudo' },
             { data : 'solicitante', name : 'solicitante' },
-            { data : 'abertura',   name : 'abertura' },
-            { data : 'atualizacao',name : 'atualizacao' },            
-            { data : 'acoes',      name : 'acoes' },
+            { data : 'abertura',    name : 'abertura' },
+            { data : 'atualizacao', name : 'atualizacao' },            
+            { data : 'acoes',       name : 'acoes' },
          ],
 
          order: [[ 4, 'asc' ]],
