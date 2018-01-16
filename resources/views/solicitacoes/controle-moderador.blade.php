@@ -35,6 +35,7 @@
                               <th>Foto</th>
                               <th>Serviço</th>
                               <th>Conteúdo</th>
+                              <th>Solicitante</th>
                               <!-- <th>Status</th> -->
                               <th>Abertura</th>
                               <th>Ações</th>
@@ -82,11 +83,12 @@
                { data : 'foto',       name : 'foto' },
                { data : 'servico',    name : 'servico' },
                { data : 'conteudo',   name : 'conteudo' },
+               { data : 'solicitante', name : 'solicitante' },
                { data : 'abertura',   name : 'abertura' },
                { data : 'acoes',      name : 'acoes' },
             ],
 
-            order: [[ 3, 'asc' ]],
+            order: [[ 4, 'asc' ]],
             
             language : 
             {
@@ -102,12 +104,20 @@
 
             columnDefs: 
             [
-                  { className:   "text-center", "targets": [0] },
-                  { className:   "text-center", "targets": [1] },
-                  { className:   "text-center", "targets": [3] },
-                  { className:   "text-center", "targets": [4] },
-                  { width:       "10%",         "targets": [1] },
-                  { width:       "40%",         "targets": [2] }
+               { className:   "text-center", "targets": [0] },
+               { className:   "text-center", "targets": [1] },
+               { className:   "text-center", "targets": [2] },
+               { className:   "text-center", "targets": [3] },
+               { className:   "text-center", "targets": [4] },
+
+               { width:       "5%",         "targets": [0] },
+               { width:       "10%",         "targets": [1] },
+               { width:       "10%",         "targets": [2] },
+               { width:       "10%",         "targets": [3] },
+               { width:       "10%",         "targets": [4] },
+               { width:       "5%",         "targets": [5] },
+
+
             ]
 
          });
