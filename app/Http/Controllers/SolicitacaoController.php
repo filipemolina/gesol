@@ -529,7 +529,7 @@ class SolicitacaoController extends Controller
                     'abertura'      => "<span style='display:none'>" .\Carbon\Carbon::parse( $solicitacao->created_at)->format('Ymd') ."</span>". \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
                     'atualizacao'   => \Carbon\Carbon::parse( $solicitacao->updated_at)->format('d/m/Y - H:i:s'),
                     'acoes'         => $acoes,
-                     'prazo'          => "<span style='display:none; color:red'>"
+                    'prazo'         => "<span style='display:none; color:red'>"
                                         .\Carbon\Carbon::parse( $prazo)->format('Ymd') 
                                         ."</span>"
                                         .$inspan 
