@@ -19,7 +19,7 @@ Route::get ('/', 				'HomeController@index')->name('home');
 
 Route::get ("/login", 		"AuthController@login")->name('login');
 Route::post('/login', 		"AuthController@entrar");
-Route::get ('/logout', 		'AuthController@logout');
+Route::get ('/logout', 		'AuthController@logout')->name('logout');
 
 Route::get ('/register', 	function () {return view('solicitantes.create');})->name('register');
 Route::get ('/pusher', 		'HomeController@pusher');

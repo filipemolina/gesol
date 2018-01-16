@@ -58,6 +58,7 @@
                                           <th>Foto</th>
                                           <th>Serviço</th>
                                           <th>Conteúdo</th>
+                                          <th>Solicitante</th>
                                           <th>Status</th>
                                           <th>Abertura</th>
                                           <th>Prazo</th>
@@ -80,6 +81,7 @@
                                           <th>Foto</th>
                                           <th>Serviço</th>
                                           <th>Conteúdo</th>
+                                          <th>Solicitante</th>
                                           <th>Abertura</th>
                                           <th>Fechamento</th>                                          
                                           <th>Ações</th>
@@ -101,6 +103,7 @@
                                           <th>Foto</th>
                                           <th>Serviço</th>
                                           <th>Conteúdo</th>
+                                          <th>Solicitante</th>
                                           <th>Abertura</th>
                                           <th>Prazo</th>
                                           <th>Ações</th>
@@ -122,6 +125,7 @@
                                           <th>Foto</th>
                                           <th>Serviço</th>
                                           <th>Conteúdo</th>
+                                          <th>Solicitante</th>
                                           <th>Abertura</th>
                                           <th>Recusa</th>
                                           <th>Ações</th>
@@ -178,6 +182,7 @@
                { data : 'foto',        name : 'foto' },
                { data : 'servico',     name : 'servico' },
                { data : 'conteudo',    name : 'conteudo' },
+               { data : 'solicitante', name : 'solicitante' },
                { data : 'status',      name : 'status' },
                { data : 'abertura',    name : 'abertura' },
                { data : 'prazo',       name : 'prazo' },
@@ -193,21 +198,26 @@
                "thousands":   "."
             }, 
 
-            stateSave: false,
-            stateDuration: -1,
+            stateSave: true,
+            //stateDuration: -1,
             columnDefs: 
             [
-               { className:   "text-center", "targets": [0] },
-               { className:   "text-center", "targets": [1] },
-               { className:   "text-center", "targets": [3] },
-               { className:   "text-center", "targets": [4] },
-               { className:   "text-center", "targets": [5] },
+               // { className:   "text-center", "targets": [0] },
+               // { className:   "text-center", "targets": [1] },
+               // { className:   "text-center", "targets": [3] },
+               // { className:   "text-center", "targets": [4] },
+               // { className:   "text-center", "targets": [5] },
 
                /*{ type:        "date-eu",     "targets": [5] },*/
 
+               { width:       "5%",         "targets": [0] },
                { width:       "10%",         "targets": [1] },
-               { width:       "40%",         "targets": [2] },
-               { width:       "10%",         "targets": [4] },
+               { width:       "10%",         "targets": [2] },
+               { width:       "10%",         "targets": [3] },
+               { width:       "5%",         "targets": [4] },
+               { width:       "10%",         "targets": [5] },
+               { width:       "10%",         "targets": [6] },
+               { width:       "5%",         "targets": [7] },
 
             ],
       }));
@@ -222,12 +232,13 @@
             { data : 'foto',       name : 'foto' },
             { data : 'servico',    name : 'servico' },
             { data : 'conteudo',   name : 'conteudo' },
+            { data : 'solicitante', name : 'solicitante' },
             { data : 'abertura',   name : 'abertura' },
             { data : 'atualizacao',name : 'fechamento' },            
             { data : 'acoes',      name : 'acoes' },
          ],
 
-         order: [[ 3, 'asc' ]],
+         order: [[ 5, 'asc' ]],
          
          language : 
          {
@@ -237,7 +248,7 @@
          }, 
 
          stateSave: true,
-         stateDuration: -1,
+         //stateDuration: -1,
          columnDefs: 
          [
             { className:   "text-center", "targets": [0] },
@@ -262,6 +273,7 @@
             { data : 'foto',       name : 'foto' },
             { data : 'servico',    name : 'servico' },
             { data : 'conteudo',   name : 'conteudo' },
+            { data : 'solicitante', name : 'solicitante' },
             { data : 'abertura',   name : 'abertura' },
             { data : 'prazo',      name : 'prazo' },
             { data : 'acoes',      name : 'acoes' },
@@ -277,7 +289,7 @@
          }, 
 
          stateSave: true,
-         stateDuration: -1,
+         //stateDuration: -1,
          columnDefs: 
          [
             { className:   "text-center", "targets": [0] },
@@ -300,6 +312,7 @@
             { data : 'foto',       name : 'foto' },
             { data : 'servico',    name : 'servico' },
             { data : 'conteudo',   name : 'conteudo' },
+            { data : 'solicitante', name : 'solicitante' },
             { data : 'abertura',   name : 'abertura' },
             { data : 'atualizacao',name : 'atualizacao' },            
             { data : 'acoes',      name : 'acoes' },
@@ -315,7 +328,7 @@
          }, 
 
          stateSave: true,
-         stateDuration: -1,
+         //stateDuration: -1,
          columnDefs: 
          [
             { className:   "text-center", "targets": [0] },
