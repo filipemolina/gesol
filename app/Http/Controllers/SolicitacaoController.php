@@ -366,9 +366,7 @@ class SolicitacaoController extends Controller
     public function dados($liberado)
     {
         // Obter o usuário atualmente logado
-
         $funcionario_logado = Funcionario::find(Auth::user()->funcionario_id);
-
 
         // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
         // Aqui  os botões PADRÃO serão criados, de acordo com a role do usuario será
@@ -381,8 +379,6 @@ class SolicitacaoController extends Controller
         // id_da_solicitacao => numero_de_comentarios_nao_lidos
 
         $nao_lidas = [];
-
-
 
         //faz a buscas das solicitações de acordo com o filtro selecionado
         switch($liberado)
@@ -525,6 +521,7 @@ class SolicitacaoController extends Controller
                 $colecao->push([
                     'foto'          => $foto,
                     'conteudo'      => $solicitacao->conteudo, 
+                    'solicitante'   => $solicitacao->solicitante->nome, 
                     'servico'       => $solicitacao->servico->nome,
                     'status'        => $solicitacao->status,
                     'moderado'      => $moderado,
@@ -532,7 +529,12 @@ class SolicitacaoController extends Controller
                     'abertura'      => "<span style='display:none'>" .\Carbon\Carbon::parse( $solicitacao->created_at)->format('Ymd') ."</span>". \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
                     'atualizacao'   => \Carbon\Carbon::parse( $solicitacao->updated_at)->format('d/m/Y - H:i:s'),
                     'acoes'         => $acoes,
-                    'prazo'         => $prazo,
+                     'prazo'          => "<span style='display:none; color:red'>"
+                                        .\Carbon\Carbon::parse( $prazo)->format('Ymd') 
+                                        ."</span>"
+                                        .$inspan 
+                                        . \Carbon\Carbon::parse( $prazo)->format('d/m/Y')
+                                        ."</span>",
                 ]);
 
             } elseif($solicitacao->servico->setor->secretaria->id == $funcionario_logado->setor->secretaria->id){ 
@@ -542,6 +544,7 @@ class SolicitacaoController extends Controller
                 $colecao->push([
                     'foto'           => $foto,
                     'conteudo'       => $solicitacao->conteudo, 
+                    'solicitante'   => $solicitacao->solicitante->nome, 
                     'servico'        => $solicitacao->servico->nome,
                     'status'         => $solicitacao->status,
                     'moderado'       => $moderado,
