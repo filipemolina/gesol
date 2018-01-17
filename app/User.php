@@ -21,11 +21,11 @@ class User extends Authenticatable
     //     'name', 'email', 'password', 'solicitante_id', 'fcm_id'
     // ];
 
-    // /**
+    // *
     //  * The attributes that should be hidden for arrays.
     //  *
     //  * @var array
-    //  */
+     
     // protected $hidden = [
     //     'password', 'remember_token',
     // ];
@@ -42,8 +42,5 @@ class User extends Authenticatable
     //     return $this->belongsTo('App\Models\Solicitante');
     // }
     
-    // public function sendPasswordResetNotification($token)
-    // {
-    //     $this->notify(new enviaEmaildeDefinicaodeSenha($token));
-    // }    
+
 }
