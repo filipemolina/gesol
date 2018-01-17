@@ -234,7 +234,7 @@
             { data : 'conteudo',    name : 'conteudo' },
             { data : 'solicitante', name : 'solicitante' },
             { data : 'abertura',    name : 'abertura' },
-            { data : 'atualizacao', name : 'fechamento' },            
+            { data : 'atualizacao', name : 'Fechamento' },            
             { data : 'acoes',       name : 'acoes' },
          ],
 
@@ -251,12 +251,6 @@
          //stateDuration: -1,
          columnDefs: 
          [
-            { className:   "text-center", "targets": [0] },
-            { className:   "text-center", "targets": [1] },
-            /*{ className: "text-center", "targets": [2] },*/
-            { className:   "text-center", "targets": [3] },
-            { className:   "text-center", "targets": [4] },
-            { className:   "text-center", "targets": [5] },
             { width:       "40%",         "targets": [2] },
             { width:       "10%",         "targets": [1] }
          ]

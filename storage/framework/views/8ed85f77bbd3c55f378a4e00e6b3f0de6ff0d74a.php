@@ -11,7 +11,7 @@
          GS
       </a>
       <a href="#" class="simple-text logo-normal">
-         GESOL  <i style="font-size: 8px;">( v1.0.0 )</i>
+         GESOL  <i style="font-size: 8px;">( v1.0.1 )</i>
       </a>
    </div>
 
