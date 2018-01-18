@@ -75,7 +75,7 @@
                                  <input type="password" class="form-control" name="senha">
                               </div>
                               <div>
-                                 <a href="{{ url("/password/reset")}}" class="recupera_senha">Esqueceu sua Senha?</a>   
+                                 <a href="{{ url("/password/reset")}}" class="recupera_senha texto-roxo">Esqueceu sua Senha?</a>   
                                </div>
                            </div>
                         </div>

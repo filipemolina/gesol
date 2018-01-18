@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\enviaEmaildeDefinicaodeSenha;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -46,4 +46,8 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\FCM_Token');
     }
 
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new enviaEmaildeDefinicaodeSenha($token));
+    }
 }

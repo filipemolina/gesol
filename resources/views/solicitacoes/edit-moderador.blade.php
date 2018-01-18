@@ -33,9 +33,20 @@ Andamento de Solicitação
                </div>
 
                <div class="data-inclusao-card info-solictante">
-                  Adicionado {{ $solicitacao->created_at->diffForHumans() 
-                     .' - ' 
-                     .'('. $solicitacao->created_at->format('H:i:s -- d/m/Y').')'}}  
+                  Abertura: {{ $solicitacao->created_at->format('H:i:s - d/m/Y')}}    
+                     <br>
+                     Prazo: 
+
+                        @if(date('Ymd') > date('Ymd', strtotime($prazo_calculado)) )
+                           <span id="span_prazo" class='badge' style='background-color:red'>     
+                        @elseif( date('Ymd') == date('Ymd', strtotime($prazo_calculado)) )
+                           <span id="span_prazo" class='badge' style='background-color:orange'>     
+                        @else
+                           <span id="span_prazo" class='badge' style='background-color:green'>     
+                        @endif
+
+                        {{ date('d/m/Y', strtotime($prazo_calculado)) }}  
+                     </span>
                </div>
 
                <div class="row">

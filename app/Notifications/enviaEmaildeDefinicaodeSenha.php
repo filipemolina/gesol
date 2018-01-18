@@ -16,9 +16,9 @@ class enviaEmaildeDefinicaodeSenha extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($token)
     {
-        //
+        $this->token = $token;
     }
 
     /**
@@ -41,12 +41,13 @@ class enviaEmaildeDefinicaodeSenha extends Notification
     public function toMail($notifiable)
     {
 
-        $url = url('/password/reset/').$this->token;
+        $url = env('APP_URL').'/password/reset/'.$this->token;
         return (new MailMessage)
+                ->subject('Redefinição de Senha no GESOL')
                 ->greeting('Olá')
-                ->line('Texto antes da ação, quantas linhas quiser')
-                ->action('Redefinir senha', $url)
-                ->line('Texto depois da ação quantas linhas quiser');
+                ->line('Você está recebendo este e-mail porque recebemos um pedido de redefinição de senha para sua conta.')
+                ->action('Redefinir senha', url(config('app.url').route('password.reset', $this->token, false)))
+                ->line('Se você não solicitou uma redefinição de senha, ignore este email.');
 
         /*return (new MailMessage)
                     ->line('The introduction to the notification.')
