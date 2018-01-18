@@ -73,6 +73,7 @@
             @include('includes.layouts.footer')
             
         </div>
+        <div style="clear:both"></div>
     </div>
 
     {{-- Áudio das Notificações --}}
@@ -84,7 +85,7 @@
         <script>
             
             //variáveis globais ao sistema
-            let url_base       = "{{ url("/") }}";
+            let url_base       = "{{ url("/") }}"; //Não tem barra no final
             let token          = "{{ csrf_token() }}";
 
     	    let nome  = "{{ $funcionario_logado->nome }}";

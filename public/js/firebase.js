@@ -26,7 +26,7 @@ messaging.requestPermission()
 	//Gravar a token no Banco de dados
 
 	$.ajax({
-		url: "https://gesol.mesquita.rj.gov.br/api/tokens",
+		url: url_base+"/api/tokens",
 		method: "POST",
 		headers: {
 			'Accept'       : 'application/json',
@@ -106,7 +106,7 @@ messaging.onMessage(function(payload){
 		if(payload.data.motivo == "nova" && payload.data.model == "solicitacao"){
 
 			// Adicionar um link para a nova solicitação na lista de notificações
-			$("#lista-notificacoes").prepend("<li><a href='https://gesol.mesquita.rj.gov.br/solicitacao/"+payload.data.solicitacao_id+"/edit'><i class='material-icons'>new_releases</i> Nova Solicitacao ID : "+payload.data.solicitacao_id+"</a></li>");
+			$("#lista-notificacoes").prepend("<li><a href='"+url_base+"/solicitacao/"+payload.data.solicitacao_id+"/edit'><i class='material-icons'>new_releases</i> Nova Solicitacao ID : "+payload.data.solicitacao_id+"</a></li>");
 
 			// Incrementar o número de notificações
 			let novo_valor = parseInt($("span.notification").html()) + 1;
@@ -121,7 +121,7 @@ messaging.onMessage(function(payload){
 			
 			// Obter os dados do comentário que acabou de chegar
 
-			$.get("https://gesol.mesquita.rj.gov.br/comentario/" + payload.data.comentario_id, function(data){
+			$.get(url_base+"/comentario/" + payload.data.comentario_id, function(data){
 
 				let comentario = JSON.parse(data);
 				let solicitacao = comentario.solicitacao.id;

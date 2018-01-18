@@ -396,7 +396,7 @@ Andamento de Solicitação
       {{-------------------- btn_por_execucao ----------------------}}
       $("#btn_por_execucao").click(function(){
          event.preventDefault();
-         console.log("asdasdjkhakd");
+         
          //verifica o status da solicitação
          if( "{!! $solicitacao->status !!}" != "Em execução")
          {

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Setor extends Model
+class Setor extends Model implements AuditableContract
 {
+    use \OwenIt\Auditing\Auditable;
+    
     protected $table = "setores";
 
     protected $fillable =[
