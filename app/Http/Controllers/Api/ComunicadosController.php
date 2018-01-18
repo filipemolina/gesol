@@ -14,6 +14,6 @@ class ComunicadosController extends Controller
 
     public function index()
     {
-    	return Comunicado::orderBy('created_at', 'desc')->get()i->take(10)->toJson();
+    	return Comunicado::orderBy('created_at', 'desc')->get()->take(10)->toJson();
     }
 }

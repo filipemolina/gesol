@@ -119,7 +119,9 @@ class SolicitacoesController extends Controller
      */
     public function show($id)
     {
-        //
+        $solicitacao = Solicitacao::where('id', $id)->with('solicitante', 'servico.setor.secretaria')->first();
+
+        return $solicitacao->toJson();
     }
 
     /**

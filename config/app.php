@@ -181,7 +181,8 @@ return [
         Barryvdh\Cors\ServiceProvider::class,
         ValidadorCpf\CpfServiceProvider54::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
-	LaravelFCM\FCMServiceProvider::class,
+	    LaravelFCM\FCMServiceProvider::class,
+        OwenIt\Auditing\AuditingServiceProvider::class,
 
     ],
 

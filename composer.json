@@ -16,6 +16,7 @@
         "laravel/passport": "^4.0",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
+        "owen-it/laravel-auditing": "^5.0",
         "pusher/pusher-php-server": "^3.0",
         "yajra/laravel-datatables": "1.0"
     },
