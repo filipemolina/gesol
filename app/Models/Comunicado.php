@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Comunicado extends Model
+class Comunicado extends Model implements AuditableContract
 {
+    use \OwenIt\Auditing\Auditable;
+
     // Campos liberados para preenchimento via formulário
     protected $fillable = [
     	'imagem',
