@@ -226,6 +226,7 @@ class FuncionarioController extends Controller
    public function update(Request $request, Funcionario $funcionario)
    {
 
+      //dd($request->all());
       // busca o usuario da edição
       $usuario = $funcionario->user;    
 
@@ -256,7 +257,7 @@ class FuncionarioController extends Controller
       $funcionario->fill($input);
       $salvou_funcionario = $funcionario->save();
 
-      $usuario->fill($input);
+      $usuario->fill(['email' => $request->email]);
       $salvou_usuario = $usuario->save();
 
       
