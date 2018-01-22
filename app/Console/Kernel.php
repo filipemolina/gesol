@@ -4,8 +4,12 @@ namespace App\Console;
 
 use GuzzleHttp;
 use App\Models\Clima;
+use App\Models\Temperatura;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+
+use AdinanCenci\Climatempo\Climatempo;
+use AdinanCenci\Climatempo\Search;
 
 class Kernel extends ConsoleKernel
 {
@@ -62,7 +66,33 @@ class Kernel extends ConsoleKernel
 
             $clima->save();
 
-        })->everyFiveMinutes();
+            // CLIMATEMPO
+
+            $token      = 'eb67e15353ea4fb18019473aab6af909';
+            $mesquita   = 6135; /*mesquita*/
+
+            $climatempo = new Climatempo($token);
+            $previsao   = $climatempo->current($mesquita);
+
+            $temperatura = new Temperatura;
+
+            $temperatura->temperature     = $previsao->temperature;
+            $temperatura->wind_direction  = $previsao->wind_direction;
+            $temperatura->wind_velocity   = $previsao->wind_velocity;
+            $temperatura->humidity        = $previsao->humidity;
+            $temperatura->condition       = $previsao->condition;
+            $temperatura->pressure        = $previsao->pressure;
+            $temperatura->icon            = $previsao->icon;
+            $temperatura->sensation       = $previsao->sensation;
+
+            $temperatura->save();
+
+
+
+
+
+        })->everyMinute();
+        //})->everyFiveMinutes();
     }
 
     /**
