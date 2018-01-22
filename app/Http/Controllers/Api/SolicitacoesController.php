@@ -23,8 +23,8 @@ class SolicitacoesController extends Controller
      */
     public function index(Request $request)
     {
-	// Pular X solicitações
-	$offset = isset($request->offset) ? $request->offset : 0;
+    	// Pular X solicitações
+    	$offset = isset($request->offset) ? $request->offset : 0;
 
         $Solicitacoes = Solicitacao::with([
             'solicitante',

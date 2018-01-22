@@ -99,7 +99,7 @@ class ApoiosController extends Controller
 
     public function apoiar(Request $request)
     {
-	$apoiado = Apoio::where('solicitacao_id', $request->solicitacao_id)
+        $apoiado = Apoio::where('solicitacao_id', $request->solicitacao_id)
                         ->where('solicitante_id', $request->solicitante_id)
                         ->get();
         // Variável que indica se o solicitante já apoiou a solicitação
