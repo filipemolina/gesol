@@ -434,12 +434,7 @@ Andamento de Solicitação
             input: 'select',
             inputOptions: JSON.parse('{!! json_encode($motivos_recusa) !!}'),
 
-   /*         inputOptions: {
-               'Imagem impropria':                       'Imagem impropria',
-               'Solicitação em duplicidade':             'Solicitação em duplicidade',
-               'Não é de resposabilidade da Prefeitura': 'Não é de resposabilidade da Prefeitura'
-            },
-   */         inputPlaceholder: 'Selecione um motivo',
+            inputPlaceholder: 'Selecione um motivo',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -469,8 +464,8 @@ Andamento de Solicitação
                   status: "Recusada",
                   acao:    4
                }, function(resposta){
-                  console.log(resposta);
-                  window.location.href="{{ url("/") }}";
+                  //console.log(resposta);
+                  window.location.href="{{ url("/solicitacao") }}";
                });
             });
          })

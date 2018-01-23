@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Solicitacao;
 use App\Models\Solicitante;
 use App\Models\Funcionario;
+use App\Models\Comentario;
 use App\Models\Movimento;
 use App\Models\Endereco;
 use App\Models\Sys_log;
@@ -272,4 +273,38 @@ if(!function_exists("enviarDadosParaApp")){
 
    }
 
+}
+
+
+if(!function_exists("enviarComentarioSolicitacao")){
+   function enviarComentarioSolicitacao($texto, $solicitacao){   
+
+      $funcionario_logado   = Funcionario::find(Auth::user()->funcionario_id);
+
+      $comentario = Comentario::create([
+         'funcionario_id'    => $funcionario_logado->id,
+         'comentario'        => $texto, 
+         'solicitacao_id'    => $solicitacao->id,
+      ]);
+
+
+      //======================================================================================
+      //esse código foi extraido do comentarioController, linha 63
+      // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
+      $dados = [
+         'operacao'      => 'atualizar',
+         'model'         => 'comentario',
+         'solicitacao'   => $solicitacao->id, 
+         'comentario_id' => $comentario->id,
+         'acao'          => 'atualizar'
+      ];
+    
+      $token = $solicitacao->solicitante->fcm_id;
+
+      // Função que envia a notificação para o aparelho do usuário, definida no arquivo helper_geral.php
+      enviarNotificacao("Sua solicitação foi respondida", "Verifique na área 'Minhas Solicitações' no menu principal", $token, $dados);
+      // Fim do envio da notificação
+      //======================================================================================
+
+   }
 }

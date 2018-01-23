@@ -372,7 +372,7 @@ class HomeController extends Controller
 
 
 
-         return view('dashboard.'.$viu, compact('funcionario_logado', 'resultados','secretarias',
+         return view('dashboard.'.$viu, compact('resultados','secretarias',
             'ano',
             'ano_anterior', 
             'solicitacoes_todas',

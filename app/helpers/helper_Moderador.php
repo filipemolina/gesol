@@ -18,7 +18,7 @@ use Carbon\Carbon;
 if (! function_exists('dashboardModerador')) {
    function dashboardModerador(){
 
-      $resultados = [];
+/*      $resultados = [];
    
       $resultados = [];
       $funcionario_logado              = Funcionario::find(Auth::user()->funcionario_id);
@@ -83,14 +83,6 @@ if (! function_exists('dashboardModerador')) {
       
    // ==============================================================================================
    // ==============================================================================================   
-/*
-      $sol_por_mes               = solicitacoesPorMes($solicitacoes);
-      $sol_por_mes_ano_anterior  = solicitacoesPorMes($solicitacoes_ano_anterior);
-
-      $sol_prazo                 = solicitacoesPrazo($solicitacoes);
-      $sol_media                 = mediaSolucao($solicitacoes);
-*/
-
       $resultados['solicitacoes']               = $solicitacoes;
       $resultados['abertas']                    = $solicitacoes->where('status', 'Aberta')->count();
       $resultados['ano']                        = $ano;
@@ -106,6 +98,6 @@ if (! function_exists('dashboardModerador')) {
 
       //dd($resultados['sol_maiores']);
 
-      return $resultados;
+      return $resultados;*/
    }
 }

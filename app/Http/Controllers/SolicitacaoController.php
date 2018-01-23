@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Solicitacao;
 use App\Models\Solicitante;
 use App\Models\Funcionario;
+use App\Models\Comentario;
 use App\Models\FCM_Token;
 use App\Models\Movimento;
 use App\Models\Parametro;
@@ -286,7 +287,15 @@ class SolicitacaoController extends Controller
                 // Atualizar os dados
                 $solicitacao->fill($request->all());
                 $alterou = $solicitacao->save();
-                return json_encode($request->motivo);
+
+                //envia um comentario com o motivo da recusa
+                enviarComentarioSolicitacao(
+                    'Sua solicitação foi recusada pelo seguinte motivo: ' .$request->motivo,
+                    $solicitacao
+                );
+
+                return json_encode("ok");
+                //return json_encode($request->motivo);
 
             case 5:
                 //salva na trilha as informações da mudança STATUS
@@ -295,9 +304,7 @@ class SolicitacaoController extends Controller
 
                 // Atualizar os dados
                 $solicitacao->fill($request->all());
-                
                 $alterou = $solicitacao->save();
-                
                 return json_encode($alterou);
 
             case 6:

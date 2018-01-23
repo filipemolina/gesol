@@ -40,7 +40,6 @@ class ComentarioController extends Controller
     {
         
         // Validar
-
         $this->validate($request, [
             'comentario'     => 'required|min:2',
             'solicitacao_id' => 'required'
