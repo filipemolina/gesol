@@ -63,11 +63,11 @@ class ComentarioController extends Controller
         // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
 
         $dados = [
-            'operacao' => 'atualizar',
-            'model' => 'comentario',
-            'solicitacao' => $request->solicitacao_id, 
+            'operacao'      => 'atualizar',
+            'model'         => 'comentario',
+            'solicitacao'   => $request->solicitacao_id, 
             'comentario_id' => $comentario->id,
-            'acao' => 'atualizar'
+            'acao'          => 'atualizar'
         ];
 
         $token = $solicitacao->solicitante->fcm_id;

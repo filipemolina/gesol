@@ -70,24 +70,32 @@ class Kernel extends ConsoleKernel
 
             $clima->save();
 
-            // CLIMATEMPO
+            // CLIMATEMPO ================================================================
 
-            $token      = 'a7d6291b515e2018ac998839ba254b7a';
-            $mesquita   = 6135; /*mesquita*/
+/*            $token      = 'a7d6291b515e2018ac998839ba254b7a';
+            $mesquita   = 6135; //mesquita
 
             $climatempo = new Climatempo($token);
             $previsao   = $climatempo->current($mesquita);
+*/
+
+            $client = new GuzzleHttp\Client();
+            
+            $res = $client->request("GET", "http://apiadvisor.climatempo.com.br/api/v1/weather/locale/6135/current?token=a7d6291b515e2018ac998839ba254b7a");
+
+            // Salvar ao resultado da chamada
+            $resposta = json_decode($res->getBody()->getContents());
 
             $temperatura = new Temperatura;
 
-            $temperatura->temperature     = $previsao->temperature;
-            $temperatura->wind_direction  = $previsao->wind_direction;
-            $temperatura->wind_velocity   = $previsao->wind_velocity;
-            $temperatura->humidity        = $previsao->humidity;
-            $temperatura->condition       = $previsao->condition;
-            $temperatura->pressure        = $previsao->pressure;
-            $temperatura->icon            = $previsao->icon;
-            $temperatura->sensation       = $previsao->sensation;
+            $temperatura->temperature     = $resposta->data->temperature;
+            $temperatura->wind_direction  = $resposta->data->wind_direction;
+            $temperatura->wind_velocity   = $resposta->data->wind_velocity;
+            $temperatura->humidity        = $resposta->data->humidity;
+            $temperatura->condition       = $resposta->data->condition;
+            $temperatura->pressure        = $resposta->data->pressure;
+            $temperatura->icon            = $resposta->data->icon;
+            $temperatura->sensation       = $resposta->data->sensation;
 
             $temperatura->save();
 

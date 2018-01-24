@@ -277,7 +277,16 @@ class SolicitacaoController extends Controller
                 $resposta->servico  = $solicitacao->servico->setor->nome;
                 $resposta->setor    = $solicitacao->servico->nome;
 
-                return json_encode($resposta);
+                //envia um comentario informando o redirecionamento
+                enviarComentarioSolicitacao(
+                    'Sua solicitação foi redirecionada pelo seguinte motivo: ' .$request->motivo,
+                    $solicitacao
+                );
+                
+                if($alterou){
+                    return json_encode(true);
+                }
+                //return json_encode($request->motivo);
 
             // recusa solicitação
             case 4:
@@ -290,11 +299,13 @@ class SolicitacaoController extends Controller
 
                 //envia um comentario com o motivo da recusa
                 enviarComentarioSolicitacao(
-                    'Sua solicitação foi recusada pelo seguinte motivo: ' .$request->motivo,
+                    'Sua solicitação foi transferida pelo seguinte motivo: ' .$request->motivo,
                     $solicitacao
                 );
 
-                return json_encode("ok");
+                if($alterou){
+                    return json_encode(true);
+                }
                 //return json_encode($request->motivo);
 
             case 5:

@@ -18,11 +18,6 @@ use App\Models\User;
 use Carbon\Carbon;
 use DataTables;
 
-use GuzzleHttp;
-use App\Models\Clima;
-
-use App\Models\Temperatura;
-use AdinanCenci\Climatempo\Climatempo;
 
 
 class HomeController extends Controller
@@ -35,7 +30,6 @@ class HomeController extends Controller
    
    public function index()
    {
-
 
       $secretarias           = Secretaria::all()->sortBy('nome');
       $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);

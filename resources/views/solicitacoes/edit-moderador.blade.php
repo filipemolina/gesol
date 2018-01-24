@@ -371,27 +371,15 @@ Andamento de Solicitação
                cancelButtonColor: '#d33',
                confirmButtonText: 'Sim',
                cancelButtonText: 'Não',
-            }).then(function () {
-               swal(
-                  'Destino alterado!',
-                  '',
-                  'success'
-               ).then(function(){
-
+            }).then(function(){
                   // Estética
-
                   let id_servico = $("#select-servico").val();
-
                   let textoSelecionado = $("#select-servico option:selected").text();
-
                   $("#servico").css('display', 'block'); 
                   $("#botao-padrao").css('display', 'block'); 
-                  
                   $("#servico-edicao").css('display', 'none');             
                   $("#botao-servico").css('display', 'none');  
-
                   // Levantamento de peso
-
                   $.post('/solicitacao/{{ $solicitacao->id }}', {
                      _token :    '{{ csrf_token() }}',
                      _method:    'PUT',
@@ -400,28 +388,29 @@ Andamento de Solicitação
                      acao:       3
                   }, function(res){
                      let resposta = JSON.parse(res);
-
                      $("#servico-texto").html(  resposta.sigla +' - ' + 
                                                 resposta.servico +' - ' +
                                                 resposta.setor );
-
                      $("#setor-icone").removeClass().addClass('mdi '+ resposta.icone);
                      $("#setor-cor").css('background-color', resposta.cor + " !important");
 
                      ///////////////////////////// Enviar comentário padrão
-
-                     $.post(url_base+"/comentario",{
+/*                     $.post(url_base+"/comentario",{
                         comentario: "A solicitação foi transferida pelo seguinte motivo: "+$("#select-servico-motivo option:selected").html(),
                         solicitacao_id: {{ $solicitacao->id }}, 
                         funcionario_id: {{ $funcionario_logado->id }},  //definido na material.blade
                         _token: token,
                      });
-
+*/
                      console.log("Resposta", resposta);
-
+                  }).then(function () {
+                     swal(
+                        'Destino alterado!',
+                        '',
+                        'success'
+                     );
                   });
                });
-            })
          };
       });
 
@@ -452,24 +441,35 @@ Andamento de Solicitação
                })
             }
          }).then(function (result) {
-            swal(
-               'Solicitação recusada!',
-               '',
-               'success'
-            ).then(function(){
-               $.post('/solicitacao/{{ $solicitacao->id }}', {
+
+            $.post('/solicitacao/{{ $solicitacao->id }}', {
                   _token : '{{ csrf_token() }}',
                   _method: 'PUT',
                   motivo: result,
                   status: "Recusada",
                   acao:    4
-               }, function(resposta){
-                  //console.log(resposta);
-                  window.location.href="{{ url("/solicitacao") }}";
-               });
-            });
-         })
-      });
+               }, function (resposta) {
+                     console.log(resposta);
+                     if(resposta == "true"){
+                        swal(
+                           'Solicitação recusada!',
+                           '',
+                           'success'
+                        ).then(function(){
+                           
+                           window.location.href="{{ url("/solicitacao") }}";
+                        });
+
+                     }else{
+                        swal(
+                           'Falha na operação!',
+                           '',
+                           'error'
+                        );
+                     }
+                  });
+            });      
+         });
 
 
    </script>
