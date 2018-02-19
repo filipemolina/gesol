@@ -91,15 +91,18 @@ class CreateSemsopRelatorios extends Migration
 
 
             //------------------------FOREIGN--------------------------------
-            $table->integer('funcionario_id')->unsigned();
             $table->integer('endereco_id')->unsigned();
             //---------------------------------------------------------------
 
             $table->timestamps();
 
+            
 
         });
 
+        // Schema::table('semsop_relatorios', function($table){
+        //     $table->foreign('endereco_id')->references('id')->on('enderecos')->onDelete('cascade');
+        // });
 
     }
 

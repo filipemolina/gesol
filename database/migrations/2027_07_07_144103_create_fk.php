@@ -75,6 +75,18 @@ class CreateFk extends Migration
             $table->foreign('funcionario_id')   ->references('id')->on('funcionarios')  ->onDelete('cascade');
         });
 
+        Schema::table('semsop_funcionarios_relatorios', function($table){
+            $table->foreign('semsop_relatorio_id')->references('id')->on('semsop_relatorios')->onDelete('cascade');
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
+        });
+
+        Schema::table('semsop_relatorio', function($table){
+            $table->foreign('endereco_id')->references('id')->on('enderecos')->onDelete('cascade');
+        });
+
+        
+
+
 
         Schema::enableForeignKeyConstraints();
     }
