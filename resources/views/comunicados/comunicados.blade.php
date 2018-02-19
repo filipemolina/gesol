@@ -20,29 +20,45 @@
 				<div class="toolbar">
 					<!--        Here you can write extra buttons/actions for the toolbar              -->
 				</div>
-				@if($funcionario_logado->role->peso == 80 )      
+
+				
+				<!-- testa se o funcionário tem a ATRIBUIÇÃO de COMUNICADOR para poder enviar comunicados -->
+				@if($funcionario_logado->atribuicoes()->where('atribuicao', 'COMUNICADOR')->count() )      
 					<a href="{{ url("/comunicado/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Novo Comunicado"></i></a>
+					<div class="material-datatables">
+						<table id="comunicados" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+							<thead>
+								<tr>
+									<th>Imagem</th>
+									<th>Título</th>
+									<th>Subtitulo</th>
+									<th>Texto</th>
+									<th>Momento</th>
+									<th>Alcance</th>
+									<th>Ações</th>
+									{{-- Preenchido com Datatables --}}
+								</tr>
+							</thead>
+						</table>
+					</div> {{-- Fim Material-datatbles --}}
+				@else
+					<div class="material-datatables">
+						<table id="comunicados" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+							<thead>
+								<tr>
+									<th>Imagem</th>
+									<th>Título</th>
+									<th>Subtitulo</th>
+									<th>Texto</th>
+									<th>Momento</th>
+									{{-- Preenchido com Datatables --}}
+								</tr>
+							</thead>
+						</table>
+					</div> {{-- Fim Material-datatbles --}}
+
 				@endif
 
-				<div class="material-datatables">
-					<table id="comunicados" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
-						<thead>
-							<tr>
-
-								<th>Imagem</th>
-								<th>Título</th>
-								<th>Data</th>
-								<th>Hora</th>
-								<th>Alcance</th>
-								<th>Ações</th>
-								{{-- Preenchido com Datatables --}}
-							</tr>
-						</thead>
-						
-
-
-					</table>
-				</div> {{-- Fim Material-datatbles --}}
 			</div> {{-- Fim card-content --}}
 		</div> {{-- Fim card --}}
 	</div> {{-- Fim col-md-10 --}}
@@ -59,44 +75,62 @@
 		$(function(){
 
 			// DataTables
-
 			tabela = $("table#comunicados").DataTable({
 				responsive : true,
-		        processing: true,
-		        serverSide: true,
-		        ajax      : "{{ url('/comunicado/datatables') }}",
-		        columns   : [
+	        	processing: true,
+	        	serverSide: true,
+	        	ajax      : "{{ url('/comunicado/datatables') }}",
 
-		            { data : 'imagem',       name : 'imagem' },
-		            { data : 'titulo',       name : 'titulo' },
-		            { data : 'data',         name : 'data' },
-		            { data : 'hora',         name : 'hora' },
-		            { data : 'alcance',      name : 'alcance' },
-		            { data : 'acoes',      name : 'acoes' },
-		        ],
-		        language : 
-		        {
-		            "url":         "{{ asset('js/portugues.json') }}",
-		            "decimal":     ",",
-		            "thousands":   "."
-		        },
-		        stateSave: true,
-		        // stateDuration: -1,
-		        columnDefs: 
-		        [
-		            { className:   "text-center", "targets": [0] },
-		            { className:   "text-center", "targets": [1] },
-		            { className:   "text-center", "targets": [3] },
-		            { className:   "text-center", "targets": [4] },
+	        	
+	        	columns   : [
+	            { data : 'imagem',       name : 'imagem' },
+					{ data : 'titulo',       name : 'titulo' },
+					{ data : 'subtitulo',    name : 'subtitulo' },
+					{ data : 'texto',        name : 'texto' },
+					{ data : 'momento',      name : 'momento' },
 
-		            { width:       "10%",         "targets": [0] },
-
-		        ],
-		        order : [
-		        	[2, 'desc'],
-		        	[3, 'desc']
-		        ]
+					{{--  teste se é COMUNICADOR  --}}
+					@if( $funcionario_logado->atribuicoes()->where('atribuicao', 'COMUNICADOR')->count() )
+					
+	            	{ data : 'alcance',      name : 'alcance' },
+						{ data : 'acoes',      	 name : 'acoes' },
+					@endif
+	        	],
+	        	language : 
+	        	{
+	            "url":         "{{ asset('js/portugues.json') }}",
+	            "decimal":     ",",
+	            "thousands":   "."
+	        	},
+	        	stateSave: true,
+	        	// stateDuration: -1,
+	        	columnDefs: 
+	        	[
+	            { className:   "text-center", "targets": [0] },
+	            { className:   "text-center", "targets": [1] },
+	            { className:   "text-center", "targets": [3] },
+					{ className:   "text-center", "targets": [4] },
+					
+					{ width:       "8%",          "targets": [0] },
+					{ width:       "10%",         "targets": [1] },
+					{ width:       "10%",         "targets": [2] },
+					{ width:       "20%",         "targets": [3] },
+					{ width:       "5%",          "targets": [4] },
+					
+					{{--  teste se é COMUNICADOR  --}}
+					@if( $funcionario_logado->atribuicoes()->where('atribuicao', 'COMUNICADOR')->count() )
+						{ width:       "5%",          "targets": [5] },
+						{ width:       "5%",          "targets": [6] },
+					@endif
+					
+					
+	        	],
+	        	order : [
+	        		[2, 'desc'],
+	        		[3, 'desc']
+	        	]
 			});
+
 
 			// Código para exclusão de um comunicado
 

@@ -54,5 +54,10 @@ class Funcionario extends Model implements AuditableContract
     {
       return $this->belongsTo('App\Models\Role');
     }
+
+    public function atribuicoes()
+    {
+      return $this->belongsToMany('App\Models\Atribuicao', 'atribuicao_funcionario');
+    }
    
 }

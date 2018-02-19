@@ -12,7 +12,7 @@
 	<div class="col-md-12 col-md-offset-0">
 		<div class="card">
 			<div class="card-header card-header-icon" data-background-color="dourado">
-				<i class="material-icons">assignment</i>
+				<i class="material-icons">account_balance</i>
 			</div>
 
 			<div class="card-content">

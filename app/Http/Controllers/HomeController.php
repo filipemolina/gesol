@@ -292,7 +292,7 @@ class HomeController extends Controller
                ->where('solicitacoes.created_at','>=', $data_inicio)
                ->where('solicitacoes.created_at','<=', $data_fim)         
                ->groupBy('enderecos.bairro')
-               ->orderBy('enderecos.bairro','asc')
+               ->orderBy('total','desc')
                ->get();
 
             //    SERVIÇOS MAIS SOLICITADOS  POR SECRETARIAS

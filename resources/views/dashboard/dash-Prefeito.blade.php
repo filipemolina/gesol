@@ -387,18 +387,18 @@
               trigger: 'item',
               formatter: "{b} : {c} <br/> ({d}%)"
           },
-          legend: {
+          {{--  legend: {
               type: 'scroll',
               orient: 'vertical',
               right: 10,
-              top: 20,
+              top: 10,
               bottom: 20,
               data: legendData
-          },
+          },  --}}
           calculable : true,
           series : [
              {
-  
+                
                   type:'pie',
                   radius : [10, 130],
 

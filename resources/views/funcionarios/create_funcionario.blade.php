@@ -214,7 +214,7 @@ Cria Funcionário
             <div class="ripple-container"></div>
          </button>
 
-        	<button id="btn_cancelar" class="botoes-acao btn btn-round btn-primary" >
+		<button id="btn_cancelar" class="botoes-acao btn btn-round btn-primary" >
             <span class="icone-botoes-acao mdi mdi-backburger"></span>   
             <span class="texto-botoes-acao"> CANCELAR </span>
             <div class="ripple-container"></div>

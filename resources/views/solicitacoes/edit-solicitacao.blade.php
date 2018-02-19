@@ -388,6 +388,13 @@ Andamento de Solicitação
 
    <script>
 
+      // se for abaixo de FUNCIONARIO esconder 
+      if({{ $funcionario_logado->role->peso}} < 30){
+         $("#div_escrever_comentario").hide();
+      } else {
+         $("#div_escrever_comentario").show();
+      }
+
       {{---------------------------------------------------- EXECUÇÃO --------------------------------------------}}
       {{---------------------------------------------------- EXECUÇÃO --------------------------------------------}}
       {{---------------------------------------------------- EXECUÇÃO --------------------------------------------}}
@@ -442,9 +449,13 @@ Andamento de Solicitação
          let dias_novo_prazo  = Math.round(((prazo - data_criacao_solicitacao) / DAY)) ;
          let dias_velho_prazo = {{ $prazo_em_dias }};
 
+
+
+
          //testa se a data do novo prazo é anterior a data de hoje
          if (prazo < hoje) 
          {
+
             swal(
                'Atenção',
                'A data do novo prazo não pode ser anterior a hoje',
@@ -464,6 +475,12 @@ Andamento de Solicitação
             //coloca o prazo original da solicitação nopicker
             let prazo_atual = moment($( "#picker_data_prazo" ).datepicker( "getDate" ).setHours(0,0,0,0)).format("L"); 
 
+            console.log(prazo_original);
+            console.log(prazo_atual);
+            console.log(dias_novo_prazo);
+
+
+            
             //verifica se o prazo foi alterado
             if( prazo_original == prazo_atual)
             {
@@ -767,7 +784,12 @@ Andamento de Solicitação
             input: 'select',
             inputOptions: JSON.parse('{!! json_encode($motivos_recusa) !!}'),
 
-               inputPlaceholder: 'Selecione um motivo',
+      /*         inputOptions: {
+                  'Imagem impropria':                       'Imagem impropria',
+                  'Solicitação em duplicidade':             'Solicitação em duplicidade',
+                  'Não é de resposabilidade da Prefeitura': 'Não é de resposabilidade da Prefeitura'
+               },
+               */         inputPlaceholder: 'Selecione um motivo',
                type: 'warning',
                showCancelButton: true,
                confirmButtonColor: '#3085d6',

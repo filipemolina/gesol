@@ -113,6 +113,7 @@ Route::resource('solicitacao',	'SolicitacaoController');
 Route::resource('comunicado',    'ComunicadoController');
 Route::resource('comentario',		'ComentarioController');
 Route::resource('secretaria',		'SecretariaController');
+Route::resource('atribuicao',		'AtribuicaoController');
 Route::resource('setor',			'SetorController');
 Route::resource('servico',			'ServicoController');
 

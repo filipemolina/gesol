@@ -115,7 +115,7 @@ Andamento de Solicitação
                <h4>Endereço</h4>
 
                @if($solicitacao->endereco)
-                  <span class="endereco" 
+                  <div class="endereco" 
                      onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
                      <i class="material-icons" style="font-size: 20px; margin-top: 5px;">place</i>  
 
@@ -123,7 +123,7 @@ Andamento de Solicitação
                      {{ $solicitacao->endereco->numero }} -
                      {{ $solicitacao->endereco->bairro }} -
                      {{ $solicitacao->endereco->cep }} 
-                  </span>
+                  </div>
                @endif
 
                <br><br>
@@ -237,16 +237,14 @@ Andamento de Solicitação
             cancelButtonColor: '#d33',
             confirmButtonText: 'Sim, está ok!'
          }).then(function () {
+            $("input#hidden_acao").val('1');
+
+            $("form#form-hidden").submit();
             swal(
                'Solicitação liberada!',
                '',
                'success'
-            ).then(function(){
-
-               $("input#hidden_acao").val('1');
-
-               $("form#form-hidden").submit();
-            });
+            )
          })
       });
 

@@ -180,6 +180,12 @@
                               <span class="sidebar-normal"> Serviços </span>
                            </a>
                        </li>
+                       <li>
+                            <a href="<?php echo e(url("/atribuicao")); ?>">
+                            <i class="material-icons">compare_arrows</i>
+                            <span class="sidebar-normal"> Atribuições </span>
+                        </a>
+                    </li>
                    </ul>
                </div>
            </li>

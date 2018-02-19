@@ -29,10 +29,7 @@ class ComunicadoController extends Controller
      */
     public function index()
     {
-        // Usuário logado
-        $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
-
-        return view("comunicados.comunicados", compact('funcionario_logado'));
+        return view("comunicados.comunicados");
     }
 
     /**
@@ -101,7 +98,7 @@ class ComunicadoController extends Controller
         // Usuário Logado
         $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
 
-        dd($comunicado->toArray());
+        //dd($comunicado->toArray());
 
         return view('comunicados.show', compact('funcionario_logado', 'comunicado'));
     }
@@ -186,12 +183,13 @@ class ComunicadoController extends Controller
             };
 
             $resultado->push([
-                'imagem'  => "<img src='$comunicado->imagem'></img>",
-                'titulo'  => $comunicado->titulo,
-                'data'    => \Carbon\Carbon::parse($comunicado->created_at)->format('d/m/Y'),
-                'hora'    => \Carbon\Carbon::parse($comunicado->created_at)->format('H:i:s'),
-                'alcance' => $comunicado->num_dispositivos." dispositivos",
-                'acoes'   => $acao
+                'imagem'    => "<img src='$comunicado->imagem'></img>",
+                'titulo'    => $comunicado->titulo,
+                'subtitulo' => $comunicado->subtitulo,
+                'texto'     => $comunicado->texto,
+                'momento'   => \Carbon\Carbon::parse($comunicado->created_at)->format('d/m/Y - H:i:s'),
+                'alcance'   => $comunicado->num_dispositivos." dispositivos",
+                'acoes'     => $acao
             ]);
         }
 
