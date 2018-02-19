@@ -14,31 +14,30 @@ class Semsop_relatorio extends Model implements AuditableContract
 
   protected $fillable = [
 
-          	'notificacao'
-           	'autuacao'
-            'multa'
-            'registro_dp'            
-            'auto_pf'                
-            'envolvidos'              
-            'origem'
-          	'acao_gcmm'
-            'acao_cop'
-            'tipo'                    
-  		 	    'relato'
-          	'providencia'
-            'foto'
+          	'notificacao',
+           	'autuacao',
+            'multa',
+            'registro_dp',            
+            'auto_pf',                
+            'envolvidos',
+            'origem',
+          	'acao_gcmm',
+            'acao_cop',
+            'tipo',                    
+            'relato',
+          	'providencia',
+            'foto',
   ];
-
-   public function funcionario()
-    {
-        return $this->belongsTo('App\Models\Funcionario');
-    }
 
     public function endereco()
     {
-        return $this->hasOne('App\Models\Endereco');
+        return $this->belongsTo('App\Models\Endereco');
     }
     
+    public function funcionarios()
+    {
+    	return $this->belongsToMany('App\Models\Funcionario', 'funcionario_id');
+    }
 
 
 }

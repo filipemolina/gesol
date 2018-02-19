@@ -40,5 +40,10 @@ class Endereco extends Model implements AuditableContract
     	return $this->belongsTo('App\Models\Solicitante', 'solicitante_id');
     }
 
+    public function semsop_relatorio()
+    {
+    	return $this->hasOne('App\Models\Semsop_relatorio', 'endereco_id');
+    }
+
 
 }
