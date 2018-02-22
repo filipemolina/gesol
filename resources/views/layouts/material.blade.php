@@ -36,6 +36,8 @@
     <link href="{{ asset('bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet" />
 
 
+
+
     @stack('css')
     
 </head>
@@ -141,6 +143,9 @@
         {{-- Moment --}}
         <script src="{{ asset('js/datetime-moment.js') }}"></script>
         <script src="{{ asset('js/fullcalendar.min.js') }}"></script>
+
+        {{-- Imagens --}}
+    
 
 
         {{-- Funções Javascript --}}

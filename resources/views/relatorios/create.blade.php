@@ -96,25 +96,25 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						<span class="input-group-addon">
 							<i class="material-icons">mail_outline</i>
 						</span>
-						<div class="form-group label-floating has-roxo is-empty">
-							<label class="control-label">CEP</label>
-							<input id="cep" name="endereco[cep]" type="text" class="form-control error" value="">
-							<span class="material-input"></span>
+							<div class="form-group label-floating has-roxo is-empty">
+								<label class="control-label">CEP</label>
+								<input id="cep" name="endereco[cep]" type="text" class="form-control error" value="">
+								<span class="material-input"></span>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-xs-12 col-sm-6 col-md-8">	
-					<div class="input-group">
-						<span class="input-group-addon">
-							<i class="material-icons">explore</i>
-						</span>
-						<div class="form-group label-floating has-roxo is-empty">
-							<label class="control-label">Bairro</label>
-							<input id="bairro" name="endereco[bairro]" type="text" class="form-control error" value="">
-							<span class="material-input"></span>
+					<div class="col-xs-12 col-sm-6 col-md-8">	
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="material-icons">explore</i>
+							</span>
+							<div class="form-group label-floating has-roxo is-empty">
+								<label class="control-label">Bairro</label>
+								<input id="bairro" name="endereco[bairro]" type="text" class="form-control error" value="">
+								<span class="material-input"></span>
+							</div>
 						</div>
 					</div>
-				</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-12 col-sm-6 col-md-7">
@@ -204,26 +204,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<center>
 				<h3>Imagens</h3>
 				<div class="row">
-					<div class="fileinput fileinput-new " data-provides="fileinput">
-						<div class="fileinput-new thumbnail" style="">
-							<img src="{{asset("img/image_placeholder.jpg")}}" alt="..." id="imagem_thumb">
-						</div>
-
-						<div class="fileinput-preview fileinput-exists thumbnail" style=""></div>
-
-						<div class="col-md-offset-0 col-sm-offset-4 col-md-12 col-sm-12">
-							<span class="btn btn-primary btn-round btn-file">
-								<span class="fileinput-new">Selecione</span>
-								<span class="fileinput-exists">Alterar</span>
-								<input type="file" name="imagem_automatica">
-							</span>
-							<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class=></i> Excluir</a>
-						</div>
-
-						{{-- Imagem do Comunicado --}}
-						<input type="hidden" name="foto" id="foto"/>
-
-					</div>
+				
 				</div>
 			</center>
 			<!-- ============================FIM IMAGEM============================ -->
@@ -250,7 +231,6 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 		</form>
 	</div>
 </div>
-
 @endsection
 
 @push('scripts')
@@ -260,7 +240,8 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			// Mascara
 			VMasker ($("#cep")).maskPattern("99999-999");
       });
-		
+		 
 	</script>
 
 @endpush
+

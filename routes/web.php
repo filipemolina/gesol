@@ -116,7 +116,7 @@ Route::resource('secretaria',		'SecretariaController');
 Route::resource('atribuicao',		'AtribuicaoController');
 Route::resource('setor',			'SetorController');
 Route::resource('servico',			'ServicoController');
-Route::resource('relatorio',	    'RelatorioController');
+Route::resource('relatorio',	    'Semsop_RelatorioController');
 
 
 // Password Reset Routes...
