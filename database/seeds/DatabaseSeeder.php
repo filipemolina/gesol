@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         
       //$this->call(FuncionariosSeeder::class);
         
-		$this->call(SolicitanteSeeder::class);
+		/* $this->call(SolicitanteSeeder::class);
 		$this->call(SolicitacaoSeeder::class);
 		$this->call(SolicitacaoSeeder::class);
 
@@ -33,7 +33,9 @@ class DatabaseSeeder extends Seeder
 		$this->call(SolicitacaoSeeder::class);
 		$this->call(SolicitacaoSeeder::class);
 		
-		$this->call(SolicitacaoSeeder::class);    
+		$this->call(SolicitacaoSeeder::class);     */
+
+		$this->call(AtribuicaoSeeder::class);    
 	}
 }
 

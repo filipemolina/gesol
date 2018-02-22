@@ -1333,8 +1333,9 @@ class IconesSeeder extends Seeder
 		DB::table('icones')->insert(['classe' => 'mdi-numeric-9-box-multiple-outline'			,'nome' => 'numeric-9-box-multiple-outline']);
 		DB::table('icones')->insert(['classe' => 'mdi-numeric-9-box-outline'			,'nome' => 'numeric-9-box-outline']);
 		DB::table('icones')->insert(['classe' => 'mdi-numeric-9-plus-box'			,'nome' => 'numeric-9-plus-box']);
-		DB::table('icones')->insert(['classe' => '	mdi-numeric-9-plus-box-multiple-outline'			,'nome' => 'numeric-9-plus-box-multiple-outline"	']);		
-		DB::table('icones')->insert(['classe'] > 'mdi-numeric-9-plus-box-outline'			,'nome' => 'numeric-9-plus-box-outline']);
+		
+	DB::table('icones')->insert(['classe' => 'mdi-numeric-9-plus-box-multiple-outline','nome' => 'numeric-9-plus-box-multiple-outline']);
+	DB::table('icones')->insert(['classe' => 'mdi-numeric-9-plus-box-outline','nome' => 'numeric-9-plus-box-outline']);
 		DB::table('icones')->insert(['classe' => 'mdi-nut'			,'nome' => 'nut']);
 		DB::table('icones')->insert(['classe' => 'mdi-nutrition'			,'nome' => 'nutrition']);
 		DB::table('icones')->insert(['classe' => 'mdi-oar'			,'nome' => 'oar']);
