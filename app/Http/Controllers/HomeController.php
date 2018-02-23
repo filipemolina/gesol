@@ -45,6 +45,10 @@ class HomeController extends Controller
       $resultados = [];
       $funcionario_logado              = Funcionario::find(Auth::user()->funcionario_id);
       $secretaria_funcionario_logado   = $funcionario_logado->setor->secretaria->id;
+      // $atribuicoes_funcionario_logado  = $funcionario_logado->atribuicoes();
+
+      //dd( $funcionario_logado->atribuicoes() );
+     
 
       //limites de datas para pegar apenas as solicitações do ANO ANTERIOR
       $ano_anterior              = Carbon::now()->year-1;
@@ -384,7 +388,8 @@ class HomeController extends Controller
             'solicitacoes_bairro', 
             'servicos_mais_solicitados_secretaria', 
             'secretarias_graficos',
-            'secretarias_select'
+            'secretarias_select',
+            'atribuicoes_funcionario_logado'
          ));
 
       }else{

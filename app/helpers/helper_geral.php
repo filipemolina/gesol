@@ -308,3 +308,34 @@ if(!function_exists("enviarComentarioSolicitacao")){
 
    }
 }
+
+/**
+ * Função que recebe um funcionário e um vetor de atribuições e retorna true caso o funcionário possua pelo menos
+ * uma dessas atribuições
+ * @param $funcionario: Instância do Model Funcionário
+ * @param $atribuições: Vetor de strings com as descrições das atribuições
+ * */
+
+if(!function_exists("verificaAtribuicoes")){
+   function verificaAtribuicoes($funcionario, $atribuicoes){
+
+      // Flag que indica se o usuário possui pelo menos uma das atribuições
+      $flag = false;
+
+      // Transformar o array em Collection para usar o método MAP do laravel
+      $atribuicoes = collect($atribuicoes);
+
+      $atribuicoes->map(function($atribuicao) use ($funcionario, &$flag){
+
+         // Iterar por todas as atribuições do funcionário procurando pela atribuição do vetor
+         $funcionario->atribuicoes->map(function($item) use ($atribuicao, &$flag){
+            
+            if($item->atribuicao == $atribuicao){
+               $flag = true;
+            }
+         });
+      });
+
+      return $flag;
+   }
+}

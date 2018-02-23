@@ -107,16 +107,16 @@ Route::get('comunicado/datatables', 'ComunicadoController@dados');
 // 										RESOURCE
 //========================================================================================
 //resources
-Route::resource('solicitante',	'SolicitanteController');
-Route::resource('funcionario',	'FuncionarioController');
-Route::resource('solicitacao',	'SolicitacaoController');
-Route::resource('comunicado',    'ComunicadoController');
-Route::resource('comentario',		'ComentarioController');
-Route::resource('secretaria',		'SecretariaController');
-Route::resource('atribuicao',		'AtribuicaoController');
-Route::resource('setor',			'SetorController');
-Route::resource('servico',			'ServicoController');
-Route::resource('relatorio',	    'Semsop_RelatorioController');
+Route::resource('solicitante',	   'SolicitanteController');
+Route::resource('funcionario',	   'FuncionarioController');
+Route::resource('solicitacao',	   'SolicitacaoController');
+Route::resource('comunicado',       'ComunicadoController');
+Route::resource('comentario',		   'ComentarioController');
+Route::resource('secretaria',		   'SecretariaController');
+Route::resource('atribuicao',		   'AtribuicaoController');
+Route::resource('setor',			   'SetorController');
+Route::resource('servico',			   'ServicoController');
+Route::resource('semsop',	         'Semsop_RelatorioController');
 
 
 // Password Reset Routes...
