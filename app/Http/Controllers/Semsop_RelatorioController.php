@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Funcionario;
+use App\Models\Semsop_relatorio;
 
 class Semsop_RelatorioController extends Controller
 {
+
+    private $Semsop_relatorio;
+
     public function __construct()
     { 
         $this->middleware('auth');
@@ -26,6 +31,12 @@ class Semsop_RelatorioController extends Controller
     
     public function store(Request $request)
     {
+        
+        $Semsop_relatorio = new Semsop_relatorio($request->all());
+        $Semsop_relatorio->save();
+
+        return redirect(url('/'));
+
 
     }
     

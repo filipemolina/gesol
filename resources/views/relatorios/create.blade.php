@@ -25,19 +25,19 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<div class="row col-md-offset-2 col-sm-offset-2 col-md-12 col-sm-12" >
 				<div class="card-content">
 					<label style="color: #000; margin-left: 15px">
-						<input value="notificação" name="notificação" type="checkbox"> Notificação
+						<input value="notificacao" name="notificacao" type="checkbox"> Notificação
 					</label>
 					<label style="color: #000; margin-left: 15px">
-						<input value="autuação" name="autuação" type="checkbox"> Autuação
+						<input value="autuacao" name="autuacao" type="checkbox"> Autuação
 					</label>
 					<label style="color: #000; margin-left: 15px">
 						<input value="multa" name="multa" type="checkbox"> Multa
 					</label>
 					<label style="color: #000; margin-left: 15px">
-						<input value="registo" name="registro_dp" type="checkbox"> Registo em DP
+						<input value="registro_dp" name="registro_dp" type="checkbox"> Registo em DP
 					</label>
 					<label style="color: #000; margin-left: 15px">
-						<input value="auto" name="auto_pf" type="checkbox"> A.P.F
+						<input value="auto_pf" name="auto_pf" type="checkbox"> A.P.F
 					</label>
 				</div>
 			</div>
@@ -62,7 +62,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 					</span>
 					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a ação desenvolvida</label>
-						<select name=" " id=" " class="form-control form-control error">
+						<select name="envolvidos" id="envolvidos" class="form-control form-control error">
 							<option value="">  </option>						
 						</select>
 						<span class="material-input"></span>
