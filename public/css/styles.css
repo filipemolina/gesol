@@ -2322,3 +2322,12 @@ span.badge.nao_lidas {
 .recupera_senha {
   color: #426b96;
 }
+
+.btnfuncionario {
+height: 37px; 
+width: 37px;   
+box-shadow:  none;
+background-image:url('../img/mais.jpg');
+background-repeat:no-repeat;
+background-size:100%;
+}

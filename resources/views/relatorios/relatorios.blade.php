@@ -27,17 +27,29 @@
 						<table id="relatorios" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
 							<thead>
 								<tr>
-									<th>Imagem</th>
 									<th>Origem</th>
-									<th>Local</th>
+								    <th>Local</th>
 									<th>Ação Desenvolvida</th>
 									<th>Relato Sucinto</th>
-									<th>Data e Hora</th>
-									<th>Agente/Fiscal</th>
-										
+									<th>Data e Hora</th> 
+								    <th>Agente/Fiscal</th> 
 								</tr>
 							</thead>
+							 	<tbody>
+						 		 @foreach($relatorios as $relatorio)
+									<tr>
+										{{-- <td>{{ $relatorio->foto }}</td> --}}
+										<td>{{ $relatorio->origem }}</td>
+										<td>{{ $relatorio->endereco->logradouro }}</td>
+									    <td>{{ $relatorio->acao_cop }}</td>
+									    <td>{{ $relatorio->relato }}</td>
+									    <td>{{ $relatorio->data }} {{$relatorio->hora}}</td>
+										<td>{{ $relatorio->funcionarios()->where("relator", true)->first()->nome }}</td>
+									</tr>
+								@endforeach     
+							</tbody> 
 						</table>
+
 					</div> {{-- Fim Material-datatbles --}}
 
 			</div> {{-- Fim card-content --}}
@@ -48,5 +60,22 @@
 @endsection
 
 @push('scripts')
+
+{{-- 	<script type="text/javascript">
+
+			$(document).ready( function () {
+	   		 $('#relatorios').DataTable({
+	   	
+
+			 	language : 
+		    	{
+		        "url":         "{{ asset('js/portugues.json') }}",
+		        "decimal":     ",",
+		        "thousands":   "."
+		    	}
+	   	   });
+		});
+
+	</script> --}}
 
 @endpush

@@ -149,13 +149,6 @@
 							<p>Funcionarios</p>
 						</a>
 					</li>
-								<li>
-									<a href="{{ url("/relatorio") }}">
-										<i class="material-icons">build</i>
-										<span class="sidebar-normal"> Relatorios </span>
-									</a>
-								</li>
-
 					<li>
 						<a data-toggle="collapse" href="#componentsExamples" class="collapsed" aria-expanded="false">
 							<i class="material-icons">settings</i>

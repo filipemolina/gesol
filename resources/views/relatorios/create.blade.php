@@ -16,9 +16,9 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 	<div class="card-content">
 		<h4 class="card-title">Novo Relatorio</h4>
-		<form action="{{ url('/relatorio') }}" method="POST" id="form_relatorio">
+		<form action="{{ url('/semsop') }}" method="POST" id="form_relatorio">
 			{{ csrf_field() }}
-
+  
 
 		<!-- ============================CHECKBOX============================ -->
 		
@@ -43,52 +43,80 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			</div>
 		<!-- ============================FIM CHECKBOX============================ -->
 		
-			<div class="row">
-				<div class="input-group col-md-12 col-sm-12" >
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-6">
+				<div class="input-group" >
 					<span class="input-group-addon">
 						<i class="material-icons">swap_horiz</i>
 					</span>
 
 					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a origem do serviço</label>
-						<select nome="origem" id=origem class="form-control form-control error">
+						<select name="origem" id=origem class="form-control form-control error">
 							<option value="" selected> </option>
+							@foreach($origens as $origem)
+						<option value="{{$origem}}"> {{$origem}} </option>    
+							@endforeach
 						</select>
 						<span class="material-input"></span>
 					</div>
+				</div>
+			</div>
+			
 
+
+			<div class="col-xs-12 col-sm-6 col-md-6">
+				<div class="input-group" >
 					<span class="input-group-addon">
 						<i class="material-icons">card_membership</i>
 					</span>
 					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a ação desenvolvida</label>
-						<select name="envolvidos" id="envolvidos" class="form-control form-control error">
-							<option value="">  </option>						
+			@if($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_FISCAL')->count() )  
+						<select name="acao_cop" id="acao_cop" class="form-control form-control error">
+							<option value="">  </option>
+							@foreach($acoes_cop as $acao_cop)
+							<option value="{{$acao_cop}}"> {{$acao_cop}}</option>
+							@endforeach 
+			@elseif($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_GCMM')->count() )
+						<select name="acao_gcmm" id="acao_gcmm " class="form-control form-control error"> 	  <option value="">  </option>
+							@foreach($acoes_gcmm as $acao_gcmm)
+							<option value="{{$acao_gcmm}}"> {{$acao_gcmm}}</option>
+							@endforeach 
+						@endif	
 						</select>
 						<span class="material-input"></span>
 					</div>
 				</div>
-
-					<div class="input-group col-md-12 col-sm-12">
-						<span class="input-group-addon" style="padding-left: 27px">
-							<i class="material-icons">event</i>
-						</span>
-						<div class="form-group label-floating has-roxo is-empty col-md-offset-4 col-sm-offset-4 col-md-6 col-sm-6" >
-							<label class="label-control" style="color: #3d276b;">Data	</label>
-							<input name="data" type="date" class="form-control" value="">
-							<span class="material-input"></span>
-						</div>
-
-						<span class="input-group-addon">
-							<i class="material-icons">access_time</i>
-						</span>
-						<div class="form-group label-floating has-roxo is-empty col-md-offset-4 col-sm-offset-4 col-md-6 col-sm-6" style="padding-right: 84px">
-							<label class="label-control" style="color: #3d276b;">Hora	</label>
-							<input name="hora" type="time" class="form-control">
-							<span class="material-input"></span>
-						</div>
-					</div>
 			</div>
+		</div>	
+		
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-3">
+				<div class="input-group">
+					<span class="input-group-addon" style="padding-left: 27px">
+						<i class="material-icons">event</i>
+					</span>
+					<div class="form-group label-floating has-roxo is-empty" >
+						<label class="label-control" style="color: #3d276b;">Data	</label>
+						<input id="data" name="data" type="date" class="form-control" value="">
+						<span class="material-input"></span>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-md-4 col-md-offset-3">
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="material-icons">access_time</i>
+					</span>
+					<div class="form-group label-floating has-roxo is-empty" style="padding-right: 84px">
+						<label class="label-control" style="color: #3d276b;">Hora	</label>
+						<input name="hora" type="time" class="form-control">
+						<span class="material-input"></span>
+					</div>
+				</div>
+			</div>
+		</div>
 			<!-- ============================lOCAL============================ -->
 			<div class="row ">
 				<div class="col-xs-12 col-sm-6 col-md-4">
@@ -98,7 +126,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</span>
 							<div class="form-group label-floating has-roxo is-empty">
 								<label class="control-label">CEP</label>
-								<input id="cep" name="endereco[cep]" type="text" class="form-control error" value="">
+								<input id="cep" name="cep" type="text" class="form-control error" value="">
 								<span class="material-input"></span>
 							</div>
 						</div>
@@ -110,7 +138,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 							</span>
 							<div class="form-group label-floating has-roxo is-empty">
 								<label class="control-label">Bairro</label>
-								<input id="bairro" name="endereco[bairro]" type="text" class="form-control error" value="">
+								<input id="bairro" name="bairro" type="text" class="form-control error" value="">
 								<span class="material-input"></span>
 							</div>
 						</div>
@@ -123,8 +151,8 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 								<i class="material-icons">call_split</i>
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
-							<label class="control-label">Rua</label>
-							<input id="rua" name="rua" type="text" class="form-control error" value="">
+							<label class="control-label">Logradouro</label>
+							<input id="logradouro" name="logradouro" type="text" class="form-control error" value="">
 							
 						</div>
 					</div>
@@ -136,7 +164,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Numero</label>
-							<input id="numero" name="endereco[numero]" type="text" class="form-control error" value="">
+							<input id="numero" name="numero" type="text" class="form-control error" value="">
 						</div>
 					</div>
 				</div>
@@ -163,7 +191,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Envolvidos</label>
-							<input id="envolvidos" name="envolvidos" type="text" class="form-control error" value="">
+							<textarea id="envolvidos" name="envolvidos" type="text" class="form-control"  rows="2"></textarea>
 							<span class="material-input"></span>
 						</div>
 					</div>
@@ -177,7 +205,8 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Relato Sucinto</label>
-							<input id="relato" name="relato" type="text" class="form-control error" value="">
+							<textarea id="relato" name="relato" type="text" class="form-control"  rows="2"></textarea>
+			
 							<span class="material-input"></span>
 						</div>
 					</div>
@@ -192,13 +221,83 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Providências Adotadas</label>
-							<input id="providencia" name="providencia" type="text" class="form-control error" value="">
+							<textarea id="providencia" name="providencia" type="text" class="form-control"  rows="2"></textarea>
 							<span class="material-input"></span>
 						</div>
 					</div>
 				</div>
 		 	</div>
+			
+			
+			
 			<!-- ============================FIM AREA DE TEXTO============================ -->
+			
+			<!-- =============ADICIONAR OUTROS FUNCIONARIOS NO RELATORIO=========== -->
+			
+			<div class="row">
+				<div id="funcionario">
+					<div class="small-12 columns text-right">
+    		 			<center>
+    		 				<h4>ADICIONAR INTEGRANTES AO FORMULARIO</h4>
+    		 				<button type="button" class="small tiny alert clonador btnfuncionario"></button>
+    		 			</center>
+ 					</div>
+ 					<div class="row box_funcionario hide">
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="material-icons">perm_identity</i>
+								</span>
+								<div class="form-group label-floating has-roxo is-empty">
+									<label class="control-label">Adicionar Funcionarios</label>
+										<select name="nome[]" id="nome" class="form-control form-control error">
+											<option value=""></option>
+								    		@foreach($funcionarios as $funcionario)
+											<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }} </option> 
+											@endforeach
+										</select>
+									<span class="material-input"></span>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-md-2">
+							<div class="input-group">
+        						<input type="button" class="button tiny success btn_remove" value="Remover"  />
+    						</div>
+    					</div>
+					</div>
+					{{-- <div class="row box_funcionario">
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="material-icons">perm_identity</i>
+								</span>
+								<div class="form-group label-floating has-roxo is-empty">
+									<label class="control-label">Adicionar Funcionarios</label>
+									<select name="nome[]" id="nome" class="form-control form-control error">
+										<option value=""></option>
+										 @foreach($funcionarios as $funcionario)
+										<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }} </option> 
+										@endforeach
+									</select>
+									<span class="material-input"></span>
+								</div>
+							</div>
+			    			</div>
+							<div class="col-xs-12 col-md-2">
+							<div class="input-group">
+        						<input type="button" class="button tiny success btn_remove" value="Remover"  />
+    						</div>
+    					</div>
+					</div> --}}
+				</div>
+			</div>
+
+
+
+
+			<!-- =============FIM ADICIONAR OUTROS FUNCIONARIOS NO RELATORIO=========== -->
+
 
 			<!-- ============================IMAGEM============================ -->
 			<center>
@@ -208,6 +307,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 				</div>
 			</center>
 			<!-- ============================FIM IMAGEM============================ -->
+			
 
 			<!-- ============================BOTOES============================ -->
 			<div class="row col-md-12 col-sm-12">
@@ -241,6 +341,18 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			VMasker ($("#cep")).maskPattern("99999-999");
       });
 		 
+
+$(document).ready();
+$('.clonador').click(function(){
+    $clone = $('.box_funcionario.hide').clone(true);
+    $clone.removeClass('hide');
+    $('#funcionario').append($clone);
+});
+
+$('.btn_remove').click(function(){
+    $(this).parents('.box_funcionario').remove();
+});
+
 	</script>
 
 @endpush
