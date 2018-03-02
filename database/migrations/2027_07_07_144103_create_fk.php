@@ -30,7 +30,8 @@ class CreateFk extends Migration
         
         Schema::table('funcionarios', function($table){
             $table->foreign('setor_id')->references('id')->on('setores')->onDelete('cascade');
-            $table->foreign('role_id') ->references('id')->on('roles')  ->onDelete('set null');
+            $table->foreign('role_id') ->references('id')->on('roles')  ->onDelete('cascade');
+            $table->foreign('cargo_id')->references('id')->on('cargos')->onDelete('cascade');
         });
         
 
@@ -80,10 +81,13 @@ class CreateFk extends Migration
             $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
         });
 
-        Schema::table('semsop_relatorio', function($table){
+        Schema::table('semsop_relatorios', function($table){
             $table->foreign('endereco_id')->references('id')->on('enderecos')->onDelete('cascade');
         });
 
+        Schema::table('cargos', function($table){
+            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
+        });
         
 
 

@@ -36,9 +36,13 @@ class Secretaria extends Model implements AuditableContract
         return $this->hasMany('App\Models\Setor');
     }
 
-
      public function telefones()
     {
         return $this->hasMany('App\Models\Telefone');
     }
+
+    public function cargos()
+    {
+        return $this->hasMany('App\Models\Cargo');
+    }    
 }

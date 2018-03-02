@@ -14,8 +14,10 @@ class FuncionariosSeeder extends Seeder
     {
         // Obter todas as setores
 
-        $setores = Setor::all();
+        //$setores = Setor::all();
 
+        // COM ERROS NAO RESOLVIDOS!!!!!!!!!!
+        
         foreach($setores as $setor)
         {
 

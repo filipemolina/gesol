@@ -15,7 +15,7 @@ class Comentario extends Model implements AuditableContract
 
 	  	'comentario',
 		'encerramento',
-	        'lida',
+	    'lida',
 		'solicitacao_id',
 		'funcionario_id',
  	];

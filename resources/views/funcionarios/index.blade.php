@@ -31,7 +31,6 @@
 								<th>CPF</th>
 								<th>Acesso</th>
 								<th>Cargo</th>
-{{-- 								<th>Status</th> --}}
 								<th class="disabled-sorting text-right">Ações</th>
 							</tr>
 						</thead>
@@ -40,11 +39,10 @@
 							@foreach($funcionarios as $funcionario)
 
 								<tr>
-									<td>{{ $funcionario->nome                                             }}</td>
-									<td>{{ $funcionario->cpf                                        		 }}</td>
-									<td>{{ $funcionario->role->acesso                                     }}</td>
-									<td>{{ $funcionario->cargo                                            }}</td>
-{{-- 									<td>{{ $funcionario->user['status']                                   }}</td> --}}
+									<td>{{ $funcionario->nome                                            }}</td>
+									<td>{{ $funcionario->cpf                                        		}}</td>
+									<td>{{ $funcionario->role->acesso                                    }}</td>
+									<td>{{ $funcionario->cargo->nome                                    	}}</td>
 									<td>
 
 										{{-- se o usuario logado for TI ou DSV habilita a opção de ZERAR a senha --}}
