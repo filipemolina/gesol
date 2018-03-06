@@ -22,8 +22,22 @@ class Semsop_RelatorioController extends Controller
     
 
     public function index()
-    {
-        $relatorios = Semsop_relatorio::all();
+    {/*
+        if(verificaAtribuicoes($funcionario_logado, ["SEMSOP_REL_FISCAL"])){
+
+        }elseif(verificaAtribuicoes($funcionario_logado, ["SEMSOP_REL_GCMM"])){
+
+        }else*/
+
+        if(verificaAtribuicoes(Auth::user()->funcionario, ["SEMSOP_REL_GERENTE"])){
+            $relatorios = Semsop_relatorio::all();
+        }else{
+
+            $relatorios = Auth::user()->funcionario->relatorios_semsop;
+        }
+
+
+
         return view ('relatorios.relatorios', compact('relatorios'));
     }
 
@@ -43,7 +57,7 @@ class Semsop_RelatorioController extends Controller
     
     public function store(Request $request)
     {
-        
+       
             $this->validate($request, [             
             'envolvidos'            =>'required',
             'origem'                =>'required',
@@ -61,15 +75,19 @@ class Semsop_RelatorioController extends Controller
 
         // Criar o relatorio
         $Semsop_relatorio = new Semsop_relatorio($request->all());
+
         // Relacionar com o funcionario
         $relator_id = Auth::user()->funcionario->id;
 
-        //Verifica se o CheckBox esta marcado 0 = falso e 1 = verdadeiro
-        $Semsop_relatorio['notificacao']     = ( $Semsop_relatorio['notificacao'] == '') ? 0 : 1;
-        $Semsop_relatorio['autuacao']        = ( $Semsop_relatorio['autuacao'] == '') ? 0 : 1;
-        $Semsop_relatorio['multa']           = ( $Semsop_relatorio['multa'] == '') ? 0 : 1;
-        $Semsop_relatorio['registro_dp']     = ( $Semsop_relatorio['registro_dp'] == '') ? 0 : 1;
-        $Semsop_relatorio['auto_pf']         = ( $Semsop_relatorio['auto_pf'] == '') ? 0 : 1;
+        // Relacionar a Atribuição com o Funcionario
+
+
+        //Verifica se o CheckBox esta marcado 
+     $Semsop_relatorio['notificacao']     = ( $Semsop_relatorio['notificacao'] == '') ? null : 1;
+     $Semsop_relatorio['autuacao']        = ( $Semsop_relatorio['autuacao'] == '') ? null : 1;
+     $Semsop_relatorio['multa']           = ( $Semsop_relatorio['multa'] == '') ? null : 1;
+     $Semsop_relatorio['registro_dp']     = ( $Semsop_relatorio['registro_dp'] == '') ? null :1;
+     $Semsop_relatorio['auto_pf']         = ( $Semsop_relatorio['auto_pf'] == '') ? null : 1;
 
         // Criar o endereço
         $endereco = Endereco::create($request->all());
@@ -79,17 +97,29 @@ class Semsop_RelatorioController extends Controller
 
         // Salvar o relatório
         $Semsop_relatorio->save();
-
+      
+        // Relacionar o Relator com o Funcionario
         $Semsop_relatorio->funcionarios()->attach($relator_id, ['relator' => true]);
+
+        // Salvar o cara que nao e relator caso haja
+        foreach ($request->funcionario_id as $key => $funcionario) {
+            $Semsop_relatorio->funcionarios()->attach($funcionario, ['relator' => false]);
+        }
 
         return redirect(url('/semsop'));
 
     
     }
     
-    public function show($id)
-    {
-        
+    public function show(Request $request, $id)
+    { 
+        // dd($request);
+
+        $relatorio = Semsop_relatorio::find($id);
+
+
+
+        return view ('relatorios.show', compact('relatorio'));
     }
 
     

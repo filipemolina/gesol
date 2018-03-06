@@ -1,9 +1,3 @@
-//<?php
-//
-	//dd(verificaAtribuicoes($funcionario_logado, ["SEMSOP_REL_GERENTE"]));
-//
-//?>
-
 <div class="sidebar" data-active-color="" data-background-color="dourado" data-image="{{ asset('img/prefeitura.png') }}">
 
 	<!--

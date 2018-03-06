@@ -33,6 +33,7 @@
 									<th>Relato Sucinto</th>
 									<th>Data e Hora</th> 
 								    <th>Agente/Fiscal</th> 
+								    <th class="disabled-sorting text-right">Ações</th>
 								</tr>
 							</thead>
 							 	<tbody>
@@ -41,12 +42,45 @@
 										{{-- <td>{{ $relatorio->foto }}</td> --}}
 										<td>{{ $relatorio->origem }}</td>
 										<td>{{ $relatorio->endereco->logradouro }}</td>
-									    <td>{{ $relatorio->acao_cop }}</td>
+									    <td>{{ $relatorio->acao_cop }} {{ $relatorio->acao_gcmm }}</td>
 									    <td>{{ $relatorio->relato }}</td>
 									    <td>{{ $relatorio->data }} {{$relatorio->hora}}</td>
 										<td>{{ $relatorio->funcionarios()->where("relator", true)->first()->nome }}</td>
+
+									<td><a href="{{ url("/semsop/$relatorio->id")}}" 
+											class="btn btn-primary btn-xs  action  pull-right botao_acao "  
+											data-toggle="tooltip"  
+											data-placement="bottom" 
+											title="Visualiza o Relatorio detalhado"> 
+											<i class="glyphicon glyphicon-eye-open "></i>
+										</a> 
+										<a href=""
+											class="btn btn-warning btn-xs action  pull-right botao_acao " 
+											data-toggle="tooltip" 
+											data-placement="bottom" 
+											title="Edita Relatorio antes de enviar">  
+											<i class="glyphicon glyphicon-pencil "></i>
+										</a>
+										<a href="" 
+											class="btn btn-primary btn-xs  action  pull-right botao_acao "  
+											data-toggle="tooltip"  
+											data-placement="bottom" 
+											title="Imprimir Relatorio"> 
+											<i class="glyphicon glyphicon-print"></i>
+										<a href="" 
+											class="btn btn-success btn-xs  action  pull-right botao_acao "  
+											data-toggle="tooltip"  
+											data-placement="bottom" 
+											title="Enviar Relatorio"> 
+											<i class="glyphicon glyphicon-ok"></i>
+										<a href="" 
+											class="btn btn-danger btn-xs  action  pull-right botao_acao "  
+											data-toggle="tooltip"  
+											data-placement="bottom" 
+											title="Excluir Relatorio"> 
+											<i class="glyphicon glyphicon-remove"></i>
 									</tr>
-								@endforeach     
+								@endforeach    
 							</tbody> 
 						</table>
 

@@ -23,6 +23,7 @@ class Semsop_relatorio extends Model implements AuditableContract
             'origem',
           	'acao_gcmm',
             'acao_cop',
+            'acoes_gerente',
             'tipo',                    
             'relato',
           	'providencia',

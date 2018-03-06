@@ -82,7 +82,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						<select name="acao_gcmm" id="acao_gcmm " class="form-control form-control error"> 	  <option value="">  </option>
 							@foreach($acoes_gcmm as $acao_gcmm)
 							<option value="{{$acao_gcmm}}"> {{$acao_gcmm}}</option>
-							@endforeach 
+							@endforeach
 						@endif	
 						</select>
 						<span class="material-input"></span>
@@ -126,11 +126,14 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</span>
 							<div class="form-group label-floating has-roxo is-empty">
 								<label class="control-label">CEP</label>
-								<input id="cep" name="cep" type="text" class="form-control error" value="">
+								<input id="cep" name="cep" type="text" class="form-control error" value="" onblur="pesquisacep(this.value);">
 								<span class="material-input"></span>
 							</div>
 						</div>
 					</div>
+
+					<input name="municipio" type="text" id="municipio" size="40" class="hide" />
+					
 					<div class="col-xs-12 col-sm-6 col-md-8">	
 						<div class="input-group">
 							<span class="input-group-addon">
@@ -250,7 +253,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 								</span>
 								<div class="form-group label-floating has-roxo is-empty">
 									<label class="control-label">Adicionar Funcionarios</label>
-										<select name="nome[]" id="nome" class="form-control form-control error">
+										<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
 											<option value=""></option>
 								    		@foreach($funcionarios as $funcionario)
 											<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }} </option> 
@@ -353,7 +356,67 @@ $('.btn_remove').click(function(){
     $(this).parents('.box_funcionario').remove();
 });
 
+    function limpa_formulário_cep() {
+            //Limpa valores do formulário de cep.
+            document.getElementById('logradouro').value=("");
+            document.getElementById('bairro').value=("");
+            document.getElementById('municipio').value=("");
+    }
+
+    function meu_callback(conteudo) {
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.
+            document.getElementById('logradouro').value=(conteudo.logradouro);
+            document.getElementById('bairro').value=(conteudo.bairro);
+            document.getElementById('municipio').value=(conteudo.localidade);
+        } //end if.
+        else {
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+    }
+        
+    function pesquisacep(valor) {
+
+        //Nova variável "cep" somente com dígitos.
+        var cep = valor.replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if(validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                document.getElementById('logradouro').value="...";
+                document.getElementById('bairro').value="...";
+
+                //Cria um elemento javascript.
+                var script = document.createElement('script');
+
+                //Sincroniza com o callback.
+                script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+
+                //Insere script no documento e carrega o conteúdo.
+                document.body.appendChild(script);
+
+            } //end if.
+            else {
+                //cep é inválido.
+                limpa_formulário_cep();
+                alert("Formato de CEP inválido.");
+            }
+        } //end if.
+        else {
+            //cep sem valor
+            limpa_formulário_cep();
+        }
+    };
 	</script>
 
 @endpush
-
+   
