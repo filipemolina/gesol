@@ -93,11 +93,11 @@ class Semsop_RelatorioController extends Controller
 
 
         //Verifica se o CheckBox esta marcado 
-     $Semsop_relatorio['notificacao']     = ( $Semsop_relatorio['notificacao'] == '') ? null : 1;
-     $Semsop_relatorio['autuacao']        = ( $Semsop_relatorio['autuacao'] == '') ? null : 1;
-     $Semsop_relatorio['multa']           = ( $Semsop_relatorio['multa'] == '') ? null : 1;
-     $Semsop_relatorio['registro_dp']     = ( $Semsop_relatorio['registro_dp'] == '') ? null :1;
-     $Semsop_relatorio['auto_pf']         = ( $Semsop_relatorio['auto_pf'] == '') ? null : 1;
+        $Semsop_relatorio['notificacao']     = ( $Semsop_relatorio['notificacao'] == '') ? null : 1;
+        $Semsop_relatorio['autuacao']        = ( $Semsop_relatorio['autuacao'] == '') ? null : 1;
+        $Semsop_relatorio['multa']           = ( $Semsop_relatorio['multa'] == '') ? null : 1;
+        $Semsop_relatorio['registro_dp']     = ( $Semsop_relatorio['registro_dp'] == '') ? null :1;
+        $Semsop_relatorio['auto_pf']         = ( $Semsop_relatorio['auto_pf'] == '') ? null : 1;
 
         // Criar o endereço
         $endereco = Endereco::create($request->all());
@@ -135,18 +135,30 @@ class Semsop_RelatorioController extends Controller
     
     public function edit($id)
     {
-        //
+         $origens = pegaValorEnum('semsop_relatorios','origem');
+         $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
+         $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
+         $funcionarios = Funcionario::all();
+    
+    
+       $relatorio = Semsop_relatorio::findOrFail($id);
+
+        return view('relatorios.edit',compact('relatorio','origens','acoes_gcmm','acoes_cop','funcionarios'));
     }
 
     
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
-    }
 
-    
+
+    }
     public function destroy($id)
     {
       
+       
     }
   }
+
+
+    
+    

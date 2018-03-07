@@ -105,6 +105,7 @@ Route::post('naolidas/{setor_id}', 'SolicitacaoController@naoLidas');
 Route::get('comunicado/datatables', 'ComunicadoController@dados');
 
 
+
 //========================================================================================
 // 										RESOURCE
 //========================================================================================
