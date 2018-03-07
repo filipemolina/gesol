@@ -1,9 +1,3 @@
-//<?php
-//
-	//dd(verificaAtribuicoes($funcionario_logado, ["SEMSOP_REL_GERENTE"]));
-//
-//?>
-
 <div class="sidebar" data-active-color="" data-background-color="dourado" data-image="{{ asset('img/prefeitura.png') }}">
 
 	<!--
@@ -149,13 +143,6 @@
 							<p>Funcionarios</p>
 						</a>
 					</li>
-								<li>
-									<a href="{{ url("/relatorio") }}">
-										<i class="material-icons">build</i>
-										<span class="sidebar-normal"> Relatorios </span>
-									</a>
-								</li>
-
 					<li>
 						<a data-toggle="collapse" href="#componentsExamples" class="collapsed" aria-expanded="false">
 							<i class="material-icons">settings</i>

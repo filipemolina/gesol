@@ -68,7 +68,7 @@ class Funcionario extends Model implements AuditableContract
    
     public function relatorios_semsop()
     {
-    	return $this->belongsToMany('App\Models\Semsop_relatorio', 'semsop_relatorio_id');
+    	return $this->belongsToMany('App\Models\Semsop_relatorio', 'semsop_funcionarios_relatorios')->withTimestamps();
     }
 
 

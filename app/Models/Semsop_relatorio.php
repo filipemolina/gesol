@@ -23,6 +23,7 @@ class Semsop_relatorio extends Model implements AuditableContract
             'origem',
           	'acao_gcmm',
             'acao_cop',
+            'acoes_gerente',
             'tipo',                    
             'relato',
           	'providencia',
@@ -38,7 +39,7 @@ class Semsop_relatorio extends Model implements AuditableContract
     
     public function funcionarios()
     {
-    	return $this->belongsToMany('App\Models\Funcionario', 'funcionario_id');
+    	return $this->belongsToMany('App\Models\Funcionario','semsop_funcionarios_relatorios')->withTimestamps();
     }
 
 
