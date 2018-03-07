@@ -57,13 +57,14 @@ class Semsop_RelatorioController extends Controller
     
     public function store(Request $request)
     {
+
        
             $this->validate($request, [             
             'envolvidos'            =>'required',
             'origem'                =>'required',
             'acao_gcmm'             =>'required_without:acao_cop',
             'acao_cop'              =>'required_without:acao_gcmm',
-            'tipo',                    
+            
             'relato'                =>'required',
             'providencia'           =>'required',
             'foto',
@@ -72,6 +73,15 @@ class Semsop_RelatorioController extends Controller
 
             ]);
 
+            
+            if($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_FISCAL')->count() )  
+            {
+                $request->merge(['tipo' => 'SEMSOP_REL_FISCAL']);
+            }elseif($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_GCMM')->count() ){
+                $request->merge(['tipo' => 'SEMSOP_REL_GCMM']);
+            }
+            
+            dd($request);
 
         // Criar o relatorio
         $Semsop_relatorio = new Semsop_relatorio($request->all());
