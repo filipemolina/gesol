@@ -8,6 +8,7 @@
         "php": ">=5.6.4",
         "adinan-cenci/climatempo-api": "^3.0",
         "barryvdh/laravel-cors": "^0.9.2",
+        "barryvdh/laravel-dompdf": "^0.8.2",
         "brozot/laravel-fcm": "^1.2",
         "fzaninotto/faker": "^1.6",
         "guzzlehttp/guzzle": "^6.3",

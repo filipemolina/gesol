@@ -176,6 +176,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
@@ -235,7 +236,8 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     	'FCM'      => LaravelFCM\Facades\FCM::class,
-    	'FCMGroup' => LaravelFCM\Facades\FCMGroup::class
+    	'FCMGroup' => LaravelFCM\Facades\FCMGroup::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 
