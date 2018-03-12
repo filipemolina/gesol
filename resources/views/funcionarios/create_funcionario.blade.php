@@ -86,17 +86,44 @@ Cria Funcionário
 							</div>
 						</div>
 						
+						
+						<div class="col-md-2">
+							<div class="input-group ">
+
+								<span class="input-group-addon">
+									<span style="font-size: 24px;" class="mdi mdi-server-security"></span>
+								</span>
+										
+								<div class="form-group label-floating has-dourado">
+									<label class="control-label">Tipo de Funcionário</label>
+									<select name = "tipo" id="tipo" class="dourado selectpicker error" data-style="select-with-transition has-dourado" >
+										<option value=""> Selecione... </option>
+
+										@foreach($tipos as $tipo)
+											<option value="{{ $tipo }}">
+												{{ $tipo }}
+											</option>
+										@endforeach
+									</select>	
+								</div>
+							</div>
+						</div>
+						
 						<div class="col-md-4">
 							<div class="input-group ">
-								<span class="input-group-addon ">
-									<span style="font-size: 26px;" class="mdi mdi-folder-account"></span>
-								</span>
 
-								<div class="form-group label-floating has-dourado">
-									<label class="control-label">Cargo</label>
-									<input name="cargo" type="text" class="form-control error" 
-									value="{{ old('cargo') }}">
+								<div  class="input-group ">
+									<span class="input-group-addon ">
+										<span style="font-size: 26px;" class="mdi mdi-folder-account"></span>
+									</span>
+									<div class="control form-group label-floating has-dourado">
+										<label class="control-label">Cargo:</label>
+										<select name = "cargo_id" id="cargo_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
+												<option value=""> Selecione... </option>
+										</select>											
+									</div>
 								</div>
+
 							</div>
 						</div>
 					</div>
@@ -129,7 +156,7 @@ Cria Funcionário
 							
 						<div class="col-md-4">
 							
-							<div @if($funcionario_logado->setor->secretaria->id != $secretaria->id) " @endif id="secretaria_id" class="input-group select_setores">
+							<div @if($funcionario_logado->setor->secretaria->id != $secretaria->id) @endif id="secretaria_id" class="input-group select_setores">
 	                  	<span class="input-group-addon">
 									<i class="material-icons">account_balance</i>
 								</span>
@@ -237,18 +264,21 @@ Cria Funcionário
 
 			let id_setor = {{ $funcionario_logado->setor_id }};
 
-	    	// Preencher o select de setores no load da pagina
+	    	// Preencher o select de cargos e setores no load da pagina
 	    	if($("#select_secretaria").length)
 	    	{
 	 			//console.log($("#select_secretaria").length);
 	        	let secretaria_id = $("#select_secretaria").val();
-
-	        	carrega_select_setor_create(secretaria_id);
+				  carrega_select_setor_create(secretaria_id);
+				  
+				let cargo_id = $("#select_cargo").val();
+	        	carrega_select_cargo_create(secretaria_id);
 		        
 	     		$(".previnir").click(function() {
 	            event.preventDefault();
 	        	});
 	    	}
+
 
 	
 	      {{-- Testar se há algum erro, e mostrar a notificação --}}
@@ -271,11 +301,12 @@ Cria Funcionário
 			//mostra os selects de acordo com a secretaria selecionada no select_secretaria
 	  		$("#select_secretaria").change(function(){
 				let secretaria_id = $(this).val();
-
-	         //AJAX PEGAR OS SETORES
-	          carrega_select_setor_create(secretaria_id, {{ $funcionario_logado->setor_id }});
-
-
+				
+				//AJAX PEGAR OS CARGOS
+				carrega_select_cargo_create(secretaria_id, {{ $funcionario_logado->setor_id }});
+				
+				//AJAX PEGAR OS SETORES
+				carrega_select_setor_create(secretaria_id, {{ $funcionario_logado->setor_id }});
 			});
 
 			$("#btn_cancelar").click(function(){

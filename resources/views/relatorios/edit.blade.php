@@ -52,7 +52,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 						<i class="material-icons">swap_horiz</i>
 					</span>
 
-					<div class="form-group bmd-label-static has-roxo is-empty">
+					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a origem do serviço</label>
 						<select name="origem" id=origem class="form-control form-control error">
 							<option value="" selected> </option>
@@ -76,7 +76,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 					<span class="input-group-addon">
 						<i class="material-icons">card_membership</i>
 					</span>
-					<div class="form-group bmd-label-static has-roxo is-empty">
+					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a ação desenvolvida</label>
 			@if($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_FISCAL')->count() )  
 						<select name="acao_cop" id="acao_cop" class="form-control form-control error">
@@ -111,7 +111,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 					<span class="input-group-addon" style="padding-left: 27px">
 						<i class="material-icons">event</i>
 					</span>
-					<div class="form-group bmd-label-static has-roxo is-empty" >
+					<div class="form-group label-floating has-roxo is-empty" >
 						<label class="label-control" style="color: #3d276b;">Data	</label>
 						<input id="data" name="data" type="date" class="form-control" value="{{ $relatorio->data or old('data')}}">
 						<span class="material-input"></span>
@@ -123,7 +123,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 					<span class="input-group-addon">
 						<i class="material-icons">access_time</i>
 					</span>
-					<div class="form-group bmd-label-static has-roxo is-empty" style="padding-right: 84px">
+					<div class="form-group label-floating has-roxo is-empty" style="padding-right: 84px">
 						<label class="label-control" style="color: #3d276b;">Hora	</label>
 						<input name="hora" type="time" class="form-control" value="{{ $relatorio->hora or old('hora')}}">
 						<span class="material-input"></span>
@@ -138,7 +138,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 						<span class="input-group-addon">
 							<i class="material-icons">mail_outline</i>
 						</span>
-							<div class="form-group bmd-label-static has-roxo is-empty">
+							<div class="form-group label-floating has-roxo is-empty">
 								<label class="control-label">CEP</label>
 								<input id="cep" name="cep" type="text" class="form-control error" value="{{ $relatorio->endereco->cep or old('cep')}}" onblur="pesquisacep(this.value);">
 								<span class="material-input"></span>
@@ -153,7 +153,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 							<span class="input-group-addon">
 								<i class="material-icons">explore</i>
 							</span>
-							<div class="form-group bmd-label-static has-roxo is-empty">
+							<div class="form-group label-floating has-roxo is-empty">
 								<label class="control-label">Bairro</label>
 								<input id="bairro" name="bairro" type="text" class="form-control error" value="{{ $relatorio->endereco->bairro or old('bairro')}}">
 								<span class="material-input"></span>
@@ -167,7 +167,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 						<span class="input-group-addon">
 								<i class="material-icons">call_split</i>
 						</span>
-						<div class="form-group bmd-label-static has-roxo is-empty">
+						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Logradouro</label>
 							<input id="logradouro" name="logradouro" type="text" class="form-control error" value="{{ $relatorio->endereco->logradouro or old('logradouro')}}">
 							
@@ -179,7 +179,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 						<span class="input-group-addon">
 								<i class="material-icons">home</i>
 						</span>
-						<div class="form-group bmd-label-static has-roxo is-empty">
+						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Numero</label>
 							<input id="numero" name="numero" type="text" class="form-control error" value="{{ $relatorio->endereco->numero or old('numero')}}">
 						</div>
@@ -190,7 +190,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 						<span class="input-group-addon">
 							<i class="material-icons">explore</i>
 						</span>
-						<div class="form-group bmd-label-static has-roxo is-empty">
+						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Complemento</label>
 							<input id="complemento" name="complemento" type="text" class="form-control error" value="{{ $relatorio->endereco->complemento or old('complemento')}}">
 						</div>
@@ -206,7 +206,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 						<span class="input-group-addon">
 							<i class="material-icons">group</i>
 						</span>
-						<div class="form-group bmd-label-static has-roxo is-empty">
+						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Envolvidos</label>
 							<textarea id="envolvidos" name="envolvidos" type="text" class="form-control"  rows="2" >{{$relatorio->envolvidos or old('envolvidos')}}</textarea>
 							<span class="material-input"></span>
@@ -220,7 +220,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 						<span class="input-group-addon">
 							<i class="material-icons">insert_comment</i>
 						</span>
-						<div class="form-group bmd-label-static has-roxo is-empty">
+						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Relato Sucinto</label>
 							<textarea id="relato" name="relato" type="text" class="form-control"  rows="2"
 							>{{$relatorio->relato or old('relato')}}</textarea>
@@ -236,7 +236,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 						<span class="input-group-addon">
 							<i class="material-icons">mode_edit</i>
 						</span>
-						<div class="form-group bmd-label-static has-roxo is-empty">
+						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Providências Adotadas</label>
 							<textarea id="providencia" name="providencia" type="text" class="form-control"  rows="2">{{$relatorio->providencia or old('providencia')}}</textarea>
 							<span class="material-input"></span>
@@ -266,7 +266,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 									<span class="input-group-addon">
 										<i class="material-icons">perm_identity</i>
 									</span>
-									<div class="form-group bmd-label-static has-roxo is-empty">
+									<div class="form-group label-floating has-roxo is-empty">
 										<label class="control-label">Adicionar Funcionarios</label>
 											<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
 												<option value=""></option>
@@ -300,7 +300,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 								<span class="input-group-addon">
 									<i class="material-icons">perm_identity</i>
 								</span>
-								<div class="form-group bmd-label-static has-roxo is-empty">
+								<div class="form-group label-floating has-roxo is-empty">
 									<label class="control-label">Adicionar Funcionarios</label>
 									<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
 										<option value=""></option>
@@ -364,22 +364,29 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 @push('scripts')
 
 	<script type="text/javascript">
-		$(function(){
-			// Mascara
-			VMasker ($("#cep")).maskPattern("99999-999");
+
+
+	$(function(){
+		//Fazer o label do input,select e textarea subir quando estiver preenchido
+		$("input, select, textarea").change();
+		// Mascara
+		VMasker ($("#cep")).maskPattern("99999-999");
       });
 		 
 
-$(document).ready();
-$('.clonador').click(function(){
-    $clone = $('.box_funcionario.hide').clone(true);
-    $clone.removeClass('hide');
-    $('#funcionario').append($clone);
-});
+	$(document).ready();
+	
 
-$('.btn_remove').click(function(){
-    $(this).parents('.box_funcionario').remove();
-});
+
+	$('.clonador').click(function(){
+	    $clone = $('.box_funcionario.hide').clone(true);
+	    $clone.removeClass('hide');
+	    $('#funcionario').append($clone);
+	});
+
+	$('.btn_remove').click(function(){
+	    $(this).parents('.box_funcionario').remove();
+	});
 
     function limpa_formulário_cep() {
             //Limpa valores do formulário de cep.
@@ -441,6 +448,7 @@ $('.btn_remove').click(function(){
             limpa_formulário_cep();
         }
     };
+
 	</script>
 
 @endpush

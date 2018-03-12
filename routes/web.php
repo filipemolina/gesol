@@ -91,6 +91,8 @@ Route::post('naolidas/{setor_id}', 					'SolicitacaoController@naoLidas');
 //========================================================================================
 // Rota para preencher o select de setores na edição/criação de funcionarios
 Route::get('setores','FuncionarioController@setores');
+// Rota para preencher o select de cargos na edição/criação de funcionarios
+Route::get('cargos','FuncionarioController@cargos');
 
 //========================================================================================
 // 										COMUNICADOS
@@ -101,8 +103,6 @@ Route::post('naolidas/{setor_id}', 'SolicitacaoController@naoLidas');
 
 // DataTables dos Comunicados
 Route::get('comunicado/datatables', 'ComunicadoController@dados');
-
-
 
 //========================================================================================
 // 										RESOURCE

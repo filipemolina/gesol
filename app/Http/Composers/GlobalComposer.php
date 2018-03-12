@@ -20,7 +20,7 @@ class GlobalComposer {
         
         if(Auth::check()){
 
-            $funcionario_logado = Funcionario::with('user', 'setor', 'role', 'atribuicoes')
+            $funcionario_logado = Funcionario::with('user', 'setor', 'setor.secretaria', 'role', 'atribuicoes','cargo')
                                               ->where('id', Auth::user()->funcionario_id)
                                               ->first();
 

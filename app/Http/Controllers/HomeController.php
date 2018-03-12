@@ -31,19 +31,18 @@ class HomeController extends Controller
    public function index()
    {
 
-      $secretarias           = Secretaria::all()->sortBy('nome');
-      $funcionario_logado    = Funcionario::find(Auth::user()->funcionario_id);
-
+      $funcionario_logado              = Funcionario::find(Auth::user()->funcionario_id);
+         
       // rotina de segurança, caso alguem não tenha funcionario_id mas tenha solicitante_id e tenha usado
       // a rotina para gerar nova senha por email
       if (! $funcionario_logado) {
-         Auth::logout();
-         return redirect("/");
+            Auth::logout();
+            return redirect("/");
       }
       
+      $secretarias           = Secretaria::all()->sortBy('nome');
 
       $resultados = [];
-      $funcionario_logado              = Funcionario::find(Auth::user()->funcionario_id);
       $secretaria_funcionario_logado   = $funcionario_logado->setor->secretaria->id;
       // $atribuicoes_funcionario_logado  = $funcionario_logado->atribuicoes();
 

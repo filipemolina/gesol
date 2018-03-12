@@ -54,6 +54,7 @@
 											title="Visualiza o Relatorio detalhado"> 
 											<i class="glyphicon glyphicon-eye-open "></i>
 										</a> 
+										
 										<a href="{{ url("semsop/$relatorio->id/edit")}}"
 											class="btn btn-warning btn-xs action  pull-right botao_acao " 
 											data-toggle="tooltip" 
@@ -79,6 +80,8 @@
 											data-placement="bottom" 
 											title="Excluir Relatorio"> 
 											<i class="glyphicon glyphicon-remove"></i>
+								
+									
 									</tr>
 								@endforeach    
 							</tbody> 

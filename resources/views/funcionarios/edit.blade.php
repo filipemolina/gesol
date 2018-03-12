@@ -95,8 +95,9 @@ Alteração de funcionário
 
 								<div class="form-group label-floating has-dourado">
 									<label class="control-label">Cargo</label>
-									<input name="cargo" type="text" class="form-control error" 
-									value="{{ $funcionario->cargo or old('cargo') }}">
+									<select name = "cargo_id" id="cargo_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
+											<option value=""> Selecione... </option>
+										</select>	
 								</div>
 							</div>
 						</div>
@@ -276,11 +277,12 @@ Alteração de funcionário
 			//mostra os selects de acordo com a secretaria selecionada no select_secretaria
 	  		$("#select_secretaria").change(function(){
 				let secretaria_id = $(this).val();
-				/*$("div.select_setores").css('display', 'none');
-				$("div.select_setores#secretaria_"+secretaria_id).css('display', 'table');*/
+
+				//AJAX PEGAR OS CARGOS
+				carrega_select_cargo_create(secretaria_id, {{ $funcionario_logado->setor_id }});
 
 	         //AJAX PEGAR OS SETORES
-	          carrega_select_setor_edit(secretaria_id, {{ $funcionario->setor_id }},2);
+				carrega_select_setor_edit(secretaria_id, {{ $funcionario->setor_id }},2);
 
 
 			});

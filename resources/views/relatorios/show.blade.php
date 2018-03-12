@@ -18,19 +18,19 @@
 			<table class="informacoes_relatorio">
 				
 				<tr>
-					<td> {{ $relatorio->notificacao }} </td>
+					<td> @if($relatorio->notificacao==1 ) Notificado @endif </td>
 				</tr>
 				<tr>
-					<td> {{ $relatorio->autuacao }} </td>
+					<td> @if($relatorio->autuacao==1 ) Autuado @endif </td>
 				</tr>
 				<tr>
-					<td> {{ $relatorio->multa }} </td>
+					<td> @if($relatorio->multa==1 ) Multado @endif </td>
 				</tr>	
 				<tr>
-					<td> {{ $relatorio->registro_dp }} </td>
+					<td> @if($relatorio->registro_dp==1 ) Registrado na DP @endif </td>
 				</tr>	
 				<tr>
-					<td> {{ $relatorio->auto_pf }} </td>
+					<td> @if($relatorio->auto_pf==1 ) Auto de Prisão em Flagrante @endif </td>
 				</tr>				
 		
 
@@ -51,11 +51,10 @@
 					<td>	Cep: </td> <td> {{ $relatorio->endereco->cep }} </td>
 				</tr>
 				<tr>
-						
-					<td> Ação Desenvolvida: </td> <td> {{ $relatorio->acao_cop }}</td>	
-					
-					<td> Ação Desenvolvida: </td> <td> {{ $relatorio->acao_gcmm }}</td>
-					
+					<td>Envolvidos:</td> <td> {{ $relatorio->envolvidos }} </td>
+				</tr>
+				<tr>
+					<td> Ação Desenvolvida: </td> <td> {{ $relatorio->acao_cop }} {{ $relatorio->acao_gcmm }}</td>
 				</tr>
 				<tr>
 					<td>	Relato Sucinto: </td> <td> {{ $relatorio->relato }} </td>

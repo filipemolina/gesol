@@ -16,10 +16,11 @@ class Funcionario extends Model implements AuditableContract
         'nome',
         'cpf',
     	'matricula',
-    	'cargo',
     	'foto',
         'setor_id',
         'role_id',
+        'cargo_id',
+        'tipo'
         
     ];
 
@@ -45,6 +46,11 @@ class Funcionario extends Model implements AuditableContract
         return $this->hasMany('App\Models\Movimento');
     }        
 
+    public function cargo()
+    {
+        return $this->belongsTo('App\Models\Cargo','cargo_id');
+    }
+
     public function sys_logs()
     {
         return $this->hasMany('App\Models\Sys_log');
@@ -64,5 +70,7 @@ class Funcionario extends Model implements AuditableContract
     {
     	return $this->belongsToMany('App\Models\Semsop_relatorio', 'semsop_funcionarios_relatorios')->withTimestamps();
     }
+
+
 
 }

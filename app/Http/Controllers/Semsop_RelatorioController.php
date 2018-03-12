@@ -10,6 +10,7 @@ use App\Models\Atribuicao;
 use App\Models\Endereco;
 use App\Models\User;
 
+
 class Semsop_RelatorioController extends Controller
 {
 
@@ -29,13 +30,13 @@ class Semsop_RelatorioController extends Controller
 
         }else*/
 
-        if(verificaAtribuicoes(Auth::user()->funcionario, ["SEMSOP_REL_GERENTE"])){
+        if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"])){
             $relatorios = Semsop_relatorio::all();
         }else{
-
             $relatorios = Auth::user()->funcionario->relatorios_semsop;
         }
 
+        // dd(Auth::user()->funcionario->relatorios_semsop);
 
 
         return view ('relatorios.relatorios', compact('relatorios'));
@@ -57,13 +58,14 @@ class Semsop_RelatorioController extends Controller
     
     public function store(Request $request)
     {
+
        
             $this->validate($request, [             
             'envolvidos'            =>'required',
             'origem'                =>'required',
             'acao_gcmm'             =>'required_without:acao_cop',
             'acao_cop'              =>'required_without:acao_gcmm',
-            'tipo',                    
+            
             'relato'                =>'required',
             'providencia'           =>'required',
             'foto',
@@ -71,6 +73,16 @@ class Semsop_RelatorioController extends Controller
             'hora'                  =>'required',
 
             ]);
+
+            $funcionario_logado = Auth::user()->funcionario;
+
+            if($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_FISCAL')->count() )  
+            {
+                $request->merge(['tipo' => 'COP']);
+            }elseif($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_GCMM')->count() ){
+                $request->merge(['tipo' => 'GCMM']);
+            }
+            
 
 
         // Criar o relatorio
@@ -131,7 +143,7 @@ class Semsop_RelatorioController extends Controller
          $funcionarios = Funcionario::all();
     
     
-       $relatorio = Semsop_relatorio::findOrFail($id);
+       $relatorio = Semsop_relatorio::find($id);
 
         return view('relatorios.edit',compact('relatorio','origens','acoes_gcmm','acoes_cop','funcionarios'));
     }
@@ -139,7 +151,7 @@ class Semsop_RelatorioController extends Controller
     
     public function update(Request $request)
     {
-
+        
 
     }
     public function destroy($id)
@@ -147,6 +159,7 @@ class Semsop_RelatorioController extends Controller
       
        
     }
+
   }
 
 
