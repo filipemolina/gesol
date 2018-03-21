@@ -70,6 +70,10 @@ class CreateFk extends Migration
             $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
         });
 
+        Schema::table('atribuicao', function($table){
+            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('set null');
+            $table->foreign('role_id') ->references('id')->on('roles')->onDelete('set null');
+        });
 
         Schema::table('atribuicao_funcionario', function($table){
             $table->foreign('atribuicao_id')    ->references('id')->on('atribuicoes')  ->onDelete('cascade');

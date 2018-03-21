@@ -17,6 +17,12 @@ class CreateAtribuicoesTable extends Migration
             $table->increments('id');
             $table->string("atribuicao", 20);
             $table->string("descricao", 254);
+            
+            //------------------------FOREIGN--------------------------------
+            $table->integer('role_id')->unsigned();
+            $table->integer('secretaria_id')->unsigned();
+            //------------------------FOREIGN--------------------------------
+
             $table->timestamps();
         });
     }
