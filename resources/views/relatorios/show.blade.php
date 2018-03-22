@@ -8,15 +8,17 @@
 
 @section('content')
 
-<div class="row">
+<div class="row" style="max-width: 100%">
 	<div class="col-md-12 col-md-offset-0">
 		<div class="card">
 			<img src="../img/BrasaoTop.png"/>
 			<div>
-				<center><h3>Relatório</h3></center>
+				<h3 style="text-align:center;" >Relatório</h3>
 			</div>
 			<table class="informacoes_relatorio">
-				
+				<tr>
+					<td>{{ $relatorio->tipo }}</td>
+				</tr>
 				<tr>
 					<td> @if($relatorio->notificacao==1 ) Notificado @endif </td>
 				</tr>
@@ -35,7 +37,7 @@
 		
 
 				<tr>
-					<td>	Origem do serviço: </td> <td> {{ $relatorio->origem }} </td>
+					<td>	Origem do serviço: </td> <td> {{($relatorio->origem) }} </td>
 				</tr>
 				<tr>
 					<td>	Data: </td> <td> {{ $relatorio->data }} </td>
@@ -44,11 +46,8 @@
 					<td>	Hora: </td> <td> {{ $relatorio->hora }} </td>
 				</tr>
 				<tr>
-					<td>	Local: </td> <td> {{ $relatorio->endereco->logradouro }}, {{ $relatorio->endereco->numero }}, {{$relatorio->endereco->bairro}}, {{ $relatorio->endereco->complemento}}
+					<td>	Local: </td> <td> {{$relatorio->endereco->bairro}}, {{ $relatorio->endereco->cep }}, {{ $relatorio->endereco->logradouro }}, {{ $relatorio->endereco->numero }} {{ $relatorio->endereco->complemento}}
 				    </td>
-				</tr>
-				<tr>
-					<td>	Cep: </td> <td> {{ $relatorio->endereco->cep }} </td>
 				</tr>
 				<tr>
 					<td>Envolvidos:</td> <td> {{ $relatorio->envolvidos }} </td>
@@ -69,10 +68,8 @@
 					@endforeach
 				</tr>
 				<tr> 	
-					<td> 	Nome: </td> <td> {{ $relatorio->funcionarios()->where("relator", true)->first()->nome }} </td> 
-				</tr>
-				<tr>
-					<td> Matrícula: </td> <td> {{ $relatorio->funcionarios()->where("relator", true)->first()->matricula }}</td>
+				<td><span style="font-weight:bold;">Nome:</span></td> <td> {{ $relatorio->funcionarios()->where("relator", true)->first()->nome }} </td> 
+				<td><span style="font-weight:bold;">Matrícula:</span></td> <td> {{ $relatorio->funcionarios()->where("relator", true)->first()->matricula }}</td>
 				</tr>
 
 
@@ -84,11 +81,3 @@
 
 @endsection
 
-@push('scripts')
-
-<script type="text/javascript">
-	
-
-</script>
-
-@endpush

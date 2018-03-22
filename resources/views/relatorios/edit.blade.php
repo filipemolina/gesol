@@ -26,20 +26,44 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<div class="row col-md-offset-2 col-sm-offset-2 col-md-12 col-sm-12" >
 				<div class="card-content">
 					<label style="color: #000; margin-left: 15px">
-
-						<input value="notificacao" name="notificacao" type="checkbox"> Notificação
+					<input type="checkbox" name="notificacao" value="1" 
+					    @if(old('notificacao',$relatorio->notificacao))
+					        checked
+					    @endif
+					    > Notificacão<br>
+						{{-- <input value="notificacao" name="notificacao" type="checkbox"> Notificação --}}
 					</label>
 					<label style="color: #000; margin-left: 15px">
-						<input value="autuacao" name="autuacao" type="checkbox"> Autuação
+						<input type="checkbox" name="autuacao" value="1" 
+					    @if(old('autuacao',$relatorio->autuacao))
+					        checked
+					    @endif
+					    > Autuação<br>
+						{{-- <input value="autuacao" name="autuacao" type="checkbox"> Autuação --}}
 					</label>
 					<label style="color: #000; margin-left: 15px">
-						<input value="multa" name="multa" type="checkbox"> Multa
+						<input type="checkbox" name="multa" value="1" 
+					    @if(old('multa',$relatorio->multa))
+					        checked
+					    @endif
+					    > Multa<br>
+						{{-- <input value="multa" name="multa" type="checkbox"> Multa --}}
 					</label>
 					<label style="color: #000; margin-left: 15px">
-						<input value="registro_dp" name="registro_dp" type="checkbox"> Registo em DP
+						<input type="checkbox" name="registro_dp" value="1" 
+					    @if(old('registro_dp',$relatorio->registro_dp))
+					        checked
+					    @endif
+					    > Registo em DP<br>
+						{{-- <input value="registro_dp" name="registro_dp" type="checkbox"> Registo em DP --}}
 					</label>
 					<label style="color: #000; margin-left: 15px">
-						<input value="auto_pf" name="auto_pf" type="checkbox"> A.P.F
+						<input type="checkbox" name="auto_pf" value="1" 
+					    @if(old('auto_pf',$relatorio->auto_pf))
+					        checked
+					    @endif
+					    > A.P.F<br>
+						{{-- <input value="auto_pf" name="auto_pf" type="checkbox"> A.P.F --}}
 					</label>
 				</div>
 			</div>
@@ -146,7 +170,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</div>
 					</div>
 
-					<input name="municipio" type="text" id="municipio" size="40" class="hide" />
+					<input name="municipio" type="text" id="municipio" size="40" value="{{$relatorio->endereco->municipio}}" class="hide" />
 					
 					<div class="col-xs-12 col-sm-6 col-md-8">	
 						<div class="input-group">
@@ -260,38 +284,42 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
     		 			</center>
  					</div>
 					@foreach($relatorio->funcionarios as $funcionario_incluso)
-	 					<div class="row box_funcionario">
-							<div class="col-xs-12 col-sm-6 col-md-6">
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="material-icons">perm_identity</i>
-									</span>
-									<div class="form-group label-floating has-roxo is-empty">
-										<label class="control-label">Adicionar Funcionarios</label>
-											<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
-												<option value=""></option>
-									    		@foreach($funcionarios as $funcionario)
-													
+						{{-- {{ dd($relatorio->funcionarios) }} --}}
+						@if(! $funcionario_incluso->pivot->relator )
+		 					<div class="row box_funcionario">
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">perm_identity</i>
+										</span>
+										<div class="form-group label-floating has-roxo is-empty">
+											<label class="control-label">Adicionar Funcionarios</label>
+												<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
+
+										    		@foreach($funcionarios as $funcionario)
+														
 										    		 	@if($funcionario->nome == $funcionario_incluso->nome)
-															<option value="{{ $funcionario->id }}" selected> {{ $funcionario->nome }}
+															<option 
+																value="{{ $funcionario->id }}" selected> {{ $funcionario->nome }}
+															</option>
 														@else
-															<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }}
+															<option 
+																value="{{ $funcionario->id }}"> {{ $funcionario->nome }}
+															</option> 
 														@endif
-													
-											    </option> 
-											
-												@endforeach
-											</select>
-										<span class="material-input"></span>
+													@endforeach
+												</select>
+											<span class="material-input"></span>
+										</div>
 									</div>
 								</div>
+								<div class="col-xs-12 col-md-2">
+									<div class="input-group" style="padding-top: 28px;" >
+		        						<input  type="button" class="button tiny success btn_remove" value="Remover" />
+		    						</div>
+		    					</div>
 							</div>
-							<div class="col-xs-12 col-md-2">
-								<div class="input-group" style="padding-top: 28px;" >
-	        						<input  type="button" class="button tiny success btn_remove" value="Remover" />
-	    						</div>
-	    					</div>
-						</div>
+						@endif
 
 					@endforeach
 					<div class="row box_funcionario hide">
@@ -304,9 +332,11 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 									<label class="control-label">Adicionar Funcionarios</label>
 									<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
 										<option value=""></option>
+
 										 @foreach($funcionarios as $funcionario)
 										<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }} </option> 
 										@endforeach
+
 									</select>
 									<span class="material-input"></span>
 								</div>
