@@ -22,214 +22,214 @@ Cria Funcionário
 
 			 <!-- Título  -->
 			<div class="card-content">
-				<h4 class="card-title ">Criação de Funcionario</h4>
+				<h4 class="card-title no-padding">Criação de Funcionario</h4>
 			</div>			
 			
 			<div class="row">
-				<div class="col-md-9">
-					<div class="input-group ">
-						<span class="input-group-addon ">
-							<i class="material-icons">face</i>
-						</span>
-
-						<div class="form-group label-floating has-dourado is-empty">
-							<label class="control-label">Nome</label>
-							<input name="nome" type="text" class="form-control error" 
-							value="{{ old('nome') }}">
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-9">
-					<div class="input-group">
-						<span class="input-group-addon">
-							<i class="material-icons">email</i>
-						</span>
-								
-						<div class="form-group label-floating has-dourado is-empty">
-							<label class="control-label">Email</label>
-							<input name="email" type="email" class="form-control error" 
-							value="{{ old('email') }} ">
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-md-3">
-					<div class="input-group">
-						<span class="input-group-addon">
-							<i class="material-icons">credit_card</i>
-						</span>
-						<div class="form-group label-floating has-dourado is-empty">
-							<label class="control-label">CPF</label>
-							<input name="cpf" id="cpf" type="text" class="form-control error"
-							value=" {{ old('cpf') }} ">
-						</div>
-					</div>
-				</div>
-
-				<div class="col-md-3">
-					<div class="input-group">
-						<span class="input-group-addon">
-							<i class="material-icons">credit_card</i>
-						</span>
-						<div class="form-group label-floating has-dourado is-empty">
-							<label class="control-label">Matrícula</label>
-							<input id="matricula" name="matricula" type="text" class="form-control error" 
-							value=" {{ old('matricula') }} ">
-						</div>
-					</div>
-				</div>
-								
-				<div class="col-md-2">
-					<div class="input-group ">
-						<span class="input-group-addon">
-							<span style="font-size: 24px;" class="mdi mdi-city"></span>
-						</span>
-						<div class="form-group label-floating has-dourado">
-							<label class="control-label">Tipo</label>
-							<select name = "tipo" id="tipo" class="dourado selectpicker error" data-style="select-with-transition has-dourado" >
-								<option value=""> Selecione... </option>
-								@foreach($tipos as $tipo)
-									<option value="{{ $tipo }}">
-										{{ $tipo }}
-									</option>
-								@endforeach
-							</select>	
-						</div>
-					</div>
-				</div>
-			</div>
 				
-			<div class="row">
-				<div class="col-md-6">
-					<div class="input-group">
-						<span class="input-group-addon">
-							<i class="material-icons">account_balance</i>
-						</span>
-						<div class="control form-group label-floating has-dourado">
-							<label class="control-label">Secretaria</label>
-							<select name="select_secretaria" id="select_secretaria" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7" @if($pode_alterar_secretaria != 1) disabled="true" @endif>
-								@foreach($secretarias as $secretaria)
+				 <!-- Dados  -->
+				<div class="col-md-9">
+					<div class="card-content no-padding">
+						<div class="input-group ">
+							<span class="input-group-addon ">
+								<i class="material-icons">face</i>
+							</span>
 
-									@if ( $funcionario_logado->setor->secretaria->id == $secretaria->id)
-										<option value="{{$secretaria->id}}" selected="selected">{{$secretaria->nome}}</option>
-									@else
-										<option value="{{$secretaria->id}}">{{$secretaria->nome}}</option>  
-									@endif
+							<div class="form-group label-floating has-dourado">
+								<label class="control-label">Nome</label>
+								<input name="nome" type="text" class="form-control error" 
+								value="{{ old('nome') }}">
+							</div>
+						</div>
 
-								@endforeach
-							</select>
+						<div class="input-group">
+                  	<span class="input-group-addon">
+								<i class="material-icons">email</i>
+							</span>
+                            
+                   	<div class="form-group label-floating has-dourado">
+								<label class="control-label">Email</label>
+								<input name="email" type="email" class="form-control error" 
+								value="{{ old('email') }} ">
+
+							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="col-md-5">
-					<div  class="input-group ">
-						<span class="input-group-addon ">
-							<span style="font-size: 26px;" class="mdi mdi-folder-account"></span>
-						</span>
-						<div class="control form-group label-floating has-dourado">
-							<label class="control-label">Cargo:</label>
-							<select name = "cargo_id" id="cargo_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
-									<option value=""> Selecione... </option>
-							</select>											
-						</div>
-					</div>
-				</div>
-						
-				<div class="col-md-6">
-					<div @if($funcionario_logado->setor->secretaria->id != $secretaria->id) @endif id="secretaria_id" class="input-group select_setores">
-						<span class="input-group-addon">
-							<i class="material-icons">account_balance</i>
-						</span>
-						<div class="control form-group label-floating has-dourado">
-							<label class="control-label">Setor:</label>
-							<select name = "setor_id" id="setor_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
-									<option value=""> Selecione... </option>
-							</select>											
-						</div>
-					</div>
-				</div>
-				
-				<div class="col-md-5">
-					<div class="input-group">
-						<span class="input-group-addon">
-							<span style="font-size: 24px;" class="mdi mdi-server-security"></span>
-						</span>
-									
-						<div class="form-group label-floating has-dourado">
-							<label class="control-label">Tipo de acesso ao sistema</label>
-							<select name = "role_id" id="role_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" >
-								<option value=""> Selecione... </option>
-
-								@foreach($roles as $role)
-									<option value="{{ $role->id }}">
-										{{ $role->acesso }}
-									</option>
-								@endforeach
-							</select>	
-						</div>
-					</div>
-				</div>
-				{{--  ==============================================================  --}}
-
 				<div class="col-md-11">
-					<div class="input-group">
-						<span class="input-group-addon">
-							<span style="font-size: 24px;" class="mdi mdi-server-security"></span>
-						</span>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="input-group">
+                     	<span class="input-group-addon">
+									<i class="material-icons">credit_card</i>
+								</span>
+	                            
+                      	<div class="form-group label-floating has-dourado">
+									<label class="control-label">CPF</label>
+									<input name="cpf" id="cpf" type="text" class="form-control error"
+									value=" {{ old('cpf') }} ">
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-3">
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="material-icons">credit_card</i>
+								</span>
+
+								<div class="form-group label-floating has-dourado">
+									<label class="control-label">Matrícula</label>
+									<input id="matricula" name="matricula" type="text" class="form-control error" 
+									value=" {{ old('matricula') }} ">
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="col-md-2">
+							<div class="input-group ">
+
+								<span class="input-group-addon">
+									<span style="font-size: 24px;" class="mdi mdi-server-security"></span>
+								</span>
+										
+								<div class="form-group label-floating has-dourado">
+									<label class="control-label">Tipo de Funcionário</label>
+									<select name = "tipo" id="tipo" class="dourado selectpicker error" data-style="select-with-transition has-dourado" >
+										<option value=""> Selecione... </option>
+
+										@foreach($tipos as $tipo)
+											<option value="{{ $tipo }}">
+												{{ $tipo }}
+											</option>
+										@endforeach
+									</select>	
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-4">
+							<div class="input-group ">
+
+								<div  class="input-group ">
+									<span class="input-group-addon ">
+										<span style="font-size: 26px;" class="mdi mdi-folder-account"></span>
+									</span>
+									<div class="control form-group label-floating has-dourado">
+										<label class="control-label">Cargo:</label>
+										<select name = "cargo_id" id="cargo_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
+												<option value=""> Selecione... </option>
+										</select>											
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-11">
+					<div class="row">
+						<div class="col-md-8">
+							<div class="input-group">
+	                  	<span class="input-group-addon">
+									<i class="material-icons">account_balance</i>
+								</span>
+
+								<div class="control form-group label-floating has-dourado">
+									<label class="control-label">Secretaria</label>
+									<select name="select_secretaria" id="select_secretaria" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7" @if($pode_alterar_secretaria != 1) disabled="true" @endif>
+
+										@foreach($secretarias as $secretaria)
+											@if ( $funcionario_logado->setor->secretaria->id == $secretaria->id)
+												<option value="{{$secretaria->id}}" selected="selected">{{$secretaria->nome}}</option>
+											@else
+												<option value="{{$secretaria->id}}">{{$secretaria->nome}}</option>  
+											@endif
+										@endforeach
+
+									</select>
+								</div>
+							</div>
+						</div>
+							
+						<div class="col-md-4">
+							
+							<div @if($funcionario_logado->setor->secretaria->id != $secretaria->id) @endif id="secretaria_id" class="input-group select_setores">
+	                  	<span class="input-group-addon">
+									<i class="material-icons">account_balance</i>
+								</span>
+
+								<div class="control form-group label-floating has-dourado">
+									<label class="control-label">Setor:</label>
+
 									
-						<div class="form-group label-floating has-dourado col-md-11">
-							<label class="control-label">Atribuições de sistema</label>
-								<select  name = "atribuicoes[]" 
-									class="selectpicker" 
-									multiple
-									data-actions-box="true"
-									data-style="btn select-with-transition" 
-									data-width = "90%"
-									title="Selecione..." 
-									data-size="7">
-									
-									<option disabled=""> Selecione as opções</option>
-									@foreach($atribuicoes as $atribuicao)
-										<option value="{{ $atribuicao->id }}"> {{ $atribuicao->descricao }} </option>
-									@endforeach
-								</select>
+									<select name = "setor_id" id="setor_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
+												
+											<option value=""> Selecione... </option>
+
+									</select>											
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 
-					
-				
-				<!-- foto  -->
-				<div class="col-md-3 flt-r ">
+				{{-- ROLE --}}
+				<div class="col-md-11">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="input-group">
+                     	<span class="input-group-addon">
+                     		<span style="font-size: 24px;" class="mdi mdi-server-security"></span>
+								</span>
+	                            
+                      	<div class="form-group label-floating has-dourado">
+									<label class="control-label">Tipo de acesso ao sistema</label>
+									<select name = "role_id" id="role_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" >
+										<option value=""> Selecione... </option>
+
+										@foreach($roles as $role)
+											<option value="{{ $role->id }}">
+												{{ $role->acesso }}
+											</option>
+										@endforeach
+									</select>	
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			 	<!-- foto  -->
+				<div class="col-md-3 flt-r no-padding">
 					<div class="fileinput fileinput-new text-center" data-provides="fileinput">
-						<div class="fileinput-new thumbnail img-circle">
-							<img src=" {{ asset ('img/placeholder.jpg')  }} " alt="...">
-						</div>
-						<input name="foto" type="text" value="" style="display:none;" />
-						<div class="fileinput-preview fileinput-exists thumbnail img-circle"></div>
+             		<div class="fileinput-new thumbnail img-circle">
+             			<img src=" {{ asset ('img/placeholder.jpg')  }} " alt="...">
+                	</div>
 						
-						<div>
-							<span class="btn btn-round btn-dourado btn-file botoes-acao">
-								<span class="fileinput-new botoes-acao">		
-									<i class="fa fa-times"></i>	ADICIONAR 	
-								</span>
-								<span class="fileinput-exists botoes-acao ">	
-									<i class="fa fa-times"></i>	ALTERAR		
-								</span>
-								<input name="foto1" type="file" value="  "/>
-								
-							</span>
+						<input name="foto" type="text" value="" style="display:none;" />
+
+	              	<div class="fileinput-preview fileinput-exists thumbnail img-circle">
+	              	</div>
+	              	
+                 	<div>
+                    	<span class="btn btn-round btn-dourado btn-file botoes-acao">
+	                    	<span class="fileinput-new botoes-acao">		
+	                    		<i class="fa fa-times"></i>	ADICIONAR 	
+	                    	</span>
+	                    	<span class="fileinput-exists botoes-acao ">	
+	                    		<i class="fa fa-times"></i>	ALTERAR		
+	                    	</span>
+	                    	<input name="foto1" type="file" value="  "/>
+	                    	
+                    	</span>
 							<br/>
-							<span class="btn btn-danger btn-round fileinput-exists botoes-acao" data-dismiss="fileinput">
-								<i class="fa fa-times"></i> REMOVER 
-							</span>
-						</div>
+                    	<span class="btn btn-danger btn-round fileinput-exists botoes-acao" data-dismiss="fileinput">
+                    		<i class="fa fa-times"></i> REMOVER 
+                    	</span>
+                 	</div>
 					</div>
 				</div>
 			</div>  <!-- FIM ROW  -->

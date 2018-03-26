@@ -23,7 +23,7 @@
 				
 				<a href="{{ url("/funcionario/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Adicionar Funcionario"></i></a>
 
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="material-datatables">
 						<table id="tb_atribuicao" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
 							<thead>
@@ -61,9 +61,9 @@
 					</div> {{-- Fim Material-datatbles --}}
 				</div>
 				
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<div class="material-datatables">
-						<table id="tb_funcionario" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+						<table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
 							<thead>
 								<tr>
 									<th>Nome</th>
@@ -181,7 +181,96 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$.fn.dataTable.moment( 'DD/MM/YYYY' );
-		
+
+
+		$("table#datatables").on("click", ".btn_desativa",function(){
+			let id_usuario = $(this).data('funcionario');
+			let btn = $(this);
+	      swal({
+	         title: 'Confirma a DESATIVAÇÃO do funcionário?',
+	         type: 'question',
+	         showCancelButton: true,
+	         confirmButtonColor: '#3085d6',
+	         cancelButtonColor: '#d33',
+	         confirmButtonText: 'Sim',
+	         cancelButtonText: 'Não',
+	      }).then(function () {
+      		//chama a rota para desativar o funcionario
+   	 	 	$.post('/mudastatus',{
+               _token: 	'{{ csrf_token() }}',
+   	 	 		id: 		id_usuario,
+   	 	 		status: 	'Inativo'
+   	 	 	},function(data){
+
+				 	btn.css('display', 'none').siblings('button.btn_ativa').css('display', 'block');
+				 	demo.notificationRight("top", "right", "success", "O funcionário foi Desativado");
+ 					//console.log(data)
+
+			 	})
+
+         });
+      });
+
+		$("table#datatables").on("click", ".btn_ativa",function(){
+			let id_usuario = $(this).data('funcionario');
+			let btn = $(this);
+			//console.log("botao btn_ativa -> ", $(this).data('funcionario'));
+	      
+	      swal({
+	         title: 'Confirma a ATIVAÇÃO do funcionário?',
+	         type: 'question',
+	         showCancelButton: true,
+	         confirmButtonColor: '#3085d6',
+	         cancelButtonColor: '#d33',
+	         confirmButtonText: 'Sim',
+	         cancelButtonText: 'Não',
+	      }).then(function () {
+      		//chama a rota para desativar o funcionario
+   	 	 	$.post('/mudastatus',{
+               _token: 	'{{ csrf_token() }}',
+   	 	 		id: 		id_usuario,
+   	 	 		status: 	'Ativo'
+   	 	 	},function(data){
+					
+				  	btn.css('display', 'none').siblings('button.btn_desativa').css('display', 'block');
+
+				 	demo.notificationRight("top", "right", "success", "O funcionário foi Ativado");
+ 					//console.log(data)
+			 	})
+
+         });
+      });
+
+		$(".btn_email_senha").click(function(){
+			let id_usuario = $(this).data('funcionario');
+
+			//console.log("botao btn_email_senha -> ", id_usuario );
+
+	      swal({
+	         title: 'Confirma a REINICIALIZAÇÃO da senha do funcionário?',
+	         type: 'question',
+	         showCancelButton: true,
+	         confirmButtonColor: '#3085d6',
+	         cancelButtonColor: '#d33',
+	         confirmButtonText: 'Sim',
+	         cancelButtonText: 'Não',
+	      }).then(function () {
+      	 
+      	 	//chama a rota para zerar a senha e enviar email ao funcionário
+
+   	 	 	$.post('/zerarsenhafuncionario',{
+                  _token: 	'{{ csrf_token() }}',
+      	 	 		id: 		id_usuario
+      	 	 		//id: 		id_funcionario
+   	 	 	},function(data){
+					 //mostrando o retorno do post
+				 	demo.notificationRight("top", "right", "success", "Email com nova senha enviado para o funcionário");
+ 					//console.log(data)
+			 	})
+
+         });
+      });
+     	
 
 		{{-- Testar se há algum erro, e mostrar a notificação --}}
 		@if ($errors->any())
@@ -202,21 +291,29 @@
 		@endif
 
 
-		$('#tb_atribuicao').DataTable({
-			language : {'url' : '{{ asset('js/portugues.json') }}',"decimal": ",","thousands": "."}, 
+
+		$('#datatables').DataTable({
+			language : {
+                      'url' : '{{ asset('js/portugues.json') }}',
+                      "decimal": ",",
+                      "thousands": "."
+                    }, 
         	stateSave: true,
         	stateDuration: -1,
 			responsive: true,
 			deferRender: true,
 			compact: true,
-			
-			paginate: false,
 
 			"columnDefs": [
-    			{ "width": "15%", "targets": 1 },
-    			{ "className": "text-center", "targets": [1] },
+    			{ "width": "15%", "targets": 4 },
+    			{ className: "text-center", "targets": [4] },
   			]
 
+        /*"columnDefs": 
+        [
+          { className: "text-center", "targets": [5] },
+          { className: "text-right",  "targets": [2] }
+        ]*/
 		});
   });
 </script>

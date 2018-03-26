@@ -16,7 +16,7 @@ class AtribuicaoController extends Controller
    public function index()
    {
       $atribuicoes  = Atribuicao::all();
-      $funcionarios = Funcionario::has('atribuicoes')->get();
+      $funcionarios = Funcionario::all();
       return view ('atribuicoes.index', compact('atribuicoes','funcionarios'));
     }
 
