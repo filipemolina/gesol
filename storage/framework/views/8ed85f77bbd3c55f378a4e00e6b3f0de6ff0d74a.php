@@ -190,7 +190,7 @@
 	  	</ul>
 	  	
 	  	<div id="footer">
-    		<center><img src="../img/cidade-digital.png" style="width: 190px;padding-top: 70%;"></center>
+    		<center><img src="../img/cidade-digital.png" style="width: 210px;padding-top: 70%;"></center>
 		</div>
 
 

@@ -59,19 +59,15 @@ class Semsop_RelatorioController extends Controller
     public function store(Request $request)
     {
 
-       
             $this->validate($request, [             
-            'envolvidos'            =>'required',
-            'origem'                =>'required',
-            'acao_gcmm'             =>'required_without:acao_cop',
-            'acao_cop'              =>'required_without:acao_gcmm',
-            'relato'                =>'required',
-            'providencia'           =>'required',
-            'foto',
-            'enviado',
-            'data'                  =>'required',
-            'hora'                  =>'required',
-
+                'envolvidos'            =>'required',
+                'origem'                =>'required',
+                'acao_gcmm'             =>'required_without:acao_cop',
+                'acao_cop'              =>'required_without:acao_gcmm',
+                'relato'                =>'required',
+                'providencia'           =>'required',
+                'data'                  =>'required',
+                'hora'                  =>'required',
             ]);
 
             $funcionario_logado = Auth::user()->funcionario;
@@ -106,6 +102,9 @@ class Semsop_RelatorioController extends Controller
 
         // Relacionar o endereço com o relatorio
         $Semsop_relatorio->endereco_id = $endereco->id;
+
+        //Salvar a imagem
+        $Semsop_relatorio->foto = $request->imagem;
 
         // Salvar o relatório
         $Semsop_relatorio->save();

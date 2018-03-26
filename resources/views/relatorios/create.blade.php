@@ -307,8 +307,8 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 
 			<!-- ============================IMAGEM============================ -->
-			<center><h3>Imagens</h3></center>
-			{{-- <div class="row">
+			<center><h3>Imagem</h3></center>
+			 <div class="row">
 				<div class="col-md-offset-3 col-sm-offset-3 col-md-4 col-sm-4">
 					<div class="fileinput fileinput-new " data-provides="fileinput">
 						<div class="fileinput-new thumbnail" style="max-width: none">
@@ -321,16 +321,17 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 							<span class="btn btn-primary btn-round btn-file">
 								<span class="fileinput-new">Selecione</span>
 								<span class="fileinput-exists">Alterar</span>
-								<input type="file" name="imagem_automatica">
+								<input type="file" name="foto">
 							</span>
-							<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class=></i> Excluir</a>
+							<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class=></i>Excluir</a>
 						</div>
 
 						<input type="hidden" name="foto" id="foto"/>
+						<input type="hidden" name="imagem" id="imagem"/>
 
 					</div>
 				</div>
-			</div>  --}} 
+			</div>  
 			<!-- ============================FIM IMAGEM============================ -->
 			
 
@@ -364,19 +365,27 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 		$(function(){
 			// Mascara
 			VMasker ($("#cep")).maskPattern("99999-999");
-      });
-		 
 
-$(document).ready();
-$('.clonador').click(function(){
-    $clone = $('.box_funcionario.hide').clone(true);
-    $clone.removeClass('hide');
-    $('#funcionario').append($clone);
-});
+			$('.clonador').click(function(){
+			    $clone = $('.box_funcionario.hide').clone(true);
+			    $clone.removeClass('hide');
+			    $('#funcionario').append($clone);
+			});
 
-$('.btn_remove').click(function(){
-    $(this).parents('.box_funcionario').remove();
-});
+			$('.btn_remove').click(function(){
+			    $(this).parents('.box_funcionario').remove();
+			});
+
+			$("#form_relatorio").submit(function(event){
+
+				const imagem64 = $("div.fileinput-preview.fileinput-exists img").attr('src');
+
+				$("input#imagem").val(imagem64);
+
+			});
+
+      	});
+		
 
     function limpa_formulário_cep() {
             //Limpa valores do formulário de cep.
