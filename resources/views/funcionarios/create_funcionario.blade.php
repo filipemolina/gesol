@@ -141,7 +141,6 @@ Cria Funcionário
 					</div>
 				</div>
 						
-<<<<<<< HEAD
 				<div class="col-md-6">
 					<div @if($funcionario_logado->setor->secretaria->id != $secretaria->id) @endif id="secretaria_id" class="input-group select_setores">
 						<span class="input-group-addon">
@@ -152,94 +151,15 @@ Cria Funcionário
 							<select name = "setor_id" id="setor_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
 									<option value=""> Selecione... </option>
 							</select>											
-=======
-						
-						<div class="col-md-2">
-							<div class="input-group ">
-
-								<span class="input-group-addon">
-									<span style="font-size: 24px;" class="mdi mdi-server-security"></span>
-								</span>
-										
-								<div class="form-group label-floating has-dourado">
-									<label class="control-label">Tipo de Funcionário</label>
-									<select name = "tipo" id="tipo" class="dourado selectpicker error" data-style="select-with-transition has-dourado" >
-										<option value=""> Selecione... </option>
-
-										@foreach($tipos as $tipo)
-											<option value="{{ $tipo }}">
-												{{ $tipo }}
-											</option>
-										@endforeach
-									</select>	
-								</div>
-							</div>
->>>>>>> Victor
-						</div>
-						
-						<div class="col-md-4">
-							<div class="input-group ">
-
-								<div  class="input-group ">
-									<span class="input-group-addon ">
-										<span style="font-size: 26px;" class="mdi mdi-folder-account"></span>
-									</span>
-									<div class="control form-group label-floating has-dourado">
-										<label class="control-label">Cargo:</label>
-										<select name = "cargo_id" id="cargo_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
-												<option value=""> Selecione... </option>
-										</select>											
-									</div>
-								</div>
-
-							</div>
 						</div>
 					</div>
 				</div>
 				
-<<<<<<< HEAD
 				<div class="col-md-5">
 					<div class="input-group">
 						<span class="input-group-addon">
 							<span style="font-size: 24px;" class="mdi mdi-server-security"></span>
 						</span>
-=======
-				<div class="col-md-11">
-					<div class="row">
-						<div class="col-md-8">
-							<div class="input-group">
-	                  	<span class="input-group-addon">
-									<i class="material-icons">account_balance</i>
-								</span>
-
-								<div class="control form-group label-floating has-dourado">
-									<label class="control-label">Secretaria</label>
-									<select name="select_secretaria" id="select_secretaria" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7" @if($pode_alterar_secretaria != 1) disabled="true" @endif>
-
-										@foreach($secretarias as $secretaria)
-											@if ( $funcionario_logado->setor->secretaria->id == $secretaria->id)
-												<option value="{{$secretaria->id}}" selected="selected">{{$secretaria->nome}}</option>
-											@else
-												<option value="{{$secretaria->id}}">{{$secretaria->nome}}</option>  
-											@endif
-										@endforeach
-
-									</select>
-								</div>
-							</div>
-						</div>
-							
-						<div class="col-md-4">
-							
-							<div @if($funcionario_logado->setor->secretaria->id != $secretaria->id) @endif id="secretaria_id" class="input-group select_setores">
-	                  	<span class="input-group-addon">
-									<i class="material-icons">account_balance</i>
-								</span>
-
-								<div class="control form-group label-floating has-dourado">
-									<label class="control-label">Setor:</label>
-
->>>>>>> Victor
 									
 						<div class="form-group label-floating has-dourado">
 							<label class="control-label">Tipo de acesso ao sistema</label>

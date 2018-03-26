@@ -245,28 +245,24 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
     		 				<button type="button" class="small tiny alert clonador btnfuncionario"></button>
     		 			</center>
  					</div>
- 					{{-- @foreach($relatorio->funcionarios as $funcionario_incluso)
-	 					@if(! $funcionario_incluso->pivot->relator ) --}}
-	 					<div class="row box_funcionario hide">
-							<div class="col-xs-12 col-sm-6 col-md-6">
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="material-icons">perm_identity</i>
-									</span>
-									<div class="form-group label-floating has-roxo is-empty">
-										<label class="control-label">Adicionar Funcionarios</label>
-											<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
-												<option value=""></option>
-									    		@foreach($funcionarios as $funcionario)
-												<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }} </option> 
-												@endforeach
-											</select>
-										<span class="material-input"></span>
-									</div>
+ 					<div class="row box_funcionario hide">
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<div class="input-group">
+								<span class="input-group-addon">
+									<i class="material-icons">perm_identity</i>
+								</span>
+								<div class="form-group label-floating has-roxo is-empty">
+									<label class="control-label">Adicionar Funcionarios</label>
+										<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
+											<option value=""></option>
+								    		@foreach($funcionarios as $funcionario)
+											<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }} </option> 
+											@endforeach
+										</select>
+									<span class="material-input"></span>
 								</div>
 							</div>
-						{{-- 	@endif
-						@endforeach --}}	
+						</div>
 						<div class="col-xs-12 col-md-2">
 							<div class="input-group">
         						<input type="button" class="button tiny success btn_remove" value="Remover"  />
@@ -307,31 +303,12 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 
 			<!-- ============================IMAGEM============================ -->
-			<center><h3>Imagem</h3></center>
-			 <div class="row">
-				<div class="col-md-offset-3 col-sm-offset-3 col-md-4 col-sm-4">
-					<div class="fileinput fileinput-new " data-provides="fileinput">
-						<div class="fileinput-new thumbnail" style="max-width: none">
-							<img src="{{asset("img/image_placeholder.jpg")}}" alt="..." id="imagem_thumb">
-						</div>
-
-						<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: none"></div>
-
-						<div class="col-md-offset-4 col-sm-offset-4 col-md-12 col-sm-12">
-							<span class="btn btn-primary btn-round btn-file">
-								<span class="fileinput-new">Selecione</span>
-								<span class="fileinput-exists">Alterar</span>
-								<input type="file" name="foto">
-							</span>
-							<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class=></i>Excluir</a>
-						</div>
-
-						<input type="hidden" name="foto" id="foto"/>
-						<input type="hidden" name="imagem" id="imagem"/>
-
-					</div>
+			<center>
+				<h3>Imagens</h3>
+				<div class="row">
+				
 				</div>
-			</div>  
+			</center>
 			<!-- ============================FIM IMAGEM============================ -->
 			
 
@@ -365,27 +342,19 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 		$(function(){
 			// Mascara
 			VMasker ($("#cep")).maskPattern("99999-999");
+      });
+		 
 
-			$('.clonador').click(function(){
-			    $clone = $('.box_funcionario.hide').clone(true);
-			    $clone.removeClass('hide');
-			    $('#funcionario').append($clone);
-			});
+$(document).ready();
+$('.clonador').click(function(){
+    $clone = $('.box_funcionario.hide').clone(true);
+    $clone.removeClass('hide');
+    $('#funcionario').append($clone);
+});
 
-			$('.btn_remove').click(function(){
-			    $(this).parents('.box_funcionario').remove();
-			});
-
-			$("#form_relatorio").submit(function(event){
-
-				const imagem64 = $("div.fileinput-preview.fileinput-exists img").attr('src');
-
-				$("input#imagem").val(imagem64);
-
-			});
-
-      	});
-		
+$('.btn_remove').click(function(){
+    $(this).parents('.box_funcionario').remove();
+});
 
     function limpa_formulário_cep() {
             //Limpa valores do formulário de cep.

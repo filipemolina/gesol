@@ -9,7 +9,6 @@ use App\Models\Funcionario;
 use App\Models\Atribuicao;
 use App\Models\Endereco;
 use App\Models\User;
-use PDF;
 
 class Semsop_RelatorioController extends Controller
 {
@@ -30,16 +29,16 @@ class Semsop_RelatorioController extends Controller
 
         }else*/
 
-        if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"])){
-            $relatorios = Semsop_relatorio::all()->where('enviado', '1');
+        if(verificaAtribuicoes(Auth::user()->funcionario, ["SEMSOP_REL_GERENTE"])){
+            $relatorios = Semsop_relatorio::all();
         }else{
+
             $relatorios = Auth::user()->funcionario->relatorios_semsop;
         }
 
-        // dd(Auth::user()->funcionario->relatorios_semsop);
 
-         //dd($relatorios);
-        return view ('relatorios.relatorios', compact('relatorios','gerente'));
+
+        return view ('relatorios.relatorios', compact('relatorios'));
     }
 
     
@@ -59,26 +58,30 @@ class Semsop_RelatorioController extends Controller
     public function store(Request $request)
     {
 
+       
             $this->validate($request, [             
-                'envolvidos'            =>'required',
-                'origem'                =>'required',
-                'acao_gcmm'             =>'required_without:acao_cop',
-                'acao_cop'              =>'required_without:acao_gcmm',
-                'relato'                =>'required',
-                'providencia'           =>'required',
-                'data'                  =>'required',
-                'hora'                  =>'required',
+            'envolvidos'            =>'required',
+            'origem'                =>'required',
+            'acao_gcmm'             =>'required_without:acao_cop',
+            'acao_cop'              =>'required_without:acao_gcmm',
+            
+            'relato'                =>'required',
+            'providencia'           =>'required',
+            'foto',
+            'data'                  =>'required',
+            'hora'                  =>'required',
+
             ]);
 
-            $funcionario_logado = Auth::user()->funcionario;
-
+            
             if($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_FISCAL')->count() )  
             {
-                $request->merge(['tipo' => 'COP']);
+                $request->merge(['tipo' => 'SEMSOP_REL_FISCAL']);
             }elseif($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_GCMM')->count() ){
-                $request->merge(['tipo' => 'GCMM']);
+                $request->merge(['tipo' => 'SEMSOP_REL_GCMM']);
             }
             
+            dd($request);
 
         // Criar o relatorio
         $Semsop_relatorio = new Semsop_relatorio($request->all());
@@ -102,9 +105,6 @@ class Semsop_RelatorioController extends Controller
         // Relacionar o endereço com o relatorio
         $Semsop_relatorio->endereco_id = $endereco->id;
 
-        //Salvar a imagem
-        $Semsop_relatorio->foto = $request->imagem;
-
         // Salvar o relatório
         $Semsop_relatorio->save();
       
@@ -124,7 +124,7 @@ class Semsop_RelatorioController extends Controller
     public function show(Request $request, $id)
     { 
         // dd($request);
-        //Busca o relatorio pelo id
+
         $relatorio = Semsop_relatorio::find($id);
 
 
@@ -135,97 +135,28 @@ class Semsop_RelatorioController extends Controller
     
     public function edit($id)
     {
-        $relatorio = Semsop_relatorio::find($id);
-        $origens = pegaValorEnum('semsop_relatorios','origem');
-        $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
-        $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
-        $funcionarios = Funcionario::all();
+         $origens = pegaValorEnum('semsop_relatorios','origem');
+         $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
+         $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
+         $funcionarios = Funcionario::all();
     
+    
+       $relatorio = Semsop_relatorio::findOrFail($id);
+
         return view('relatorios.edit',compact('relatorio','origens','acoes_gcmm','acoes_cop','funcionarios'));
     }
 
     
-    public function update(Request $request, $id)
-    {  
-        //dd($request->all());
-        // Pega o relatorio pelo id
-        $relatorio = Semsop_relatorio::find($id);
-        
-        //Entra na tabela pivo e ve quem nao e relator
-        $relatorio->funcionarios()->wherePivot('relator', false)->detach();
-        //adiciona ou exclui funcionario nao relator
-        foreach ($request->funcionario_id as $key => $funcionario) {
-            $relatorio->funcionarios()->attach($funcionario, ['relator' => false]);
-        }
+    public function update(Request $request)
+    {
 
-        $relatorio->endereco->fill($request->all());
-        $relatorio->endereco->save();
-        
-        //Passa os valores das checkBox
-        $relatorio->notificacao     = $request->notificacao;
-        $relatorio->autuacao        = $request->autuacao;
-        $relatorio->multa           = $request->multa;
-        $relatorio->registro_dp     = $request->registro_dp;
-        $relatorio->auto_pf         = $request->auto_pf;
-
-
-        $relatorio->fill($request->all());
-
-        $relatorio->save();
-
-    
-
-
-        return redirect(url('/semsop'));
 
     }
     public function destroy($id)
     {
-        //Pega o relatorio
-        $relatorio = Semsop_relatorio::find($id);
-        //Pega o id do endereco presente no relatorio
-        $endereco_id = $relatorio->endereco_id;
-        //apaga o relatorio
-        $apagou = $relatorio->delete();
-
-        if($apagou)
-        {
-            //Se o relatorio for apagado, apaga o endereco
-            $endereco = Endereco::find($endereco_id);
-            $endereco->delete();
-             return redirect(url('/semsop'));
-        }else{
-            return redirect()->route('relatorios.edit', $id)->with(['errors' => 'Falha']);
-        }
-
-
-    }
-
-    public function imprimir($id)
-    {
-
-        $relatorio = Semsop_relatorio::find($id);
-
-        //dd($relatorio->origem);
-        $pdf = PDF::loadView('relatorios/pdf',compact('relatorio'));
-        
-        return $pdf->stream('Relatorio.pdf');
-
       
+       
     }
-    
-     public function envia(Request $request)
-     {
-        $relatorio = Semsop_relatorio::find($request->id);
-
-
-        $relatorio->enviado = 1;
-        $relatorio->save();
-
-
-     }
-
-
   }
 
 
