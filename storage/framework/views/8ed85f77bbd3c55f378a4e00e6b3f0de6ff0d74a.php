@@ -8,7 +8,7 @@
 	
    <div class="logo">
 	  	<a href="#" class="simple-text logo-normal">
-		 	GESOL  <i style="font-size: 8px;">( v1.0.2 )</i>
+		 	GESOL  <i style="font-size: 8px;">( v1.0.4 )</i>
 	  	</a>
    </div>
 
