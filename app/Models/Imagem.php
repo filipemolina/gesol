@@ -12,4 +12,10 @@ class Imagem extends Model implements AuditableContract
   protected $table = "imagens";
 
 
+protected $fillable = [
+
+          	'imagem',
+           
+  ];
+
 }
