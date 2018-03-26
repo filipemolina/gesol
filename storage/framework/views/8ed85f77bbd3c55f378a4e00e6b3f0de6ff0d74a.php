@@ -74,123 +74,115 @@
 						<p>SEMSOP Relatórios</p>
 					</a>
 				</li>   
+
 			<?php else: ?>
+
 				<li>
 					<a href="<?php echo e(url("/solicitacao")); ?>">
 						<i class="material-icons">assignment</i>
 						<p>Solicitações</p>
 					</a>
 				</li>
+
+
+				<?php if($funcionario_logado->role->peso == 10 ): ?>          
+
+				<?php elseif($funcionario_logado->role->peso == 20): ?>             
+
+				<?php elseif($funcionario_logado->role->peso == 30): ?>
+
+
+				<?php elseif($funcionario_logado->role->peso == 40): ?>    
+
+					<li>
+						<a href="<?php echo e(url("/funcionario")); ?>">
+							<i class=" mdi mdi-account-multiple"></i> 
+							<p>Funcionarios</p>
+						</a>
+					</li>             
+
+				<?php elseif($funcionario_logado->role->peso == 60): ?>
+
+					<li>
+						<a href="<?php echo e(url("/funcionario")); ?>">
+							<i class=" mdi mdi-account-multiple"></i> 
+							<p>Funcionarios</p>
+						</a>
+					</li>                 
+								
+				<?php elseif($funcionario_logado->role->peso == 70): ?>
+					
+					<li>
+						<a href="<?php echo e(url("/funcionario")); ?>">
+							<i class=" mdi mdi-account-multiple"></i> 
+							<p>Funcionarios</p>
+						</a>
+					</li>                                                      
+
+				<?php elseif($funcionario_logado->role->peso == 80): ?>
+					
+					<li>
+						<a href="<?php echo e(url("/funcionario")); ?>">
+							<i class=" mdi mdi-account-multiple"></i> 
+							<p>Funcionarios</p>
+						</a>
+					</li>                        
+
+				<?php elseif($funcionario_logado->role->peso == 90): ?>
+					<li>
+						<a href="<?php echo e(url("/funcionario")); ?>">
+							<i class=" mdi mdi-account-multiple"></i> 
+							<p>Funcionarios</p>
+						</a>
+					</li>
+
+				<?php elseif($funcionario_logado->role->peso == 100): ?>
+					<li>
+						<a href="<?php echo e(url("/funcionario")); ?>">
+							<i class=" mdi mdi-account-multiple"></i> 
+							<p>Funcionarios</p>
+						</a>
+					</li>
+					<li>
+						<a data-toggle="collapse" href="#componentsExamples" class="collapsed" aria-expanded="false">
+							<i class="material-icons">settings</i>
+							<p> Configurações
+								<b class="caret"></b>
+							</p>
+						</a>
+
+						<div class="collapse" id="componentsExamples" aria-expanded="false" style="height: 0px;">
+							<ul class="nav">
+								<li>
+									<a href="<?php echo e(url("/secretaria")); ?>">
+										<i class="material-icons">account_balance</i>
+										<span class="sidebar-normal"> Secretarias </span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo e(url("/setor")); ?>">
+										<i class="material-icons">folder_shared</i>
+										<span class="sidebar-normal"> Setores </span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo e(url("/servico")); ?>">
+										<i class="material-icons">build</i>
+										<span class="sidebar-normal"> Serviços </span>
+									</a>
+								</li>
+								<li>
+									<a href="<?php echo e(url("/atribuicao")); ?>">
+									<i class="material-icons">compare_arrows</i>
+									<span class="sidebar-normal"> Atribuições </span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+
+				<?php endif; ?>
 			<?php endif; ?>
-
-
-			<?php if($funcionario_logado->role->peso == 10 ): ?>          
-
-			<?php elseif($funcionario_logado->role->peso == 20): ?>             
-
-			<?php elseif($funcionario_logado->role->peso == 30): ?>
-
-
-			<?php elseif($funcionario_logado->role->peso == 40): ?>    
-
-				<li>
-					<a href="<?php echo e(url("/funcionario")); ?>">
-						<i class=" mdi mdi-account-multiple"></i> 
-						<p>Funcionarios</p>
-					</a>
-				</li> 
-			
-			<?php elseif($funcionario_logado->role->peso == 50): ?>    
-
-				<li>
-					<a href="<?php echo e(url("/funcionario")); ?>">
-						<i class=" mdi mdi-account-multiple"></i> 
-						<p>Funcionarios</p>
-					</a>
-				</li> 
-
-			<?php elseif($funcionario_logado->role->peso == 60): ?>
-
-				<li>
-					<a href="<?php echo e(url("/funcionario")); ?>">
-						<i class=" mdi mdi-account-multiple"></i> 
-						<p>Funcionarios</p>
-					</a>
-				</li>                 
-							
-			<?php elseif($funcionario_logado->role->peso == 70): ?>
-				
-				<li>
-					<a href="<?php echo e(url("/funcionario")); ?>">
-						<i class=" mdi mdi-account-multiple"></i> 
-						<p>Funcionarios</p>
-					</a>
-				</li>                                                      
-
-			<?php elseif($funcionario_logado->role->peso == 80): ?>
-				
-				<li>
-					<a href="<?php echo e(url("/funcionario")); ?>">
-						<i class=" mdi mdi-account-multiple"></i> 
-						<p>Funcionarios</p>
-					</a>
-				</li>                        
-
-			<?php elseif($funcionario_logado->role->peso == 90): ?>
-				<li>
-					<a href="<?php echo e(url("/funcionario")); ?>">
-						<i class=" mdi mdi-account-multiple"></i> 
-						<p>Funcionarios</p>
-					</a>
-				</li>
-
-			<?php elseif($funcionario_logado->role->peso == 100): ?>
-				<li>
-					<a href="<?php echo e(url("/funcionario")); ?>">
-						<i class=" mdi mdi-account-multiple"></i> 
-						<p>Funcionarios</p>
-					</a>
-				</li>
-				<li>
-					<a data-toggle="collapse" href="#componentsExamples" class="collapsed" aria-expanded="false">
-						<i class="material-icons">settings</i>
-						<p> Configurações
-							<b class="caret"></b>
-						</p>
-					</a>
-
-					<div class="collapse" id="componentsExamples" aria-expanded="false" style="height: 0px;">
-						<ul class="nav">
-							<li>
-								<a href="<?php echo e(url("/secretaria")); ?>">
-									<i class="material-icons">account_balance</i>
-									<span class="sidebar-normal"> Secretarias </span>
-								</a>
-							</li>
-							<li>
-								<a href="<?php echo e(url("/setor")); ?>">
-									<i class="material-icons">folder_shared</i>
-									<span class="sidebar-normal"> Setores </span>
-								</a>
-							</li>
-							<li>
-								<a href="<?php echo e(url("/servico")); ?>">
-									<i class="material-icons">build</i>
-									<span class="sidebar-normal"> Serviços </span>
-								</a>
-							</li>
-							<li>
-								<a href="<?php echo e(url("/atribuicao")); ?>">
-								<i class="material-icons">compare_arrows</i>
-								<span class="sidebar-normal"> Atribuições </span>
-								</a>
-							</li>
-						</ul>
-					</div>
-				</li>
-
-			<?php endif; ?>
-			
 
 			<li>
 				<a href="<?php echo e(url("/comunicado")); ?>">
