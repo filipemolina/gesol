@@ -31,11 +31,9 @@ class Semsop_RelatorioController extends Controller
         }else*/
 
         if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"])){
-            $relatorios = Semsop_relatorio::all();
-            $gerente = true;
+            $relatorios = Semsop_relatorio::all()->where('enviado', '1');
         }else{
             $relatorios = Auth::user()->funcionario->relatorios_semsop;
-            $gerente = false;
         }
 
         // dd(Auth::user()->funcionario->relatorios_semsop);
@@ -70,6 +68,7 @@ class Semsop_RelatorioController extends Controller
             'relato'                =>'required',
             'providencia'           =>'required',
             'foto',
+            'enviado',
             'data'                  =>'required',
             'hora'                  =>'required',
 
@@ -127,7 +126,7 @@ class Semsop_RelatorioController extends Controller
     public function show(Request $request, $id)
     { 
         // dd($request);
-
+        //Busca o relatorio pelo id
         $relatorio = Semsop_relatorio::find($id);
 
 
@@ -151,19 +150,20 @@ class Semsop_RelatorioController extends Controller
     public function update(Request $request, $id)
     {  
         //dd($request->all());
-    
+        // Pega o relatorio pelo id
         $relatorio = Semsop_relatorio::find($id);
         
-
+        //Entra na tabela pivo e ve quem nao e relator
         $relatorio->funcionarios()->wherePivot('relator', false)->detach();
-        
+        //adiciona ou exclui funcionario nao relator
         foreach ($request->funcionario_id as $key => $funcionario) {
             $relatorio->funcionarios()->attach($funcionario, ['relator' => false]);
         }
 
         $relatorio->endereco->fill($request->all());
         $relatorio->endereco->save();
-    
+        
+        //Passa os valores das checkBox
         $relatorio->notificacao     = $request->notificacao;
         $relatorio->autuacao        = $request->autuacao;
         $relatorio->multa           = $request->multa;
@@ -215,6 +215,18 @@ class Semsop_RelatorioController extends Controller
 
       
     }
+    
+     public function envia(Request $request)
+     {
+        $relatorio = Semsop_relatorio::find($request->id);
+
+
+        $relatorio->enviado = 1;
+        $relatorio->save();
+
+
+     }
+
 
   }
 

@@ -104,8 +104,14 @@ Route::post('naolidas/{setor_id}', 'SolicitacaoController@naoLidas');
 // DataTables dos Comunicados
 Route::get('comunicado/datatables', 'ComunicadoController@dados');
 
+
+//========================================================================================
+// 										SEMSOP_RELATORIOS
+//========================================================================================
 // Imprimir PDF
 Route::get('semsop/pdf/{id}','Semsop_RelatorioController@imprimir');
+// Enviar Formulario
+Route::post('semsop/enviaformulario','Semsop_RelatorioController@envia');
 
 
 //========================================================================================

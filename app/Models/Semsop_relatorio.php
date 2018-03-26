@@ -30,6 +30,7 @@ class Semsop_relatorio extends Model implements AuditableContract
             'foto',
             'data',
             'hora',
+            'enviado',
   ];
 
     public function endereco()
