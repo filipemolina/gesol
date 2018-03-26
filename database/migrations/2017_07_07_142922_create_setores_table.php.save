@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAtribuicoesTable extends Migration
+class CreateSetoresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,21 @@ class CreateAtribuicoesTable extends Migration
      */
     public function up()
     {
-        Schema::create('atribuicoes', function (Blueprint $table) {
+        Schema::create('setores', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("atribuicao", 20);
-            $table->string("descricao", 254);
-            
+
+            $table->string('nome',50);
+
+	
+            $table->string('icone')->default("leaf");
+
+            $table->string('cor')->default('#3D276B');
+
+
+
             //------------------------FOREIGN--------------------------------
-            $table->integer('role_id')->unsigned();
             $table->integer('secretaria_id')->unsigned();
-            //------------------------FOREIGN--------------------------------
+            //---------------------------------------------------------------
 
             $table->timestamps();
         });
@@ -34,6 +40,6 @@ class CreateAtribuicoesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('atribuicoes');
+        Schema::dropIfExists('setores');
     }
 }
