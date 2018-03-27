@@ -7,6 +7,9 @@
 	-->
 	
    <div class="logo">
+	  	<a href="#" class="simple-text logo-mini">
+		 	GS
+	  	</a>
 	  	<a href="#" class="simple-text logo-normal">
 		 	GESOL  <i style="font-size: 8px;">( v1.0.4 )</i>
 	  	</a>
@@ -197,11 +200,5 @@
 			</li>
 	  	</ul>
 	  	
-	  	<div id="footer">
-    		<center><img src="../img/cidade-digital.png" style="width: 210px;padding-top: 70%;"></center>
-		</div>
-
-
-	  
    </div>
 </div>

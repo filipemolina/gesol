@@ -22,7 +22,6 @@ class CreateSemsopRelatorios extends Migration
             $table->boolean('multa')                  ->nullable();
             $table->boolean('registro_dp')            ->nullable();
             $table->boolean('auto_pf')                ->nullable();
-            $table->boolean('enviado')                ->default('false');
 
             // $table->string('local')                   ->nullable();
             //TODO: usar a tabela de endereço existente

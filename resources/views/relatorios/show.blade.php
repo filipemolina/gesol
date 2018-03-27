@@ -8,99 +8,88 @@
 
 @section('content')
 
-<div class="row" style="max-width: 100%">
+<div class="row">
 	<div class="col-md-12 col-md-offset-0">
-		<div class="card" style="padding-left: 6%;">
+		<div class="card">
 			<img src="../img/BrasaoTop.png"/>
 			<div>
-				<h3 style="text-align:center;" >Relatório</h3>
+				<center><h3>Relatório</h3></center>
 			</div>
-			
+			<table class="informacoes_relatorio">
 				
-			<div class="row" style="padding-left: 6%;">
 				<tr>
-					<td>{{ $relatorio->tipo }}</td>
+					<td> {{ $relatorio->notificacao }} </td>
 				</tr>
-			</div>
-
-			<div class="row" style="text-align:center;display:  flex;justify-content: space-around;">
-			
-					@if($relatorio->notificacao==1 ) <div>  Notificado </div> @endif
-				
-					@if($relatorio->autuacao==1 ) <div> Autuado  </div> @endif
-				
-					@if($relatorio->multa==1 ) <div> Multado  </div> @endif
-				
-					@if($relatorio->registro_dp==1 ) <div> Registrado na DP  </div> @endif
+				<tr>
+					<td> {{ $relatorio->autuacao }} </td>
+				</tr>
+				<tr>
+					<td> {{ $relatorio->multa }} </td>
+				</tr>	
+				<tr>
+					<td> {{ $relatorio->registro_dp }} </td>
+				</tr>	
+				<tr>
+					<td> {{ $relatorio->auto_pf }} </td>
+				</tr>				
 		
-					@if($relatorio->auto_pf==1 ) <div> Auto de Prisão em Flagrante  </div> @endif
-								
-			</div>
 
-			<div class="row" style="padding-top: 7px;">
-				
-					<div>	Origem do serviço: {{($relatorio->origem) }}</div>  
-				
-			</div>
-			<div class="row" style="padding-top: 7px;">
-				
-					<div>	Data: {{ $relatorio->data }} </div>
-				
-			</div>
-			<div class="row" style="padding-top: 7px;">
-				
-					<div>	Hora: {{ $relatorio->hora }} </div>
-			
-			</div>
-			<div class="row" style="padding-top: 7px;">
-				
-					<div>	Local: {{$relatorio->endereco->bairro}}, {{ $relatorio->endereco->cep }}, {{ $relatorio->endereco->logradouro }}, {{ $relatorio->endereco->numero }} {{ $relatorio->endereco->complemento}}
-				    </div>
-				
-			</div>
-			<div class="row" style="padding-top: 7px;">
-				
-					<div>Envolvidos: {{ $relatorio->envolvidos }} </div>
-				
-			</div>
-			<div class="row" style="padding-top: 7px;">
-				
-					<div> Ação Desenvolvida: {{ $relatorio->acao_cop }} {{ $relatorio->acao_gcmm }}</div>
-				
-			</div>
-			<div class="row" style="padding-top: 7px;">
-				
-					<div>	Relato Sucinto: {{ $relatorio->relato }} </div>
-				
-			</div>
-			<div class="row" style="padding-top: 7px;">
-				
-					<div>	Providencias Adotadas: {{ $relatorio->providencia }} </div>
-				
-			</div>
-			<div class="row" style="padding-top: 7px;">
-				
-					<div>    Outros Funcionarios:
+				<tr>
+					<td>	Origem do serviço: </td> <td> {{ $relatorio->origem }} </td>
+				</tr>
+				<tr>
+					<td>	Data: </td> <td> {{ $relatorio->data }} </td>
+				</tr>
+				<tr>
+					<td>	Hora: </td> <td> {{ $relatorio->hora }} </td>
+				</tr>
+				<tr>
+					<td>	Local: </td> <td> {{ $relatorio->endereco->logradouro }}, {{ $relatorio->endereco->numero }}, {{$relatorio->endereco->bairro}}, {{ $relatorio->endereco->complemento}}
+				    </td>
+				</tr>
+				<tr>
+					<td>	Cep: </td> <td> {{ $relatorio->endereco->cep }} </td>
+				</tr>
+				<tr>
+						
+					<td> Ação Desenvolvida: </td> <td> {{ $relatorio->acao_cop }}</td>	
+					
+					<td> Ação Desenvolvida: </td> <td> {{ $relatorio->acao_gcmm }}</td>
+					
+				</tr>
+				<tr>
+					<td>	Relato Sucinto: </td> <td> {{ $relatorio->relato }} </td>
+				</tr>
+				<tr>
+					<td>	Providencias Adotadas: </td> <td> {{ $relatorio->providencia }} </td>
+				</tr>
+				<tr>
+					<td>    Outros Funcionarios: </td> 
 					@foreach($relatorio->funcionarios()->where("relator", false)->get() as $funcionario)
-					 {{ $funcionario->nome }} </div>
+					<td> {{ $funcionario->nome }} </td>
 					@endforeach
-				
-			</div>
-			<div class="row" style="padding-top: 7px;">
-				 	
-				<div>Nome: {{ $relatorio->funcionarios()->where("relator", true)->first()->nome }}</div>
-			</div>
-			<div class="row" style="padding-top: 7px;">
-				<div>Matrícula:{{ $relatorio->funcionarios()->where("relator", true)->first()->matricula }}</div>
-				
-			</div>
+				</tr>
+				<tr> 	
+					<td> 	Nome: </td> <td> {{ $relatorio->funcionarios()->where("relator", true)->first()->nome }} </td> 
+				</tr>
+				<tr>
+					<td> Matrícula: </td> <td> {{ $relatorio->funcionarios()->where("relator", true)->first()->matricula }}</td>
+				</tr>
 
 
 							
-			
+			</table>
 		</div> {{-- Fim card --}}
 	</div> {{-- Fim col-md-10 --}}
 </div> {{-- FIM ROW --}}
 
 @endsection
 
+@push('scripts')
+
+<script type="text/javascript">
+	
+
+</script>
+
+@endpush
