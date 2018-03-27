@@ -103,11 +103,11 @@ table.separate {
 
 	<table class="separate">
 	<tr >
-		<td colspan="2">@if($relatorio->notificacao==1 ) Notificado @endif</td>
-		<td colspan="2">@if($relatorio->autuacao==1 ) Autuado @endif</td> 
-		<td colspan="2">@if($relatorio->multa==1 ) Multado @endif</td>
-		<td colspan="2">@if($relatorio->registro_dp==1 ) Registrado na DP @endif</td>  
-		<td colspan="2">@if($relatorio->auto_pf==1 ) Auto de Prisão em Flagrante @endif</td>
+		@if($relatorio->notificacao==1 ) <td colspan="2"> Notificado </td> @endif
+		@if($relatorio->autuacao==1 )	 <td colspan="2"> Autuado    </td> @endif 
+		@if($relatorio->multa==1 ) 		 <td colspan="2"> Multado    </td> @endif
+		@if($relatorio->registro_dp==1 ) <td colspan="2"> Registrado na DP </td> @endif  
+		@if($relatorio->auto_pf==1 )     <td colspan="2"> Auto de Prisão em Flagrante </td> @endif
 	</tr>
 	</table>
 
@@ -168,8 +168,8 @@ table.separate {
 		{{--  --}}
 
 		<tr>
-			<td><span style="font-weight:bold;">Outros Funcionarios:</span></td> 
 			@foreach($relatorio->funcionarios()->where("relator", false)->get() as $funcionario)
+			<td><span style="font-weight:bold;">Outros Funcionarios:</span></td> 
 				<td> {{ $funcionario->nome }} </td>
 			@endforeach
 		</tr>
