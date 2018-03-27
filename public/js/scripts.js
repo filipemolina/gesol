@@ -1,126 +1,343 @@
+// Sweet Alert
+var helper = {
+
+    // Como usuar no html:
+    // helper.showSwal1('tipo', 'titulo')
+    // helper.showSwal2('tipo', 'texto1', 'texto2','texto1Sucesso', 'texto2Sucesso', 'funcaoSucesso')
+    
+    showSwal1: function(tipo, texto1) {
+        
+        if(tipo == 'basico'){
+            swal({
+                title: texto1,
+                buttonsStyling: false,
+                confirmButtonClass: 'btn btn-roxo'
+            });
+        } else if (tipo == 'info') {
+            swal({
+                type: 'info',
+                title: texto1,
+                buttonsStyling: false,
+                confirmButtonClass: "btn btn-info"
+            });
+        } else if (tipo == 'aviso') {
+            swal({
+                type: 'warning',
+                title: texto1,
+                input: 'text',
+                buttonsStyling: false,
+                showCancelButton: true,
+                cancelButtonClass: 'btn btn-roxo',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Alterar',
+                confirmButtonClass: 'btn btn-danger'
+            });
+        }
+    }, //Fim showSwal1
+}; //Fim Helper
+    
 $(function(){
+
+    // Mascaras
     VMasker ($("#cpf")).maskPattern("999.999.999-99");
+    VMasker ($("#matricula")).maskPattern("99/99.999-9");
+    VMasker ($(".datepicker")).maskPattern("99/99/9999");
+  
+    // Apoiar publicação apenas logado
+    $(".helper-apoio").click(function(){
+        event.preventDefault();
 
-    //////////////////////////////////// Mapa
+        helper.showSwal1('info','Efetue o login para apoiar a publicação')
 
-    // var mapData = {
-    //     "AU": 760,
-    //     "BR": 550,
-    //     "CA": 120,
-    //     "DE": 1300,
-    //     "FR": 540,
-    //     "GB": 690,
-    //     "GE": 200,
-    //     "IN": 200,
-    //     "RO": 600,
-    //     "RU": 300,
-    //     "US": 2920,
-    // };
+    });
 
-    // $('#worldMap').vectorMap({
-    //     map: 'world_mill_en',
-    //     backgroundColor: "transparent",
-    //     zoomOnScroll: false,
-    //     regionStyle: {
-    //         initial: {
-    //             fill: '#e4e4e4',
-    //             "fill-opacity": 0.9,
-    //             stroke: 'none',
-    //             "stroke-width": 0,
-    //             "stroke-opacity": 0
-    //         }
-    //     },
+    // Criar publicação apenas logado
+    $(".helper-criaPub").click(function(){
+        event.preventDefault();
 
-    //     series: {
-    //         regions: [{
-    //             values: mapData,
-    //             scale: ["#AAAAAA","#444444"],
-    //             normalizeFunction: 'polynomial'
-    //         }]
-    //     },
-    // });
+        helper.showSwal1('info','Efetue o login para criar uma publicação')
 
-    //////////////////////////////////////////////////////////////////////////////// Gráficos
+    });
+    
+    // Botão editar, ocultar coment-fix e exibir coment-edit
+    $('.btn-coment-edit').click(function() {
+        
+        event.preventDefault();
 
-    //////////////////////////////////////////////////// Daily Sales
+        $(this).parent().parent().parent().parent().find('.coment-fix').addClass('hide').parent().find('.coment-edit').removeClass('hide')
 
-    // dataDailySalesChart = {
-    //     labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-    //     series: [
-    //         [12, 17, 7, 17, 23, 18, 38]
-    //     ]
-    // };
+    });
 
-    // optionsDailySalesChart = {
-    //     lineSmooth: Chartist.Interpolation.cardinal({
-    //         tension: 0
-    //     }),
-    //     low: 0,
-    //     high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-    //     chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
-    // }
+    $('.minhas_solicitacoes').click(function(e) {
+        e.preventDefault();
+        $.get('/solicitacoes/minhas/'+id_usuario, function(resultado){
+            if (resultado == "0")
+                demo.notificationRight("top", "right", "rose", "Você ainda não possui Solicitações cadastradas!");   
+            else
+                window.location.href='/minhassolicitacoes';
+        })
+    });
+    
+    // Botão Excluir, ocultar coment-fix, exibir comentario com horário da "exclusão", demonstrar botão desfazer e oculstar botões editar e excluir
+    $('.infinite-scroll').on('click', ".btn-coment-del", function () {
 
-    // var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
+        var isto = this;
+        var text = $(this).parent().parent().parent().parent().find('div.coment-fix p').show('p');
 
-    // var animationHeaderChart = new Chartist.Line('#websiteViewsChart', dataDailySalesChart, optionsDailySalesChart);
+        event.preventDefault();
 
-    // md.startAnimationForLineChart(dailySalesChart);
+        swal({
+                type: 'warning',
+                title: 'Remover o comentário?',
+                html: text,
+                buttonsStyling: false,
+                showCancelButton: true,
+                cancelButtonClass: 'btn btn-roxo',
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Remover',
+                confirmButtonClass: 'btn btn-danger'
+            }).then(function () {
+                let id = $(isto).data('id');
+                let token = $(isto).data('token');
 
-    //////////////////////////////////////////////////// Website Views
+                console.log("Chamou de dentro do scripts", $(isto).data('token'));
 
-    // var dataWebsiteViewsChart = {
-    //   labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-    //   series: [
-    //     [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
+                $.post('/comentario/' + id , {
 
-    //   ]
-    // };
-    // var optionsWebsiteViewsChart = {
-    //     axisX: {
-    //         showGrid: false
-    //     },
-    //     low: 0,
-    //     high: 1000,
-    //     chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
-    // };
-    // var responsiveOptions = [
-    //   ['screen and (max-width: 640px)', {
-    //     seriesBarDistance: 5,
-    //     axisX: {
-    //       labelInterpolationFnc: function (value) {
-    //         return value[0];
-    //       }
-    //     }
-    //   }]
-    // ];
-    // var websiteViewsChart = Chartist.Bar('#websiteViewsChart', dataWebsiteViewsChart, optionsWebsiteViewsChart, responsiveOptions);
+                   _token: token,
+                   _method: 'DELETE' 
 
-    //start animation for the Emails Subscription Chart
-    // md.startAnimationForBarChart(websiteViewsChart);
+                }, function(data){
 
-    //////////////////////////////////////////////////// Completed Tasks
+                    if(data == "0"){
 
-    // dataCompletedTasksChart = {
-    //     labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
-    //     series: [
-    //         [230, 750, 450, 300, 280, 240, 200, 190]
-    //     ]
-    // };
+                        // Mostrar a mensagem de erro
+                        swal({
+                            type: 'error',
+                            title: 'Comentário nao removido!',
+                            text: 'Seu comentário não pôde ser removido pois já foi respondido pela prefeitura.',
+                        });
 
-    // optionsCompletedTasksChart = {
-    //     lineSmooth: Chartist.Interpolation.cardinal({
-    //         tension: 0
-    //     }),
-    //     low: 0,
-    //     high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-    //     chartPadding: { top: 0, right: 0, bottom: 0, left: 0}
-    // }
+                    } else {
+                        // Deletar a div do comentário
+                        $('.comentario_'+id).remove();
 
-    // var completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
+                        // Mostrar a mensagem de sucesso
+                        swal({
+                            type: 'success',
+                            title: 'Sucesso!',
+                            text: 'Seu comentário foi removido',
+                        });
+                    }
 
-    // start animation for the Completed Tasks Chart - Line Chart
-    // md.startAnimationForLineChart(completedTasksChart);
+                });
+            }, function (dismiss) {
+                if (dismiss === 'cancel') {
+                swal({
+                    type: 'error',
+                    title: 'Cancelado!',
+                    html: 'Seu comentário não foi removido',
+                    buttonsStyling: false,
+                    confirmButtonClass: 'btn btn-roxo'
+                })
+            }
 
-   
+
+            });
+
+    });
+
+    //Botão desfazer, exibir coment-fix, ocultar botão desfazer, demonstrar botões editar e excluir
+    $('.btn-coment-des').click(function () {
+
+        event.preventDefault();
+
+        $(this).addClass('hide')
+        $(this).parent().parent().find('a.btn-coment-edit').removeClass('hide');
+        $(this).parent().parent().find('a.btn-coment-del').removeClass('hide');
+        $(this).parent().parent().parent().parent().find('.coment-fix-rem').addClass('hide');
+        $(this).parent().parent().parent().parent().find('.coment-fix').removeClass('hide');
+
+    });
+
+    // Enviar alteração, ocultar coment-edit e exibir coment-fix
+    $('.btn-coment-alterar').click(function() {
+        
+        $(this).parent().parent().addClass('hide').parent().find('.coment-fix').removeClass('hide').find('span.label').removeClass('hide')
+    });
+
+    // Ocultar coment-edit e exibir coment-fix
+    $('.coment-desfazer').click(function() {
+        
+        event.preventDefault();
+
+        $(this).parent().parent().addClass('hide').parent().find('.coment-fix').removeClass('hide')
+
+    });
+
+    // Deslizar comentários
+    $('div.infinite-scroll').on("click", ".slide-coment", function(){
+        event.preventDefault();
+        $(this).parent().parent().parent().parent().find('.colapso').slideToggle();
+    });
+
+    
+    // Alterar cor do botão apoiar
+    $('div.infinite-scroll').on("click", ".btn-apoiar", function(){
+        
+        event.preventDefault();
+
+        if ($(this).hasClass('apoiar')){
+
+            $(this).removeClass('apoiar')
+
+        } else {
+
+            $(this).addClass('apoiar')
+        }
+        
+    });
+
+    // Adicionar efeito de rotação ao ícone do objeto
+
+    $('.rodar-icone').click(function(){
+            
+        var isto = this;
+            
+        if($(isto).find('i').hasClass('animated girar-rev')) {
+            $(isto).find('i').removeClass('girar-rev').addClass('girar')
+        } else if ($(isto).find('i').hasClass('animated girar')) {
+            $(isto).find('i').removeClass('girar').addClass('girar-rev')
+        }else {
+            $(isto).find('i').addClass('animated girar')
+        }
+    });
+
+    atualizarNotificacoes();
 
 });
+
+function enviarComentario(elem, e){
+
+   console.log("entrou enviarComentario ID: ", $(elem).data('solicitacao') );
+   // Executar essa função apenas se a tecla pressionada for o Enter ou caso nenhuma tecla tenha
+   // sido pressionada (click)
+
+   console.log("KeyCode", e.keyCode);
+
+   if(e.keyCode == "13" || typeof e.keyCode === 'undefined'){
+
+      let solicitacao = $(elem).data('solicitacao');
+      let funcionario = $(elem).data('funcionario');
+
+      var comentario = $("textarea.comentario_"+solicitacao).val().trim();
+
+      // Testar se a comentario está em branco
+      if(comentario)
+      {
+        console.log("Vai enviar a solicitação");
+         // Enviar a comentario para o banco
+         $.post(
+            url_base+"/comentario",
+            {
+               comentario:       comentario,
+               solicitacao_id:   solicitacao, 
+               funcionario_id:   funcionario,
+               _token: token,
+            }, function(resposta)
+               {
+
+                  let dados = JSON.parse(resposta);
+
+                  console.log("Resposta", dados);
+
+                  // Apagar o campo de envio de comentario
+                  $(".comentario_"+solicitacao).val("");
+
+                  // Colocar o novo card de comentarios embaixo da solicitação
+                  var source      = $("#comentario-template").html();
+                  var template    = Handlebars.compile(source)
+
+                  var context = { 
+                     data_criacao:        dados.data,
+                     nome_funcionario:    dados.nome_funcionario,
+                     nome_setor:          dados.nome_setor,
+                     sigla:               dados.sigla, 
+                     comentario:          dados.comentario, 
+                  };
+
+                  var html        = template(context);
+
+                  $("div.comentarios").append( $(html) );
+
+                  //posiciona a div "scrolavel" para o final
+                  var objDiv = document.getElementById("div-comentarios");
+                  objDiv.scrollTop = objDiv.scrollHeight;
+            }      
+            ).fail(function(erro){
+               demo.notificationRight("top", "right", "rose", "Sessão do usuário expirada. Você será redirecionado a tela de Login em alguns segundos!"); 
+               setTimeout(function(){window.location.reload()}, 10000);
+         });
+      }
+   }
+}
+
+function comentarioAutomatico(sol, fun, com){
+
+   console.log("entrou comentarioAutomatico ID: ");
+
+   let solicitacao   = sol;
+   let funcionario   = fun;
+   let comentario    = com;
+
+   // Enviar a comentario para o banco
+   $.post(
+      url_base+"/comentario",
+      {
+         comentario:       comentario,
+         solicitacao_id:   solicitacao, 
+         funcionario_id:   funcionario,
+         _token:           token
+      }
+   );      
+  
+}
+
+
+function atualizarNotificacoes(){
+
+  console.log("Chamou aualizar notificações");
+
+  // Mostrar o número correto de notificações
+
+    $.post(url_base + "/naolidas/" + setor_id, { _token: token }, function(data){
+      
+      let dados = JSON.parse(data);
+
+      // Atualizar o número de notificaçoes
+
+      if(dados.qtd){
+        $("<span class='notification'>"+dados.qtd+"</span>").insertAfter('#icone-notificacoes');
+      }
+
+      // Atualizar a lista de notificações
+
+      for(i=0; i < dados.links.length; i++){
+
+        $("#lista-notificacoes").append(dados.links[i]);
+
+      }
+
+    });
+
+}
+
+// Tocar o áudio da notificação
+
+function tocarAudio(){
+
+  let audio = document.getElementById("audio_notificacao");
+
+  audio.play();
+
+}

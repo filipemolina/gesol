@@ -3,16 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Solicitante extends Model
+class Solicitante extends Model implements AuditableContract
 {
- 	protected $table = "solicitantes";
+    use \OwenIt\Auditing\Auditable;
+    
+    protected $table = "solicitantes";
 
     protected $fillable =[
-	 	'nome',
+        'nome',
         'email',
         'fb_uid',
         'fb_token',
+        'fcm_id',
         'celular',
         'sexo',
         'telefone',
@@ -49,22 +53,28 @@ class Solicitante extends Model
 
 
     public function endereco()
-	{
-		return $this->hasOne('App\Models\Endereco');
-	}
+    {
+        return $this->hasOne('App\Models\Endereco');
+    }
 
     public function telefones()
     {
         return $this->hasMany('App\Models\Telefone');
     }
 
-	public function solicitacoes()
+    public function solicitacoes()
     {
         return $this->hasMany('App\Models\Solicitacao');
     }
 
     public function user()
     {
-        return $this->hasOne('App\User');
+        return $this->hasOne('App\Models\User');
     }
+
+    public function apoios()
+    {
+        return $this->belongsToMany('App\Models\Solicitacao', 'apoios');
+    }
+
 }

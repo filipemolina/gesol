@@ -30,6 +30,8 @@ class CreateFk extends Migration
         
         Schema::table('funcionarios', function($table){
             $table->foreign('setor_id')->references('id')->on('setores')->onDelete('cascade');
+            $table->foreign('role_id') ->references('id')->on('roles')  ->onDelete('cascade');
+            $table->foreign('cargo_id')->references('id')->on('cargos')->onDelete('cascade');
         });
         
 
@@ -43,8 +45,8 @@ class CreateFk extends Migration
         });
 
         Schema::table('users', function($table){
-            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
-            $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
+            $table->foreign('funcionario_id')   ->references('id')->on('funcionarios')  ->onDelete('cascade');
+            $table->foreign('solicitante_id')   ->references('id')->on('solicitantes')  ->onDelete('cascade');
         });
             
         Schema::table('telefones', function($table){
@@ -57,6 +59,38 @@ class CreateFk extends Migration
             $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
             $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
         });
+
+        Schema::table('movimentos', function($table){
+            $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
+            $table->foreign('comentario_id')->references('id')->on('comentarios')->onDelete('cascade');            
+        });
+
+        Schema::table('sys_logs', function($table){
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
+        });
+
+
+        Schema::table('atribuicao_funcionario', function($table){
+            $table->foreign('atribuicao_id')    ->references('id')->on('atribuicoes')  ->onDelete('cascade');
+            $table->foreign('funcionario_id')   ->references('id')->on('funcionarios')  ->onDelete('cascade');
+        });
+
+        Schema::table('semsop_funcionarios_relatorios', function($table){
+            $table->foreign('semsop_relatorio_id')->references('id')->on('semsop_relatorios')->onDelete('cascade');
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
+        });
+
+        Schema::table('semsop_relatorios', function($table){
+            $table->foreign('endereco_id')->references('id')->on('enderecos')->onDelete('cascade');
+        });
+
+        Schema::table('cargos', function($table){
+            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
+        });
+        
+
+
 
         Schema::enableForeignKeyConstraints();
     }

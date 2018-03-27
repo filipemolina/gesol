@@ -16,8 +16,28 @@ class AuthController extends Controller
 
     public function login()
     {
+        //testa se o usuário já está logado e redireciona para a home
+
+        if(Auth::user())
+        {
+            loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logon');
+            return redirect()->intended('/');
+        }
+
         return view('auth.login');
     }
+
+    public function logout()
+    {
+        //logout apenas se estiver logado
+        if(Auth::user()){
+            loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logoff');
+        }
+       
+        Auth::logout();
+        return redirect("/");
+    }
+    
 
     /**
      * Gerenciar o login quando for enviado via POST
@@ -29,31 +49,51 @@ class AuthController extends Controller
     	// Obter o usuário 
     	$usuario = User::where('email', $request->email)->first();
 
-    	// Testar a senha
-    	if(Hash::check($request->senha, $usuario->password))
-    	{
-    		// Verificar se o usuário possui um funcionário relacionado
-    		if(count($usuario->funcionario))
-    		{
-    			// Logar o usuário
+        
 
-    			if(Auth::attempt(['email' => $request->email, 'password' => $request->senha]))
-    			{
-    				// Redirecionar para o Painel Principal
+        //verifica se o email existe na base
+        if($usuario)
+        { 
+            //dd(bcrypt($request->senha), $usuario->password);
 
-    				return redirect()->intended('/');
-    			}
-    		}
-    		else
-    		{
-    			echo "Não é um funcionário<br/>";	
-    		}
+            // Testar a senha
+        	if(Hash::check($request->senha, $usuario->password))
+        	{
+        		// Verificar se o usuário possui um funcionário relacionado
+        		if(count($usuario->funcionario))
+        		{
+        			// verifica se o status do usuário é "Ativo"
+                    if($usuario->status == 'Ativo')
+                    {
+                        // Logar o usuário
+            			if(Auth::attempt(['email' => $request->email, 'password' => $request->senha]))
+            			{
+            				// Redirecionar para o Painel Principal
+                            //dd("logou");
+                            loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logon');
+            				return redirect()->intended('/');
+            			}
 
-    		echo "<h2>Senha Confere</h2>";
-    	} else {
-    		echo "<h2>Senha Não Confere</h2>";
-    	}
+                    } else {
+                        loga('R', 'USERS', '0', 'EMAIL',$request->email , 'Tentativa de Logon - Usuário com status INATIVO');
+                        return redirect("/login")->withErrors(['erros' => 'A conta de usuário não está ATIVA']);    
+                    }
 
+        		} else {
+                    loga('R', 'USERS',  '0', 'EMAIL', $request->email , 'Tentativa de Logon - não é funcionario');
+        			return redirect("/login")->withErrors(['erros' => 'Não é um funcionário']); //echo "Não é um funcionário<br/>";	
+        		}
 
+        		return redirect("/"); //echo "<h2>Senha Confere</h2>";
+
+        	} else {
+                loga('R', 'USERS',  '0', 'EMAIL',$request->email , 'Tentativa de Logon - senha errada');
+                return redirect("/login")->withErrors(['erros' => 'Senha não confere']);
+        	}
+        }else{
+            //dd("nao existe");
+            loga('R', 'USERS', '0', 'EMAIL',$request->email , 'Tentativa de Logon - email não cadastrado');
+            return redirect("/login")->withErrors(['erros' => 'Email não cadastrado']);    
+        }
     }
 }

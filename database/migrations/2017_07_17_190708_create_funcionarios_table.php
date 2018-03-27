@@ -17,16 +17,16 @@ class CreateFuncionariosTable extends Migration
             $table->increments('id');
             $table->string('nome');                
             $table->char('cpf',14)                          ->nullable();
-            $table->unsignedInteger('matricula')            ->nullable();
-            $table->string('cargo',30)                      ->nullable();
-            $table->string('foto')                          ->nullable();
+            $table->string('matricula', 11)                 ->nullable();
+            $table->mediumtext('foto')                      ->nullable();
+
+            $table->enum('tipo',['Efetivo','Comissionado','Externo','Sistema'])->default('Efetivo');
 
             //------------------------FOREIGN--------------------------------
+            $table->integer('cargo_id')->unsigned();
             $table->integer('setor_id')->unsigned();
+            $table->integer('role_id') ->nullable()->unsigned();            
             //---------------------------------------------------------------
-
-
-
             $table->timestamps();
         });
     }

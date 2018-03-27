@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Apoio;
+use App\Models\Apoio;
+use App\Models\Solicitacao;
 use Illuminate\Http\Request;
 
 class ApoioController extends Controller
 {
+     public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *

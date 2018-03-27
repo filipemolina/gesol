@@ -16,9 +16,10 @@ class CreateComentariosTable extends Migration
         Schema::create('comentarios', function (Blueprint $table) {
             $table->BigIncrements('id');
 
-            $table->string('comentario',30);
+            $table->text('comentario');
             $table->boolean('encerramento')->nullable();
             $table->boolean('lida')->default(false);
+            $table->boolean('apagado')->default(false);
 
 
             //------------------------FOREIGN--------------------------------

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Secretaria extends Model
+class Secretaria extends Model implements AuditableContract
 {
+
+    use \OwenIt\Auditing\Auditable;
 
  	protected $table = "secretarias";
 
@@ -18,6 +21,7 @@ class Secretaria extends Model
         'telefone',
         'inicio_atendimento',
         'termino_atendimento',
+        'operante',
     ];
 
 
@@ -32,9 +36,13 @@ class Secretaria extends Model
         return $this->hasMany('App\Models\Setor');
     }
 
-
      public function telefones()
     {
         return $this->hasMany('App\Models\Telefone');
     }
+
+    public function cargos()
+    {
+        return $this->hasMany('App\Models\Cargo');
+    }    
 }

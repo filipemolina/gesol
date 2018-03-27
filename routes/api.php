@@ -18,25 +18,23 @@ use GuzzleHttp\Client;
 |
 */
 
-/**
- * Esta função deve ser chamada pelo aplicativo após este ter recebido uma token de acesso
- * do Facebook. Essa token deve ser enviada no parâmetro "token" e será utilizada para verificar
- * se o usuário já existe no banco de dados ou não.
- */
-
+Route::post('/apoiar', "Api\ApoiosController@apoiar");
+Route::post('/user/login', "Api\UsersController@login");
 Route::post("/user", "Api\UsersController@retornaToken");
 Route::post('/user/create', "Api\UsersController@create");
-Route::post('/user/login', "Api\UsersController@login");
 Route::post('/servicosporsetor', "Api\ServicosController@servicosPorSetor");
+Route::post('/alteraFcmId', "Api\SolicitantesController@alteraFcmId");
 
+Route::get('/enum/{tabela}/{coluna}', "Api\SolicitantesController@pegaValorEnum");
 Route::get("/solicitacoes/minhas", "Api\SolicitacoesController@minhas");
+Route::get("/versao", "Api\HomeController@versao");
+
+// Notificações
+Route::post("/notificacoes/enviar", "Api\NotificacoesController@enviaNotificacao");
 
 Route::resource('/solicitacoes', 'Api\SolicitacoesController');
-Route::resource('/comentarios', 'Api\ComentariosController');
-Route::resource('/setores', 'Api\SetoresController');
-
-Route::get("/callback", function(Request $request){
-
-	print_r($request);
-
-});
+Route::resource('/solicitantes', 'Api\SolicitantesController');
+Route::resource('/comentarios',  'Api\ComentariosController');
+Route::resource('/setores',      'Api\SetoresController');
+Route::resource('/tokens',       'Api\TokensController');
+Route::resource('/comunicados',  'Api\ComunicadosController');

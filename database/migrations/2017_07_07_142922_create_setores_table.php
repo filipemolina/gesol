@@ -18,11 +18,13 @@ class CreateSetoresTable extends Migration
 
             $table->string('nome',50);
 
+            $table->boolean('oculto')->default(false);
+
             $table->string('icone')->default("leaf");
 
             $table->string('cor')->default('#3D276B');
 
-
+            $table->boolean('operante')                        ->default(false);
 
             //------------------------FOREIGN--------------------------------
             $table->integer('secretaria_id')->unsigned();
