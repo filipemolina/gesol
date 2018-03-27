@@ -71,7 +71,6 @@ Alteração de funcionário
 					</div>
 				</div>
 
-<<<<<<< HEAD
 				<div class="col-md-3">
 					<div class="input-group">
 						<span class="input-group-addon">
@@ -81,15 +80,6 @@ Alteração de funcionário
 							<label class="control-label">Matrícula</label>
 							<input id="matricula" name="matricula" type="text" class="form-control error" 
 							value=" {{ $funcionario->matricula or old('matricula') }} ">
-=======
-								<div class="form-group label-floating has-dourado">
-									<label class="control-label">Cargo</label>
-									<select name = "cargo_id" id="cargo_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
-											<option value=""> Selecione... </option>
-										</select>	
-								</div>
-							</div>
->>>>>>> Victor
 						</div>
 					</div>
 				</div>
@@ -297,20 +287,10 @@ Alteração de funcionário
 			
 			//mostra os selects de acordo com a secretaria selecionada no select_secretaria
 	  		$("#select_secretaria").change(function(){
-<<<<<<< HEAD
 				  let secretaria_id = $(this).val();
 				  
 				  //AJAX PEGAR OS CARGOS
 				  carrega_select_cargo_create(secretaria_id, {{ $funcionario_logado->setor_id }});
-=======
-				let secretaria_id = $(this).val();
-
-				//AJAX PEGAR OS CARGOS
-				carrega_select_cargo_create(secretaria_id, {{ $funcionario_logado->setor_id }});
-
-	         //AJAX PEGAR OS SETORES
-				carrega_select_setor_edit(secretaria_id, {{ $funcionario->setor_id }},2);
->>>>>>> Victor
 
 				  //AJAX PEGAR OS SETORES
 				carrega_select_setor_edit(secretaria_id, {{ $funcionario->setor_id }},2);
