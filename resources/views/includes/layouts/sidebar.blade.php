@@ -200,5 +200,8 @@
 			</li>
 	  	</ul>
 	  	{{-- <p>({{ $funcionario_logado->role->acesso }} - {{ $funcionario_logado->role->peso }})</p> --}}
+	  	<div id="footer">
+    		<center><img src="../img/cidade-digital.png" style="width: 210px;padding-top: 70%;"></center>
+		</div>
    </div>
 </div>
