@@ -84,9 +84,8 @@
 												<i class="glyphicon glyphicon-print"></i>
 											</a>
 
-        						@if($relatorio->pivot->relator)
-        							 @if($relatorio->enviado == '0') 
-
+										@if($relatorio->pivot->relator)
+											@if($relatorio->enviado == '0') 
 												<a href="{{ url("semsop/$relatorio->id/edit")}}"
 													class="btn btn-warning btn-xs action  pull-right botao_acao btn_control" 
 													data-toggle="tooltip" 
