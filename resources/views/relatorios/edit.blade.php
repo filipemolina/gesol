@@ -358,12 +358,12 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 
 			<!-- ============================IMAGEM============================ -->
-			<center>
-				<h3>Imagens</h3>
-				<div class="row">
-				
-				</div>
-			</center>
+				<center>
+					<h3>Imagens</h3>
+					<div class="row">
+					
+					</div>
+				</center>
 			<!-- ============================FIM IMAGEM============================ -->
 			
 

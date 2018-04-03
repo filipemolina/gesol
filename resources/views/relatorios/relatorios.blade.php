@@ -18,38 +18,36 @@
 			<div class="card-content">
 				<h4 class="card-title">Relatorios</h4>
 				<div class="toolbar"></div>
-				
-					<a href="{{ url("/semsop/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Novo Relatorio"></i></a>
-
+					@if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_COP"]))
+						<a href="{{ url("/semsop/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Novo Relatorio"></i></a>
+					@endif
 					<div class="material-datatables">
 						<table id="relatorios" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
 							<thead>
 								<tr>
 									<th>Origem</th>
-								    <th>Local</th>
+								   <th>Local</th>
 									<th>Ação Desenvolvida</th>
 									<th>Relato Sucinto</th>
 									<th>Data</th> 
-								    <th>Agente/Fiscal</th> 
-								    <th class="disabled-sorting text-right">Ações</th>
+								   <th>Agente/Fiscal</th> 
+								   <th class="disabled-sorting text-right">Ações</th>
 								</tr>
 							</thead>
 							 	<tbody>
-						 		 @foreach($relatorios as $relatorio)
 						 		 
-
+						 		 @foreach($relatorios as $relatorio)
 									<tr>
 										{{-- <td>{{ $relatorio->foto }}</td> --}}
 										<td>{{ $relatorio->origem }}</td>
-										<td style="width: 1%;">{{ $relatorio->endereco->logradouro }}</td>
+										<td style="width: 20%;">{{ $relatorio->endereco->logradouro }}</td>
 								    	<td>{{ $relatorio->acao_cop }} {{ $relatorio->acao_gcmm }}</td>
-									    <td>{{ $relatorio->relato }}</td>
-									    <td style="width: 9%;">{{ $relatorio->data }}</td>
-										<td>{{ $relatorio->funcionarios()->where("relator", true)->first()->nome }}</td>
-
+									   <td>{{ mb_strimwidth($relatorio->relato, 0, 70,"...") }}</td>
+									   <td style="width: 9%;">{{ date('d-m-Y', strtotime($relatorio->data))}}</td>
+										<td>{{ $relatorio->funcionarios()->where("relator", true)->first()->nome}}</td>
 
         							@if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"]))
-										<td style="width: 15%;">
+										<td style="width: 16%;">
 											<a href="{{ url("/semsop/$relatorio->id")}}" 
 												class="btn btn-primary btn-xs  action  pull-right botao_acao "  
 												data-toggle="tooltip"  
@@ -109,7 +107,7 @@
 													data-placement="bottom" 
 													title="Excluir Relatorio"
 													data-relatorio="{{ $relatorio->id }}"> 
-													<i class="glyphicon glyphicon-remove"></i>
+													<i class="glyphicon glyphicon-trash"></i>
 												</a>  
 
 												@endif
@@ -192,10 +190,6 @@
 	});
 
 	</script>
-
-	$(botao).click(function(){
-	$("#form_deletar").submit()
-})
 
 <form method="POST" id="form_deletar_relatorio">
 	<input type="hidden" name="_method" value="DELETE" />
