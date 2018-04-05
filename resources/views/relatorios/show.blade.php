@@ -96,14 +96,21 @@
 				<strong>Matrícula:</strong>{{ $relatorio->funcionarios()->where("relator", true)->first()->matricula }}
 				
 			</div>
+			
+			<div class="Imangemsemsop" >
+				
+				@foreach($imagens as $imagem)
+
+					<img class="semsopimagem" src="{{$imagem->imagem}}" >
+
+				@endforeach
+						
+			</div>
 			{{-- <div class="row" >
 				<strong>Imagem:</strong>{{ $relatorio->foto }}
 				
 			</div>
 			 --}}
-
-
-
 							
 			
 		</div> {{-- Fim card --}}

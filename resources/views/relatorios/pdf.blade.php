@@ -67,7 +67,17 @@ td{
 }
 
 .container{
-			  justify-content: flex-start;
+	 justify-content: flex-start;
+}
+.semsopimagem {
+  margin-top: 1cm;
+  height: 260px !important;
+  width: 260px !important;
+
+}
+
+.Imangemsemsop{
+  margin: 0 auto !important;
 }
 
 </style>
@@ -185,7 +195,13 @@ td{
 			<span style="font-weight:bold;">Matrícula:</span> {{ $relatorio->funcionarios()->where("relator", true)->first()->matricula }}
 	 	</div>
  		
+ 		<div class="Imangemsemsop">
+ 				@foreach($imagens as $imagem)
 
+					<img class="semsopimagem" src="{{$imagem->imagem}}" >
+
+				@endforeach
+		</div>
 
 </body></html>
 

@@ -44,5 +44,9 @@ class Semsop_relatorio extends Model implements AuditableContract
         ->withPivot('relator')->withTimestamps();
     }
 
+    public function imagens()
+    {
+      return $this->belongsToMany('App\Models\Imagem', 'imagens_semsop_relatorios', 'semsop_relatorio_id', 'imagem_id');
+    }
 
 }
