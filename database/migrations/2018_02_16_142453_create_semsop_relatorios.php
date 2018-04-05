@@ -87,6 +87,8 @@ class CreateSemsopRelatorios extends Migration
 
             $table->text('relato')                    ->nullable();
             $table->text('providencia')               ->nullable();
+            $table->date('data')                      ->nullable();
+            $table->time('hora')                      ->nullable();
             $table->mediumText('foto')                ->nullable();
 
 

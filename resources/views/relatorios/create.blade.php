@@ -307,30 +307,43 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 
 			<!-- ============================IMAGEM============================ -->
-			<center><h3>Imagem</h3></center>
-			 <div class="row">
-				<div class="col-md-offset-3 col-sm-offset-3 col-md-4 col-sm-4">
-					<div class="fileinput fileinput-new " data-provides="fileinput">
-						<div class="fileinput-new thumbnail" style="max-width: none">
-							<img src="{{asset("img/image_placeholder.jpg")}}" alt="..." id="imagem_thumb">
+			
+			 <div >
+			 	<div id="imagens">
+					<div>
+						<div class="small-12 columns text-right">
+    		 				<center>
+    		 					<h4>ADICIONAR FOTOS AO FORMULARIO</h4>
+    		 					<button type="button" class="small tiny alert clonarfoto btnfuncionario"></button>
+    		 				</center>
+ 						</div>
+						<div class="fileinput fileinput-new box_imagens hide" data-provides="fileinput">
+							<div class="fileinput-new thumbnail" style="max-width: 285px;">
+								<img src="{{asset("img/image_placeholder.jpg")}}" alt="..." id="imagem_thumb">
+							</div>
+
+							<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 285px;"></div>
+
+							<div class="col-md-offset-4 col-sm-offset-4 col-md-12 col-sm-12">
+								<span class="btn btn-primary btn-round btn-file">
+									<span class="fileinput-new">Selecione</span>
+									<span class="fileinput-exists">Alterar</span>
+									<input type="file" name="foto">
+								</span>
+								<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class=></i>Excluir</a>
+							</div>
+
+							<input type="hidden" name="fotos[]" class="foto"/>
+							<input type="hidden" name="imagens[]" class="imagens"/>
+							<div class="col-xs-12 col-md-2">
+							<div class="input-group">
+        						<input type="button" class="button tiny success btn_remove" value="Remover"  />
+    						</div>
+    					</div>
+
 						</div>
-
-						<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: none"></div>
-
-						<div class="col-md-offset-4 col-sm-offset-4 col-md-12 col-sm-12">
-							<span class="btn btn-primary btn-round btn-file">
-								<span class="fileinput-new">Selecione</span>
-								<span class="fileinput-exists">Alterar</span>
-								<input type="file" name="foto">
-							</span>
-							<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class=></i>Excluir</a>
-						</div>
-
-						<input type="hidden" name="foto" id="foto"/>
-						<input type="hidden" name="imagem" id="imagem"/>
-
 					</div>
-				</div>
+				</div>	
 			</div>  
 			<!-- ============================FIM IMAGEM============================ -->
 			
@@ -363,6 +376,32 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 	<script type="text/javascript">
 		$(function(){
+
+			$('body').on('change.bs.fileinput', function(e){
+
+				// Executar apenas se o evento for disparado pelo plugin de imagens
+
+				if($(e.target).is("div.fileinput.box_imagens"))
+				{
+					let base64 = $(e.target).find(".fileinput-preview img").attr('src');
+
+					let input = $(e.target).find("input.imagens").first();
+
+					$(input).val(base64);
+				}
+
+			});
+
+			$('body').on('clear.bs.fileinput', function(e){
+
+				let base64 = $(e.target).find(".fileinput-preview img").attr('src');
+
+				let input = $(e.target).find("input.imagens").first();
+
+				$(input).val(base64);
+
+			});
+
 			// Mascara
 			VMasker ($("#cep")).maskPattern("99999-999");
 
@@ -376,12 +415,14 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			    $(this).parents('.box_funcionario').remove();
 			});
 
-			$("#form_relatorio").submit(function(event){
+			$('.clonarfoto').click(function(){
+			    $clone = $('.box_imagens.hide').clone(true);
+			    $clone.removeClass('hide');
+			    $('#imagens').append($clone);
+			});
 
-				const imagem64 = $("div.fileinput-preview.fileinput-exists img").attr('src');
-
-				$("input#imagem").val(imagem64);
-
+			$('.btn_remove').click(function(){
+			    $(this).parents('.box_imagens').remove();
 			});
 
       	});

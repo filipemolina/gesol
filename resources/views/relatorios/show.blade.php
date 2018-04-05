@@ -39,63 +39,78 @@
 
 			<div class="row" style="padding-top: 7px;">
 				
-					<div>	Origem do serviço: {{($relatorio->origem) }}</div>  
+				<strong>Ação Desenvolvida:</strong> {{ $relatorio->acao_cop }} {{ $relatorio->acao_gcmm }}
 				
 			</div>
 			<div class="row" style="padding-top: 7px;">
 				
-					<div>	Data: {{ $relatorio->data }} </div>
+				<strong>Origem do serviço:</strong> {{($relatorio->origem) }}
 				
 			</div>
 			<div class="row" style="padding-top: 7px;">
 				
-					<div>	Hora: {{ $relatorio->hora }} </div>
-			
-			</div>
-			<div class="row" style="padding-top: 7px;">
-				
-					<div>	Local: {{$relatorio->endereco->bairro}}, {{ $relatorio->endereco->cep }}, {{ $relatorio->endereco->logradouro }}, {{ $relatorio->endereco->numero }} {{ $relatorio->endereco->complemento}}
-				    </div>
+				<strong>Data:</strong> {{ date('d-m-Y', strtotime($relatorio->data)) }} 
 				
 			</div>
 			<div class="row" style="padding-top: 7px;">
 				
-					<div>Envolvidos: {{ $relatorio->envolvidos }} </div>
+				<strong>Hora:</strong> {{ $relatorio->hora }} 
+
+			</div>
+			<div class="row" style="padding-top: 7px;">
+				
+				<strong>Local:</strong> {{$relatorio->endereco->bairro}}, {{ $relatorio->endereco->cep }}, {{ $relatorio->endereco->logradouro }}, {{ $relatorio->endereco->numero }} {{ $relatorio->endereco->complemento}}
+				   
 				
 			</div>
 			<div class="row" style="padding-top: 7px;">
 				
-					<div> Ação Desenvolvida: {{ $relatorio->acao_cop }} {{ $relatorio->acao_gcmm }}</div>
+				<strong>Envolvidos:</strong> {{ $relatorio->envolvidos }}
 				
 			</div>
 			<div class="row" style="padding-top: 7px;">
 				
-					<div>	Relato Sucinto: {{ $relatorio->relato }} </div>
+			    <strong>Relato Sucinto:</strong> {{ $relatorio->relato }} 
 				
 			</div>
 			<div class="row" style="padding-top: 7px;">
 				
-					<div>	Providencias Adotadas: {{ $relatorio->providencia }} </div>
+				<strong>Providencias Adotadas:</strong> {{ $relatorio->providencia }} 
 				
 			</div>
 			<div class="row" style="padding-top: 7px;">
 				
-					<div>    Outros Funcionarios:
+				 <strong>Outros Funcionarios</strong>
 					@foreach($relatorio->funcionarios()->where("relator", false)->get() as $funcionario)
-					 {{ $funcionario->nome }} </div>
+						<div>{{ $funcionario->nome }}</div>
 					@endforeach
 				
 			</div>
 			<div class="row" style="padding-top: 7px;">
 				 	
-				<div>Nome: {{ $relatorio->funcionarios()->where("relator", true)->first()->nome }}</div>
+				<strong>Nome:</strong> {{ $relatorio->funcionarios()->where("relator", true)->first()->nome }}
+
 			</div>
+			
 			<div class="row" style="padding-top: 7px;">
-				<div>Matrícula:{{ $relatorio->funcionarios()->where("relator", true)->first()->matricula }}</div>
+				<strong>Matrícula:</strong>{{ $relatorio->funcionarios()->where("relator", true)->first()->matricula }}
 				
 			</div>
+			
+			<div class="Imangemsemsop" >
+				
+				@foreach($imagens as $imagem)
 
+					<img class="semsopimagem" src="{{$imagem->imagem}}" >
 
+				@endforeach
+						
+			</div>
+			{{-- <div class="row" >
+				<strong>Imagem:</strong>{{ $relatorio->foto }}
+				
+			</div>
+			 --}}
 							
 			
 		</div> {{-- Fim card --}}

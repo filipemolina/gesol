@@ -9,6 +9,7 @@ use App\Models\Funcionario;
 use App\Models\Atribuicao;
 use App\Models\Endereco;
 use App\Models\User;
+use App\Models\Imagem;
 use PDF;
 
 class Semsop_RelatorioController extends Controller
@@ -58,7 +59,6 @@ class Semsop_RelatorioController extends Controller
     
     public function store(Request $request)
     {
-
             $this->validate($request, [             
                 'envolvidos'            =>'required',
                 'origem'                =>'required',
@@ -96,19 +96,43 @@ class Semsop_RelatorioController extends Controller
         $Semsop_relatorio['multa']           = ( $Semsop_relatorio['multa'] == '') ? null : 1;
         $Semsop_relatorio['registro_dp']     = ( $Semsop_relatorio['registro_dp'] == '') ? null :1;
         $Semsop_relatorio['auto_pf']         = ( $Semsop_relatorio['auto_pf'] == '') ? null : 1;
-
+        
         // Criar o endereço
         $endereco = Endereco::create($request->all());
 
         // Relacionar o endereço com o relatorio
         $Semsop_relatorio->endereco_id = $endereco->id;
-
-        //Salvar a imagem
-        $Semsop_relatorio->foto = $request->imagem;
-
         // Salvar o relatório
         $Semsop_relatorio->save();
-      
+
+        //Salvar a imagens
+
+        // Testar se alguma imagem foi enviada
+        if(count($request->imagens) > 1){
+
+            // Vetor que vai armazenar todos os ids das imagens
+            $imagens_ids = [];
+
+            // Iterar por todas as imagens
+            foreach($request->imagens as $imagem){
+
+                // O vetor de imagens sempre possui uma posição nula referente ao campo
+                // hidden que é usado para clonar
+                if($imagem !== null){
+
+                    $img = Imagem::create([
+                        'imagem' => $imagem,
+                    ]);
+
+                    $imagens_ids[] = $img->id;
+                }
+
+            }
+            
+            $Semsop_relatorio->imagens()->sync($imagens_ids);
+
+        }
+
         // Relacionar o Relator com o Funcionario
         $Semsop_relatorio->funcionarios()->attach($relator_id, ['relator' => true]);
 
@@ -127,10 +151,11 @@ class Semsop_RelatorioController extends Controller
         // dd($request);
         //Busca o relatorio pelo id
         $relatorio = Semsop_relatorio::find($id);
+        $imagens = $relatorio->imagens;
 
 
 
-        return view ('relatorios.show', compact('relatorio'));
+        return view ('relatorios.show', compact('relatorio','imagens'));
     }
 
     
@@ -141,6 +166,7 @@ class Semsop_RelatorioController extends Controller
         $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
         $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
         $funcionarios = Funcionario::all();
+
     
         return view('relatorios.edit',compact('relatorio','origens','acoes_gcmm','acoes_cop','funcionarios'));
     }
@@ -174,9 +200,6 @@ class Semsop_RelatorioController extends Controller
 
         $relatorio->save();
 
-    
-
-
         return redirect(url('/semsop'));
 
     }
@@ -206,9 +229,10 @@ class Semsop_RelatorioController extends Controller
     {
 
         $relatorio = Semsop_relatorio::find($id);
+        $imagens = $relatorio->imagens;
 
         //dd($relatorio->origem);
-        $pdf = PDF::loadView('relatorios/pdf',compact('relatorio'));
+        $pdf = PDF::loadView('relatorios/pdf',compact('relatorio','imagens'));
         
         return $pdf->stream('Relatorio.pdf');
 
