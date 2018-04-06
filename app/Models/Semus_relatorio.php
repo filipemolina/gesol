@@ -14,6 +14,13 @@ class Semus_relatorio extends Model implements AuditableContract
 
    protected $fillable = [
 
+   		'responsavel',
+   		'relato',
+   		'data',
+   		'hora',
+   		'prioridade',
+   		'unidade',
+
   	];
 
 }
