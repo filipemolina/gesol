@@ -63,31 +63,95 @@ class Semus_RelatorioController extends Controller
         // Salvar o relatório
         $Semus_relatorio->save();
 
+        //Salvar a imagens
+
+        // Testar se alguma imagem foi enviada
+        if(count($request->imagens) > 1){
+
+            // Vetor que vai armazenar todos os ids das imagens
+            $imagens_ids = [];
+
+            // Iterar por todas as imagens
+            foreach($request->imagens as $imagem){
+
+                // O vetor de imagens sempre possui uma posição nula referente ao campo
+                // hidden que é usado para clonar
+                if($imagem !== null){
+
+                    $img = Imagem::create([
+                        'imagem' => $imagem,
+                    ]);
+
+                    $imagens_ids[] = $img->id;
+                }
+
+            }
+            
+            $Semus_relatorio->imagens()->sync($imagens_ids);
+
+        }
+
         return redirect(url('/semus'));
     
     }
 
    
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        
+
+        $relatorio = Semus_relatorio::find($id);
+        $imagens = $relatorio->imagens;
+
+
+
+        return view ('semus_relatorios.show', compact('relatorio','imagens'));
+
     }
 
     
     public function edit($id)
     {
-       
+      
+        $relatorio = Semus_relatorio::find($id);
+        $prioridades = pegaValorEnum('semus_relatorios','prioridade');
+        $unidades = pegaValorEnum('semus_relatorios','unidade');
+
+    
+        return view('semus_relatorios.edit',compact('relatorio','prioridades','unidades'));
+
     }
 
     
     public function update(Request $request, $id)
     {
-        
+       //dd($request->all());
+        // Pega o relatorio pelo id
+        $relatorio = Semus_relatorio::find($id);
+
+        $relatorio->fill($request->all());
+
+        $relatorio->save();
+
+        return redirect(url('/semus')); 
     }
 
    
     public function destroy($id)
     {
         
+    }
+
+    public function imprimir($id)
+    {
+
+        $relatorio = Semus_relatorio::find($id);
+        $imagens = $relatorio->imagens;
+
+        //dd($relatorio->origem);
+        $pdf = PDF::loadView('semus_relatorios/pdf',compact('relatorio','imagens'));
+        
+        return $pdf->stream('Relatorio.pdf');
+
+      
     }
 }

@@ -43,7 +43,7 @@
 							      <td style="width: 9%;">{{ date('d-m-Y', strtotime($relatorio->data))}}</td>
 								
         								<td style="width: 16%;">
-											<a href="" 
+											<a href="{{ url("/semus/$relatorio->id")}}" 
 												class="btn btn-primary btn-xs  action  pull-right botao_acao "  
 												data-toggle="tooltip"  
 												data-placement="bottom" 
@@ -51,7 +51,7 @@
 												<i class="glyphicon glyphicon-eye-open "></i>
 											</a> 
 											
-											<a href="" 
+											<a href="{{action('Semus_RelatorioController@imprimir', $relatorio->id)}}" 
 												class="btn btn-info btn-xs action pull-right botao_acao"
 												data-toggle="tooltip"  
 												data-placement="bottom" 
@@ -59,14 +59,14 @@
 												<i class="glyphicon glyphicon-print"></i>
 											</a>
 
-												<a href=""
+											 	<a href="{{ url("semus/$relatorio->id/edit")}}"
 													class="btn btn-warning btn-xs action  pull-right botao_acao btn_control" 
 													data-toggle="tooltip" 
 													data-placement="bottom" 
 													title="Editar Relatorio">  
 													<i class="glyphicon glyphicon-pencil "></i>
 												</a>
-												
+												{{--
 												<button
 													class="btn btn-success btn-xs  action  pull-right botao_acao btn_control btn_enviar"  
 													data-toggle="tooltip"  
@@ -83,7 +83,7 @@
 													title="Excluir Relatorio"
 													data-relatorio="{{ $relatorio->id }}"> 
 													<i class="glyphicon glyphicon-trash"></i>
-												</a>  
+												</a>   --}}
 										</td>
 							    </tr>
 									
