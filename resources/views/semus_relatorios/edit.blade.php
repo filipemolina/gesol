@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
+Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 @endsection
 
@@ -15,9 +15,11 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 	</div>
 
 	<div class="card-content">
-		<h4 class="card-title">Novo Relatorio</h4>
-		<form action="{{ url('/semus ') }}" method="POST" id="form_relatorio">
-			{{ csrf_field() }}
+		<h4 class="card-title">Editar Relatorio</h4>
+		<form action="{{ url("semus/$relatorio->id") }}" method="POST" id="form_relatorio">
+			{!! method_field('PUT') !!}
+				{{ csrf_field() }}
+  
 
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-6">
@@ -29,9 +31,12 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a prioridade do serviço</label>
 						<select name="prioridade" id=prioridade class="form-control form-control error">
-							<option value="" selected> </option>
 							@foreach($prioridades as $prioridade)
-						<option value="{{$prioridade}}"> {{$prioridade}} </option>    
+								@if($prioridade == $relatorio->prioridade)
+									<option value="{{$prioridade}}" selected>{{$prioridade}}</option>
+								@else	
+									<option value="{{$prioridade}}"> {{$prioridade}} </option>
+								@endif    
 							@endforeach
 						</select>
 						<span class="material-input"></span>
@@ -39,7 +44,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 				</div>
 			</div>
 
-			<div class="row">
+		 <div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-6">
 				<div class="input-group" >
 					<span class="input-group-addon">
@@ -49,16 +54,21 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a unidade de atendimento</label>
 						<select name="unidade" id=unidade class="form-control form-control error">
-							<option value="" selected> </option>
+							
 							@foreach($unidades as $unidade)
-						<option value="{{$unidade}}"> {{$unidade}} </option>    
+								@if($unidade == $relatorio->$unidade)
+									<option value="{{$unidade}}" selected>{{$unidade}}</option>
+								@else
+									<option value="{{$unidade}}"> {{$unidade}} </option>    
+								@endif
 							@endforeach
+
 						</select>
 						<span class="material-input"></span>
 					</div>
 				</div>
 			</div>
-			
+			 
 
 
 
@@ -70,7 +80,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 					</span>
 					<div class="form-group label-floating has-roxo is-empty" >
 						<label class="label-control" style="color: #3d276b;">Data	</label>
-						<input id="data" name="data" type="date" class="form-control" value="">
+						<input id="data" name="data" type="date" class="form-control" value="{{ $relatorio->data or old('data')}}">
 						<span class="material-input"></span>
 					</div>
 				</div>
@@ -82,7 +92,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 					</span>
 					<div class="form-group label-floating has-roxo is-empty" style="padding-right: 84px">
 						<label class="label-control" style="color: #3d276b;">Hora	</label>
-						<input name="hora" type="time" class="form-control">
+						<input name="hora" type="time" class="form-control" value="{{ $relatorio->hora or old('hora')}}">
 						<span class="material-input"></span>
 					</div>
 				</div>
@@ -99,7 +109,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Responsavel</label>
-							<textarea id="responsavel" name="responsavel" type="text" class="form-control"  rows="2"></textarea>
+							<textarea id="responsavel" name="responsavel" type="text" class="form-control"  rows="2">{{$relatorio->responsavel or old('responsavel')}}</textarea>
 							<span class="material-input"></span>
 						</div>
 					</div>
@@ -113,7 +123,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Relato Sucinto</label>
-							<textarea id="relato" name="relato" type="text" class="form-control"  rows="2"></textarea>
+							<textarea id="relato" name="relato" type="text" class="form-control"  rows="2">{{$relatorio->relato or old('relato')}}</textarea>
 			
 							<span class="material-input"></span>
 						</div>
@@ -121,48 +131,6 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 				</div>
 			</div>
 		<!-- ============================FIM DA AREA DE TEXTO============================ -->
-
-		
-			<!-- ============================IMAGEM============================ -->
-			
-			 <div >
-			 	<div id="imagens">
-					<div>
-						<div class="small-12 columns text-right">
-    		 				<center>
-    		 					<h4>ADICIONAR FOTOS AO FORMULARIO</h4>
-    		 					<button type="button" class="small tiny alert clonarfoto btnfuncionario"></button>
-    		 				</center>
- 						</div>
-						<div class="fileinput fileinput-new box_imagens hide" data-provides="fileinput">
-							<div class="fileinput-new thumbnail" style="max-width: 285px;">
-								<img src="{{asset("img/image_placeholder.jpg")}}" alt="..." id="imagem_thumb">
-							</div>
-
-							<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 285px;"></div>
-
-							<div class="col-md-offset-4 col-sm-offset-4 col-md-12 col-sm-12">
-								<span class="btn btn-primary btn-round btn-file">
-									<span class="fileinput-new">Selecione</span>
-									<span class="fileinput-exists">Alterar</span>
-									<input type="file" name="foto">
-								</span>
-								<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class=></i>Excluir</a>
-							</div>
-
-							<input type="hidden" name="fotos[]" class="foto"/>
-							<input type="hidden" name="imagens[]" class="imagens"/>
-							<div class="col-xs-12 col-md-2">
-							<div class="input-group">
-        						<input type="button" class="button tiny success btn_remove" value="Remover"  />
-    						</div>
-    					</div>
-
-						</div>
-					</div>
-				</div>	
-			</div>  
-			<!-- ============================FIM IMAGEM============================ -->
 			
 
 			<!-- ============================BOTOES============================ -->
@@ -191,45 +159,33 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 @endsection
 
 @push('scripts')
-<script type="text/javascript">
-		$(function(){
 
-			$('body').on('change.bs.fileinput', function(e){
+	<script type="text/javascript">
 
-				// Executar apenas se o evento for disparado pelo plugin de imagens
 
-				if($(e.target).is("div.fileinput.box_imagens"))
-				{
-					let base64 = $(e.target).find(".fileinput-preview img").attr('src');
+	$(function(){
+		//Fazer o label do input,select e textarea subir quando estiver preenchido
+		$("input, select, textarea").change();
+		// Mascara
+		VMasker ($("#cep")).maskPattern("99999-999");
+      });
+		 
 
-					let input = $(e.target).find("input.imagens").first();
+	$(document).ready();
+	
 
-					$(input).val(base64);
-				}
 
-			});
+	$('.clonador').click(function(){
+	    $clone = $('.box_funcionario.hide').clone(true);
+	    $clone.removeClass('hide');
+	    $('#funcionario').append($clone);
+	});
 
-			$('body').on('clear.bs.fileinput', function(e){
+	$('.btn_remove').click(function(){
+	    $(this).parents('.box_funcionario').remove();
+	});
 
-				let base64 = $(e.target).find(".fileinput-preview img").attr('src');
-
-				let input = $(e.target).find("input.imagens").first();
-
-				$(input).val(base64);
-
-			});
-
-			$('.clonarfoto').click(function(){
-			    $clone = $('.box_imagens.hide').clone(true);
-			    $clone.removeClass('hide');
-			    $('#imagens').append($clone);
-			});
-
-			$('.btn_remove').click(function(){
-			    $(this).parents('.box_imagens').remove();
-			});
-
-      	});
 	</script>
+
 @endpush
    
