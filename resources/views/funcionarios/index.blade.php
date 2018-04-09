@@ -21,7 +21,10 @@
 					<!--        Here you can write extra buttons/actions for the toolbar              -->
 				</div>
 				
-				<a href="{{ url("/funcionario/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Adicionar Funcionario"></i></a>
+				{{--  se for "Funcionário Responsável Secretaria" ou maior, pode cadastrar novos funcionário  --}}
+				@if($funcionario_logado->role->peso >= 50 )  
+					<a href="{{ url("/funcionario/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Adicionar Funcionario"></i></a>
+				@endif
 
 				<div class="material-datatables">
 					<table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
@@ -45,11 +48,12 @@
 									<td>{{ $funcionario->cargo->nome                                    	}}</td>
 									<td>
 
-										{{-- se o usuario logado for TI ou DSV habilita a opção de ZERAR a senha --}}
+										{{-- 
+											se o usuario logado for "Funcionário Responsável Secretaria" ou maior 
+											habilita a função de desativar/ativar funcionarios
+										 --}}
 										@if($funcionario_logado->role->peso >= 50)
-
 											@if($funcionario->user['status'] == 'Ativo')
-												
 												<button  
 													class="btn_desativa btn btn-danger btn-xs action  pull-right  botao_acao" 
 													data-toggle="tooltip" 
@@ -68,10 +72,8 @@
 													style="display: none">  
 													<i class="glyphicon glyphicon-plus "></i>
 												</button>
-
 											{{-- @elseif($funcionario->user['status'] == 'Inativo') --}}
 											@else
-												
 												<button  
 													class="btn_desativa btn btn-danger btn-xs action  pull-right  botao_acao" 
 													data-toggle="tooltip" 
@@ -105,13 +107,15 @@
 											</button>
 										@endif
 
-										<a href="{{ url("/funcionario/$funcionario->id/edit") }}"
-											class="btn btn-warning btn-xs action  pull-right botao_acao " 
-											data-toggle="tooltip" 
-											data-placement="bottom" 
-											title="Edita essa funcionario">  
-											<i class="glyphicon glyphicon-pencil "></i>
-										</a>
+										@if($funcionario_logado->role->peso >= 50 || $funcionario_logado->id ==  $funcionario->id )
+											<a href="{{ url("/funcionario/$funcionario->id/edit") }}"
+												class="btn btn-warning btn-xs action  pull-right botao_acao " 
+												data-toggle="tooltip" 
+												data-placement="bottom" 
+												title="Edita essa funcionario">  
+												<i class="glyphicon glyphicon-pencil "></i>
+											</a>
+										@endif
 
 										<a href="{{ url("funcionario/$funcionario->id") }}" 
 											class="btn btn-primary btn-xs  action  pull-right botao_acao "  

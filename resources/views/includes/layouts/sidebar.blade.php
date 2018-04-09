@@ -11,7 +11,7 @@
 		 	GS
 	  	</a>
 	  	<a href="#" class="simple-text logo-normal">
-		 	GESOL  <i style="font-size: 8px;">( v1.1.0 )</i>
+		 	GESOL  <i style="font-size: 8px;">( v1.1.1 )</i>
 	  	</a>
    </div>
 
@@ -201,7 +201,10 @@
 		</ul>
 		  
 		<div id="footer">
-			<center><img src="../img/cidade-digital.png" style="width: 160px;padding-top: 0%;"></center>
+			<center>
+					<img src="{{asset("img/cidade-digital.png")}}" style="width: 160px;padding-top: 0%;">
+					
+			</center>
 		</div>
 	  	{{-- <p>({{ $funcionario_logado->role->acesso }} - {{ $funcionario_logado->role->peso }})</p> --}}
    </div>
