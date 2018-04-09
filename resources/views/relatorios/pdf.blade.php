@@ -13,14 +13,15 @@
 body {
     font-family: sans-serif;
     font-size:15px;
-	margin: 0.5cm 0;
-	text-align: justify;
+	 margin: 2.5cm 0;
+	 text-align: justify;
 }
-
-#header {
-top: -50px; 
-position: fixed;
-}
+#header { 
+			position: fixed; 
+			top: -30px; 
+			left: 0px; 
+			right: 0px;  
+			height: 50px; }
 
 #footer {
   position: fixed;
@@ -61,11 +62,25 @@ table.separate {
   border-spacing: 20pt;
   
 }
+td{
+    padding: 4px;
+}
 
+.container{
+	 justify-content: flex-start;
+}
+.semsopimagem {
+  margin-top: 1cm;
+  height: 260px !important;
+  width: 260px !important;
 
+}
+
+.Imangemsemsop{
+  margin: 0 auto !important;
+}
 
 </style>
-  
 </head>
 
 <body>
@@ -78,8 +93,6 @@ table.separate {
   </table>
 </div>
 
-
-	
 <div id="footer">
  <table>
     <tr>
@@ -88,9 +101,8 @@ table.separate {
   </table>
 </div>
 							{{-- Campos do Relatorio --}}
-	<br>
-	<br>
-	<br>
+
+	
 	 <h2 style="text-align:center;">RELATÓRIO</h2>
 
 	<table>
@@ -104,8 +116,8 @@ table.separate {
 	<table class="separate">
 	<tr >
 		@if($relatorio->notificacao==1 ) <td colspan="2"> Notificado </td> @endif
-		@if($relatorio->autuacao==1 )	 <td colspan="2"> Autuado    </td> @endif 
-		@if($relatorio->multa==1 ) 		 <td colspan="2"> Multado    </td> @endif
+		@if($relatorio->autuacao==1 )	 	<td colspan="2"> Autuado    </td> @endif 
+		@if($relatorio->multa==1 ) 		<td colspan="2"> Multado    </td> @endif
 		@if($relatorio->registro_dp==1 ) <td colspan="2"> Registrado na DP </td> @endif  
 		@if($relatorio->auto_pf==1 )     <td colspan="2"> Auto de Prisão em Flagrante </td> @endif
 	</tr>
@@ -124,7 +136,7 @@ table.separate {
 
 		<tr>
 			<td><span style="font-weight:bold;">Data:</span></td>
-			<td>{{ $relatorio->data }}</td>
+			<td>{{ date('d-m-Y', strtotime($relatorio->data)) }}</td>
 			<td><span style="font-weight:bold;">Hora:</span></td>
 			<td>{{ $relatorio->hora }}</td>
 		</tr>  
@@ -140,45 +152,62 @@ table.separate {
 		{{--  --}}
 
 		 <tr>
-			<td><span style="font-weight:bold;">Envolvidos:</span></td>
-			<td>{{ $relatorio->envolvidos }}</td>
-		</tr> 
-		
-		{{--  --}}
-
-		 <tr>
 			<td><span style="font-weight:bold;">Ação Desenvolvida:</span></td>
 			<td>{{ $relatorio->acao_cop }} {{ $relatorio->acao_gcmm }}</td>
 		</tr>
-		
-		{{--  --}}
-
-		<tr>
-			<td colrow="6"><span style="font-weight:bold;">Relato Sucinto:</span></td>
-			<td>{{ $relatorio->relato }}</td>
-		</tr>
-
-		{{--  --}}
-
-		 <tr>
-			<td><span style="font-weight:bold;">Providências Adotadas:</span></td>
-			<td>{{ $relatorio->providencia }}</td>
-		</tr>
-
-		{{--  --}}
-
-		<tr>
-			@foreach($relatorio->funcionarios()->where("relator", false)->get() as $funcionario)
-			<td><span style="font-weight:bold;">Outros Funcionarios:</span></td> 
-				<td> {{ $funcionario->nome }} </td>
-			@endforeach
-		</tr>
-		<tr> 	
-			<td><span style="font-weight:bold;">Nome:</span></td> <td> {{ $relatorio->funcionarios()->where("relator", true)->first()->nome }} </td> 
-			<td><span style="font-weight:bold;">Matrícula:</span></td> <td> {{ $relatorio->funcionarios()->where("relator", true)->first()->matricula }}</td>
-		</tr>
-
-
 	</table>
 
+		
+		{{--  --}}
+<br>
+
+		<div class="container">
+			<span style="font-weight:bold;">Envolvidos:</span>
+		   {{ $relatorio->envolvidos }}
+		</div>
+		<br>
+		
+		<div class="container">
+			<span style="font-weight:bold;">Relato Sucinto:</span>
+		   {{ $relatorio->relato }}
+		</div>
+		<br>
+		
+		<div class="container">
+			<span style="font-weight:bold;">Providências Adotadas:</span>
+	   	{{ $relatorio->providencia }}
+	   </div>
+	   <br>
+		
+
+		{{--  --}}
+
+		<div>
+			<span style="font-weight:bold;">Outros Funcionarios:</span> 
+				@foreach($relatorio->funcionarios()->where("relator", false)->get() as $funcionario)
+					{{ $funcionario->nome }} /
+				@endforeach
+		</div>
+			<br>
+		
+	 	<div>
+			<span style="font-weight:bold;">Nome:</span>  {{ $relatorio->funcionarios()->where("relator", true)->first()->nome }} 
+			<span style="font-weight:bold;">Matrícula:</span> {{ $relatorio->funcionarios()->where("relator", true)->first()->matricula }}
+	 	</div>
+ 		
+ 		<div class="Imangemsemsop">
+ 				@foreach($imagens as $imagem)
+
+					<img class="semsopimagem" src="{{$imagem->imagem}}" >
+
+				@endforeach
+		</div>
+
 </body></html>
+
+
+
+
+
+
+

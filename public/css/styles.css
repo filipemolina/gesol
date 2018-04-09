@@ -2336,3 +2336,14 @@ background-size:100%;
   background-image:url('../img/BrasaoTop.png'); 
   background-repeat:no-repeat;
 }
+
+.semsopimagem {
+  padding-top: 7px !important;
+  height: 260px !important;
+  width: 260px !important;
+
+}
+
+.Imangemsemsop{
+  margin: 0 auto !important;
+}
