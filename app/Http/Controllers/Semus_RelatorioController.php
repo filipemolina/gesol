@@ -25,6 +25,14 @@ class Semus_RelatorioController extends Controller
     public function index()
     {
 
+
+        if(verificaAtribuicoes(Auth::user()->funcionario,["SEMUS_REL_GERENTE"])){
+            $relatorios = Semus_relatorio::all()->where('enviado', '1');
+        }else{
+            $relatorios = Auth::user()->funcionario->relatorios_semus;
+        }
+
+
         $relatorios = Semus_relatorio::all();
 
        return view ('semus_relatorios.relatorios', compact('relatorios'));
@@ -139,6 +147,12 @@ class Semus_RelatorioController extends Controller
     public function destroy($id)
     {
         
+        //Pega o relatorio
+        $relatorio = Semus_relatorio::find($id);
+        //apaga o relatorio
+        $relatorio->delete();
+
+        return redirect(url('/semsop'));
     }
 
     public function imprimir($id)
@@ -154,4 +168,15 @@ class Semus_RelatorioController extends Controller
 
       
     }
+
+     public function envia(Request $request)
+     {
+        $relatorio = Semus_relatorio::find($request->id);
+
+
+        $relatorio->enviado = 1;
+        $relatorio->save();
+
+
+     }
 }
