@@ -88,7 +88,7 @@ td{
 <div id="header">
   <table>
     <tr>
-    	<center><img src="./img/BrasaoTop.png"/></center>
+    	<center><img src="./img/BrasaoTopsemus.png"/></center>
     </tr>
   </table>
 </div>

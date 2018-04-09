@@ -74,6 +74,13 @@
 						<p>SEMSOP Relatórios</p>
 					</a>
 				</li>   
+			@elseif(verificaAtribuicoes($funcionario_logado, ["SEMUS_REL","SEMUS_REL_GERENTE"]))
+			 	<li>
+					<a href="{{ url("/semus") }}">
+						<i class=" mdi mdi-account-multiple"></i> 
+						<p>SEMUS Relatórios</p>
+					</a>
+				</li>   
 			@else
 				<li>
 					<a href="{{ url("/solicitacao") }}">
