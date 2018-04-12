@@ -208,7 +208,10 @@
 		</ul>
 		  
 		<div id="footer">
-			<center><img src="../img/cidade-digital.png" style="width: 160px;padding-top: 0%;"></center>
+			<center>
+					<img src="<?php echo e(asset("img/cidade-digital.png")); ?>" style="width: 160px;padding-top: 0%;">
+					
+			</center>
 		</div>
 	  	
    </div>

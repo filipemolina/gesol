@@ -28,6 +28,18 @@ class CreateTelefonesTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+
+        Schema::table('telefones', function($table){
+            $table->foreign('solicitante_id')   ->references('id')->on('solicitantes')  ->onDelete('cascade');
+            $table->foreign('secretaria_id')    ->references('id')->on('secretarias')   ->onDelete('cascade');
+            $table->foreign('setor_id')         ->references('id')->on('setores')       ->onDelete('cascade');
+        });
+
+        DB::statement(" 
+            ALTER TABLE telefones 
+	            ALTER COLUMN tipo_telefone DROP DEFAULT,
+	            ALTER COLUMN tipo_telefone type tp_telefone USING (tipo_telefone::tp_telefone)
+        ");
     }
 
     /**

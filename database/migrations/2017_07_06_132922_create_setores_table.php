@@ -32,6 +32,10 @@ class CreateSetoresTable extends Migration
 
             $table->timestamps();
         });
+
+        Schema::table('setores', function($table){
+            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
+        });
     }
 
     /**

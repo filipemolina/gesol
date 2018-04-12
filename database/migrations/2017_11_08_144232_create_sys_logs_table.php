@@ -35,6 +35,10 @@ class CreateSysLogsTable extends Migration
             //---------------------------------------------------------------
             $table->timestamps();
         });
+
+        Schema::table('sys_logs', function($table){
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
+        });
     }
 
     /**

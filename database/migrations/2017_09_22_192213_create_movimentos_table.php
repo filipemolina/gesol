@@ -41,6 +41,19 @@ class CreateMovimentosTable extends Migration
 
             $table->timestamps();
         });
+       
+        //para usar com postgres
+        DB::statement(" 
+            ALTER TABLE movimentos 
+	            ALTER COLUMN andamento DROP DEFAULT,
+	            ALTER COLUMN andamento type tp_andamento USING (andamento::tp_andamento)
+        ");
+
+        Schema::table('movimentos', function($table){
+            $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
+            $table->foreign('comentario_id')->references('id')->on('comentarios')->onDelete('cascade');            
+        });
     }
 
     /**
