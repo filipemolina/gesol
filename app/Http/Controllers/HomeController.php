@@ -401,7 +401,9 @@ class HomeController extends Controller
          ));
 
       }else{
-         dd("Nenhuma solicitação cadastrada");
+         //dd("Nenhuma solicitação cadastrada");
+
+         return view('dashboard.dash-Vazia');
       }
    }
 
