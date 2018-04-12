@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
 class CreateUsersTable extends Migration
 {
@@ -13,6 +14,8 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+     
+
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->enum('status',['Ativo','Inativo',])->default('Inativo');
@@ -28,6 +31,19 @@ class CreateUsersTable extends Migration
 
             
             $table->timestamps();
+        });
+
+        //para usar com postgres
+        DB::statement(" 
+            ALTER TABLE users 
+	            ALTER COLUMN status DROP DEFAULT,
+	            ALTER COLUMN status type tp_status USING (status::tp_status),
+	            ALTER COLUMN status SET DEFAULT 'Inativo'
+        ");
+
+        Schema::table('users', function($table){
+            $table->foreign('funcionario_id')   ->references('id')->on('funcionarios')  ->onDelete('cascade');
+            $table->foreign('solicitante_id')   ->references('id')->on('solicitantes')  ->onDelete('cascade');
         });
     }
 

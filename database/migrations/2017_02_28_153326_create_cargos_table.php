@@ -20,6 +20,18 @@ class CreateCargosTable extends Migration
             $table->integer('secretaria_id')->unsigned();
             $table->timestamps();
         });
+
+        //para usar com postgres
+        DB::statement(" 
+            ALTER TABLE cargos 
+	            ALTER COLUMN tipo DROP DEFAULT,
+	            ALTER COLUMN tipo type tp_tipo_cargos USING (tipo::tp_tipo_cargos),
+	            ALTER COLUMN tipo SET DEFAULT 'E'
+        ");
+
+        Schema::table('cargos', function($table){
+            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
+        });
     }
 
     /**
@@ -29,6 +41,8 @@ class CreateCargosTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::dropIfExists('cargos');
     }
 }

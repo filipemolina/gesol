@@ -21,6 +21,11 @@ class CreateApoiosTable extends Migration
 
             $table->timestamps();
         });
+
+        Schema::table('apoios', function($table){
+            $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
+            $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
+        });
     }
 
     /**

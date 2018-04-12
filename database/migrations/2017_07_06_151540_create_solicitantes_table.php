@@ -96,12 +96,35 @@ class CreateSolicitantesTable extends Migration
                 'Doutorado - Completo'
                                         ])                  ->nullable();
 
-
-	    $table->string('fcm_id', 255)->nullable(); 
+	        $table->string('fcm_id', 255)->nullable(); 
             $table->softDeletes();
-
             $table->timestamps();
         });
+
+        DB::statement(" 
+            ALTER TABLE solicitantes 
+	            ALTER COLUMN sexo DROP DEFAULT,
+	            ALTER COLUMN sexo type tp_sexo USING (sexo::tp_sexo)
+        ");
+
+        DB::statement(" 
+            ALTER TABLE solicitantes 
+	            ALTER COLUMN status DROP DEFAULT,
+	            ALTER COLUMN status type tp_status_solicitante USING (status::tp_status_solicitante),
+	            ALTER COLUMN status SET DEFAULT 'Criado'
+        ");
+
+        DB::statement(" 
+            ALTER TABLE solicitantes 
+	            ALTER COLUMN estado_civil DROP DEFAULT,
+	            ALTER COLUMN estado_civil type tp_estado_civil USING (estado_civil::tp_estado_civil)
+        ");
+
+        DB::statement(" 
+            ALTER TABLE solicitantes 
+	            ALTER COLUMN escolaridade DROP DEFAULT,
+	            ALTER COLUMN escolaridade type tp_escolaridade USING (escolaridade::tp_escolaridade)
+        ");
     }
 
     /**

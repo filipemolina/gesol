@@ -27,6 +27,10 @@ class CreateServicosTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+
+        Schema::table('servicos', function($table){
+            $table->foreign('setor_id')->references('id')->on('setores')->onDelete('cascade');
+        });
     }
 
     /**

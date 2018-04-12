@@ -64,6 +64,7 @@ class HomeController extends Controller
 
       if( Solicitacao::count() > 0)
       {
+            
          //$resultados = $this->preparaDashboard($funcionario_logado->role->acesso);
 
          switch ($funcionario_logado->role->peso) {
@@ -116,12 +117,14 @@ class HomeController extends Controller
                   break;   //TI
                   
             case 100: 
+            
                   $viu='dash-TI'            ; 
                   //$resultados = dashboardTI();            
                   break;   //DSV
                   
          }
 
+         
 
 
          if( $funcionario_logado->role->peso >= 30 and $funcionario_logado->role->peso <= 60 )
@@ -214,6 +217,7 @@ class HomeController extends Controller
          }elseif  (( $funcionario_logado->role->peso >= 10 and $funcionario_logado->role->peso <= 20)  or
                    ( $funcionario_logado->role->peso >= 70 and $funcionario_logado->role->peso <= 100) )
          {
+               
             //MODERADOR
             //SAC
 
@@ -229,6 +233,7 @@ class HomeController extends Controller
 
             //    TOTAL ANO ANTERIOR 
             // ==============================================================================================
+            
             $solicitacoes_ano_anterior = Solicitacao::with(['endereco', 'servico', 'servico.setor', 'servico.setor.secretaria'])
             ->where('created_at','>=', $data_inicio_ano_anterior)->where('created_at','<=', $data_fim_ano_anterior)
             ->get();
@@ -312,6 +317,7 @@ class HomeController extends Controller
                ->orderBy('total','desc')
                ->get();
 
+               
             // Todas as secretarias do banco
             $todas_secretarias = Secretaria::all();
 
@@ -351,6 +357,7 @@ class HomeController extends Controller
                   ];
                }
             }
+            
          }
 
 
@@ -359,15 +366,17 @@ class HomeController extends Controller
          // ==============================================================================================
          // ==============================================================================================   
 
+         
         
          $sol_por_mes                = solicitacoesPorMes($solicitacoes);
+         
+         
          $sol_por_mes_ano_anterior   = solicitacoesPorMes($solicitacoes_ano_anterior);
-
+         
          $sol_prazo                  = solicitacoesPrazo($solicitacoes_todas);
          $sol_media                  = mediaSolucao($solicitacoes_todas);
          $abertas                    = $solicitacoes_todas->where('status', 'Aberta')->count();
-
-
+         
 
          return view('dashboard.'.$viu, compact('resultados','secretarias',
             'ano',

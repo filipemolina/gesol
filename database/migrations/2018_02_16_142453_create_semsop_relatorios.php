@@ -102,9 +102,34 @@ class CreateSemsopRelatorios extends Migration
 
         });
 
-        // Schema::table('semsop_relatorios', function($table){
-        //     $table->foreign('endereco_id')->references('id')->on('enderecos')->onDelete('cascade');
-        // });
+        //para usar com postgres
+        DB::statement(" 
+            ALTER TABLE semsop_relatorios 
+	            ALTER COLUMN origem DROP DEFAULT,
+	            ALTER COLUMN origem type tp_origem USING (origem::tp_origem)
+        ");
+
+        DB::statement(" 
+            ALTER TABLE semsop_relatorios 
+	            ALTER COLUMN acao_gcmm DROP DEFAULT,
+	            ALTER COLUMN acao_gcmm type tp_acao_gcmm USING (acao_gcmm::tp_acao_gcmm)
+        ");
+
+        DB::statement(" 
+            ALTER TABLE semsop_relatorios 
+	            ALTER COLUMN acao_cop DROP DEFAULT,
+	            ALTER COLUMN acao_cop type tp_acao_cop USING (acao_cop::tp_acao_cop)
+        ");
+        
+        DB::statement(" 
+            ALTER TABLE semsop_relatorios 
+	            ALTER COLUMN tipo DROP DEFAULT,
+	            ALTER COLUMN tipo type tp_relatorio_semsop USING (tipo::tp_relatorio_semsop)
+        ");
+
+        Schema::table('semsop_relatorios', function($table){
+            $table->foreign('endereco_id')->references('id')->on('enderecos')->onDelete('cascade');
+        });
 
     }
 
