@@ -477,4 +477,3 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 	</script>
 
 @endpush
-   

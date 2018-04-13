@@ -113,6 +113,16 @@ Route::get('semsop/pdf/{id}','Semsop_RelatorioController@imprimir');
 Route::post('semsop/enviaformulario','Semsop_RelatorioController@envia');
 
 //========================================================================================
+// 										SEMUS_RELATORIOS
+//========================================================================================
+// Imprimir PDF
+Route::get('semus/pdf/{id}','Semus_RelatorioController@imprimir');
+// Enviar Formulario
+Route::post('semus/enviaformulario','SsemusRelatorioController@envia');
+
+
+
+//========================================================================================
 // 										RESOURCE
 //========================================================================================
 //resources
