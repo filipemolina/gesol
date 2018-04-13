@@ -19,7 +19,7 @@ class AddClimaTable extends Migration
             $table->string("icon", 254);
             $table->string("precipIntensity", 254);
             $table->string("precipProbability", 254);
-            $table->string("precipType", 254);
+            $table->string("precipType", 254)->nullable();
             $table->string("temperature", 254);
             $table->string("apparentTemperature", 254);
             $table->string("dewPoint", 254);

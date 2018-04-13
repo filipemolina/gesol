@@ -13,7 +13,16 @@ class Semus_relatorio extends Model implements AuditableContract
    protected $table = "semus_relatorios";
 
    protected $fillable = [
+      'relato',
+      'data',
+      'hora',
+      'funcionario_id'
+   ];
+     
+   public function imagens()
+   {
+      return $this->belongsToMany('App\Models\Imagem', 'imagens_semus_relatorios', 'semus_relatorios_id', 'imagem_id');
+   }
 
-  	];
-
+   
 }

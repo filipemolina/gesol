@@ -84,7 +84,7 @@ class SolicitacaoController extends Controller
 
                 case 90:
                     //"TI"
-                    dd($funcionario_logado->role->acesso);
+                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
                     break;                    
 
                 case 100:
