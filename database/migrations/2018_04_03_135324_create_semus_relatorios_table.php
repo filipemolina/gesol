@@ -22,44 +22,10 @@ class CreateSemusRelatoriosTable extends Migration
             $table->text('relato')                      ->nullable();
             $table->date('data')                        ->nullable();
             $table->time('hora')                        ->nullable();
-            $table->enum('prioridade',[
-                                'Amarelo',
-                                'Azul',
-                                'Verde',
-                                'Vermelho',
-                                ])                      ->nullable();
-
-            $table->enum('unidade',[
-                                'CMS Paraná',
-                                'ESF Walter Borges',
-                                'Farmácia & Laboratório Municipal',
-                                'Laboratório Central de Mesquita',
-                                'Policlínica Municipal Celestina José Ricardo Rosa',
-                                'PSF Edson Passos',
-                                'PSF Jacutinga',
-                                'PSF Maria Cristina',
-                                'PSF Santo Elias',
-                                'PSF Sete Anões',
-                                'SAMU',
-                                'UBS Alto Uruguai',
-                                'UBS Banco de Areia',
-                                'UBS BNH',
-                                'UBS Coréia',
-                                'UBS Cosmorama',
-                                'UBS Edson Passos',
-                                'UBS FRANÇA LEITE',
-                                'UBS Jorge Campos',
-                                'UBS Juscelino',
-                                'UBS Nossa Senhora Das Graças',
-                                'UBS Parque Ludolf',
-                                'UBS Santa Terezinha',
-                                'UBS Vila Emil II',
-                                'UBS Vila Norma',
-                                'Unidade de Saúde Dr. Mário Bento',
-                                ])                      ->nullable();
+            $table->integer('unidade_saude_id')         ->unsigned();
 
             //------------------------FOREIGN--------------------------------
-  
+            $table->foreign('unidade_saude_id') ->references('id')->on('unidades_saude');
             //---------------------------------------------------------------
 
             $table->timestamps();
