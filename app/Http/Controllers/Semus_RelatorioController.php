@@ -152,7 +152,7 @@ class Semus_RelatorioController extends Controller
         //apaga o relatorio
         $relatorio->delete();
 
-        return redirect(url('/semsop'));
+        return redirect(url('/semus'));
     }
 
     public function imprimir($id)

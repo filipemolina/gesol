@@ -19,59 +19,6 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 		<form action="{{ url("semus/$relatorio->id") }}" method="POST" id="form_relatorio">
 			{!! method_field('PUT') !!}
 				{{ csrf_field() }}
-  
-
-		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-6">
-				<div class="input-group" >
-					<span class="input-group-addon">
-						<i class="material-icons">warning</i>
-					</span>
-
-					<div class="form-group label-floating has-roxo is-empty">
-						<label class="control-label">Selecione a prioridade do serviço</label>
-						<select name="prioridade" id=prioridade class="form-control form-control error">
-							@foreach($prioridades as $prioridade)
-								@if($prioridade == $relatorio->prioridade)
-									<option value="{{$prioridade}}" selected>{{$prioridade}}</option>
-								@else	
-									<option value="{{$prioridade}}"> {{$prioridade}} </option>
-								@endif    
-							@endforeach
-						</select>
-						<span class="material-input"></span>
-					</div>
-				</div>
-			</div>
-
-		 <div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-6">
-				<div class="input-group" >
-					<span class="input-group-addon">
-						<i class="material-icons">add_location</i>
-					</span>
-
-					<div class="form-group label-floating has-roxo is-empty">
-						<label class="control-label">Selecione a unidade de atendimento</label>
-						<select name="unidade" id=unidade class="form-control form-control error">
-							
-							@foreach($unidades as $unidade)
-								@if($unidade == $relatorio->$unidade)
-									<option value="{{$unidade}}" selected>{{$unidade}}</option>
-								@else
-									<option value="{{$unidade}}"> {{$unidade}} </option>    
-								@endif
-							@endforeach
-
-						</select>
-						<span class="material-input"></span>
-					</div>
-				</div>
-			</div>
-			 
-
-
-
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-3">
 				<div class="input-group">
@@ -101,20 +48,6 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 		
 
 		<!-- ============================AREA DE TEXTO============================ -->
-			<div class="row">
-				<div class="card-content">
-					<div class="input-group">
-						<span class="input-group-addon">
-							<i class="material-icons">group</i>
-						</span>
-						<div class="form-group label-floating has-roxo is-empty">
-							<label class="control-label">Responsavel</label>
-							<textarea id="responsavel" name="responsavel" type="text" class="form-control"  rows="2">{{$relatorio->responsavel or old('responsavel')}}</textarea>
-							<span class="material-input"></span>
-						</div>
-					</div>
-				</div>
-			</div>
 			<div class="row">
 				<div class="card-content">
 					<div class="input-group">
