@@ -20,6 +20,11 @@ class CreateAtribuicaoFuncionarioTable extends Migration
             $table->timestamps();
 
         });
+
+        Schema::table('atribuicao_funcionario', function($table){
+            $table->foreign('atribuicao_id')    ->references('id')->on('atribuicoes')  ->onDelete('cascade');
+            $table->foreign('funcionario_id')   ->references('id')->on('funcionarios')  ->onDelete('cascade');
+        });
     }
 
     /**

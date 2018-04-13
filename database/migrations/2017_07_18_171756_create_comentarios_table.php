@@ -28,6 +28,11 @@ class CreateComentariosTable extends Migration
             //---------------------------------------------------------------
             $table->timestamps();
         });
+
+        Schema::table('comentarios', function($table){
+            $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
+            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
+        });
     }
 
     /**

@@ -242,10 +242,22 @@ class FuncionarioController extends Controller
 		$servicos      = Servico::all()->sortBy('nome');        
 		$tipos			= pegaValorEnum('funcionarios', 'tipo');
 
+		// busca somente as atribuições referentes a secretaria do funcionario que está logado, 
+		// e as de peso(role) igual ou menor ao dele
+		// se for PREFEITO, TI ou DSV libera todas as atribuições
+		if($funcionario_logado->role->peso < 80 )
+		{
+			$atribuicoes   = DB::table('atribuicoes')
+									->where('secretaria_id', 	'=', $funcionario_logado->setor->secretaria->id)
+									->where('role_id', 			'<=', $funcionario_logado->role->peso)
+									->get();        
+		}else{	
+			$atribuicoes   = Atribuicao::all()->sortBy('descricao');        
+		};
+
 		//retira o "Sistema" do array TIPO  
 		unset($tipos[array_search('Sistema', $tipos)]);
 
-		
 		if($funcionario_logado->role->peso >= 50 ) //"Secretario"
 		{
 			$pode_alterar_secretaria=1;
@@ -254,8 +266,12 @@ class FuncionarioController extends Controller
 			$pode_alterar_secretaria=0;
 		}
 
-		//dd($funcionario->role->acesso);
-		return view('funcionarios.edit', compact('funcionario_logado','funcionario','secretarias','setores','servicos','roles','pode_alterar_secretaria','tipos'));
+		// Vetor que contém apenas os ID's das atribuições deste funcionário
+		$atribuicoes_ids = $funcionario->atribuicoes->pluck('id')->toArray();
+		// dd($atribuicoes_ids);
+
+		//dd($funcionario->atribuicoes   );
+		return view('funcionarios.edit_funcionario', compact('funcionario_logado','funcionario','secretarias','setores','servicos','roles','pode_alterar_secretaria','tipos','atribuicoes', 'atribuicoes_ids'));
 	 
 	}
 
@@ -297,8 +313,11 @@ class FuncionarioController extends Controller
 
 		$usuario->fill(['email' => $request->email]);
 		$salvou_usuario = $usuario->save();
+		
+		$funcionario->atribuicoes()->sync($request->atribuicoes);
+		
 
-		//dd($original_funcionario);
+		dd($original_funcionario);
 
 		//salva as alterações na trilha de auditoria (sys_logs)
 		if($original_usuario['email'] != $novo['email']){

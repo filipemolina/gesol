@@ -132,19 +132,10 @@ Alteração de funcionário
 						<span class="input-group-addon ">
 							<span style="font-size: 26px;" class="mdi mdi-folder-account"></span>
 						</span>
-
-						
-
 						<div class="control form-group label-floating has-dourado">
 							<label class="control-label">Cargo:</label>
 							<select name = "cargo_id" id="cargo_id" class="dourado selectpicker error" data-style="select-with-transition has-dourado" data-size="7">
-								@foreach($funcionario->setor->secretaria->cargos as $cargo)
-									@if ( $funcionario->cargo_id == $cargo->id)
-										<option value="{{$cargo->id}}" selected="selected">{{$cargo->nome}}</option>
-									@else
-										<option value="{{$cargo->id}}">{{$cargo->nome}}</option>  
-									@endif
-								@endforeach
+									<option value=""> Selecione... </option>
 							</select>											
 						</div>
 					</div>
@@ -186,6 +177,35 @@ Alteração de funcionário
 					</div>
 				</div>
 				
+				{{--  ==============================================================  --}}
+
+				<div class="col-md-11">
+					<div class="input-group">
+						<span class="input-group-addon">
+							<span style="font-size: 24px;" class="mdi mdi-server-security"></span>
+						</span>
+									
+						<div class="form-group label-floating has-dourado col-md-11">
+							<label class="control-label">Atribuições de sistema</label>
+								<select  name = "atribuicoes[]" 
+									class="selectpicker" 
+									multiple
+									data-actions-box="true"
+									data-style="btn select-with-transition" 
+									data-width = "90%"
+									title="Selecione..." 
+									data-size="7">
+									
+									<option disabled=""> Selecione as opções</option>
+									@foreach($atribuicoes as $atribuicao)
+										
+										<option @if( in_array($atribuicao->id, $atribuicoes_ids) ) selected @endif value="{{ $atribuicao->id }}"> {{ $atribuicao->descricao }} </option>
+									@endforeach
+								</select>
+						</div>
+					</div>
+				</div>
+
 				<!-- foto  -->
 				<div class="col-md-3 flt-r ">
 					<div class="fileinput fileinput-new text-center" data-provides="fileinput">
@@ -252,29 +272,33 @@ Alteração de funcionário
 			// Obter o valor atual do Widget de Foto e setar o valor do input hidden com name="foto"
 			
 			let foto_base64 = $(".fileinput-new img").attr('src');
+			console.log(foto_base64);
 			$("input[name=foto]").val(foto_base64);
 			
-			// Preencher o select de setores
-			if($("#select_secretaria").length)
-			{
-				//console.log($("#select_secretaria").val());
-				let id_setor 		= {{ $funcionario->setor_id }};
-				let secretaria_id = $("#select_secretaria").val();
+			// Preencher o select de cargos e setores no load da pagina
+	    	if($("#select_secretaria").length)
+	    	{
+	 			//console.log($("#select_secretaria").length);
+	        	let secretaria_id = $("#select_secretaria").val();
 				
-				//carrega_select_setor_edit(secretaria_id);
-				carrega_select_setor_edit(secretaria_id, id_setor);
-				
-				$(".previnir").click(function() {
-					event.preventDefault()
-				});
-			}
+				let setor_id = " {{ $funcionario->setor_id }} ";
+				carrega_select_setor_edit(secretaria_id, setor_id);
+		  
+				let cargo_id = "{{$funcionario->cargo_id}}";
+	        	carrega_select_cargo_edit(secretaria_id, cargo_id);
+		        
+	     		$(".previnir").click(function() {
+	            event.preventDefault();
+	        	});
+	    	}
+
 			
 	      {{-- Testar se há algum erro, e mostrar a notificação --}}
 	      @if ($errors->any())
-			@foreach ($errors->all() as $error)
-			setTimeout(function(){demo.notificationRight("top", "right", "rose", "{{ $error }}"); }, tempo);
-			tempo += incremento;
-			@endforeach
+				@foreach ($errors->all() as $error)
+					setTimeout(function(){demo.notificationRight("top", "right", "rose", "{{ $error }}"); }, tempo);
+					tempo += incremento;
+				@endforeach
 	      @endif
 			
 			
@@ -289,11 +313,11 @@ Alteração de funcionário
 	  		$("#select_secretaria").change(function(){
 				  let secretaria_id = $(this).val();
 				  
-				  //AJAX PEGAR OS CARGOS
-				  carrega_select_cargo_create(secretaria_id, {{ $funcionario_logado->setor_id }});
+				//AJAX PEGAR OS CARGOS
+				carrega_select_cargo_edit(secretaria_id, {{ $funcionario->cargo_id }});
 
-				  //AJAX PEGAR OS SETORES
-				carrega_select_setor_edit(secretaria_id, {{ $funcionario->setor_id }},2);
+				//AJAX PEGAR OS SETORES
+				carrega_select_setor_edit(secretaria_id,  {{ $funcionario->setor_id }});
 				
 
 			});

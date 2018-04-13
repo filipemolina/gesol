@@ -77,6 +77,8 @@
 			</div>
 			<div style="clear:both"></div>
 		</div>
+		
+		{{--  Deve ser rodado o comando php artisan passport:install (quando o banco estiver vazio) para que essa linha funcione  --}}
 
 		{{-- Áudio das Notificações --}}
 
@@ -95,7 +97,6 @@
 			let setor_id    = "{{ $funcionario_logado->setor->id }}";
 			let sigla       = "{{ $funcionario_logado->setor->secretaria->sigla }}";
 
-			{{--  Deve ser rodado o comando php artisan passport:install (quando o banco estiver vazio) para que essa linha funcione  --}}
 
 			let tokenGesol  = "{{ $funcionario_logado->user->createToken('Web')->accessToken }}";
 
