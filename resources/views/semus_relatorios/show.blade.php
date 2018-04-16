@@ -15,17 +15,6 @@
 			<div>
 				<h3 style="text-align:center;" >Relatório</h3>
 			</div>
-
-			<div class="row" style="padding-top: 7px;">
-				
-				<strong>Prioridade:</strong> {{ $relatorio->prioridade }}
-				
-			</div>
-			<div class="row" style="padding-top: 7px;">
-				
-				<strong>Unidade:</strong> {{($relatorio->unidade) }}
-				
-			</div>
 			<div class="row" style="padding-top: 7px;">
 				
 				<strong>Data:</strong> {{ date('d-m-Y', strtotime($relatorio->data)) }} 
@@ -35,12 +24,6 @@
 				
 				<strong>Hora:</strong> {{ $relatorio->hora }} 
 
-			</div>
-	
-			<div class="row" style="padding-top: 7px;">
-				
-				<strong>Responsavel:</strong> {{ $relatorio->responsavel }}
-				
 			</div>
 			<div class="row" style="padding-top: 7px;">
 				

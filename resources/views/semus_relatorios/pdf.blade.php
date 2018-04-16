@@ -107,16 +107,6 @@ td{
 
 	<table cellpadding="5" cellspacing="0" style="width: 100%;">
 
-		 <tr>
-			<td><span style="font-weight:bold;">Prioridade:</span></td>
-			<td>{{ $relatorio->prioridade }}</td>
-		</tr>
-
-	    <tr>
-			<td><span style="font-weight:bold;">Unidade:</span></td>
-			<td>{{ ($relatorio->unidade) }}</td>
-		</tr> 
-
 		{{--  --}}
 
 		<tr>
@@ -132,13 +122,6 @@ td{
 		
 		{{--  --}}
 <br>
-
-		<div class="container">
-			<span style="font-weight:bold;">Responsavel:</span>
-		   {{ $relatorio->responsavel }}
-		</div>
-		<br>
-		
 		<div class="container">
 			<span style="font-weight:bold;">Relato:</span>
 		   {{ $relatorio->relato }}

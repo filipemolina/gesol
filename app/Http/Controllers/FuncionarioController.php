@@ -175,8 +175,10 @@ class FuncionarioController extends Controller
 
 		$funcionario->save();
 
-		foreach ($request->atribuicoes as $key => $atribuicao) {
-			$funcionario->atribuicoes()->attach($atribuicao);
+		if (isset($request->atribuicoes)){
+			foreach ($request->atribuicoes as $key => $atribuicao) {
+				$funcionario->atribuicoes()->attach($atribuicao);
+			}
 		}
 
 		$user = new User;

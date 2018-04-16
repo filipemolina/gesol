@@ -25,10 +25,7 @@
 						<table id="relatorios" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
 							<thead>
 								<tr>
-								   <th>Prioridade</th>
-								   <th>Unidade</th>
 								   <th>Relato</th>
-								   <th>Responsavel</th>
 								   <th>Data</th> 
 								   <th class="disabled-sorting text-right">Ações</th>
 								</tr>
@@ -36,10 +33,7 @@
 							 <tbody>
 						 		 @foreach($relatorios as $relatorio)
 						 		 <tr>
-									<td>{{ $relatorio->prioridade }}</td>
-								   <td>{{ $relatorio->unidade}}</td>
-								   <td>{{ mb_strimwidth($relatorio->relato, 0, 70,"...") }}</td>
-								   <td>{{ $relatorio->responsavel}}</td>
+								  <td>{{ mb_strimwidth($relatorio->relato, 0, 70,"...") }}</td>
 							      <td style="width: 9%;">{{ date('d-m-Y', strtotime($relatorio->data))}}</td>
 								
         								<td style="width: 16%;">
@@ -173,29 +167,3 @@
 		
 
 
-'CMS Paraná',
-'ESF Walter Borges',
-'Farmácia & Laboratório Municipal',
-'Laboratório Central de Mesquita',
-'Policlínica Municipal Celestina José Ricardo Rosa',
-'PSF Edson Passos',
-'PSF Jacutinga',
-'PSF Maria Cristina',
-'PSF Santo Elias',
-'PSF Sete Anões',
-'SAMU',
-'UBS Alto Uruguai',
-'UBS Banco de Areia',
-'UBS BNH',
-'UBS Coréia',
-'UBS Cosmorama',
-'UBS Edson Passos',
-'UBS França Leite',
-'UBS Jorge Campos',
-'UBS Juscelino',
-'UBS Nossa Senhora Das Graças',
-'UBS Parque Ludolf',
-'UBS Santa Terezinha',
-'UBS Vila Emil II',
-'UBS Vila Norma',
-'Unidade de Saúde Dr. Mário Bento'

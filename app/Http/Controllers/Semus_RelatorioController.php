@@ -9,6 +9,7 @@ use App\Models\Funcionario;
 use App\Models\Atribuicao;
 use App\Models\User;
 use App\Models\Imagem;
+use App\Models\UnidadeSaude;
 use PDF;
 
 class Semus_RelatorioController extends Controller
@@ -42,12 +43,9 @@ class Semus_RelatorioController extends Controller
     
     public function create()
     {
-       
-        //Retorna os Enums para seus respectivos campos
-        $prioridades = pegaValorEnum('semus_relatorios','prioridade');
-        $unidades = pegaValorEnum('semus_relatorios','unidade');
+       $unidades = UnidadeSaude::all();
 
-        return view ('semus_relatorios.create', compact('prioridades','unidades'));
+        return view ('semus_relatorios.create', compact('unidades'));
 
     }
 
@@ -57,13 +55,9 @@ class Semus_RelatorioController extends Controller
 
         // dd($request);
         $this->validate($request, [             
-            'responsavel'         =>'required',
             'relato'              =>'required',
             'data'                =>'required',
-            'hora'                =>'required',
-            'prioridade'          =>'required',
-            'unidade'             =>'required',   
-
+            'hora'                =>'required',   
         ]);
 
         // Criar o relatorio
@@ -121,11 +115,8 @@ class Semus_RelatorioController extends Controller
     {
       
         $relatorio = Semus_relatorio::find($id);
-        $prioridades = pegaValorEnum('semus_relatorios','prioridade');
-        $unidades = pegaValorEnum('semus_relatorios','unidade');
-
     
-        return view('semus_relatorios.edit',compact('relatorio','prioridades','unidades'));
+        return view('semus_relatorios.edit',compact('relatorio'));
 
     }
 
@@ -152,7 +143,7 @@ class Semus_RelatorioController extends Controller
         //apaga o relatorio
         $relatorio->delete();
 
-        return redirect(url('/semsop'));
+        return redirect(url('/semus'));
     }
 
     public function imprimir($id)
