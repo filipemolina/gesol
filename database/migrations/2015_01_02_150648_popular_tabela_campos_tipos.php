@@ -23,7 +23,7 @@ class PopularTabelaCamposTipos extends Migration
         DB::statement("INSERT INTO campos_tipos(tabela, campo, tipo) values('enderecos', 'uf', 'tp_uf')");
 
         // Funcionário
-        DB::statement("INSERT INTO campos_tipos(tabela, campo, tipo) values('funcionario', 'tipo', 'tp_tipo_funcionario')");
+        DB::statement("INSERT INTO campos_tipos(tabela, campo, tipo) values('funcionarios', 'tipo', 'tp_tipo_funcionario')");
 
         // Movimentos
         DB::statement("INSERT INTO campos_tipos(tabela, campo, tipo) values('movimentos', 'andamento', 'tp_andamento')");

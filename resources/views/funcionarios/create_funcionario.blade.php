@@ -258,7 +258,7 @@ Cria Funcionário
 		$(function(){
 			// Mascaras
 			VMasker ($("#cpf")).maskPattern("999.999.999-99");
-			VMasker ($("#matricula")).maskPattern("99/99.999-9");
+			VMasker ($("#matricula")).maskPattern("99/99.9999-9");
 			VMasker ($(".datepicker")).maskPattern("99/99/9999");
 
 
