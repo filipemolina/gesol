@@ -17,7 +17,7 @@ class CreateFuncionariosTable extends Migration
             $table->increments('id');
             $table->string('nome');                
             $table->char('cpf',14)                          ->nullable();
-            $table->string('matricula', 11)                 ->nullable();
+            $table->string('matricula', 12)                 ->nullable();
             $table->mediumtext('foto')                      ->nullable();
 
             $table->enum('tipo',['Efetivo','Comissionado','Externo','Sistema'])->default('Efetivo');
