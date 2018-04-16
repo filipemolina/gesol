@@ -81,14 +81,23 @@ if (! function_exists('pegaValorEnum')) {
       //  SELECT enum_range(NULL::tp_status)
 
       //$type = DB::select(DB::raw(" SELECT enum_range(NULL::$column) ")) ;
-      $tipo = DB::select(DB::raw(' SELECT pg_typeof("'. $column .'") from '.$table . ' limit 1 '));
 
-      $tipo = $tipo[0]->pg_typeof;
+      //$tipo = DB::select(DB::raw(' SELECT pg_typeof("'. $column .'") from '.$table . ' limit 1 '));
+
+      $tipo = DB::select(DB::raw("SELECT tipo 
+                                 FROM campos_tipos 
+                                 WHERE 
+                                    campos_tipos.tabela = '$table' AND 
+                                    campos_tipos.campo = '$column'
+                                 LIMIT 1"));
+
+      $tipo = $tipo[0]->tipo;
 
       $valores = DB::select(DB::raw(" SELECT enumlabel AS label 
                                     FROM pg_type t 
                                     JOIN pg_enum e ON t.oid = e.enumtypid 
                                     WHERE typname = '$tipo' ")) ;
+
       $enum = [];
 
       foreach($valores as $valor){
