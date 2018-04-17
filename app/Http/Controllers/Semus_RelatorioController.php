@@ -31,7 +31,7 @@ class Semus_RelatorioController extends Controller
         }else{
             $relatorios = Auth::user()->funcionario->relatorios_semus;
         }
-
+        
 
         $relatorios = Semus_relatorio::all();
 
