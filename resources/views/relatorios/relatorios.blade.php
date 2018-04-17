@@ -18,7 +18,7 @@
 			<div class="card-content">
 				<h4 class="card-title">Relatorios</h4>
 				<div class="toolbar"></div>
-					@if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_COP"]))
+					@if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_FISCAL"]))
 						<a href="{{ url("/semsop/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Novo Relatorio"></i></a>
 					@endif
 					<div class="material-datatables">

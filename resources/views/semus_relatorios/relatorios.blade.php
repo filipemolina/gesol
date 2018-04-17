@@ -18,24 +18,26 @@
 			<div class="card-content">
 				<h4 class="card-title">Relatorios</h4>
 				<div class="toolbar"></div>
-				
+
+				@if(verificaAtribuicoes(Auth::user()->funcionario,["SEMUS_REL"]))
 						<a href="{{ url("/semus/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Novo Relatorio"></i></a>
-				
+				@endif
 					<div class="material-datatables">
 						<table id="relatorios" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
 							<thead>
 								<tr>
 								   <th>Relato</th>
 								   <th>Data</th> 
+								   <th>Unidade</th>
 								   <th class="disabled-sorting text-right">Ações</th>
 								</tr>
 							</thead>
 							 <tbody>
 						 		 @foreach($relatorios as $relatorio)
 						 		 <tr>
-								  <td>{{ mb_strimwidth($relatorio->relato, 0, 70,"...") }}</td>
-							      <td style="width: 9%;">{{ date('d-m-Y', strtotime($relatorio->data))}}</td>
-								
+								  <td style="width: 45%;">{{ mb_strimwidth($relatorio->relato, 0, 70,"...") }}</td>
+							      <td>{{ date('d-m-Y', strtotime($relatorio->data))}}</td>
+							      <td style="width: 21%;">{{ $relatorio->funcionario->setor->nome }} </td>
         								<td style="width: 16%;">
 											<a href="{{ url("/semus/$relatorio->id")}}" 
 												class="btn btn-primary btn-xs  action  pull-right botao_acao "  
@@ -53,13 +55,13 @@
 												<i class="glyphicon glyphicon-print"></i>
 											</a>
 													
-											 	<a href="{{ url("semus/$relatorio->id/edit")}}"
+											 	{{-- <a href="{{ url("semus/$relatorio->id/edit")}}"
 													class="btn btn-warning btn-xs action  pull-right botao_acao btn_control" 
 													data-toggle="tooltip" 
 													data-placement="bottom" 
 													title="Editar Relatorio">  
 													<i class="glyphicon glyphicon-pencil "></i>
-												</a>
+												</a> --}}
 												
 												<button
 													class="btn btn-success btn-xs  action  pull-right botao_acao btn_control btn_enviar"  
@@ -123,8 +125,6 @@
 					 	btn.css('display', 'block').siblings('button.btnenviar').css('display', 'none');
 
 					 	btn.css('display', 'block').siblings('a.btn_deleta').css('display', 'none');
-
-					 	btn.css('display', 'block').siblings('a.btn_edit').css('display', 'none');
 					 	
 					 	demo.notificationRight("top", "right", "success", "O relatório foi enviado");
 	 					//console.log(data)
