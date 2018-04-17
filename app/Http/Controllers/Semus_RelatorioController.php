@@ -9,7 +9,6 @@ use App\Models\Funcionario;
 use App\Models\Atribuicao;
 use App\Models\User;
 use App\Models\Imagem;
-use App\Models\UnidadeSaude;
 use PDF;
 
 class Semus_RelatorioController extends Controller
@@ -43,9 +42,8 @@ class Semus_RelatorioController extends Controller
     
     public function create()
     {
-       $unidades = UnidadeSaude::all();
 
-        return view ('semus_relatorios.create', compact('unidades'));
+        return view ('semus_relatorios.create');
 
     }
 
@@ -63,6 +61,12 @@ class Semus_RelatorioController extends Controller
         // Criar o relatorio
         $Semus_relatorio = new Semus_relatorio($request->all());
         // Salvar o relatório
+
+        
+        $funcionario_id = Auth::user()->funcionario->id;
+        
+        $Semus_relatorio->funcionario_id = $funcionario_id;
+
         $Semus_relatorio->save();
 
         //Salvar a imagens
@@ -103,6 +107,7 @@ class Semus_RelatorioController extends Controller
 
         $relatorio = Semus_relatorio::find($id);
         $imagens = $relatorio->imagens;
+
 
 
 
@@ -163,7 +168,6 @@ class Semus_RelatorioController extends Controller
      public function envia(Request $request)
      {
         $relatorio = Semus_relatorio::find($request->id);
-
 
         $relatorio->enviado = 1;
         $relatorio->save();
