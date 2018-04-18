@@ -32,7 +32,7 @@ body {
 }
 
 #footer {
-  bottom: -50px;
+  bottom: -20px;
 
 }
 #header table {
@@ -79,6 +79,12 @@ td{
 .Imangemsemsop{
   margin: 0 auto !important;
 }
+.page-number {
+  text-align: center;
+}
+.page-number:before {
+  content: "Pagina " counter(page);
+}
 
 </style>
 </head>
@@ -97,6 +103,7 @@ td{
  <table>
     <tr>
     	<center><img src="./img/BrasaoFooter2.png"/></center>
+    	<div class="page-number"></div>
     </tr>
   </table>
 </div>
