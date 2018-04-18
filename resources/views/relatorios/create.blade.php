@@ -425,6 +425,11 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			    $(this).parents('.box_imagens').remove();
 			});
 
+			$("#btn_cancelar").click(function(){
+		      event.preventDefault();
+		       window.history.back();
+	      });
+
       	});
 		
 

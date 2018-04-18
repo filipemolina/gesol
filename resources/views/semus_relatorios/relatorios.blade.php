@@ -62,7 +62,7 @@
 													title="Editar Relatorio">  
 													<i class="glyphicon glyphicon-pencil "></i>
 												</a> --}}
-												
+											@if($relatorio->enviado == '0') 
 												<button
 													class="btn btn-success btn-xs  action  pull-right botao_acao btn_control btn_enviar"  
 													data-toggle="tooltip"  
@@ -79,7 +79,8 @@
 													title="Excluir Relatorio"
 													data-relatorio="{{ $relatorio->id }}"> 
 													<i class="glyphicon glyphicon-trash"></i>
-												</a>   
+												</a>
+											@endif   
 										</td>
 							    </tr>
 									
