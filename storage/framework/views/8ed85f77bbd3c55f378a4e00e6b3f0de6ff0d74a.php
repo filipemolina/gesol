@@ -70,7 +70,7 @@
 			<?php if(verificaAtribuicoes($funcionario_logado, ["SEMSOP_REL_FISCAL","SEMSOP_REL_GCMM","SEMSOP_REL_GERENTE"])): ?>
 			 	<li>
 					<a href="<?php echo e(url("/semsop")); ?>">
-						<i class=" mdi mdi-account-multiple"></i> 
+						<i class="material-icons">assignment</i>
 						<p>SEMSOP Relatórios</p>
 					</a>
 				</li>
@@ -78,7 +78,7 @@
 			<?php if(verificaAtribuicoes($funcionario_logado, ["SEMUS_REL","SEMUS_REL_GERENTE"])): ?>
 			 	<li>
 					<a href="<?php echo e(url("/semus")); ?>">
-						<i class=" mdi mdi-account-multiple"></i> 
+						<i class="material-icons">assignment</i>
 						<p>SEMUS Relatórios</p>
 					</a>
 				</li>
