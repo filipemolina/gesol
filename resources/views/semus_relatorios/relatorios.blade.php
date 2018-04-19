@@ -62,7 +62,8 @@
 													title="Editar Relatorio">  
 													<i class="glyphicon glyphicon-pencil "></i>
 												</a> --}}
-											@if($relatorio->enviado == '0') 
+											@if($relatorio->funcionario->id == Auth::user()->funcionario->id 
+												&& $relatorio->enviado == '0') 
 												<button
 													class="btn btn-success btn-xs  action  pull-right botao_acao btn_control btn_enviar"  
 													data-toggle="tooltip"  
