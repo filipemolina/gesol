@@ -64,7 +64,7 @@
 												<i class="glyphicon glyphicon-print"></i>
 											</a>
 						
-        							@else(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_COP"]))
+        							@elseif(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_COP"]))
         								<td style="width: 16%;">
 											<a href="{{ url("/semsop/$relatorio->id")}}" 
 												class="btn btn-primary btn-xs  action  pull-right botao_acao "  
