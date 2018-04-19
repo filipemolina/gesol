@@ -62,7 +62,8 @@
 													title="Editar Relatorio">  
 													<i class="glyphicon glyphicon-pencil "></i>
 												</a> --}}
-											@if($relatorio->enviado == '0') 
+											@if($relatorio->funcionario->id == Auth::user()->funcionario->id 
+												&& $relatorio->enviado == '0') 
 												<button
 													class="btn btn-success btn-xs  action  pull-right botao_acao btn_control btn_enviar"  
 													data-toggle="tooltip"  
@@ -154,6 +155,30 @@
 
 			///////// TACAR O SUAL
 			
+		});
+
+		$('#relatorios').DataTable({
+			language : {
+                      'url' : '{{ asset('js/portugues.json') }}',
+                      "decimal": ",",
+                      "thousands": "."
+                    }, 
+        	stateSave: true,
+        	stateDuration: -1,
+			responsive: true,
+			deferRender: true,
+			compact: true,
+
+			"columnDefs": [
+    			{ "width": "15%", "targets": 3 },
+    			{ className: "text-center", "targets": [3] },
+  			]
+
+        /*"columnDefs": 
+        [
+          { className: "text-center", "targets": [5] },
+          { className: "text-right",  "targets": [2] }
+        ]*/
 		});
 	});
 

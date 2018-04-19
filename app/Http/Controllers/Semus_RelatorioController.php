@@ -13,9 +13,7 @@ use PDF;
 
 class Semus_RelatorioController extends Controller
 {
-   
-
-   private $Semus_relatorio;
+    private $Semus_relatorio;
 
     public function __construct()
     { 
@@ -25,15 +23,11 @@ class Semus_RelatorioController extends Controller
     public function index()
     {
 
-
         if(verificaAtribuicoes(Auth::user()->funcionario,["SEMUS_REL_GERENTE"])){
             $relatorios = Semus_relatorio::all()->where('enviado', '1');
         }else{
             $relatorios = Auth::user()->funcionario->relatorios_semus;
-        }
-        
-
-        $relatorios = Semus_relatorio::all();
+        }        
 
        return view ('semus_relatorios.relatorios', compact('relatorios'));
 
