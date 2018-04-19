@@ -111,6 +111,8 @@ Route::get('comunicado/datatables', 'ComunicadoController@dados');
 Route::get('semsop/pdf/{id}','Semsop_RelatorioController@imprimir');
 // Enviar Formulario
 Route::post('semsop/enviaformulario','Semsop_RelatorioController@envia');
+// DataTables
+Route::get('semsop/datatables', 'Semsop_RelatorioController@dados');
 
 //========================================================================================
 // 										SEMUS_RELATORIOS

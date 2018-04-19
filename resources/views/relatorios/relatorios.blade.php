@@ -31,92 +31,10 @@
 									<th>Relato Sucinto</th>
 									<th>Data</th> 
 								   <th>Agente/Fiscal</th> 
-								   <th class="disabled-sorting text-right">Ações</th>
+								   <th class="disabled-sorting text-right" style="width: 16%;">Ações</th>
 								</tr>
 							</thead>
-							 	<tbody>
-						 		 
-						 		 @foreach($relatorios as $relatorio)
-									<tr>
-										{{-- <td>{{ $relatorio->foto }}</td> --}}
-										<td>{{ $relatorio->origem }}</td>
-										<td style="width: 20%;">{{ $relatorio->endereco->logradouro }}</td>
-								    	<td>{{ $relatorio->acao_cop }} {{ $relatorio->acao_gcmm }}</td>
-									   <td>{{ mb_strimwidth($relatorio->relato, 0, 70,"...") }}</td>
-									   <td style="width: 9%;">{{ date('d-m-Y', strtotime($relatorio->data))}}</td>
-										<td>{{ $relatorio->funcionarios()->where("relator", true)->first()->nome}}</td>
-
-        							@if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"]))
-										<td style="width: 16%;">
-											<a href="{{ url("/semsop/$relatorio->id")}}" 
-												class="btn btn-primary btn-xs  action  pull-right botao_acao "  
-												data-toggle="tooltip"  
-												data-placement="bottom" 
-												title="Visualiza o Relatorio detalhado"> 
-												<i class="glyphicon glyphicon-eye-open "></i>
-											</a> 
-											
-											<a href="{{action('Semsop_RelatorioController@imprimir', $relatorio->id)}}" 
-												class="btn btn-info btn-xs action pull-right botao_acao"
-												data-toggle="tooltip"  
-												data-placement="bottom" 
-												title="Imprimir Relatorio"> 
-												<i class="glyphicon glyphicon-print"></i>
-											</a>
-						
-        							@else(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_COP"]))
-        								<td style="width: 16%;">
-											<a href="{{ url("/semsop/$relatorio->id")}}" 
-												class="btn btn-primary btn-xs  action  pull-right botao_acao "  
-												data-toggle="tooltip"  
-												data-placement="bottom" 
-												title="Visualiza o Relatorio detalhado"> 
-												<i class="glyphicon glyphicon-eye-open "></i>
-											</a> 
-											
-											<a href="{{action('Semsop_RelatorioController@imprimir', $relatorio->id)}}" 
-												class="btn btn-info btn-xs action pull-right botao_acao"
-												data-toggle="tooltip"  
-												data-placement="bottom" 
-												title="Imprimir Relatorio"> 
-												<i class="glyphicon glyphicon-print"></i>
-											</a>
-
-										@if($relatorio->pivot->relator)
-											@if($relatorio->enviado == '0') 
-												<a href="{{ url("semsop/$relatorio->id/edit")}}"
-													class="btn btn-warning btn-xs action  pull-right botao_acao btn_control" 
-													data-toggle="tooltip" 
-													data-placement="bottom" 
-													title="Editar Relatorio">  
-													<i class="glyphicon glyphicon-pencil "></i>
-												</a>
-												
-												<button
-													class="btn btn-success btn-xs  action  pull-right botao_acao btn_control btn_enviar"  
-													data-toggle="tooltip"  
-													data-placement="bottom" 
-													title="Enviar Relatorio"
-													data-relatorio = {{ $relatorio->id }}> 
-													<i class="glyphicon glyphicon-ok"></i>
-												</button>
-														
-												<a href="" 
-													class="btn btn-danger btn-xs action pull-right botao_acao btn_deletar btn_control"  
-													data-toggle="tooltip"  
-													data-placement="bottom" 
-													title="Excluir Relatorio"
-													data-relatorio="{{ $relatorio->id }}"> 
-													<i class="glyphicon glyphicon-trash"></i>
-												</a>  
-
-												@endif
-											@endif
-										  @endif  
-										</td>
-									</tr>
-								@endforeach    
-							</tbody> 
+							 	{{-- Preenchido com DataTables --}}
 						</table>
 
 					</div> {{-- Fim Material-datatbles --}}
@@ -190,26 +108,30 @@
 
 		$('#relatorios').DataTable({
 			language : {
-                      'url' : '{{ asset('js/portugues.json') }}',
-                      "decimal": ",",
-                      "thousands": "."
-                    }, 
-        	stateSave: true,
-        	stateDuration: -1,
+        'url' : '{{ asset('js/portugues.json') }}',
+        "decimal": ",",
+        "thousands": "."
+      },
+    	stateSave: true,
+    	stateDuration: -1,
 			responsive: true,
 			deferRender: true,
 			compact: true,
-
+			serverSide: true,
+			ajax: "{{ url('/semsop/datatables') }}",
+			columns: [
+				{ data : 'origem',        name : 'origem' },
+				{ data : 'local',        name : 'local' },
+				{ data : 'acao',        name : 'acao' },
+				{ data : 'relato',        name : 'relato' },
+				{ data : 'data',        name : 'data' },
+				{ data : 'agente',        name : 'agente' },
+				{ data : 'acoes',        name : 'acoes' },
+			],
 			"columnDefs": [
     			{ "width": "15%", "targets": 5 },
     			{ className: "text-center", "targets": [5] },
   			]
-
-        /*"columnDefs": 
-        [
-          { className: "text-center", "targets": [5] },
-          { className: "text-right",  "targets": [2] }
-        ]*/
 		});
 	});
 
