@@ -155,6 +155,30 @@
 			///////// TACAR O SUAL
 			
 		});
+
+		$('#relatorios').DataTable({
+			language : {
+                      'url' : '{{ asset('js/portugues.json') }}',
+                      "decimal": ",",
+                      "thousands": "."
+                    }, 
+        	stateSave: true,
+        	stateDuration: -1,
+			responsive: true,
+			deferRender: true,
+			compact: true,
+
+			"columnDefs": [
+    			{ "width": "15%", "targets": 3 },
+    			{ className: "text-center", "targets": [3] },
+  			]
+
+        /*"columnDefs": 
+        [
+          { className: "text-center", "targets": [5] },
+          { className: "text-right",  "targets": [2] }
+        ]*/
+		});
 	});
 
 	</script>
