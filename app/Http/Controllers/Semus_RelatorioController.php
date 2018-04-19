@@ -33,8 +33,6 @@ class Semus_RelatorioController extends Controller
         }
         
 
-        $relatorios = Semus_relatorio::all();
-
        return view ('semus_relatorios.relatorios', compact('relatorios'));
 
     }
