@@ -251,91 +251,102 @@ class Semsop_RelatorioController extends Controller
 
      }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // DATATABLES SERVER SIDE                                                //
+    ///////////////////////////////////////////////////////////////////////////
+
     public function dados()
     {
-        
-        // Obter todos os relatórios
-        $relatorios = Semsop_relatorio::all();
+
+        if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"]))
+        {
+            // Obter todos os relatórios já enviados
+            $relatorios = Semsop_relatorio::where('enviado', 1)->get();
+        } else {
+
+            // Obter apenas os meus próprios relatorios
+            $relatorios = Auth::user()->funcionario->relatorios_semsop;
+        }
 
         // Montar a coleção que irá servir os dados à tabela
         $colecao = collect();
 
-        // Montar a coluna de ações da tabela
-        $acoes = "";
-
-        if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"]))
-        {
-            $acoes .= "<td style='width: 16%;''>
-                <a href='".url("/semsop/$relatorio->id")."' 
-                    class='btn btn-primary btn-xs  action  pull-right botao_acao' 
-                    data-toggle='tooltip'
-                    data-placement='bottom' 
-                    title='Visualiza o Relatorio detalhado'> 
-                    <i class='glyphicon glyphicon-eye-open'></i>
-                </a> 
-                
-                <a href=".action('Semsop_RelatorioController@imprimir', $relatorio->id)." 
-                    class='btn btn-info btn-xs action pull-right botao_acao'
-                    data-toggle='tooltip'  
-                    data-placement='bottom'
-                    title='Imprimir Relatorio'> 
-                    <i class='glyphicon glyphicon-print'></i>
-                </a>
-            </td>";
-        } 
-        else if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_COP"]))
-        {
-            $acoes .= "<td style='width: 16%;''>
-                <a href='".url("/semsop/$relatorio->id")."' 
-                    class='btn btn-primary btn-xs  action  pull-right botao_acao' 
-                    data-toggle='tooltip'
-                    data-placement='bottom' 
-                    title='Visualiza o Relatorio detalhado'> 
-                    <i class='glyphicon glyphicon-eye-open'></i>
-                </a> 
-                
-                <a href=".action('Semsop_RelatorioController@imprimir', $relatorio->id)." 
-                    class='btn btn-info btn-xs action pull-right botao_acao'
-                    data-toggle='tooltip'  
-                    data-placement='bottom'
-                    title='Imprimir Relatorio'> 
-                    <i class='glyphicon glyphicon-print'></i>
-                </a>
-            </td>";
-        }
-
-        if(!$relatorio->enviado)
-        {
-            $acoes .= "<a href=".url("semsop/$relatorio->id/edit")."
-                            class='btn btn-warning btn-xs action  pull-right botao_acao btn_control' 
-                            data-toggle='tooltip' 
-                            data-placement='bottom'
-                            title='Editar Relatorio'>  
-                            <i class='glyphicon glyphicon-pencil'></i>
-                        </a>
-                        
-                        <button
-                            class='btn btn-success btn-xs  action  pull-right botao_acao btn_control btn_enviar' 
-                            data-toggle='tooltip'
-                            data-placement='bottom'
-                            title='Enviar Relatorio'
-                            data-relatorio ='".$relatorio->id."'> 
-                            <i class='glyphicon glyphicon-ok'></i>
-                        </button>
-                                
-                        <a href='#' 
-                            class='btn btn-danger btn-xs action pull-right botao_acao btn_deletar btn_control'
-                            data-toggle='tooltip'
-                            data-placement='bottom'
-                            title='Excluir Relatorio'
-                            data-relatorio='".$relatorio->id."'> 
-                            <i class='glyphicon glyphicon-trash'></i>
-                        </a>";
-        }
-
         // Montar a coleção
         foreach($relatorios as $relatorio)
         {
+            // Montar a coluna de ações da tabela
+            $acoes = "";
+
+            if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"]))
+            {
+            // 
+            $acoes .= "<td style='width: 16%;''>
+                    <a href='".url("/semsop/$relatorio->id")."' 
+                        class='btn btn-primary btn-xs  action  pull-right botao_acao' 
+                        data-toggle='tooltip'
+                        data-placement='bottom' 
+                        title='Visualiza o Relatorio detalhado'> 
+                        <i class='glyphicon glyphicon-eye-open'></i>
+                    </a> 
+                    
+                    <a href=".action('Semsop_RelatorioController@imprimir', $relatorio->id)." 
+                        class='btn btn-info btn-xs action pull-right botao_acao'
+                        data-toggle='tooltip'  
+                        data-placement='bottom'
+                        title='Imprimir Relatorio'> 
+                        <i class='glyphicon glyphicon-print'></i>
+                    </a>
+                </td>";
+            } else if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_COP"])) {
+            
+                $acoes .= "<td style='width: 16%;''>
+                    <a href='".url("/semsop/$relatorio->id")."' 
+                        class='btn btn-primary btn-xs  action  pull-right botao_acao' 
+                        data-toggle='tooltip'
+                        data-placement='bottom' 
+                        title='Visualiza o Relatorio detalhado'> 
+                        <i class='glyphicon glyphicon-eye-open'></i>
+                    </a> 
+                    
+                    <a href=".action('Semsop_RelatorioController@imprimir', $relatorio->id)." 
+                        class='btn btn-info btn-xs action pull-right botao_acao'
+                        data-toggle='tooltip'  
+                        data-placement='bottom'
+                        title='Imprimir Relatorio'> 
+                        <i class='glyphicon glyphicon-print'></i>
+                    </a>
+                </td>";
+
+                if(!$relatorio->enviado)
+                {
+                    $acoes .= "<a href=".url("semsop/$relatorio->id/edit")."
+                        class='btn btn-warning btn-xs action  pull-right botao_acao btn_control' 
+                        data-toggle='tooltip' 
+                        data-placement='bottom'
+                        title='Editar Relatorio'>  
+                        <i class='glyphicon glyphicon-pencil'></i>
+                    </a>
+                    
+                    <button
+                        class='btn btn-success btn-xs  action  pull-right botao_acao btn_control btn_enviar' 
+                        data-toggle='tooltip'
+                        data-placement='bottom'
+                        title='Enviar Relatorio'
+                        data-relatorio ='".$relatorio->id."'> 
+                        <i class='glyphicon glyphicon-ok'></i>
+                    </button>
+                            
+                    <a href='#' 
+                        class='btn btn-danger btn-xs action pull-right botao_acao btn_deletar btn_control'
+                        data-toggle='tooltip'
+                        data-placement='bottom'
+                        title='Excluir Relatorio'
+                        data-relatorio='".$relatorio->id."'> 
+                        <i class='glyphicon glyphicon-trash'></i>
+                    </a>";
+                }
+            }
+
             $colecao->push([
                 'origem' => $relatorio->origem,
                 'local'  => $relatorio->endereco->logradouro,
