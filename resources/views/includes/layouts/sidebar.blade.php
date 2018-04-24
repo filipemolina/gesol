@@ -70,17 +70,18 @@
 			@if(verificaAtribuicoes($funcionario_logado, ["SEMSOP_REL_FISCAL","SEMSOP_REL_GCMM","SEMSOP_REL_GERENTE"]))
 			 	<li>
 					<a href="{{ url("/semsop") }}">
-						<i class=" mdi mdi-account-multiple"></i> 
+						<i class="material-icons">assignment</i>
 						<p>SEMSOP Relatórios</p>
 					</a>
-				</li>   
-			@elseif(verificaAtribuicoes($funcionario_logado, ["SEMUS_REL","SEMUS_REL_GERENTE"]))
+				</li>
+			@endif   
+			@if(verificaAtribuicoes($funcionario_logado, ["SEMUS_REL","SEMUS_REL_GERENTE"]))
 			 	<li>
 					<a href="{{ url("/semus") }}">
-						<i class=" mdi mdi-account-multiple"></i> 
+						<i class="material-icons">assignment</i>
 						<p>SEMUS Relatórios</p>
 					</a>
-				</li>   
+				</li>
 			@else
 				<li>
 					<a href="{{ url("/solicitacao") }}">

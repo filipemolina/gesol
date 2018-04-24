@@ -319,7 +319,7 @@ class FuncionarioController extends Controller
 		$funcionario->atribuicoes()->sync($request->atribuicoes);
 		
 
-		dd($original_funcionario);
+		//dd($original_funcionario);
 
 		//salva as alterações na trilha de auditoria (sys_logs)
 		if($original_usuario['email'] != $novo['email']){

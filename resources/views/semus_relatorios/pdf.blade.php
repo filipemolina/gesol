@@ -32,7 +32,7 @@ body {
 }
 
 #footer {
-  bottom: -50px;
+  bottom: -20px;
 
 }
 #header table {
@@ -79,6 +79,12 @@ td{
 .Imangemsemsop{
   margin: 0 auto !important;
 }
+.page-number {
+  text-align: center;
+}
+.page-number:before {
+  content: "Pagina " counter(page);
+}
 
 </style>
 </head>
@@ -97,6 +103,7 @@ td{
  <table>
     <tr>
     	<center><img src="./img/BrasaoFooter2.png"/></center>
+    	<div class="page-number"></div>
     </tr>
   </table>
 </div>
@@ -105,27 +112,31 @@ td{
 	
 	 <h2 style="text-align:center;">RELATÓRIO</h2>
 
-	<table cellpadding="5" cellspacing="0" style="width: 100%;">
 
-		{{--  --}}
-
-		<tr>
-			<td><span style="font-weight:bold;">Data:</span></td>
-			<td>{{ date('d-m-Y', strtotime($relatorio->data)) }}</td>
-			<td><span style="font-weight:bold;">Hora:</span></td>
-			<td>{{ $relatorio->hora }}</td>
-		</tr>  
-
-
-	</table>
-
-		
-		{{--  --}}
-<br>
-		<div class="container">
-			<span style="font-weight:bold;">Relato:</span>
-		   {{ $relatorio->relato }}
+		<div class="row" style="padding-top: 7px;">
+			<strong>Data:</strong> {{ date('d-m-Y', strtotime($relatorio->data)) }}
 		</div>
+
+		<div class="row" style="padding-top: 7px;">	
+			<strong>Hora:</strong> {{ $relatorio->hora }}
+		</div>
+	
+		<div class="row" style="padding-top: 7px;">
+			<strong>Relato:</strong> {{ $relatorio->relato }} 
+		</div>
+
+		<div class="row" style="padding-top: 7px;">
+			<strong>Nome:</strong> {{ $relatorio->funcionario->nome }}
+		</div>
+
+		<div class="row" style="padding-top: 7px;">
+			<strong>Matrícula:</strong> {{ $relatorio->funcionario->matricula }}
+		</div>
+
+		<div class="row" style="padding-top: 7px;">
+			<strong>Unidade:</strong> {{ $relatorio->funcionario->setor->nome }}
+		</div>
+		   
 		<br>
 	
  		<div class="Imangemsemsop">

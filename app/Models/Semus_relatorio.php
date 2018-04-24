@@ -24,5 +24,10 @@ class Semus_relatorio extends Model implements AuditableContract
       return $this->belongsToMany('App\Models\Imagem', 'imagens_semus_relatorios', 'semus_relatorios_id', 'imagem_id');
    }
 
+   public function funcionario()
+   {
+      return $this->belongsTo('App\Models\Funcionario');
+   }
+
    
 }

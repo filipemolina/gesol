@@ -413,6 +413,11 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 	    $(this).parents('.box_funcionario').remove();
 	});
 
+	$("#btn_cancelar").click(function(){
+		      event.preventDefault();
+		       window.history.back();
+	      });
+
     function limpa_formulário_cep() {
             //Limpa valores do formulário de cep.
             document.getElementById('logradouro').value=("");

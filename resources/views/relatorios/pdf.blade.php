@@ -17,22 +17,22 @@ body {
 	 text-align: justify;
 }
 #header { 
-			position: fixed; 
-			top: -30px; 
-			left: 0px; 
-			right: 0px;  
-			height: 50px; }
+	position: fixed; 
+	top: -30px; 
+	left: 0px; 
+	right: 0px;  
+	height: 50px; }
 
 #footer {
-  position: fixed;
-  left: 0;
+	position: fixed;
+	left: 0;
 	right: 0;
 	color: #000000;
 	font-size: 0.9em;
 }
 
 #footer {
-  bottom: -50px;
+  bottom: -20px;
 
 }
 #header table {
@@ -79,6 +79,12 @@ td{
 .Imangemsemsop{
   margin: 0 auto !important;
 }
+.page-number {
+  text-align: center;
+}
+.page-number:before {
+  content: "Pagina " counter(page);
+}
 
 </style>
 </head>
@@ -97,6 +103,7 @@ td{
  <table>
     <tr>
     	<center><img src="./img/BrasaoFooter2.png"/></center>
+    	<div class="page-number"></div>
     </tr>
   </table>
 </div>
