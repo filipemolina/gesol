@@ -39,7 +39,7 @@ class Semsop_RelatorioController extends Controller
 
         // dd(Auth::user()->funcionario->relatorios_semsop);
 
-         //dd($relatorios);
+        //dd($relatorios);
         return view ('relatorios.relatorios', compact('relatorios','gerente'));
     }
 
@@ -47,11 +47,12 @@ class Semsop_RelatorioController extends Controller
     public function create()
     {
         //Retorna os Enums para seus respectivos campos
+        
          $origens = pegaValorEnum('semsop_relatorios','origem');
+
          $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
          $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
          $funcionarios = Funcionario::all();
-
 
          return view ('relatorios.create', compact('origens','acoes_gcmm','acoes_cop','funcionarios'));
     }

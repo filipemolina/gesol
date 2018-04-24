@@ -82,7 +82,7 @@ if (! function_exists('pegaValorEnum')) {
 
       //$type = DB::select(DB::raw(" SELECT enum_range(NULL::$column) ")) ;
       $tipo = DB::select(DB::raw(' SELECT pg_typeof("'. $column .'") from '.$table . ' limit 1 '));
-
+      
       $tipo = $tipo[0]->pg_typeof;
 
       $valores = DB::select(DB::raw(" SELECT enumlabel AS label 
