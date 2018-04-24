@@ -26,6 +26,7 @@
 						<table id="relatorios" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
 							<thead>
 								<tr>
+								   <th>Status</th>
 								   <th>Relato</th>
 								   <th>Data</th> 
 								   <th>Unidade</th>
@@ -35,18 +36,20 @@
 							 <tbody>
 						 		 @foreach($relatorios as $relatorio)
 						 		 <tr>
+						 		  <td>@if($relatorio->status) <font color="blue">Solucionado</font> @else <font color="red">Em Andamento</font> @endif</td>
 								  <td style="width: 45%;">{{ mb_strimwidth($relatorio->relato, 0, 70,"...") }}</td>
 							      <td>{{ date('d-m-Y', strtotime($relatorio->data))}}</td>
 							      <td style="width: 21%;">{{ $relatorio->funcionario->setor->nome }} </td>
         								<td style="width: 16%;">
 											<a href="{{ url("/semus/$relatorio->id")}}" 
-												class="btn btn-primary btn-xs  action  pull-right botao_acao "  
+												class="btn btn-primary btn-xs  action  pull-right botao_acao"
 												data-toggle="tooltip"  
 												data-placement="bottom" 
 												title="Visualiza o Relatorio detalhado"> 
 												<i class="glyphicon glyphicon-eye-open "></i>
-											</a> 
-											
+											</a>
+
+
 											<a href="{{action('Semus_RelatorioController@imprimir', $relatorio->id)}}" 
 												class="btn btn-info btn-xs action pull-right botao_acao"
 												data-toggle="tooltip"  
@@ -54,7 +57,18 @@
 												title="Imprimir Relatorio"> 
 												<i class="glyphicon glyphicon-print"></i>
 											</a>
-													
+											@if(verificaAtribuicoes(Auth::user()->funcionario,["SEMUS_REL_GERENTE"]))
+												@if($relatorio->status == '0')		
+												<button
+							                        class='btn btn-success btn-xs  action  pull-right botao_acao btn_control btn_solucionar' 
+							                        data-toggle='tooltip'
+							                        data-placement='bottom'
+							                        title='Enviar Relatorio'
+							                        data-relatorio = {{$relatorio->id}}> 
+							                        <i class='glyphicon glyphicon-ok'></i>
+							                    </button>
+							                @endif
+						               @endif
 											 	{{-- <a href="{{ url("semus/$relatorio->id/edit")}}"
 													class="btn btn-warning btn-xs action  pull-right botao_acao btn_control" 
 													data-toggle="tooltip" 
@@ -138,6 +152,41 @@
 
 	         });
 	      });
+
+		$("table#relatorios").on("click", ".btn_solucionar",function(){
+			
+			let id = $(this).data('relatorio');
+			let btn = $(this);
+
+				//console.log("botao btn_desativa -> ", $(this).data('funcionario'));
+		      swal({
+		         title: 'Confirma a SOLUÇÃO do Relatório?',
+		         type: 'question',
+		         showCancelButton: true,
+		         confirmButtonColor: '#3085d6',
+		         cancelButtonColor: '#d33',
+		         confirmButtonText: 'Sim',
+		         cancelButtonText: 'Não',
+		      }).then(function () {
+	      		//chama a rota
+	   	 	 	$.post('semus/solucionaformulario',{
+	               _token: 	'{{ csrf_token() }}',
+	   	 	 		id: 		id,
+	   	 	 	},function(data){
+
+					 	btn.css('display', 'block').siblings('button.btn_solucionar').css('display', 'none');
+					 	
+					 	demo.notificationRight("top", "right", "success", "O relatório foi enviado");
+	 					//console.log(data)
+
+	 					btn.css("display", 'none');
+	 					btn.siblings(".btn_control").css("display", 'none');
+				 	})
+				 	window.location.reload();
+	         });
+	      });
+
+
 
 		$(".btn_deletar").click(function(e){
 			
