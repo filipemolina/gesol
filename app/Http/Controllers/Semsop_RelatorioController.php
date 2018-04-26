@@ -345,8 +345,7 @@ class Semsop_RelatorioController extends Controller
                         <i class='glyphicon glyphicon-ok'></i>
                     </button>
                             
-                    <a href='#' 
-                        class='btn btn-danger btn-xs action pull-right botao_acao btn_deletar btn_control'
+                    <a class='btn btn-danger btn-xs action pull-right botao_acao btn_deletar btn_control'
                         data-toggle='tooltip'
                         data-placement='bottom'
                         title='Excluir Relatorio'

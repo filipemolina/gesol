@@ -266,6 +266,8 @@ Alteração de funcionário
 		
 		
 		$(function(){
+
+			VMasker ($("#matricula")).maskPattern("99/999.999-9");
 			//Ajusta os labels para cima, para que não fiquem sobrepostos aos valores que estão nos inputs
 			$("input, select").change();
 			

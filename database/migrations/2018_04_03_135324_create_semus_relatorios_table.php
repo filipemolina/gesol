@@ -23,6 +23,7 @@ class CreateSemusRelatoriosTable extends Migration
             $table->date('data')                        ->nullable();
             $table->time('hora')                        ->nullable();
             $table->boolean('enviado')                  ->default(false);
+            $table->boolean('status')                   ->default(false);
 
             //------------------------FOREIGN--------------------------------
             $table->integer('funcionario_id')->unsigned();
