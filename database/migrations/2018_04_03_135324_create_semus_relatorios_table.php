@@ -17,7 +17,7 @@ class CreateSemusRelatoriosTable extends Migration
          Schema::create('semus_relatorios', function (Blueprint $table) {
             
             $table->increments('id');
-
+            $table->string("numero", 15);
             $table->text('responsavel')                 ->nullable();
             $table->text('relato')                      ->nullable();
             $table->date('data')                        ->nullable();

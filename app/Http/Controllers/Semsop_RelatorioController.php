@@ -40,7 +40,7 @@ class Semsop_RelatorioController extends Controller
 
         // dd(Auth::user()->funcionario->relatorios_semsop);
 
-         //dd($relatorios);
+        //dd($relatorios);
         return view ('relatorios.relatorios', compact('relatorios','gerente'));
     }
 
@@ -50,7 +50,9 @@ class Semsop_RelatorioController extends Controller
 
          
         //Retorna os Enums para seus respectivos campos
+
          $origens = pegaValorEnum('semsop_relatorios','origem');
+
          $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
          $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
          $funcionarios = Funcionario::all();
@@ -104,6 +106,14 @@ class Semsop_RelatorioController extends Controller
 
         // Relacionar o endereço com o relatorio
         $Semsop_relatorio->endereco_id = $endereco->id;
+
+        //obtem o próximo valor da sequence de numeração do relatorio e coloca no campo numero
+        //$Semsop_relatorio->numero = proximoValorSequence('semsop_relatorios_numero'); 
+        $Semsop_relatorio->numero = obtemNumeroRelatorioSemsop($request->tipo); 
+        
+        //dd($Semsop_relatorio->numero);
+
+        //dd($request->all());
         // Salvar o relatório
         $Semsop_relatorio->save();
 
@@ -350,7 +360,7 @@ class Semsop_RelatorioController extends Controller
             $colecao->push([
                 'origem' => $relatorio->origem,
                 'local'  => $relatorio->endereco->logradouro,
-                'acao'   => "$relatorio->acao_cop $relatorio->acao_gcm",
+                'numero' =>$relatorio->numero,
                 'relato' => mb_strimwidth($relatorio->relato, 0, 70,"..."),
                 'data'   => date('d-m-Y', strtotime($relatorio->data)),
                 'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,
