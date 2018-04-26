@@ -74,8 +74,7 @@
 						<p>SEMSOP Relatórios</p>
 					</a>
 				</li>
-			<?php endif; ?>   
-			<?php if(verificaAtribuicoes($funcionario_logado, ["SEMUS_REL","SEMUS_REL_GERENTE"])): ?>
+			<?php elseif(verificaAtribuicoes($funcionario_logado, ["SEMUS_REL","SEMUS_REL_GERENTE"])): ?>
 			 	<li>
 					<a href="<?php echo e(url("/semus")); ?>">
 						<i class="material-icons">assignment</i>

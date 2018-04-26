@@ -16,6 +16,7 @@ class CreateSemsopRelatorios extends Migration
         
          Schema::create('semsop_relatorios', function (Blueprint $table) {
             $table->increments('id');
+            $table->string("numero", 15);
 
             $table->boolean('notificacao')            ->nullable();
             $table->boolean('autuacao')               ->nullable();
@@ -68,7 +69,7 @@ class CreateSemsopRelatorios extends Migration
                                 'Vandalismo / Pixação ao patrimônio',
                                 'Vias de fato em via pública/praças',
                                 'Segurança pública em jogos/estádios',
-                                ]);
+                                ])->nullable();
             $table->enum('acao_cop',[
                                 'Notificação de irregularidades',
                                 'Apreensão de material, mercadoria ou equipamento irregular',
@@ -79,7 +80,7 @@ class CreateSemsopRelatorios extends Migration
                                 'Fiscalização de praças',
                                 'Serviços especiais (Feriados e afins)',
                                 'Retirada de material de propaganda irregular',
-                                ]);
+                                ])->nullable();
             
             $table->enum('tipo',[
                             'GCMM',

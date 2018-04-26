@@ -48,7 +48,7 @@ class Semsop_RelatorioController extends Controller
     public function create()
     {
         //Retorna os Enums para seus respectivos campos
-        
+
          $origens = pegaValorEnum('semsop_relatorios','origem');
 
          $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
@@ -104,6 +104,14 @@ class Semsop_RelatorioController extends Controller
 
         // Relacionar o endereço com o relatorio
         $Semsop_relatorio->endereco_id = $endereco->id;
+
+        //obtem o próximo valor da sequence de numeração do relatorio e coloca no campo numero
+        //$Semsop_relatorio->numero = proximoValorSequence('semsop_relatorios_numero'); 
+        $Semsop_relatorio->numero = obtemNumeroRelatorioSemsop($request->tipo); 
+        
+        //dd($Semsop_relatorio->numero);
+
+        //dd($request->all());
         // Salvar o relatório
         $Semsop_relatorio->save();
 

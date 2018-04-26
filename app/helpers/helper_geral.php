@@ -18,6 +18,25 @@ use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
 
 
+
+//retorna o proximo valor da sequence informada
+if (! function_exists('proximoValorSequence')) {
+   function proximoValorSequence($sequencia) {
+      $valor = DB::select(DB::raw(" SELECT nextval('$sequencia') "));
+      return $valor[0]->nextval;
+   }
+}
+
+
+//retorna o proximo valor da sequence já formatada para o RELATORIO DA SEMSOP 
+if (! function_exists('obtemNumeroRelatorioSemsop')) {
+   function obtemNumeroRelatorioSemsop($tipo) {
+      $valor = DB::select(DB::raw(" SELECT nextval('semsop_relatorios_numero') "));
+      $numero = $tipo . "." . date("Y") .".". str_pad($valor[0]->nextval,5,"0", STR_PAD_LEFT);
+      return $numero;
+   }
+}
+
 //verifica o tipo de acesso que o usuário logado tem no sistema
 if (! function_exists('verificaAcesso')) {
    function verificaAcesso($funcionario_logado) {
