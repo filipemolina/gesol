@@ -97,7 +97,7 @@
 				e.preventDefault();
 
 			swal({
-		         title: 'Confirma o ENVIO do Relatório?',
+		         title: 'Confirma a EXCLUSÃO do Relatório?',
 		         type: 'question',
 		         showCancelButton: true,
 		         confirmButtonColor: '#3085d6',
