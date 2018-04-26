@@ -23,21 +23,23 @@ class Semus_RelatorioController extends Controller
     public function index()
     {
 
+
         if(verificaAtribuicoes(Auth::user()->funcionario,["SEMUS_REL_GERENTE"])){
             $relatorios = Semus_relatorio::all()->where('enviado', '1');
         }else{
             $relatorios = Auth::user()->funcionario->relatorios_semus;
-        }        
+        }
+            
 
-       return view ('semus_relatorios.relatorios', compact('relatorios'));
+       return view ('semus_relatorios.relatorios', compact('relatorios','status'));
 
     }
 
     
     public function create()
     {
-
-        return view ('semus_relatorios.create');
+       
+        return view ('semus_relatorios.create', compact('status'));
 
     }
 
@@ -55,7 +57,6 @@ class Semus_RelatorioController extends Controller
         // Criar o relatorio
         $Semus_relatorio = new Semus_relatorio($request->all());
         // Salvar o relatório
-
         
         $funcionario_id = Auth::user()->funcionario->id;
         
@@ -101,9 +102,6 @@ class Semus_RelatorioController extends Controller
 
         $relatorio = Semus_relatorio::find($id);
         $imagens = $relatorio->imagens;
-
-
-
 
         return view ('semus_relatorios.show', compact('relatorio','imagens'));
 
@@ -165,7 +163,15 @@ class Semus_RelatorioController extends Controller
 
         $relatorio->enviado = 1;
         $relatorio->save();
+     }
+    
+     public function soluciona(Request $request)
+     {
+        $relatorio = Semus_relatorio::find($request->id);
 
+        $relatorio->status = 1;
+        $relatorio->save();
 
      }
+
 }

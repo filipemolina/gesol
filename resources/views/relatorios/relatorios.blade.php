@@ -88,22 +88,29 @@
 	         });
 	      });
 
-		$(".btn_deletar").click(function(e){
-			
-			// Evitar que a página seja recarregada
-			e.preventDefault();
+		$("body").on("click", "a.btn_deletar",function(e){
 
-			///////// TACAR O SUAL
-
-				// Obter o ID do relatório
+			// Obter o ID do relatório
 				let id_relatorio = $(this).data('relatorio');
 
-				$("#form_deletar_relatorio").attr('action', "{{url("/")}}/semsop/" + id_relatorio);
+			// Evitar que a página seja recarregada	
+				e.preventDefault();
 
-				$("#form_deletar_relatorio").submit();
+			swal({
+		         title: 'Confirma o ENVIO do Relatório?',
+		         type: 'question',
+		         showCancelButton: true,
+		         confirmButtonColor: '#3085d6',
+		         cancelButtonColor: '#d33',
+		         confirmButtonText: 'Sim',
+		         cancelButtonText: 'Não',
+		      }).then(function(){
 
-			///////// TACAR O SUAL
-			
+				 $("#form_deletar_relatorio").attr('action', "{{url("/")}}/semsop/" + id_relatorio);
+
+				 $("#form_deletar_relatorio").submit();
+
+				});
 		});
 
 		$('#relatorios').DataTable({

@@ -121,6 +121,8 @@ Route::get('semsop/datatables', 'Semsop_RelatorioController@dados');
 Route::get('semus/pdf/{id}','Semus_RelatorioController@imprimir');
 // Enviar Formulario
 Route::post('semus/enviaformulario','Semus_RelatorioController@envia');
+// Soluciona Ocorrencia
+Route::post('semus/solucionaformulario','Semus_RelatorioController@soluciona');
 
 
 
