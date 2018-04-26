@@ -34,13 +34,13 @@
 								</tr>
 							</thead>
 							 <tbody>
-						 		 @foreach($relatorios as $relatorio)
-						 		 <tr>
-						 		  <td>@if($relatorio->status) <font color="blue">Solucionado</font> @else <font color="red">Em Andamento</font> @endif</td>
-								  <td style="width: 45%;">{{ mb_strimwidth($relatorio->relato, 0, 70,"...") }}</td>
-							      <td>{{ date('d-m-Y', strtotime($relatorio->data))}}</td>
-							      <td style="width: 21%;">{{ $relatorio->funcionario->setor->nome }} </td>
-        								<td style="width: 16%;">
+								@foreach($relatorios as $relatorio)
+						 			<tr>
+							 		  <td>@if($relatorio->status) <font color="blue">Solucionado</font> @else <font color="red">Em Andamento</font> @endif</td>
+									  <td style="width: 45%;">{{ mb_strimwidth($relatorio->relato, 0, 70,"...") }}</td>
+								     <td>{{ date('d-m-Y', strtotime($relatorio->data))}}</td>
+								     <td style="width: 21%;">{{ $relatorio->funcionario->setor->nome }} </td>
+	        						  <td style="width: 16%;">
 											<a href="{{ url("/semus/$relatorio->id")}}" 
 												class="btn btn-primary btn-xs  action  pull-right botao_acao"
 												data-toggle="tooltip"  
@@ -117,6 +117,31 @@
 
 <script type="text/javascript"> 
 	$(document).ready(function() {
+
+		let tabela = $('#relatorios').DataTable({
+			language : {
+                      'url' : '{{ asset('js/portugues.json') }}',
+                      "decimal": ",",
+                      "thousands": "."
+                    }, 
+        	stateSave: true,
+        	stateDuration: -1,
+			responsive: true,
+			deferRender: true,
+			compact: true,
+
+			"columnDefs": [
+    			{ "width": "15%", "targets": 3 },
+    			{ className: "text-center", "targets": [3] },
+  			]
+
+        /*"columnDefs": 
+        [
+          { className: "text-center", "targets": [5] },
+          { className: "text-right",  "targets": [2] }
+        ]*/
+		});
+
 		$("table#relatorios").on("click", ".btn_enviar",function(){
 			
 			let id = $(this).data('relatorio');
@@ -182,7 +207,10 @@
 	 					btn.css("display", 'none');
 	 					btn.siblings(".btn_control").css("display", 'none');
 				 	})
+
 				 	window.location.reload();
+
+					// tabela.ajax.reload();
 	         });
 	      });
 
@@ -206,29 +234,6 @@
 			
 		});
 
-		$('#relatorios').DataTable({
-			language : {
-                      'url' : '{{ asset('js/portugues.json') }}',
-                      "decimal": ",",
-                      "thousands": "."
-                    }, 
-        	stateSave: true,
-        	stateDuration: -1,
-			responsive: true,
-			deferRender: true,
-			compact: true,
-
-			"columnDefs": [
-    			{ "width": "15%", "targets": 3 },
-    			{ className: "text-center", "targets": [3] },
-  			]
-
-        /*"columnDefs": 
-        [
-          { className: "text-center", "targets": [5] },
-          { className: "text-right",  "targets": [2] }
-        ]*/
-		});
 	});
 
 	</script>
