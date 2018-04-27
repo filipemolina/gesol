@@ -17,9 +17,10 @@
 			</div>
 			
 				
-			<div class="row" style="padding-left: 6%;">
+			<div class="row" style="padding-left: 80%;">
 				<tr>
-					<td>{{ $relatorio->tipo }}</td>
+					{{-- <td>{{ $relatorio->tipo }}</td> --}}
+					<td>{{ $relatorio->numero}}</td>
 				</tr>
 			</div>
 
