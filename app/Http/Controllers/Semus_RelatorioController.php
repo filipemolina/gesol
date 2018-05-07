@@ -62,6 +62,9 @@ class Semus_RelatorioController extends Controller
         
         $Semus_relatorio->funcionario_id = $funcionario_id;
 
+        //$Semus_relatorio->numero = proximoValorSequence('semus_relatorios_numero'); 
+        $Semus_relatorio->numero = obtemNumeroRelatorioSemus($request); 
+
         $Semus_relatorio->save();
 
         //Salvar a imagens

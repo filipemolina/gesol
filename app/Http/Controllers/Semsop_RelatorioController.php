@@ -55,7 +55,7 @@ class Semsop_RelatorioController extends Controller
 
          $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
          $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
-         $funcionarios = Funcionario::all();
+         $funcionarios = Funcionario::orderBy('nome','ASC')->get();
 
          return view ('relatorios.create', compact('origens','acoes_gcmm','acoes_cop','funcionarios'));
     }
@@ -63,6 +63,7 @@ class Semsop_RelatorioController extends Controller
     
     public function store(Request $request)
     {
+             //dd($request->all());
             $this->validate($request, [             
                 'envolvidos'            =>'required',
                 'origem'                =>'required',
@@ -117,7 +118,7 @@ class Semsop_RelatorioController extends Controller
         // Salvar o relatório
         $Semsop_relatorio->save();
 
-        //Salvar a imagens
+        //Salvar as imagens
 
         // Testar se alguma imagem foi enviada
         if(count($request->imagens) > 1){
@@ -178,15 +179,16 @@ class Semsop_RelatorioController extends Controller
         $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
         $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
         $funcionarios = Funcionario::all();
+        $imagens = $relatorio->imagens;
 
     
-        return view('relatorios.edit',compact('relatorio','origens','acoes_gcmm','acoes_cop','funcionarios'));
+        return view('relatorios.edit',compact('relatorio','origens','acoes_gcmm','acoes_cop','funcionarios','imagens'));
     }
 
     
     public function update(Request $request, $id)
     {  
-        //dd($request->all());
+        
         // Pega o relatorio pelo id
         $relatorio = Semsop_relatorio::find($id);
         
@@ -211,6 +213,33 @@ class Semsop_RelatorioController extends Controller
         $relatorio->fill($request->all());
 
         $relatorio->save();
+
+         // Testar se alguma imagem foi enviada
+        if(count($request->imagens) > 1){
+
+            // Vetor que vai armazenar todos os ids das imagens
+            $imagens_ids = [];
+
+            // Iterar por todas as imagens
+            foreach($request->imagens as $imagem){
+
+                // O vetor de imagens sempre possui uma posição nula referente ao campo
+                // hidden que é usado para clonar
+                if($imagem !== null){
+
+                    $img = Imagem::create([
+                        'imagem' => $imagem,
+                    ]);
+
+                    $imagens_ids[] = $img->id;
+                }
+
+            }
+            
+            $relatorio->imagens()->attach($imagens_ids);
+
+        }
+
 
         return redirect(url('/semsop'));
 
@@ -360,7 +389,7 @@ class Semsop_RelatorioController extends Controller
             $colecao->push([
                 'origem' => $relatorio->origem,
                 'local'  => $relatorio->endereco->logradouro,
-                'numero' =>$relatorio->numero,
+                'numero' => $relatorio->numero,
                 'relato' => mb_strimwidth($relatorio->relato, 0, 70,"..."),
                 'data'   => date('d-m-Y', strtotime($relatorio->data)),
                 'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,

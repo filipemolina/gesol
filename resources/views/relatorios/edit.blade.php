@@ -334,15 +334,14 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 										<option value=""></option>
 
 										 @foreach($funcionarios as $funcionario)
-										<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }} </option> 
-										@endforeach
-
+											<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }} </option> 
+										 @endforeach
 									</select>
 									<span class="material-input"></span>
 								</div>
 							</div>
-			    			</div>
-							<div class="col-xs-12 col-md-2">
+			    		</div>
+						<div class="col-xs-12 col-md-2">
 							<div class="input-group" style="padding-top: 28px;" >
         						<input type="button" class="button tiny success btn_remove" value="Remover" />
     						</div>
@@ -350,15 +349,62 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 					</div> 
 				</div>
 			</div>
-
-
-
-
 			<!-- =============FIM ADICIONAR OUTROS FUNCIONARIOS NO RELATORIO=========== -->
-
 
 			<!-- ============================IMAGEM============================ -->
 			
+			 <div >
+			 	<div id="imagens">
+					<div>
+						<div class="small-12 columns text-right">
+    		 				<center>
+    		 					<h4>ADICIONAR FOTOS AO FORMULARIO</h4>
+    		 					<button type="button" class="small tiny alert clonarfoto btnfuncionario"></button>
+    		 				</center>
+ 						</div>
+
+ 						@foreach($imagens as $imagem)
+
+							<div class="imagem_relatorio imagem_{{$imagem->id}}">
+								<div class="fileinput-new thumbnail" style="max-width: 285px;">
+									<img src="{{$imagem->imagem}}" alt="" class="img_rel" />
+								</div>
+								<button data-id="{{$imagem->id}}" class="btn btn-dange btn_excluir_imagem">Deletar</button>
+
+							</div>
+
+						@endforeach
+
+						<div class="fileinput fileinput-new box_imagens hide" data-provides="fileinput">
+
+							<div class="fileinput-new thumbnail" style="max-width: 285px;">
+								<img src="{{asset("img/image_placeholder.jpg")}}" alt="..." id="imagem_thumb">
+							</div>
+
+							<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 285px;"></div>
+
+							<div class="col-md-offset-4 col-sm-offset-4 col-md-12 col-sm-12">
+								<span class="btn btn-primary btn-round btn-file">
+									<span class="fileinput-new">Selecione</span>
+									<span class="fileinput-exists">Alterar</span>
+									<input type="file" name="foto">
+								</span>
+								<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class=></i>Excluir</a>
+							</div>
+
+							<input type="hidden" name="fotos[]" class="foto"/>
+							<input type="hidden" name="imagens[]" class="imagens"/>
+							<div class="col-xs-12 col-md-2">
+							<div class="input-group">
+        						<input type="button" class="button tiny success btn_remove" value="Remover"  />
+    						</div>
+    					</div>
+
+						</div>
+					</div>
+				</div>	
+			</div>
+			    
 			<!-- ============================FIM IMAGEM============================ -->
 			
 
@@ -392,11 +438,88 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 
 	$(function(){
-		//Fazer o label do input,select e textarea subir quando estiver preenchido
-		$("input, select, textarea").change();
-		// Mascara
-		VMasker ($("#cep")).maskPattern("99999-999");
-      });
+
+			$('body').on('change.bs.fileinput', function(e){
+
+				// Executar apenas se o evento for disparado pelo plugin de imagens
+
+				if($(e.target).is("div.fileinput.box_imagens"))
+				{
+					let base64 = $(e.target).find(".fileinput-preview img").attr('src');
+
+					let input = $(e.target).find("input.imagens").first();
+
+					$(input).val(base64);
+				}
+
+			});
+
+			$('body').on('clear.bs.fileinput', function(e){
+
+				let base64 = $(e.target).find(".fileinput-preview img").attr('src');
+
+				let input = $(e.target).find("input.imagens").first();
+
+				$(input).val(base64);
+
+			});
+
+			///////////////////// DELETAR UMA IMAGEM
+
+			$("button.btn_excluir_imagem").click(function(e){
+
+				e.preventDefault();
+
+				console.log("Chamou a função de deletar");
+
+				let id = $(this).data('id');
+
+				$.post("{{ url("/imagens/") }}/" + id, {
+					_token: token, // Variável definida no template material.blade
+					_method: "DELETE",
+				}, function(data) {
+
+					// Apagar a imagem na tela
+					$("div.imagem_relatorio.imagem_" + id).remove();
+
+					console.log("REQUEST ENVIADA", data);
+				});
+
+				return false;
+ 
+			})
+
+			///////////////////// DELETAR UMA IMAGEM
+
+			// Mascara
+			VMasker ($("#cep")).maskPattern("99999-999");
+
+			$('.clonador').click(function(){
+			    $clone = $('.box_funcionario.hide').clone(true);
+			    $clone.removeClass('hide');
+			    $('#funcionario').append($clone);
+			});
+
+			$('.btn_remove').click(function(){
+			    $(this).parents('.box_funcionario').remove();
+			});
+
+			$('.clonarfoto').click(function(){
+			    $clone = $('.box_imagens.hide').clone(true);
+			    $clone.removeClass('hide');
+			    $('#imagens').append($clone);
+			});
+
+			$('.btn_remove').click(function(){
+			    $(this).parents('.box_imagens').remove();
+			});
+
+			$("#btn_cancelar").click(function(){
+		      event.preventDefault();
+		       window.history.back();
+	      });
+
+      	});
 		 
 
 	$(document).ready();
