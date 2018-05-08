@@ -1,3 +1,6 @@
+const BOSH_SERVICE = "https://srvchat.mesquita.rj.gov.br:7443/http-bind";
+const DOMAIN_NAME = "srvchat.mesquita.rj.gov.br";
+
 // Sweet Alert
 var helper = {
 
@@ -215,15 +218,74 @@ $(function(){
 
     atualizarNotificacoes();
 
+    // Inicializar o Converse.js
+    cadastrarNoXmpp();
+    
+
 });
+
+function cadastrarNoXmpp(){
+  // Criar a conexão
+  connection = new Strophe.Connection(BOSH_SERVICE);
+
+  // Dados do usuário atualmente logado
+  const username = email.substr(0, email.indexOf('@'));
+  const password = md5(username);
+
+  connection.register.connect(DOMAIN_NAME, function(status){
+
+    // Tentar registrar o usuário
+    if(status == Strophe.Status.REGISTER){
+      
+      connection.register.fields.username = username;
+      connection.register.fields.password = password;
+      connection.register.fields.email    = email;
+      connection.register.fields.name     = nome;
+      connection.register.submit();
+    }
+    // Caso o usuário já seja registrado
+    else if(   status === Strophe.Status.REGISTERED 
+            || status === Strophe.Status.CONNECTED 
+            || status === Strophe.Status.CONFLICT
+            ){
+      
+      // Adicionar o usuário ao grupo que contém todos os usuários do gesol
+      $.ajax("http://srvchat.mesquita.rj.gov.br:9090/plugins/restapi/v1/users/gesol/groups/GESOL", {
+        headers: {
+          "Authorization": "Basic YWRtaW46c3R4OThAMzI=",
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        method: 'POST',
+        success: function(){
+
+          // Iniciar o Converse.js com o login automático
+          converse.initialize({
+            bosh_service_url: BOSH_SERVICE,
+            show_controlbox_by_default: true,
+            authentication: 'login',
+            auto_login: true,
+            jid: `${username}@${DOMAIN_NAME}`,
+            password: password,
+            keepalive: true,
+            i18n: 'pt_BR',
+            locales_url: url_base + '/js/converse/pt_BR/LC_MESSAGES/converse.json',
+          }); 
+        }
+      });
+    }
+
+  }, 60, 1);
+
+}
 
 function enviarComentario(elem, e){
 
-   console.log("entrou enviarComentario ID: ", $(elem).data('solicitacao') );
+   //console.log("entrou enviarComentario ID: ", $(elem).data('solicitacao') );
    // Executar essa função apenas se a tecla pressionada for o Enter ou caso nenhuma tecla tenha
    // sido pressionada (click)
 
-   console.log("KeyCode", e.keyCode);
+   //console.log("KeyCode", e.keyCode);
 
    if(e.keyCode == "13" || typeof e.keyCode === 'undefined'){
 

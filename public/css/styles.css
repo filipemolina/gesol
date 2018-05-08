@@ -2347,3 +2347,14 @@ background-size:100%;
 .Imangemsemsop{
   margin: 0 auto !important;
 }
+
+/***************************************** Converse.js */
+
+#conversejs #controlbox .controlbox-head,
+#conversejs .toggle-controlbox{
+  background-color: #BFA15F !important;
+}
+
+#conversejs a, #conversejs a:visited{
+  color: #3D276B !important;
+}
