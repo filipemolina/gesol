@@ -55,7 +55,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						<select name="origem" id=origem class="form-control form-control error">
 							<option value="" selected> </option>
 							@foreach($origens as $origem)
-						<option value="{{$origem}}"> {{$origem}} </option>    
+								<option value="{{$origem}}"> {{$origem}} </option>    
 							@endforeach
 						</select>
 						<span class="material-input"></span>

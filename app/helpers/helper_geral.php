@@ -37,6 +37,16 @@ if (! function_exists('obtemNumeroRelatorioSemsop')) {
    }
 }
 
+//retorna o proximo valor da sequence já formatada para o RELATORIO DA SEMUS
+if (! function_exists('obtemNumeroRelatorioSemus')) {
+   function obtemNumeroRelatorioSemus($tipo) {
+      $valor = DB::select(DB::raw(" SELECT nextval('semus_relatorios_numero') "));
+      $numero = "SEMUS" . "." . date("Y") .".". str_pad($valor[0]->nextval,5,"0", STR_PAD_LEFT);
+      return $numero;
+   }
+}
+
+
 //verifica o tipo de acesso que o usuário logado tem no sistema
 if (! function_exists('verificaAcesso')) {
    function verificaAcesso($funcionario_logado) {
