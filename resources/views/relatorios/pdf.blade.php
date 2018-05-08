@@ -108,17 +108,13 @@ td{
   </table>
 </div>
 							{{-- Campos do Relatorio --}}
-
-	
+							
 	 <h2 style="text-align:center;">RELATÓRIO</h2>
 
-	<table>
-	<tr>
-		<td>{{ $relatorio->tipo }}</td>
-	</tr>
-	</table>	
-	
-	<br>
+	<div class="row" style="padding-left: 80%;">
+    	{{-- {{ $relatorio->tipo }} --}}
+		{{ $relatorio->numero}}
+	</div>
 
 	<table class="separate">
 	<tr >

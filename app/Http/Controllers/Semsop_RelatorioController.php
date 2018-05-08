@@ -47,6 +47,8 @@ class Semsop_RelatorioController extends Controller
     
     public function create()
     {
+
+         
         //Retorna os Enums para seus respectivos campos
 
          $origens = pegaValorEnum('semsop_relatorios','origem');
@@ -358,7 +360,7 @@ class Semsop_RelatorioController extends Controller
             $colecao->push([
                 'origem' => $relatorio->origem,
                 'local'  => $relatorio->endereco->logradouro,
-                'acao'   => "$relatorio->acao_cop $relatorio->acao_gcm",
+                'numero' =>$relatorio->numero,
                 'relato' => mb_strimwidth($relatorio->relato, 0, 70,"..."),
                 'data'   => date('d-m-Y', strtotime($relatorio->data)),
                 'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,

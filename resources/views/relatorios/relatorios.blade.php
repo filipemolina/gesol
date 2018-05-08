@@ -26,12 +26,12 @@
 							<thead>
 								<tr>
 									<th>Origem</th>
-								   <th>Local</th>
-									<th>Ação Desenvolvida</th>
+								    <th>Local</th>
+									<th>Numero</th>
 									<th>Relato Sucinto</th>
 									<th>Data</th> 
-								   <th>Agente/Fiscal</th> 
-								   <th class="disabled-sorting text-right" style="width: 16%;">Ações</th>
+								    <th>Agente/Fiscal</th> 
+								    <th class="disabled-sorting text-right" style="width: 16%;">Ações</th>
 								</tr>
 							</thead>
 							 	{{-- Preenchido com DataTables --}}
@@ -97,7 +97,7 @@
 				e.preventDefault();
 
 			swal({
-		         title: 'Confirma o ENVIO do Relatório?',
+		         title: 'Confirma a EXCLUSÃO do Relatório?',
 		         type: 'question',
 		         showCancelButton: true,
 		         confirmButtonColor: '#3085d6',
@@ -129,7 +129,7 @@
 			columns: [
 				{ data : 'origem',        name : 'origem' },
 				{ data : 'local',        name : 'local' },
-				{ data : 'acao',        name : 'acao' },
+				{ data : 'numero',        name : 'numero' },
 				{ data : 'relato',        name : 'relato' },
 				{ data : 'data',        name : 'data' },
 				{ data : 'agente',        name : 'agente' },
