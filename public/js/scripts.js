@@ -250,7 +250,7 @@ function cadastrarNoXmpp(){
             ){
       
       // Adicionar o usuário ao grupo que contém todos os usuários do gesol
-      $.ajax("http://srvchat.mesquita.rj.gov.br:9090/plugins/restapi/v1/users/"+username+"/groups/GESOL", {
+      $.ajax("https://srvchat.mesquita.rj.gov.br:9091/plugins/restapi/v1/users/"+username+"/groups/GESOL", {
         headers: {
           "Authorization": "Basic YWRtaW46c3R4OThAMzI=",
           "Accept": "application/json",
