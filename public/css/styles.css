@@ -2358,3 +2358,22 @@ background-size:100%;
 #conversejs a, #conversejs a:visited{
   color: #3D276B !important;
 }
+
+#converse-embedded-chat .chat-head.chat-head-chatbox, 
+#conversejs .chat-head.chat-head-chatbox{
+  background-color: #BFA15F !important; 
+}
+
+#converse-embedded-chat .chatbox .box-flyout, 
+#conversejs .chatbox .box-flyout{
+  width: 370px;
+}
+
+#conversejs #controlbox {
+    margin-right: 13em !important;
+}
+
+#converse-embedded-chat .chatbox .sendXMPPMessage .chat-toolbar, 
+#conversejs .chatbox .sendXMPPMessage .chat-toolbar{
+  background-color: #bba87e !important;
+}

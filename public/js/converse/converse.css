@@ -1528,7 +1528,7 @@
   float: right;
   height: 35px;
   margin: 0 0.5em;
-  width: 200px; }
+  width: 370px; }
   @media screen and (max-height: 450px) {
     #converse-embedded-chat .chatbox,
     #conversejs .chatbox {
@@ -1548,8 +1548,8 @@
     box-shadow: 1px 3px 5px 3px rgba(0, 0, 0, 0.4);
     height: 450px;
     min-height: 225px;
-    min-width: 200px;
-    width: 200px;
+    min-width: 370px;
+    width: 370px;
     z-index: 1; }
     @media screen and (max-height: 450px) {
       #converse-embedded-chat .chatbox .box-flyout,
@@ -1717,7 +1717,7 @@
     padding: 0;
     position: relative;
     height: 95px;
-    min-width: 200px; }
+    min-width: 370px; }
     @media screen and (max-height: 450px) {
       #converse-embedded-chat .chatbox .sendXMPPMessage,
       #conversejs .chatbox .sendXMPPMessage {
@@ -2632,7 +2632,7 @@
         height: 100%;
         width: 70%;
         float: left;
-        min-width: 200px; }
+        min-width: 370px; }
         #converse-embedded-chat .chatroom .box-flyout .chatroom-body .chat-area .new-msgs-indicator,
         #conversejs .chatroom .box-flyout .chatroom-body .chat-area .new-msgs-indicator {
           background-color: #E77051;
