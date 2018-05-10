@@ -2,6 +2,9 @@ const BOSH_SERVICE = "https://gesol.mesquita.rj.gov.br:7443/http-bind";
 const DOMAIN_NAME = "gesol.mesquita.rj.gov.br";
 const API_URL = "https://gesol.mesquita.rj.gov.br:9091/plugins/restapi/v1";
 
+// Variável usada pra conectar e desconectar o usuário
+let _converse;
+
 // Sweet Alert
 var helper = {
 
@@ -219,15 +222,32 @@ $(function(){
 
     atualizarNotificacoes();
 
+    // Expor funcionalidades privadas do Converse.js
+
+    converse.plugins.add("teste", {
+
+      initialize: function(){
+
+        _converse = this._converse;
+
+      } 
+
+    });
+
     // Inicializar o Converse.js
     cadastrarNoXmpp();
+
+    // Código para encerrar a sessão se o usuário sair da página
+    window.onbeforeunload = function() {
+      encerrarSessaoConverse();
+    }
     
 
 });
 
 function cadastrarNoXmpp(){
   // Criar a conexão
-  connection = new Strophe.Connection(BOSH_SERVICE);
+  let connection = new Strophe.Connection(BOSH_SERVICE);
 
   // Dados do usuário atualmente logado
   const username = email.substr(0, email.indexOf('@'));
@@ -271,6 +291,9 @@ function cadastrarNoXmpp(){
             keepalive: true,
             i18n: 'pt_BR',
             locales_url: url_base + '/js/converse/pt_BR/LC_MESSAGES/converse.json',
+            nickname: nome,
+            play_sounds: true,
+            whitelisted_plugins: ['teste'],
           }); 
         }
       });
@@ -278,6 +301,12 @@ function cadastrarNoXmpp(){
 
   }, 60, 1);
 
+}
+
+function encerrarSessaoConverse(){
+  console.log("Saindo...");
+  _converse.auto_login = false;
+  _converse.logOut();
 }
 
 function enviarComentario(elem, e){
