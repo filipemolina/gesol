@@ -1,5 +1,6 @@
-const BOSH_SERVICE = "https://srvchat.mesquita.rj.gov.br:7443/http-bind";
-const DOMAIN_NAME = "srvchat.mesquita.rj.gov.br";
+const BOSH_SERVICE = "https://gesol.mesquita.rj.gov.br:7443/http-bind";
+const DOMAIN_NAME = "gesol.mesquita.rj.gov.br";
+const API_URL = "https://gesol.mesquita.rj.gov.br:9091/plugins/restapi/v1";
 
 // Sweet Alert
 var helper = {
@@ -250,7 +251,7 @@ function cadastrarNoXmpp(){
             ){
       
       // Adicionar o usuário ao grupo que contém todos os usuários do gesol
-      $.ajax("https://srvchat.mesquita.rj.gov.br:9091/plugins/restapi/v1/users/"+username+"/groups/GESOL", {
+      $.ajax(`${API_URL}/users/${username}/groups/GESOL`, {
         headers: {
           "Authorization": "Basic YWRtaW46c3R4OThAMzI=",
           "Accept": "application/json",
