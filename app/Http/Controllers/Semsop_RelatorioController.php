@@ -337,7 +337,7 @@ class Semsop_RelatorioController extends Controller
                         <i class='glyphicon glyphicon-print'></i>
                     </a>
                 </td>";
-            } else if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_COP"])) {
+            } else if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_FISCAL"])) {
             
                 $acoes .= "<td style='width: 16%;''>
                     <a href='".url("/semsop/$relatorio->id")."' 
