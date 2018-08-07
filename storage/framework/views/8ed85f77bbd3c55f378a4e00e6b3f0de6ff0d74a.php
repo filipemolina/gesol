@@ -11,7 +11,7 @@
 		 	GS
 	  	</a>
 	  	<a href="#" class="simple-text logo-normal">
-		 	GESOL  <i style="font-size: 8px;">( v1.2.1.psg )</i>
+		 	GESOL  <i style="font-size: 8px;">( v1.2.2.psg )</i>
 	  	</a>
    </div>
 
@@ -134,15 +134,7 @@
 					</a>
 				</li>                                                      
 
-			<?php elseif($funcionario_logado->role->peso == 80): ?>
-				
-				<li>
-					<a href="<?php echo e(url("/funcionario")); ?>">
-						<i class=" mdi mdi-account-multiple"></i> 
-						<p>Funcionarios</p>
-					</a>
-				</li>                        
-
+			
 			<?php elseif($funcionario_logado->role->peso == 90): ?>
 				<li>
 					<a href="<?php echo e(url("/funcionario")); ?>">
@@ -151,7 +143,7 @@
 					</a>
 				</li>
 
-			<?php elseif($funcionario_logado->role->peso == 100): ?>
+			<?php elseif($funcionario_logado->role->peso == 100 || $funcionario_logado->role->peso == 80): ?>
 				<li>
 					<a href="<?php echo e(url("/funcionario")); ?>">
 						<i class=" mdi mdi-account-multiple"></i> 
