@@ -35,8 +35,9 @@
 		<!-- bootstrap-colorpicker     -->
 		<link href="{{ asset('bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet" />
 
-
-
+		{{-- <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/css/converse.min.css"> --}}
+		{{-- Converse.JS --}}
+		<link rel="stylesheet" type="text/css" href="{{ asset('js/converse/converse.css') }}">
 
 		@stack('css')
 		
@@ -96,7 +97,7 @@
 			let setor       = "{{ $funcionario_logado->setor->nome }}";
 			let setor_id    = "{{ $funcionario_logado->setor->id }}";
 			let sigla       = "{{ $funcionario_logado->setor->secretaria->sigla }}";
-
+			let email       = "{{ $funcionario_logado->user->email }}";
 
 			let tokenGesol  = "{{ $funcionario_logado->user->createToken('Web')->accessToken }}";
 
@@ -147,8 +148,15 @@
 		<script src="{{ asset('js/datetime-moment.js') }}"></script>
 		<script src="{{ asset('js/fullcalendar.min.js') }}"></script>
 
-		{{-- Imagens --}}
-	
+		{{-- Converse.js --}}
+		<script src="https://cdn.conversejs.org/dist/converse.min.js"></script>
+
+		{{-- Strophe.js Usado para fazer a conexão automárica do Converse.js --}}
+		<script src="{{ asset('js/strophe.js') }}"></script>
+		<script src="{{ asset('js/strophe.register.js') }}"></script>
+
+		{{-- MD5 --}}
+		<script src="{{ asset('js/md5.min.js') }}"></script>
 
 
 		{{-- Funções Javascript --}}
