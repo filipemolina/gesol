@@ -9,7 +9,6 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 @section('content')
 
 <div class="card">
-	
 	<div class="card-header card-header-icon" data-background-color="dourado">
 		<i class="material-icons">chat bubble</i>
 	</div>
@@ -52,7 +51,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a origem do serviço</label>
-						<select name="origem" id=origem class="form-control form-control error">
+						<select name="origem" id=origem class="form-control form-control error" required>
 							<option value="" selected> </option>
 							@foreach($origens as $origem)
 								<option value="{{$origem}}"> {{$origem}} </option>    
@@ -73,13 +72,13 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a ação desenvolvida</label>
 			@if($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_FISCAL')->count() )  
-						<select name="acao_cop" id="acao_cop" class="form-control form-control error">
+						<select name="acao_cop" id="acao_cop" class="form-control form-control error" required>
 							<option value="">  </option>
 							@foreach($acoes_cop as $acao_cop)
 							<option value="{{$acao_cop}}"> {{$acao_cop}}</option>
 							@endforeach 
 			@elseif($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_GCMM')->count() )
-						<select name="acao_gcmm" id="acao_gcmm " class="form-control form-control error"> 	  <option value="">  </option>
+						<select name="acao_gcmm" id="acao_gcmm " class="form-control form-control error" required> 	  <option value="">  </option>
 							@foreach($acoes_gcmm as $acao_gcmm)
 							<option value="{{$acao_gcmm}}"> {{$acao_gcmm}}</option>
 							@endforeach
@@ -99,7 +98,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 					</span>
 					<div class="form-group label-floating has-roxo is-empty" >
 						<label class="label-control" style="color: #3d276b;">Data	</label>
-						<input id="data" name="data" type="date" class="form-control" value="">
+						<input id="data" name="data" type="date" class="form-control" value="" required>
 						<span class="material-input"></span>
 					</div>
 				</div>
@@ -111,7 +110,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 					</span>
 					<div class="form-group label-floating has-roxo is-empty" style="padding-right: 84px">
 						<label class="label-control" style="color: #3d276b;">Hora	</label>
-						<input name="hora" type="time" class="form-control">
+						<input name="hora" type="time" class="form-control" required>
 						<span class="material-input"></span>
 					</div>
 				</div>
@@ -194,7 +193,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Envolvidos</label>
-							<textarea id="envolvidos" name="envolvidos" type="text" class="form-control"  rows="2"></textarea>
+							<textarea id="envolvidos" name="envolvidos" type="text" class="form-control"  rows="2" required></textarea>
 							<span class="material-input"></span>
 						</div>
 					</div>
@@ -208,7 +207,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Relato Sucinto</label>
-							<textarea id="relato" name="relato" type="text" class="form-control"  rows="2"></textarea>
+							<textarea id="relato" name="relato" type="text" class="form-control"  rows="2" required></textarea>
 			
 							<span class="material-input"></span>
 						</div>
@@ -224,7 +223,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Providências Adotadas</label>
-							<textarea id="providencia" name="providencia" type="text" class="form-control"  rows="2"></textarea>
+							<textarea id="providencia" name="providencia" type="text" class="form-control"  rows="2" required></textarea>
 							<span class="material-input"></span>
 						</div>
 					</div>
