@@ -22,12 +22,12 @@ class CreateCargosTable extends Migration
         });
 
         //para usar com postgres
-        DB::statement(" 
+        /* DB::statement(" 
             ALTER TABLE cargos 
 	            ALTER COLUMN tipo DROP DEFAULT,
 	            ALTER COLUMN tipo type tp_tipo_cargos USING (tipo::tp_tipo_cargos),
 	            ALTER COLUMN tipo SET DEFAULT 'E'
-        ");
+        "); */
 
         Schema::table('cargos', function($table){
             $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');

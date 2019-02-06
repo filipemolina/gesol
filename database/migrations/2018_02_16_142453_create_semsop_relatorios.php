@@ -105,7 +105,7 @@ class CreateSemsopRelatorios extends Migration
         });
 
         //para usar com postgres
-        DB::statement(" 
+        /* DB::statement(" 
             ALTER TABLE semsop_relatorios 
 	            ALTER COLUMN origem DROP DEFAULT,
 	            ALTER COLUMN origem type tp_origem USING (origem::tp_origem)
@@ -127,7 +127,7 @@ class CreateSemsopRelatorios extends Migration
             ALTER TABLE semsop_relatorios 
 	            ALTER COLUMN tipo DROP DEFAULT,
 	            ALTER COLUMN tipo type tp_relatorio_semsop USING (tipo::tp_relatorio_semsop)
-        ");
+        "); */
 
         Schema::table('semsop_relatorios', function($table){
             $table->foreign('endereco_id')->references('id')->on('enderecos')->onDelete('cascade');

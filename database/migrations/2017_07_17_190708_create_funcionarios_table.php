@@ -32,12 +32,12 @@ class CreateFuncionariosTable extends Migration
 
         
         //para usar com postgres
-        DB::statement(" 
+   /*      DB::statement(" 
             ALTER TABLE funcionarios 
 	            ALTER COLUMN tipo DROP DEFAULT,
 	            ALTER COLUMN tipo type tp_tipo_funcionario USING (tipo::tp_tipo_funcionario),
 	            ALTER COLUMN tipo SET DEFAULT 'Efetivo'
-        ");
+        "); */
 
         Schema::table('funcionarios', function($table){
             $table->foreign('setor_id')->references('id')->on('setores')->onDelete('cascade');

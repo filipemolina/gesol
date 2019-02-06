@@ -32,7 +32,7 @@ class HomeController extends Controller
 	{
 
 		$funcionario_logado              = Funcionario::find(Auth::user()->funcionario_id);
-			
+		
 		// rotina de segurança, caso alguem não tenha funcionario_id mas tenha solicitante_id e tenha usado
 		// a rotina para gerar nova senha por email
 		if (! $funcionario_logado) {
@@ -41,99 +41,99 @@ class HomeController extends Controller
 		}
 		
 		$secretarias           = Secretaria::all()->sortBy('nome');
-
+		
 		$resultados = [];
 		$secretaria_funcionario_logado   = $funcionario_logado->setor->secretaria->id;
 		// $atribuicoes_funcionario_logado  = $funcionario_logado->atribuicoes();
-
+		
 		//dd( $funcionario_logado->atribuicoes() );
 		
-
+		
 		//limites de datas para pegar apenas as solicitações do ANO ANTERIOR
 		$ano_anterior              = Carbon::now()->year-1;
 		$data_inicio_ano_anterior  = Carbon::createFromFormat('Y-m-d H:i:s', $ano_anterior.'-01-01 00:00:00');
 		$data_fim_ano_anterior     = Carbon::createFromFormat('Y-m-d H:i:s', $ano_anterior.'-12-31 23:59:59');
-
+		
 		//limites de datas para pegar apenas as solicitações do ANO CORRENTE
 		$ano = Carbon::now()->year;
 		$data_inicio   = Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-01-01 00:00:00');
 		$data_fim      = Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-12-31 23:59:59');
-
-
-
-
+		
+		
+		
+		
 		if( Solicitacao::count() > 0)
 		{
 			//$resultados = $this->preparaDashboard($funcionario_logado->role->acesso);
 			switch ($funcionario_logado->role->peso) {
 				case 10:  
-					$viu='dash-Moderador'; 
-					//$resultados = dashboardModerador();     
-					break;   //MODERADOR
-					
+				$viu='dash-Moderador'; 
+				//$resultados = dashboardModerador();     
+				break;   //MODERADOR
+				
 				case 20:  
-					$viu='dash-Moderador'; 
-					//$resultados = dashboardModerador();     
-					break;   //SAC
-
+				$viu='dash-Moderador'; 
+				//$resultados = dashboardModerador();     
+				break;   //SAC
+				
 				case 30:  
-					$viu='dash-Funcionario'; 
-					//$resultados = dashboardFuncionario();   
-					break;   //FUNCIONARIO
-					
+				$viu='dash-Funcionario'; 
+				//$resultados = dashboardFuncionario();   
+				break;   //FUNCIONARIO
+				
 				case 40:  
-					$viu='dash-Funcionario'; 
-					//$resultados = dashboardFuncionario();   
-					break;   //Funcionário Responsável Setor
-					
+				$viu='dash-Funcionario'; 
+				//$resultados = dashboardFuncionario();   
+				break;   //Funcionário Responsável Setor
+				
 				case 50:  
-					$viu='dash-Funcionario'; 
-					//$resultados = dashboardFuncionario();   
-					break;   //Funcionário Responsável Setor
-
+				$viu='dash-Funcionario'; 
+				//$resultados = dashboardFuncionario();   
+				break;   //Funcionário Responsável Setor
+				
 				case 55:  
-					$viu='dash-Funcionario'; 
-					//$resultados = dashboardFuncionario();   
-					break;   //SUBSECRETARIO
-					
+				$viu='dash-Funcionario'; 
+				//$resultados = dashboardFuncionario();   
+				break;   //SUBSECRETARIO
+				
 				case 60:  
-					$viu='dash-Funcionario'; 
-					//$resultados = dashboardFuncionario();   
-					break;   //SECRETARIO
-
+				$viu='dash-Funcionario'; 
+				//$resultados = dashboardFuncionario();   
+				break;   //SECRETARIO
+				
 				case 70:  
-					$viu='dash-Prefeito'; 
-					//$resultados = dashboardPrefeito();      
-					break;   //OUVIDOR
-					
+				$viu='dash-Prefeito'; 
+				//$resultados = dashboardPrefeito();      
+				break;   //OUVIDOR
+				
 				case 80:  
-					$viu='dash-Prefeito'; 
-					//$resultados = dashboardPrefeito();      
-					break;   //PREFEITO
+				$viu='dash-Prefeito'; 
+				//$resultados = dashboardPrefeito();      
+				break;   //PREFEITO
 				
 				case 90:  
-					$viu='dash-TI'; 
-					//$resultados = dashboardTI();            
-					break;   //TI
-					
+				$viu='dash-TI'; 
+				//$resultados = dashboardTI();            
+				break;   //TI
+				
 				case 100: 
-					$viu='dash-TI'; 
-					//$resultados = dashboardTI();            
-					break;   //DSV
+				$viu='dash-TI'; 
+				//$resultados = dashboardTI();            
+				break;   //DSV
 				
 			}
-
-
+			
+						
 			if( $funcionario_logado->role->peso >= 30 and $funcionario_logado->role->peso <= 60 )
 			{
-			//FUNCIONARIO
-			//FUNCIONARIO_SUP
-			//FUNCIONARIO_ADM
-			//SECRETARIO
-			// ==============================================================================================
-			//    TOTAL TODAS AS SOLICITAÇÕES
-			// ==============================================================================================
-			$solicitacoes_todas = Solicitacao::whereHas('servico', function($q) use ($secretaria_funcionario_logado){
+				//FUNCIONARIO
+				//FUNCIONARIO_SUP
+				//FUNCIONARIO_ADM
+				//SECRETARIO
+				// ==============================================================================================
+				//    TOTAL TODAS AS SOLICITAÇÕES
+				// ==============================================================================================
+				$solicitacoes_todas = Solicitacao::whereHas('servico', function($q) use ($secretaria_funcionario_logado){
 				$q->whereHas('setor', function($q2) use ($secretaria_funcionario_logado){
 				$q2->whereHas('secretaria', function($q3) use ($secretaria_funcionario_logado){
 					$q3->where('id', $secretaria_funcionario_logado);
