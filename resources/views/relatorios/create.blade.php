@@ -14,7 +14,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 	</div>
 
 	<div class="card-content">
-		<h4 class="card-title">Novo Relatorio</h4>
+		<h4 class="card-title">Novo Relatorio</h4><i style="float:right"><b>*</b> Campos obrigatorios</i>
 		<form action="{{ url('/semsop') }}" method="POST" id="form_relatorio">
 			{{ csrf_field() }}
   
@@ -45,7 +45,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-6">
 				<div class="input-group" >
-					<span class="input-group-addon">
+					*<span class="input-group-addon">
 						<i class="material-icons">swap_horiz</i>
 					</span>
 
@@ -54,7 +54,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 						<select name="origem" id=origem class="form-control form-control error" required>
 							<option value="" selected> </option>
 							@foreach($origens as $origem)
-								<option value="{{$origem}}"> {{$origem}} </option>    
+								<option value="{{$origem}}"> {{$origem}} </option> 
 							@endforeach
 						</select>
 						<span class="material-input"></span>
@@ -66,7 +66,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 			<div class="col-xs-12 col-sm-6 col-md-6">
 				<div class="input-group" >
-					<span class="input-group-addon">
+					*<span class="input-group-addon">
 						<i class="material-icons">card_membership</i>
 					</span>
 					<div class="form-group label-floating has-roxo is-empty">
@@ -93,7 +93,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-3">
 				<div class="input-group">
-					<span class="input-group-addon" style="padding-left: 27px">
+					*<span class="input-group-addon" style="padding-left: 27px">
 						<i class="material-icons">event</i>
 					</span>
 					<div class="form-group label-floating has-roxo is-empty" >
@@ -105,7 +105,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			</div>
 			<div class="col-xs-12 col-md-4 col-md-offset-3">
 				<div class="input-group">
-					<span class="input-group-addon">
+					*<span class="input-group-addon">
 						<i class="material-icons">access_time</i>
 					</span>
 					<div class="form-group label-floating has-roxo is-empty" style="padding-right: 84px">
@@ -188,7 +188,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<div class="row">
 				<div class="card-content">
 					<div class="input-group">
-						<span class="input-group-addon">
+						*<span class="input-group-addon">
 							<i class="material-icons">group</i>
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
@@ -202,7 +202,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<div class="row">
 				<div class="card-content">
 					<div class="input-group">
-						<span class="input-group-addon">
+						*<span class="input-group-addon">
 							<i class="material-icons">insert_comment</i>
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
@@ -218,7 +218,7 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<div class="row">
 				<div class="card-content">
 					<div class="input-group">
-						<span class="input-group-addon">
+						*<span class="input-group-addon">
 							<i class="material-icons">mode_edit</i>
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
@@ -375,6 +375,16 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 	<script type="text/javascript">
 		$(function(){
+
+			$('body').submit(function(event){
+				if ($(this).hasClass('enviar-relatorio')) {
+					event.preventDefault();
+				}
+				else {
+					$(this).find(':submit').html('<i class="fa fa-spinner fa-spin"></i>');
+					$(this).addClass('enviar-relatorio');
+				}
+			});
 
 			$('body').on('change.bs.fileinput', function(e){
 
