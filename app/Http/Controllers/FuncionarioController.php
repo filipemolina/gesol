@@ -55,11 +55,10 @@ class FuncionarioController extends Controller
 		// busca a secretaria do funcionario logado
 		$secretaria_funcionario_logado = $funcionario_logado->setor->secretaria->id;
 		
-		if($funcionario_logado->role->peso >= 0){
+		if($funcionario_logado->role->peso >= 70){
 			
 			$funcionarios = Funcionario::all();
 			
-			dd($funcionarios);
 			
 		}elseif($funcionario_logado->role->peso >= 30 and $funcionario_logado->role->peso <= 60){
 			

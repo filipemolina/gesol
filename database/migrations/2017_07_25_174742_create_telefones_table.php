@@ -35,11 +35,11 @@ class CreateTelefonesTable extends Migration
             $table->foreign('setor_id')         ->references('id')->on('setores')       ->onDelete('cascade');
         });
 
-        /* DB::statement(" 
+        DB::statement(" 
             ALTER TABLE telefones 
 	            ALTER COLUMN tipo_telefone DROP DEFAULT,
 	            ALTER COLUMN tipo_telefone type tp_telefone USING (tipo_telefone::tp_telefone)
-        "); */
+        ");
     }
 
     /**

@@ -92,8 +92,8 @@ if (! function_exists('mostraAcesso')) {
 if (! function_exists('pegaValorEnum')) {
    function pegaValorEnum($table, $column) {
       //para usar no mysql
-      $type = DB::select(DB::raw("SHOW COLUMNS FROM $table WHERE Field = '{$column}'"))[0]->Type ;
-       
+      //$type = DB::select(DB::raw("SHOW COLUMNS FROM $table WHERE Field = '{$column}'"))[0]->Type ;
+      /* 
       
          preg_match('/^enum\((.*)\)$/', $type, $matches);
          $enum = array();
@@ -103,7 +103,7 @@ if (! function_exists('pegaValorEnum')) {
             $enum[] = $v;
          } 
          
-         
+      */
 
 
       //para usar no postgres
@@ -113,7 +113,7 @@ if (! function_exists('pegaValorEnum')) {
 
       //$tipo = DB::select(DB::raw(' SELECT pg_typeof("'. $column .'") from '.$table . ' limit 1 '));
 
-      /* $tipo = DB::select(DB::raw("SELECT tipo 
+      $tipo = DB::select(DB::raw("SELECT tipo 
                                  FROM campos_tipos 
                                  WHERE 
                                     campos_tipos.tabela = '$table' AND 
@@ -131,7 +131,7 @@ if (! function_exists('pegaValorEnum')) {
 
       foreach($valores as $valor){
          $enum[] = $valor->label;
-      } */
+      }
       
       return $enum;
    }

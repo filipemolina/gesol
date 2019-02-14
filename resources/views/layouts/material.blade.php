@@ -89,8 +89,7 @@
 			
 		<script>
 			//variáveis globais ao sistema
-			let url_base       = "{{ url("/") }}"; 
-			//Não tem barra no final
+			let url_base       = "{{ url("/") }}"; //Não tem barra no final
 			let token          = "{{ csrf_token() }}";
 
 			let nome        = "{{ $funcionario_logado->nome }}";

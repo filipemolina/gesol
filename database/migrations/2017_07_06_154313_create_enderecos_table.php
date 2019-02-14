@@ -41,12 +41,12 @@ class CreateEnderecosTable extends Migration
         });
 
         //para usar com postgres
- /*        DB::statement(" 
+        DB::statement(" 
             ALTER TABLE enderecos 
 	            ALTER COLUMN uf DROP DEFAULT,
 	            ALTER COLUMN uf type tp_uf USING (uf::tp_uf),
 	            ALTER COLUMN uf SET DEFAULT 'RJ'
-        "); */
+        ");
 
         Schema::table('enderecos', function($table){
             $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');

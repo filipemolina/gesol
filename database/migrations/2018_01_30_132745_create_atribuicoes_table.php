@@ -27,8 +27,8 @@ class CreateAtribuicoesTable extends Migration
         });
 
         Schema::table('atribuicoes', function($table){
-            $table->foreign('secretaria_id')->references('id')->on('secretarias');
-            $table->foreign('role_id') ->references('id')->on('roles');
+            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('set null');
+            $table->foreign('role_id') ->references('id')->on('roles')->onDelete('set null');
         });
     }
 

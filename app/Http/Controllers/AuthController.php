@@ -45,30 +45,30 @@ class AuthController extends Controller
 
     public function entrar(Request $request)
     {
-        
-        // Obter o usuário 
+
+    	// Obter o usuário 
     	$usuario = User::where('email', $request->email)->first();
+
         
-        
-        
+
         //verifica se o email existe na base
         if($usuario)
         { 
             //dd(bcrypt($request->senha), $usuario->password);
-            
+
             // Testar a senha
         	if(Hash::check($request->senha, $usuario->password))
         	{
-                // Verificar se o usuário possui um funcionário relacionado
+        		// Verificar se o usuário possui um funcionário relacionado
         		if(count($usuario->funcionario))
         		{
-                    // verifica se o status do usuário é "Ativo"
+        			// verifica se o status do usuário é "Ativo"
                     if($usuario->status == 'Ativo')
                     {
                         // Logar o usuário
             			if(Auth::attempt(['email' => $request->email, 'password' => $request->senha]))
             			{
-                            // Redirecionar para o Painel Principal
+            				// Redirecionar para o Painel Principal
                             //dd("logou");
                             loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logon');
             				return redirect()->intended('/');

@@ -34,12 +34,12 @@ class CreateUsersTable extends Migration
         });
 
         //para usar com postgres
-      /*   DB::statement(" 
+        DB::statement(" 
             ALTER TABLE users 
 	            ALTER COLUMN status DROP DEFAULT,
 	            ALTER COLUMN status type tp_status USING (status::tp_status),
 	            ALTER COLUMN status SET DEFAULT 'Inativo'
-        "); */
+        ");
 
         Schema::table('users', function($table){
             $table->foreign('funcionario_id')   ->references('id')->on('funcionarios')  ->onDelete('cascade');

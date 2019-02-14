@@ -101,7 +101,7 @@ class CreateSolicitantesTable extends Migration
             $table->timestamps();
         });
 
-       /*  DB::statement(" 
+        DB::statement(" 
             ALTER TABLE solicitantes 
 	            ALTER COLUMN sexo DROP DEFAULT,
 	            ALTER COLUMN sexo type tp_sexo USING (sexo::tp_sexo)
@@ -124,7 +124,7 @@ class CreateSolicitantesTable extends Migration
             ALTER TABLE solicitantes 
 	            ALTER COLUMN escolaridade DROP DEFAULT,
 	            ALTER COLUMN escolaridade type tp_escolaridade USING (escolaridade::tp_escolaridade)
-        "); */
+        ");
     }
 
     /**

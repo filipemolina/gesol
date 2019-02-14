@@ -44,7 +44,7 @@ class CreateSolicitacoesTable extends Migration
 
 
         //para usar com postgres
-        /* DB::statement(" 
+        DB::statement(" 
             ALTER TABLE solicitacoes 
 	            ALTER COLUMN status DROP DEFAULT,
 	            ALTER COLUMN status type tp_status_solicitacao USING (status::tp_status_solicitacao),
@@ -56,7 +56,7 @@ class CreateSolicitacoesTable extends Migration
 	            ALTER COLUMN prioridade DROP DEFAULT,
 	            ALTER COLUMN prioridade type tp_prioridade_solicitacao USING (prioridade::tp_prioridade_solicitacao),
 	            ALTER COLUMN prioridade SET DEFAULT 'Baixa'
-        "); */
+        ");
     }
 
 

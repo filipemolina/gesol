@@ -13,7 +13,7 @@ class CreateTypes extends Migration
      */
     public function up()
     {
-      /*   //usado na USERS
+        //usado na USERS
         DB::statement(" CREATE TYPE tp_status AS ENUM ('Ativo','Inativo') ");
 
         //usado na CARGOS
@@ -50,7 +50,7 @@ class CreateTypes extends Migration
         DB::statement(" CREATE TYPE tp_escolaridade AS ENUM ('Fundamental - Incompleto','Fundamental - Completo','Médio - Incompleto','Médio - Completo','Superior - Incompleto','Superior - Completo','Pós-graduação - Incompleto','Pós-graduação - Completo','Mestrado - Incompleto','Mestrado - Completo','Doutorado - Incompleto','Doutorado - Completo') ");
 
         //usado na TELEFONES
-        DB::statement(" CREATE TYPE tp_telefone AS ENUM ('Fixo','Celular') "); */
+        DB::statement(" CREATE TYPE tp_telefone AS ENUM ('Fixo','Celular') ");
 
     }
 
@@ -61,7 +61,7 @@ class CreateTypes extends Migration
      */
     public function down()
     {
-/*         DB::statement(" DROP TYPE tp_status ");
+        DB::statement(" DROP TYPE tp_status ");
         DB::statement(" DROP TYPE tp_tipo_cargos "); 
         DB::statement(" DROP TYPE tp_uf "); 
         DB::statement(" DROP TYPE tp_tipo_funcionario "); 
@@ -76,6 +76,6 @@ class CreateTypes extends Migration
         DB::statement(" DROP TYPE tp_status_solicitante "); 
         DB::statement(" DROP TYPE tp_estado_civil "); 
         DB::statement(" DROP TYPE tp_escolaridade "); 
-        DB::statement(" DROP TYPE tp_telefone ");  */
+        DB::statement(" DROP TYPE tp_telefone "); 
     }
 }
