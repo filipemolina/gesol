@@ -106,7 +106,7 @@
 		</script>
 
 		<!-- Firebase - Enviar e receber notificações do google -->
-		<script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+		{{-- <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script> --}}
 
 		<script src="https://maps.google.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
 

@@ -134,7 +134,7 @@
 					</a>
 				</li>                                                      
 
-			@elseif($funcionario_logado->role->peso == 80)
+			{{--  @elseif($funcionario_logado->role->peso == 80)
 				
 				<li>
 					<a href="{{ url("/funcionario") }}">
@@ -142,7 +142,7 @@
 						<p>Funcionarios</p>
 					</a>
 				</li>                        
-
+  --}}
 			@elseif($funcionario_logado->role->peso == 90)
 				<li>
 					<a href="{{ url("/funcionario") }}">
@@ -151,7 +151,7 @@
 					</a>
 				</li>
 
-			@elseif($funcionario_logado->role->peso == 100)
+			@elseif($funcionario_logado->role->peso == 100 || $funcionario_logado->role->peso == 80)
 				<li>
 					<a href="{{ url("/funcionario") }}">
 						<i class=" mdi mdi-account-multiple"></i> 

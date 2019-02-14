@@ -14,7 +14,6 @@
 			<div class="card-header card-header-icon" data-background-color="dourado">
 				<i class="material-icons">chat bubble</i>
 			</div>
-
 			<div class="card-content">
 				<h4 class="card-title">Relatorios</h4>
 				<div class="toolbar"></div>
@@ -26,12 +25,12 @@
 							<thead>
 								<tr>
 									<th>Origem</th>
-								    <th>Local</th>
+								   <th>Local</th>
 									<th>Numero</th>
 									<th>Relato Sucinto</th>
 									<th>Data</th> 
-								    <th>Agente/Fiscal</th> 
-								    <th class="disabled-sorting text-right" style="width: 16%;">Ações</th>
+								   <th>Agente/Fiscal</th> 
+								   <th class="disabled-sorting text-right" style="width: 16%;">Ações</th>
 								</tr>
 							</thead>
 							 	{{-- Preenchido com DataTables --}}
