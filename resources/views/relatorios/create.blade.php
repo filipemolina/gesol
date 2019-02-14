@@ -9,13 +9,12 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 @section('content')
 
 <div class="card">
-	
 	<div class="card-header card-header-icon" data-background-color="dourado">
 		<i class="material-icons">chat bubble</i>
 	</div>
 
 	<div class="card-content">
-		<h4 class="card-title">Novo Relatorio</h4>
+		<h4 class="card-title">Novo Relatorio</h4><i style="float:right"><b>*</b> Campos obrigatorios</i>
 		<form action="{{ url('/semsop') }}" method="POST" id="form_relatorio">
 			{{ csrf_field() }}
   
@@ -46,16 +45,16 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-6">
 				<div class="input-group" >
-					<span class="input-group-addon">
+					*<span class="input-group-addon">
 						<i class="material-icons">swap_horiz</i>
 					</span>
 
 					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a origem do serviço</label>
-						<select name="origem" id=origem class="form-control form-control error">
+						<select name="origem" id=origem class="form-control form-control error" required>
 							<option value="" selected> </option>
 							@foreach($origens as $origem)
-						<option value="{{$origem}}"> {{$origem}} </option>    
+								<option value="{{$origem}}"> {{$origem}} </option> 
 							@endforeach
 						</select>
 						<span class="material-input"></span>
@@ -67,19 +66,19 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 			<div class="col-xs-12 col-sm-6 col-md-6">
 				<div class="input-group" >
-					<span class="input-group-addon">
+					*<span class="input-group-addon">
 						<i class="material-icons">card_membership</i>
 					</span>
 					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a ação desenvolvida</label>
 			@if($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_FISCAL')->count() )  
-						<select name="acao_cop" id="acao_cop" class="form-control form-control error">
+						<select name="acao_cop" id="acao_cop" class="form-control form-control error" required>
 							<option value="">  </option>
 							@foreach($acoes_cop as $acao_cop)
 							<option value="{{$acao_cop}}"> {{$acao_cop}}</option>
 							@endforeach 
 			@elseif($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_GCMM')->count() )
-						<select name="acao_gcmm" id="acao_gcmm " class="form-control form-control error"> 	  <option value="">  </option>
+						<select name="acao_gcmm" id="acao_gcmm " class="form-control form-control error" required> 	  <option value="">  </option>
 							@foreach($acoes_gcmm as $acao_gcmm)
 							<option value="{{$acao_gcmm}}"> {{$acao_gcmm}}</option>
 							@endforeach
@@ -94,24 +93,24 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-3">
 				<div class="input-group">
-					<span class="input-group-addon" style="padding-left: 27px">
+					*<span class="input-group-addon" style="padding-left: 27px">
 						<i class="material-icons">event</i>
 					</span>
 					<div class="form-group label-floating has-roxo is-empty" >
 						<label class="label-control" style="color: #3d276b;">Data	</label>
-						<input id="data" name="data" type="date" class="form-control" value="">
+						<input id="data" name="data" type="date" class="form-control" value="" required>
 						<span class="material-input"></span>
 					</div>
 				</div>
 			</div>
 			<div class="col-xs-12 col-md-4 col-md-offset-3">
 				<div class="input-group">
-					<span class="input-group-addon">
+					*<span class="input-group-addon">
 						<i class="material-icons">access_time</i>
 					</span>
 					<div class="form-group label-floating has-roxo is-empty" style="padding-right: 84px">
 						<label class="label-control" style="color: #3d276b;">Hora	</label>
-						<input name="hora" type="time" class="form-control">
+						<input name="hora" type="time" class="form-control" required>
 						<span class="material-input"></span>
 					</div>
 				</div>
@@ -189,12 +188,12 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<div class="row">
 				<div class="card-content">
 					<div class="input-group">
-						<span class="input-group-addon">
+						*<span class="input-group-addon">
 							<i class="material-icons">group</i>
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Envolvidos</label>
-							<textarea id="envolvidos" name="envolvidos" type="text" class="form-control"  rows="2"></textarea>
+							<textarea id="envolvidos" name="envolvidos" type="text" class="form-control"  rows="2" required></textarea>
 							<span class="material-input"></span>
 						</div>
 					</div>
@@ -203,12 +202,12 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<div class="row">
 				<div class="card-content">
 					<div class="input-group">
-						<span class="input-group-addon">
+						*<span class="input-group-addon">
 							<i class="material-icons">insert_comment</i>
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Relato Sucinto</label>
-							<textarea id="relato" name="relato" type="text" class="form-control"  rows="2"></textarea>
+							<textarea id="relato" name="relato" type="text" class="form-control"  rows="2" required></textarea>
 			
 							<span class="material-input"></span>
 						</div>
@@ -219,12 +218,12 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<div class="row">
 				<div class="card-content">
 					<div class="input-group">
-						<span class="input-group-addon">
+						*<span class="input-group-addon">
 							<i class="material-icons">mode_edit</i>
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Providências Adotadas</label>
-							<textarea id="providencia" name="providencia" type="text" class="form-control"  rows="2"></textarea>
+							<textarea id="providencia" name="providencia" type="text" class="form-control"  rows="2" required></textarea>
 							<span class="material-input"></span>
 						</div>
 					</div>
@@ -376,6 +375,16 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 	<script type="text/javascript">
 		$(function(){
+
+			$('body').submit(function(event){
+				if ($(this).hasClass('enviar-relatorio')) {
+					event.preventDefault();
+				}
+				else {
+					$(this).find(':submit').html('<i class="fa fa-spinner fa-spin"></i>');
+					$(this).addClass('enviar-relatorio');
+				}
+			});
 
 			$('body').on('change.bs.fileinput', function(e){
 

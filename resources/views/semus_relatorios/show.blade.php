@@ -16,6 +16,13 @@
 				<h3 style="text-align:center;" >Relatório</h3>
 			</div>
 
+			<div class="row" style="padding-left: 80%;">
+				<tr>
+					{{-- <td>{{ $relatorio->tipo }}</td> --}}
+					<td>{{ $relatorio->numero}}</td>
+				</tr>
+			</div>
+
 			<div class="row" style="padding-top: 7px;">
 				
 				<strong>Data:</strong> {{ date('d-m-Y', strtotime($relatorio->data)) }} 

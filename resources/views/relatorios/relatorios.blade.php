@@ -14,7 +14,6 @@
 			<div class="card-header card-header-icon" data-background-color="dourado">
 				<i class="material-icons">chat bubble</i>
 			</div>
-
 			<div class="card-content">
 				<h4 class="card-title">Relatorios</h4>
 				<div class="toolbar"></div>
@@ -27,7 +26,7 @@
 								<tr>
 									<th>Origem</th>
 								   <th>Local</th>
-									<th>Ação Desenvolvida</th>
+									<th>Numero</th>
 									<th>Relato Sucinto</th>
 									<th>Data</th> 
 								   <th>Agente/Fiscal</th> 
@@ -97,7 +96,7 @@
 				e.preventDefault();
 
 			swal({
-		         title: 'Confirma o ENVIO do Relatório?',
+		         title: 'Confirma a EXCLUSÃO do Relatório?',
 		         type: 'question',
 		         showCancelButton: true,
 		         confirmButtonColor: '#3085d6',
@@ -129,7 +128,7 @@
 			columns: [
 				{ data : 'origem',        name : 'origem' },
 				{ data : 'local',        name : 'local' },
-				{ data : 'acao',        name : 'acao' },
+				{ data : 'numero',        name : 'numero' },
 				{ data : 'relato',        name : 'relato' },
 				{ data : 'data',        name : 'data' },
 				{ data : 'agente',        name : 'agente' },

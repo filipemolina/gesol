@@ -141,6 +141,7 @@ Route::resource('setor',			   	'SetorController');
 Route::resource('servico',			    'ServicoController');
 Route::resource('semsop',	    	  	'Semsop_RelatorioController');
 Route::resource('semus',				'Semus_RelatorioController');
+Route::resource('imagens',              'ImagemController');
 
 
 // Password Reset Routes...

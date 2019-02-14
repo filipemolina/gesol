@@ -27,6 +27,7 @@
 							<thead>
 								<tr>
 								   <th>Status</th>
+								   <th>Numero</th>
 								   <th>Relato</th>
 								   <th>Data</th> 
 								   <th>Unidade</th>
@@ -36,7 +37,8 @@
 							 <tbody>
 								@foreach($relatorios as $relatorio)
 						 			<tr>
-							 		  <td>@if($relatorio->status) <font color="blue">Solucionado</font> @else <font color="red">Em Andamento</font> @endif</td>
+							 		  <td style="width: 15%;">@if($relatorio->status) <font color="blue">Solucionado</font> @else <font color="red">Em Andamento</font> @endif</td>
+							 		  <td>{{ $relatorio->numero}} </td>
 									  <td style="width: 45%;">{{ mb_strimwidth($relatorio->relato, 0, 70,"...") }}</td>
 								     <td>{{ date('d-m-Y', strtotime($relatorio->data))}}</td>
 								     <td style="width: 21%;">{{ $relatorio->funcionario->setor->nome }} </td>
@@ -177,6 +179,7 @@
 
 	         });
 	      });
+
 
 		$("table#relatorios").on("click", ".btn_solucionar",function(){
 			

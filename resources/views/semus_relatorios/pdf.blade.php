@@ -112,6 +112,9 @@ td{
 	
 	 <h2 style="text-align:center;">RELATÓRIO</h2>
 
+		 <div class="row" style="padding-left: 80%;">
+			{{ $relatorio->numero}}
+		</div>
 
 		<div class="row" style="padding-top: 7px;">
 			<strong>Data:</strong> {{ date('d-m-Y', strtotime($relatorio->data)) }}
