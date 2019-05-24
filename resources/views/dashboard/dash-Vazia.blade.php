@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-  Painel {{ mostraAcesso($funcionario_logado) }}
+  Painel
 
 @endsection
 

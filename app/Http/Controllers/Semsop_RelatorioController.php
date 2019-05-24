@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Semsop_relatorio;
@@ -25,23 +26,11 @@ class Semsop_RelatorioController extends Controller
     
 
     public function index()
-    {/*
-        if(verificaAtribuicoes($funcionario_logado, ["SEMSOP_REL_FISCAL"])){
-
-        }elseif(verificaAtribuicoes($funcionario_logado, ["SEMSOP_REL_GCMM"])){
-
-        }else*/
-
-        if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"])){
-            $relatorios = Semsop_relatorio::all()->where('enviado', '1');
-        }else{
-            $relatorios = Auth::user()->funcionario->relatorios_semsop;
-        }
-
-        // dd(Auth::user()->funcionario->relatorios_semsop);
-
-        //dd($relatorios);
-        return view ('relatorios.relatorios', compact('relatorios','gerente'));
+    {
+        $logado = Auth::user();
+        $retorno = DB::connection('mysql2')->select("select consulta_role($logado->id , 'GESOL', 'SEMSOP_REL_GCMM') as retorno");
+        //dd($retorno);
+        return view ('relatorios.relatorios',compact('logado','retorno'));
     }
 
     
@@ -51,13 +40,13 @@ class Semsop_RelatorioController extends Controller
          
         //Retorna os Enums para seus respectivos campos
 
-         $origens = pegaValorEnum('semsop_relatorios','origem');
+        //  $origens = pegaValorEnum('semsop_relatorios','origem');
 
-         $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
-         $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
-         $funcionarios = Funcionario::orderBy('nome','ASC')->get();
+        //  $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
+        //  $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
+        //  $funcionarios = Funcionario::orderBy('nome','ASC')->get();
 
-         return view ('relatorios.create', compact('origens','acoes_gcmm','acoes_cop','funcionarios'));
+         return view ('relatorios.create');
     }
 
     

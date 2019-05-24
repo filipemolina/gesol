@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-	Relatorios {{ mostraAcesso($funcionario_logado) }}
+	Relatorios
 
 @endsection
 
@@ -16,10 +16,10 @@
 			</div>
 			<div class="card-content">
 				<h4 class="card-title">Relatorios</h4>
+				@if($retorno[0]->retorno)
+					<a href="{{ url("/semsop/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Novo Relatorio"></i></a>					
+				@endif
 				<div class="toolbar"></div>
-					@if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_FISCAL"]))
-						<a href="{{ url("/semsop/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Novo Relatorio"></i></a>
-					@endif
 					<div class="material-datatables">
 						<table id="relatorios" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
 							<thead>
@@ -45,7 +45,7 @@
 
 @endsection
 
-@push('scripts')
+{{-- @push('scripts')
 
 	<script type="text/javascript"> 
 	$(document).ready(function() {
@@ -148,4 +148,4 @@
 	<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 </form>
 
-@endpush
+@endpush --}}

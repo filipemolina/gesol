@@ -17572,6 +17572,10 @@ a .material-icons {
   float: right;
 }
 
+.card .card-header.card-header-icon {
+  float: right;
+}
+
 .rtl .main-panel {
   float: left;
 }

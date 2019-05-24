@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
+Novo Relatorio
 
 @endsection
 

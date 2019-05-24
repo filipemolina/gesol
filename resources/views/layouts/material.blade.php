@@ -92,14 +92,15 @@
 			let url_base       = "{{ url("/") }}"; //Não tem barra no final
 			let token          = "{{ csrf_token() }}";
 
-			let nome        = "{{ $funcionario_logado->nome }}";
-			let user_id     = {{ $funcionario_logado->user->id }};
-			let setor       = "{{ $funcionario_logado->setor->nome }}";
-			let setor_id    = "{{ $funcionario_logado->setor->id }}";
-			let sigla       = "{{ $funcionario_logado->setor->secretaria->sigla }}";
-			let email       = "{{ $funcionario_logado->user->email }}";
+			// let logado        = "{{ $logado->nome }}";
+			
+			
+			
+			
+			
+			
 
-			let tokenGesol  = "{{ $funcionario_logado->user->createToken('Web')->accessToken }}";
+			
 
 			let qtd_notificacoes = 0;
 			let notificacoes = [];

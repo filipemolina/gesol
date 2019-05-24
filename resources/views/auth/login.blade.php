@@ -72,7 +72,7 @@
                               </span>
                               <div class="form-group label-floating has-dourado">
                                  <label class="control-label">Senha</label>
-                                 <input type="password" class="form-control" name="senha">
+                                 <input type="password" class="form-control" name="password">
                               </div>
                               <div>
                                  <a href="{{ url("/password/reset")}}" class="recupera_senha texto-roxo">Esqueceu sua Senha?</a>   

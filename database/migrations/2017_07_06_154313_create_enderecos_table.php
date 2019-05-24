@@ -30,28 +30,9 @@ class CreateEnderecosTable extends Migration
             $table->decimal('latitude',10,8)                ->nullable();
             $table->decimal('longitude',10,8)               ->nullable();
 
-            //------------------------FOREIGN--------------------------------
-            $table->integer('solicitante_id')->unsigned()->nullable();
-            $table->integer('solicitacao_id')->unsigned()->nullable();
-            $table->integer('secretaria_id')->unsigned()->nullable();
-            //---------------------------------------------------------------
 
             $table->softDeletes();
             $table->timestamps();
-        });
-
-        //para usar com postgres
-        DB::statement(" 
-            ALTER TABLE enderecos 
-	            ALTER COLUMN uf DROP DEFAULT,
-	            ALTER COLUMN uf type tp_uf USING (uf::tp_uf),
-	            ALTER COLUMN uf SET DEFAULT 'RJ'
-        ");
-
-        Schema::table('enderecos', function($table){
-            $table->foreign('solicitante_id')->references('id')->on('solicitantes')->onDelete('cascade');
-            $table->foreign('solicitacao_id')->references('id')->on('solicitacoes')->onDelete('cascade');
-            $table->foreign('secretaria_id')->references('id')->on('secretarias')->onDelete('cascade');
         });
     }
 

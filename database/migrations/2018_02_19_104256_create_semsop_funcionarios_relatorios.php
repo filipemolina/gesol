@@ -28,7 +28,7 @@ class CreateSemsopFuncionariosRelatorios extends Migration
 
         Schema::table('semsop_funcionarios_relatorios', function($table){
             $table->foreign('semsop_relatorio_id')->references('id')->on('semsop_relatorios')->onDelete('cascade');
-            $table->foreign('funcionario_id')->references('id')->on('funcionarios')->onDelete('cascade');
+            $table->foreign('funcionario_id')->references('id')->on('sisseg.funcionarios')->onDelete('cascade');
         });
     }
 

@@ -13,13 +13,13 @@ class CreateImagensSemusRelatorios extends Migration
      */
     public function up()
     {
-        Schema::create('imagens_semus_relatorios', function (Blueprint $table) {
-            $table->integer('imagem_id')->unsigned();
-            $table->integer('semus_relatorios_id')->unsigned();
+        // Schema::create('imagens_semus_relatorios', function (Blueprint $table) {
+        //     $table->integer('imagem_id')->unsigned();
+        //     $table->integer('semus_relatorios_id')->unsigned();
 
-            $table->foreign('imagem_id')->references('id')->on('imagens')->onDelete('cascade');
-            $table->foreign('semus_relatorios_id')->references('id')->on('imagens')->onDelete('cascade');
-        });
+        //     $table->foreign('imagem_id')->references('id')->on('imagens')->onDelete('cascade');
+        //     $table->foreign('semus_relatorios_id')->references('id')->on('imagens')->onDelete('cascade');
+        // });
     }
 
     /**
@@ -29,6 +29,6 @@ class CreateImagensSemusRelatorios extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('imagens_semus_relatorios');
+        // Schema::dropIfExists('imagens_semus_relatorios');
     }
 }
