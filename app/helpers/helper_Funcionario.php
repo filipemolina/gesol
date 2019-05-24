@@ -33,9 +33,22 @@ if (! function_exists('dashboardFuncionario')) {
       $data_fim      = Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-12-31 23:59:59');
 
 
-   // ==============================================================================================
-   //    TOTAL ANO ANTERIOR 
-   // ==============================================================================================
+
+      // ==============================================================================================
+      //    TOTAL TODAS AS SOLICITAÇÕES
+      // ==============================================================================================
+      $solicitacoes_todas = Solicitacao::whereHas('servico', function($q) use ($secretaria_funcionario_logado){
+         $q->whereHas('setor', function($q2) use ($secretaria_funcionario_logado){
+            $q2->whereHas('secretaria', function($q3) use ($secretaria_funcionario_logado){
+                $q3->where('id', $secretaria_funcionario_logado);
+            });
+         });
+      })->get();
+
+
+      // ==============================================================================================
+      //    TOTAL ANO ANTERIOR 
+      // ==============================================================================================
 
       $solicitacoes_ano_anterior = Solicitacao::whereHas('servico', function($q) use ($secretaria_funcionario_logado){
          $q->whereHas('setor', function($q2) use ($secretaria_funcionario_logado){
@@ -47,9 +60,9 @@ if (! function_exists('dashboardFuncionario')) {
       ->get();
 
 
-   // ==============================================================================================
-   //    TOTAL ANO CORRENTE
-   // ==============================================================================================
+      // ==============================================================================================
+      //    TOTAL ANO CORRENTE
+      // ==============================================================================================
       $solicitacoes = Solicitacao::whereHas('servico', function($q) use ($secretaria_funcionario_logado){
          $q->whereHas('setor', function($q2) use ($secretaria_funcionario_logado){
             $q2->whereHas('secretaria', function($q3) use ($secretaria_funcionario_logado){
@@ -60,9 +73,9 @@ if (! function_exists('dashboardFuncionario')) {
       ->get();
 
 
-   // ==============================================================================================
-   //    MAIORES SOLICITADOS ANO ANTERIOR
-   // ==============================================================================================
+      // ==============================================================================================
+      //    MAIORES SOLICITADOS ANO ANTERIOR
+      // ==============================================================================================
       $solicitacoes_maiores_ano_anterior = DB::table('solicitacoes')
 
       ->select('servicos.nome', DB::raw('count(*) as total'))       
@@ -80,9 +93,9 @@ if (! function_exists('dashboardFuncionario')) {
          ->take(10)->get();
   
 
-   // ==============================================================================================
-   //    MAIORES SOLICITADOS ANO CORRENTE
-   // ==============================================================================================
+      // ==============================================================================================
+      //    MAIORES SOLICITADOS ANO CORRENTE
+      // ==============================================================================================
 
       $solicitacoes_maiores = DB::table('solicitacoes')
          
@@ -101,15 +114,10 @@ if (! function_exists('dashboardFuncionario')) {
          ->take(10)->get();
 
       
-   // ==============================================================================================
-   // ==============================================================================================   
-/*
-      $sol_por_mes               = solicitacoesPorMes($solicitacoes);
-      $sol_por_mes_ano_anterior  = solicitacoesPorMes($solicitacoes_ano_anterior);
+      // ==============================================================================================
+      // ==============================================================================================   
 
-      $sol_prazo                 = solicitacoesPrazo($solicitacoes);
-      $sol_media                 = mediaSolucao($solicitacoes);
-*/
+      $resultados['solicitacoes_todas']         = $solicitacoes_todas;
 
       $resultados['solicitacoes']               = $solicitacoes;
       $resultados['abertas']                    = $solicitacoes->where('status', 'Aberta')->count();

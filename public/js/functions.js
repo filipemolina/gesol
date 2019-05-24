@@ -138,8 +138,6 @@ function enviarComentario(elem, e){
             _token: token,
          }, function(data){
 
-              console.log("Dados recebidos do servidor", data);
-
               // Apagar o campo de envio de comentario
               $(".comentario_"+solicitacao).val("");
 
@@ -324,7 +322,7 @@ function trocaTexto(elemento, novo_texto) // javascript
 // Carrega select de setor na página de edição de funcionário
 function carrega_select_setor_edit(secretaria_id, setor_id){
 
-    $.get('/setor?secretaria='+secretaria_id, function(res){
+    $.get('/setores?secretaria='+secretaria_id, function(res){
 
     let resposta = JSON.parse(res);
 
@@ -353,10 +351,11 @@ function carrega_select_setor_edit(secretaria_id, setor_id){
 // Carrega select de setor na página de edição de funcionário
 function carrega_select_setor_create(secretaria_id, setor_id){
 
-  $.get(url_base+'/setor?secretaria='+secretaria_id, function(res){
+  $.get(url_base+'/setores?secretaria='+secretaria_id, function(res){
 
+    //console.log(res);
     let resposta = JSON.parse(res);
-    console.log(resposta);     
+    //console.log(resposta);     
 
     $("#setor_id option").remove();
 
@@ -370,6 +369,32 @@ function carrega_select_setor_create(secretaria_id, setor_id){
     $("#setor_id").selectpicker('refresh');
   });
 }
+
+
+// Carrega select de cargos na página de edição de funcionário
+function carrega_select_cargo_create(secretaria_id, cargos_id) {
+
+  $.get(url_base + '/cargos?secretaria=' + secretaria_id, function (res) {
+
+    //console.log(res);
+    let resposta = JSON.parse(res);
+    //console.log(resposta);
+
+    $("#cargo_id option").remove();
+
+    $("<option value=''>Selecione</option>").appendTo("#cargo_id");
+
+    // Iterar por todos os cargoses para incluí-los no supra-citado "select"
+    for (i = 0; i < resposta.length; i++) {
+      $("<option value='" + resposta[i].id + "'>" + resposta[i].nome + "</option>").appendTo("#cargo_id");
+    }
+    // Atualizar o Bootstrap Select
+    $("#cargo_id").selectpicker('refresh');
+  });
+}
+
+
+
 
 
 // Detectar o navegador sendo usado
@@ -442,4 +467,58 @@ function detectaNavegador(){
     versao: majorVersion,
     plataforma: navigator.platform,
   };
+}
+
+
+// Função que atualiza os dados de um gráfico que for criado usando Echarts
+function atualizaGrafico(grafico, legendas, series){
+
+  // console.log("CHamou a função atualizaGrafico");
+  // console.log(grafico, legendas, series);
+
+  grafico.setOption({
+
+    series:{
+        data: series,
+    },
+    legend: {
+      data: legendas
+    },
+    xAxis : {
+      type : 'category',
+      data : legendas,
+    },
+         
+  });
+}
+
+// Inclui um comentário enviando pelo solicitante na tela de edição da solicitação
+// para que possa ser visualizado em tempo real pelo funcionário
+
+function incluirComentario(solicitacao, comentario){
+
+  console.log("Chamou a função de incluir comentario");
+
+  $(".comentario_"+solicitacao).val("");
+
+  // Colocar o novo card de comentarios embaixo da solicitação
+  var source      = $("#comentario-template-solicitante").html();
+  var template    = Handlebars.compile(source)
+
+  var context = { 
+     data_criacao : comentario.created_at,
+     comentario   : comentario.comentario,
+     nome         : comentario.solicitacao.solicitante.nome
+  };
+
+  console.log("COntexto chamado no template", context);
+
+  var html        = template(context);
+
+  $("div.comentarios").append( $(html) );
+
+  //posiciona a div "scrolavel" para o final
+  var objDiv = document.getElementById("div-comentarios");
+  objDiv.scrollTop = objDiv.scrollHeight;
+
 }

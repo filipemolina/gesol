@@ -29,7 +29,11 @@ class AuthController extends Controller
 
     public function logout()
     {
-        loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logoff');
+        //logout apenas se estiver logado
+        if(Auth::user()){
+            loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logoff');
+        }
+       
         Auth::logout();
         return redirect("/");
     }

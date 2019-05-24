@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Solicitante;
-use App\User;
+use App\Models\User;
 
 class UsersController extends Controller
 {
@@ -104,18 +104,18 @@ class UsersController extends Controller
 		// Validar os dados
 
 		$this->validate($request, [
-			'nome' => 'required',
+			'nome'  => 'required',
 			'email' => 'required|unique:solicitantes',
-			'cpf' => 'required|cpf|unique:solicitantes',
+			'cpf'   => 'required|cpf|unique:solicitantes',
 			'senha' => 'required|confirmed|min:6',
 		]);
 
 		// Criar um solicitante
 		$solicitante = Solicitante::create([
-			'cpf' => $request->cpf,
-			'nome' => $request->nome,
-			'email' => $request->email,
-			'foto' => "https://360.mesquita.rj.gov.br/img/blank.jpg",
+			'cpf'    => $request->cpf,
+			'nome'   => $request->nome,
+			'email'  => $request->email,
+			'foto'   => "https://gesol.mesquita.rj.gov.br/img/default-avatar.png",
 			'fcm_id' => $request->fcm_id
 		]);
 
@@ -134,8 +134,8 @@ class UsersController extends Controller
 
 			// Criar o objeto para a resposta
 
-			$resposta = new \stdClass();
-			$resposta->token = $solicitante->user->createToken('Token App');
+			$resposta              = new \stdClass();
+			$resposta->token       = $solicitante->user->createToken('Token App');
 			$resposta->solicitante = Solicitante::with(['endereco', 'telefones', 'user'])->where('email', $request->email)->first();
 
 			return json_encode($resposta);
@@ -146,8 +146,8 @@ class UsersController extends Controller
 
 			$solicitante->user()->save($usuario[0]);
 
-			$resposta = new \stdClass();
-			$resposta->token = $solicitante->user->createToken('Token APP');
+			$resposta              = new \stdClass();
+			$resposta->token       = $solicitante->user->createToken('Token APP');
 			$resposta->solicitante = Solicitante::with(['endereco', 'telefones', 'user'])->where('email', $request->email)->first();
 
 			return json_encode($resposta);

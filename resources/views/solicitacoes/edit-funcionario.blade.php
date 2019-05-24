@@ -92,15 +92,17 @@ Andamento de Solicitação
                            </a>
                         </div>
 
-                        <div class="endereco" style="margin-left:36px; margin-top: -26px;"
-                           onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
-                           <i class="material-icons" style="font-size: 20px; ">place</i>  
+                        @if($solicitacao->endereco)
+                           <div class="endereco" style="margin-left:36px; margin-top: -26px;"
+                              onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
+                              <i class="material-icons" style="font-size: 20px; ">place</i>  
 
-                           {{ $solicitacao->endereco->logradouro }} 
-                           {{ $solicitacao->endereco->numero }} -
-                           {{ $solicitacao->endereco->bairro }} -
-                           {{ $solicitacao->endereco->cep }} 
-                        </div>
+                              {{ $solicitacao->endereco->logradouro }} 
+                              {{ $solicitacao->endereco->numero }} -
+                              {{ $solicitacao->endereco->bairro }} -
+                              {{ $solicitacao->endereco->cep }} 
+                           </div>
+                        @endif
                          
                      </div>
                   </div>
@@ -230,31 +232,32 @@ Andamento de Solicitação
                      @endforeach
                   </div>
 
-                  {{-- Escrever comentário --}}
-                  <div id="div_escrever_comentario" class="input-group"  >
-                     <textarea 
-                           data-solicitacao="{{$solicitacao->id }}" 
-                           data-funcionario="{{$funcionario_logado->id }}" 
-                           id="comentario" 
-                           name="comentario" 
-                           class="form-control comentario comentario_{{ $solicitacao->id }}" 
-                           placeholder="Escreva um comentário" 
-                           style="margin-top: 0px;padding-bottom: 0px;padding-top: 0px;">
-
-                     </textarea>
-                     <span class="input-group-addon">
-                        <button type="button" 
-                              id="enviar-comentario"
+                  @if(($solicitacao->status !='Solucionada') and ($solicitacao->status !='Recusada'))
+                     {{-- Escrever comentário --}}
+                     <div id="div_escrever_comentario" class="input-group"  >
+                        <textarea 
                               data-solicitacao="{{$solicitacao->id }}" 
                               data-funcionario="{{$funcionario_logado->id }}" 
-                              class="btn btn-primary btn-sm enviar-comentario">
-                           Enviar
-                        </button>
-                     </span>
-                  </div>
-                  {{-- Fim escrever comentário --}}
-                  {{-- termino das mensagens --}}
+                              id="comentario" 
+                              name="comentario" 
+                              class="form-control comentario comentario_{{ $solicitacao->id }}" 
+                              placeholder="Escreva um comentário" 
+                              style="margin-top: 0px;padding-bottom: 0px;padding-top: 0px;"></textarea>
+                        <span class="input-group-addon">
+                           <button type="button" 
+                                 id="enviar-comentario"
+                                 data-solicitacao="{{$solicitacao->id }}" 
+                                 data-funcionario="{{$funcionario_logado->id }}" 
+                                 class="btn btn-primary btn-sm enviar-comentario">
+                              Enviar
+                           </button>
+                        </span>
+                     </div>
+                     {{-- Fim escrever comentário --}}
+                     {{-- termino das mensagens --}}
+                  @endif
                </div>
+               <div style="clear:both"></div>
             </div> {{-- Fim da Primeira Linha --}}
 
             <div class="row">
@@ -296,42 +299,48 @@ Andamento de Solicitação
                </div>        
             </div>             
 
-            <div class="col">
+            <div class="row">
                {{-- Linha de Botões --}}
                {{-------------------------- BOTAO PADRAO ------------------------}}
                <div id="div_botoes_iniciais" style="text-align:center; margin-top: -2px;">
 
-                  {{-- não deixa aparecer o botão para colocar EM EXECUÇÃO se a solicitação já estiver em execução  --}}
-                  @if($solicitacao->status !='Em execução')
-                     <button id="btn_por_execucao" class="botoes-acao-funcionario btn btn-round btn-success" >
-                           <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
-                           PÔR EM EXECUÇÃO 
+                  {{-- esconde os botões para as solicitações que estão SOLUCIONADAS OU RECUSADAS --}}
+                  @if(($solicitacao->status !='Solucionada') and ($solicitacao->status !='Recusada'))
+
+                     {{-- não deixa aparecer o botão para colocar EM EXECUÇÃO se a solicitação já estiver em execução  --}}
+                     @if($solicitacao->status !='Em execução')
+                        <button id="btn_por_execucao" class="botoes-acao-funcionario btn btn-round btn-success" >
+                              <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
+                              PÔR EM EXECUÇÃO 
+                        </button>
+                     @endif
+
+                     <button id="btn_solucionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-success">
+                        <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
+                        SOLUCIONAR 
                      </button>
-                  @endif
-
-                  <button id="btn_solucionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-success">
-                     <span class="icone-botoes-acao-funcionario mdi mdi-send"></span>
-                     SOLUCIONAR 
-                  </button>
 
 
-                  <button id="btn_redirecionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-warning">
-                     <span class="icone-botoes-acao-funcionario mdi mdi-redo-variant"></span>
-                     REDIRECIONAR
-                  </button>
-
-                  {{-- o sistema somente permite RECUSAR uma solicitação se ele não estiver em EXECUÇÃO --}}
-                  @if($solicitacao->status !='Em execução')
-                     <button id="btn_recusar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-danger">
-                        <span class="icone-botoes-acao-funcionario mdi mdi-delete-sweep"></span>
-                        RECUSAR
+                     <button id="btn_redirecionar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-warning">
+                        <span class="icone-botoes-acao-funcionario mdi mdi-redo-variant"></span>
+                        REDIRECIONAR
                      </button>
+
+                     {{-- o sistema somente permite RECUSAR uma solicitação se ele não estiver em EXECUÇÃO --}}
+                     @if($solicitacao->status !='Em execução')
+                        <button id="btn_recusar_solicitacao" class="botoes-acao-funcionario btn btn-round btn-danger">
+                           <span class="icone-botoes-acao-funcionario mdi mdi-delete-sweep"></span>
+                           RECUSAR
+                        </button>
+                     @endif
+
                   @endif
 
                   <a class="botoes-acao-funcionario btn btn-round btn-primary" href="{{ URL::previous() }}">
                      <span class="icone-botoes-acao-funcionario mdi mdi-backburger"></span>   
                      VOLTAR
                   </a>
+
                </div>
 
                {{-------------------------- BOTAO EXECUCAO ------------------------}}
@@ -387,7 +396,7 @@ Andamento de Solicitação
       {{-------------------- btn_por_execucao ----------------------}}
       $("#btn_por_execucao").click(function(){
          event.preventDefault();
-         console.log("asdasdjkhakd");
+         
          //verifica o status da solicitação
          if( "{!! $solicitacao->status !!}" != "Em execução")
          {
@@ -433,13 +442,9 @@ Andamento de Solicitação
          let dias_novo_prazo  = Math.round(((prazo - data_criacao_solicitacao) / DAY)) ;
          let dias_velho_prazo = {{ $prazo_em_dias }};
 
-
-
-
          //testa se a data do novo prazo é anterior a data de hoje
          if (prazo < hoje) 
          {
-
             swal(
                'Atenção',
                'A data do novo prazo não pode ser anterior a hoje',
@@ -459,12 +464,6 @@ Andamento de Solicitação
             //coloca o prazo original da solicitação nopicker
             let prazo_atual = moment($( "#picker_data_prazo" ).datepicker( "getDate" ).setHours(0,0,0,0)).format("L"); 
 
-            console.log(prazo_original);
-            console.log(prazo_atual);
-            console.log(dias_novo_prazo);
-
-
-            
             //verifica se o prazo foi alterado
             if( prazo_original == prazo_atual)
             {
@@ -737,23 +736,6 @@ Andamento de Solicitação
                   });
                })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       });
 
       {{-------------------- cancela-servico ----------------------}}
@@ -785,12 +767,7 @@ Andamento de Solicitação
             input: 'select',
             inputOptions: JSON.parse('{!! json_encode($motivos_recusa) !!}'),
 
-      /*         inputOptions: {
-                  'Imagem impropria':                       'Imagem impropria',
-                  'Solicitação em duplicidade':             'Solicitação em duplicidade',
-                  'Não é de resposabilidade da Prefeitura': 'Não é de resposabilidade da Prefeitura'
-               },
-               */         inputPlaceholder: 'Selecione um motivo',
+               inputPlaceholder: 'Selecione um motivo',
                type: 'warning',
                showCancelButton: true,
                confirmButtonColor: '#3085d6',
@@ -844,7 +821,7 @@ Andamento de Solicitação
          
             if( '{{ $solicitacao->status }}' == 'Aberta' )
             {
-               console.log("enviou para o /status");
+               
                $.post(
                      url_base+"/status",
                      {
@@ -867,9 +844,15 @@ Andamento de Solicitação
 
    <script type="text/javascript">
 
-      //configura o datepicker que recebe a data do NOVO PRAZO para ser alterado 
-      //LOCAL: edit-funcionario.blade.php->botão "execucao" - (POR EM EXECUÇÃO)
       $( function() {
+
+         //posiciona a div "scrolavel" para o final
+         var objDiv = document.getElementById("div-comentarios");
+         objDiv.scrollTop = objDiv.scrollHeight;
+
+         //configura o datepicker que recebe a data do NOVO PRAZO para ser alterado 
+         //LOCAL: edit-funcionario.blade.php->botão "execucao" - (POR EM EXECUÇÃO)
+
          $( "#picker_data_prazo" ).datepicker({
             dateFormat: 'dd/mm/yy',
             dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
@@ -945,6 +928,33 @@ Andamento de Solicitação
                   {{ nome_funcionario }} - 
                   {{ nome_setor }} - 
                   {{ sigla }}
+               </label>
+
+            
+               <div class="col-coment-fix">
+                  <div class=" col-md-7 no-margin" >
+                     <p class="">
+                        {{ comentario }}
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+      @endverbatim
+   </script>
+
+   <script id="comentario-template-solicitante" type="text/x-handlebars-template">
+      @verbatim
+         <div class="card-solicitante card margin7" style="color: black; font-size: 12px;">
+            <div class="row" style="margin-left: 15px;margin-right: 15px;">
+               <label class="pull-right" style="color: #522d2d; font-size: 11px;"> 
+                  {{ data_criacao }} 
+               </label>
+               
+            
+               <label class="h6  nome-solicitante">
+                  {{ nome }}
                </label>
 
             

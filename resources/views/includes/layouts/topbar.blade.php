@@ -33,29 +33,14 @@
             </li>
             <li class="dropdown">
                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="material-icons">notifications</i>
-                  <span class="notification">5</span>
+                  <i class="material-icons" id="icone-notificacoes">notifications</i>
                   <p class="hidden-lg hidden-md">
                      Notifications
                      <b class="caret"></b>
                   </p>
                </a>
-               <ul class="dropdown-menu">
-                  <li>
-                     <a href="#">Mike John responded to your email</a>
-                  </li>
-                  <li>
-                     <a href="#">You have 5 new tasks</a>
-                  </li>
-                  <li>
-                     <a href="#">You're now friend with Andrew</a>
-                  </li>
-                  <li>
-                     <a href="#">Another Notification</a>
-                  </li>
-                  <li>
-                     <a href="#">Another One</a>
-                  </li>
+               <ul class="dropdown-menu" id="lista-notificacoes">
+                  
                </ul>
             </li>
             <li class="dropdown">
@@ -71,6 +56,7 @@
                   <a href="{{ url("/alteraavatar") }}">
                     <i class="material-icons">person</i> Alterar Avatar
                   </a>
+                  
                 </li>
 
                 @if($funcionario_logado->role == 'Adm Sistema')

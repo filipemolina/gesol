@@ -19,6 +19,7 @@ class CreateComentariosTable extends Migration
             $table->text('comentario');
             $table->boolean('encerramento')->nullable();
             $table->boolean('lida')->default(false);
+            $table->boolean('apagado')->default(false);
 
 
             //------------------------FOREIGN--------------------------------

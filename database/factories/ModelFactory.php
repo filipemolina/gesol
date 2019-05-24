@@ -56,7 +56,8 @@ $factory->define(App\Models\Endereco::class, function(Faker\Generator $faker) {
 $factory->define(App\Models\Funcionario::class, function(Faker\Generator $faker) {
 	$faker = Faker\Factory::create('pt_BR');
 
-   $role_id = App\Models\Role::all()->random()->id;
+	$role_id  = App\Models\Role::all()->random()->id;
+	//$cargo_id = App\Models\Cargo::all()->where('secretaria_id', ->random()->id;
 
 	return [
 		'nome'            => $faker->name,
@@ -65,6 +66,7 @@ $factory->define(App\Models\Funcionario::class, function(Faker\Generator $faker)
 		'cargo'			   => $faker->jobTitle,
 		'foto'				=> $faker->imageUrl(120, 150, 'people', true, 'Faker'),
 		'role_id'			=> $role_id,
+		//'cargo_id'			=> $cargo_id,
 	];
 });
 

@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Solicitacao extends Model
+class Solicitacao extends Model implements AuditableContract
 {
+
+   use \OwenIt\Auditing\Auditable;
+
    protected $table = "solicitacoes";
 
    protected $dates = [
@@ -21,6 +25,10 @@ class Solicitacao extends Model
         'prioridade',
         'servico_id',
         'prazo'
+    ];
+
+    protected $auditExclude = [
+        'foto'
     ];
 
 

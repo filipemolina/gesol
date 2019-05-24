@@ -26,7 +26,7 @@ messaging.requestPermission()
 	//Gravar a token no Banco de dados
 
 	$.ajax({
-		url: "https://gesol.mesquita.rj.gov.br/api/tokens",
+		url: url_base+"/api/tokens",
 		method: "POST",
 		headers: {
 			'Accept'       : 'application/json',
@@ -48,14 +48,97 @@ messaging.requestPermission()
 })
 .catch(() => {
 	console.log("Permissão Negadona");
-	$("#btn-permissao").css("display", block);
+	//$("#btn-permissao").css("display", 'block');
+
+	 $.notify({
+        icon: "add_alert",
+        message: "Ative as Notificações para que o Gesol funcione corretamente!",
+        url: "https://support.google.com/chrome/answer/3220216?co=GENIE.Platform%3DDesktop&hl=pt"
+
+    	},{
+        type: 'danger',
+        timer: 4000,
+        		animate: {
+				enter: 'animated lightSpeedIn',
+				exit: 'animated lightSpeedOut'
+			}
+      
+    });
+
+
+
+
 });
 
+///////////////////////////////////////////////////////////////////////////////
 // Função que é executada quando uma mensagem é recebida e a página está aberta
+///////////////////////////////////////////////////////////////////////////////
 
 messaging.onMessage(function(payload){
-	console.log("RECEBIDA UMA NOTIFICAÇÃO", payload);
+
+	let url = window.location.href;
+	
+	// Testar os dados recebidos pela notificação
+	if(payload.data.acao == "atualizar" || payload.data.operacao == "atualizar"){
+
+		// Fazer o reload das tabelas automaticamente
+
+		if(typeof(tabelas) !== 'undefined'){
+
+			for(i = 0; i < tabelas.length; i++){
+
+				tabelas[i].ajax.reload();
+
+			}
+
+		}
+
+		// Atualizar o ícone das notificações
+
+		if(payload.data.model == "comentario" && !url.includes(payload.data.solicitacao)){
+
+			atualizarNotificacao();
+
+		}
+
+		// Caso seja uma nova solicitação, adicionar a notificação correspondente
+
+		if(payload.data.motivo == "nova" && payload.data.model == "solicitacao"){
+
+			// Adicionar um link para a nova solicitação na lista de notificações
+			$("#lista-notificacoes").prepend("<li><a href='"+url_base+"/solicitacao/"+payload.data.solicitacao_id+"/edit'><i class='material-icons'>new_releases</i> Nova Solicitacao ID : "+payload.data.solicitacao_id+"</a></li>");
+
+			// Incrementar o número de notificações
+			let novo_valor = parseInt($("span.notification").html()) + 1;
+
+			$("span.notification").html(novo_valor);
+
+		}
+
+		// Caso a página de edição da solicitação esteja aberta, apenas adicionar o novo comentário na página
+
+		if(url.includes('solicitacao') && url.includes('edit') && url.includes(payload.data.solicitacao)){
+			
+			// Obter os dados do comentário que acabou de chegar
+
+			$.get(url_base+"/comentario/" + payload.data.comentario_id, function(data){
+
+				let comentario = JSON.parse(data);
+				let solicitacao = comentario.solicitacao.id;
+
+				incluirComentario(solicitacao, comentario);
+
+			});
+
+		}
+
+	}
+
 });
+
+///////////////////////////////////////////////////////////////////////////////
+// Função que é executada quando uma mensagem é recebida e a página está aberta
+///////////////////////////////////////////////////////////////////////////////
 
 $(function(){
 
@@ -107,3 +190,32 @@ $(function(){
 	});
 
 });
+
+function atualizarNotificacao(){
+
+	// Mostrar o número correto de notificações
+
+    $.post(url_base + "/naolidas/" + setor_id, { _token: token }, function(data){
+      
+      let dados = JSON.parse(data);
+
+      // Atualizar o número de notificaçoes
+
+      if(dados.qtd){
+      	$("span.notification").remove();
+        $("<span class='notification'>"+dados.qtd+"</span>").insertAfter('#icone-notificacoes');
+        tocarAudio();
+      }
+
+      // Atualizar a lista de notificações
+
+      $("#lista-notificacoes li").remove()
+
+      for(i=0; i < dados.links.length; i++){
+
+        $("#lista-notificacoes").append(dados.links[i]);
+
+      }
+
+    });
+}

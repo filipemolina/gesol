@@ -100,7 +100,15 @@ if (! function_exists('mediaSolucao')) {
 
       //testa se a variável tempo existe, se não existir significa que ainda não existem solicitações solucionadas
       if(isset($tempo)){
-         $media_solucao = intval(round(array_sum($tempo) / count(array_filter($tempo)),0));
+
+         if(count(array_filter($tempo)))
+
+            $media_solucao = intval(round(array_sum($tempo) / count(array_filter($tempo)),0));
+
+         else
+
+            $media_solucao = 0;
+
       }else{
          $media_solucao = 0;
       }

@@ -31,7 +31,6 @@
 								<th>CPF</th>
 								<th>Acesso</th>
 								<th>Cargo</th>
-{{-- 								<th>Status</th> --}}
 								<th class="disabled-sorting text-right">Ações</th>
 							</tr>
 						</thead>
@@ -40,11 +39,10 @@
 							@foreach($funcionarios as $funcionario)
 
 								<tr>
-									<td>{{ $funcionario->nome                                             }}</td>
-									<td>{{ $funcionario->cpf                                        		 }}</td>
-									<td>{{ $funcionario->role->acesso                                     }}</td>
-									<td>{{ $funcionario->cargo                                            }}</td>
-{{-- 									<td>{{ $funcionario->user['status']                                   }}</td> --}}
+									<td>{{ $funcionario->nome                                            }}</td>
+									<td>{{ $funcionario->cpf                                        		}}</td>
+									<td>{{ $funcionario->role->acesso                                    }}</td>
+									<td>{{ $funcionario->cargo->nome                                    	}}</td>
 									<td>
 
 										{{-- se o usuario logado for TI ou DSV habilita a opção de ZERAR a senha --}}
@@ -55,7 +53,7 @@
 												<button  
 													class="btn_desativa btn btn-danger btn-xs action  pull-right  botao_acao" 
 													data-toggle="tooltip" 
-													data-funcionario = {{ $funcionario->id }}
+													data-funcionario = {{  }}
 													data-placement="bottom" 
 													title="Desativa a conta do funcionario" >  
 													<i class="glyphicon glyphicon-remove "></i>
@@ -64,7 +62,7 @@
 												<button  
 													class="btn_ativa btn btn-success btn-xs action  pull-right  botao_acao" 
 													data-toggle="tooltip" 
-													data-funcionario = {{ $funcionario->id }}
+													data-funcionario = {{ }}
 													data-placement="bottom" 
 													title="Ativa a conta do funcionario"
 													style="display: none">  
@@ -148,7 +146,7 @@
 			let id_usuario = $(this).data('funcionario');
 			let btn = $(this);
 
-			console.log("botao btn_desativa -> ", $(this).data('funcionario'));
+			//console.log("botao btn_desativa -> ", $(this).data('funcionario'));
 	      swal({
 	         title: 'Confirma a DESATIVAÇÃO do funcionário?',
 	         type: 'question',
@@ -167,7 +165,7 @@
 
 				 	btn.css('display', 'none').siblings('button.btn_ativa').css('display', 'block');
 				 	demo.notificationRight("top", "right", "success", "O funcionário foi Desativado");
- 					console.log(data)
+ 					//console.log(data)
 
 			 	})
 
@@ -177,7 +175,7 @@
 		$("table#datatables").on("click", ".btn_ativa",function(){
 			let id_usuario = $(this).data('funcionario');
 			let btn = $(this);
-			console.log("botao btn_ativa -> ", $(this).data('funcionario'));
+			//console.log("botao btn_ativa -> ", $(this).data('funcionario'));
 	      
 	      swal({
 	         title: 'Confirma a ATIVAÇÃO do funcionário?',
@@ -198,7 +196,7 @@
 				  	btn.css('display', 'none').siblings('button.btn_desativa').css('display', 'block');
 
 				 	demo.notificationRight("top", "right", "success", "O funcionário foi Ativado");
- 					console.log(data)
+ 					//console.log(data)
 			 	})
 
          });
@@ -207,7 +205,7 @@
 		$(".btn_email_senha").click(function(){
 			let id_usuario = $(this).data('funcionario');
 
-			console.log("botao btn_email_senha -> ", id_usuario );
+			//console.log("botao btn_email_senha -> ", id_usuario );
 
 	      swal({
 	         title: 'Confirma a REINICIALIZAÇÃO da senha do funcionário?',
@@ -228,7 +226,7 @@
    	 	 	},function(data){
 					 //mostrando o retorno do post
 				 	demo.notificationRight("top", "right", "success", "Email com nova senha enviado para o funcionário");
- 					console.log(data)
+ 					//console.log(data)
 			 	})
 
          });

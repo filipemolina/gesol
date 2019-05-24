@@ -58,6 +58,7 @@
                                           <th>Foto</th>
                                           <th>Serviço</th>
                                           <th>Conteúdo</th>
+                                          <th>Solicitante</th>
                                           <th>Status</th>
                                           <th>Abertura</th>
                                           <th>Prazo</th>
@@ -80,6 +81,7 @@
                                           <th>Foto</th>
                                           <th>Serviço</th>
                                           <th>Conteúdo</th>
+                                          <th>Solicitante</th>
                                           <th>Abertura</th>
                                           <th>Fechamento</th>                                          
                                           <th>Ações</th>
@@ -101,6 +103,7 @@
                                           <th>Foto</th>
                                           <th>Serviço</th>
                                           <th>Conteúdo</th>
+                                          <th>Solicitante</th>
                                           <th>Abertura</th>
                                           <th>Prazo</th>
                                           <th>Ações</th>
@@ -122,6 +125,7 @@
                                           <th>Foto</th>
                                           <th>Serviço</th>
                                           <th>Conteúdo</th>
+                                          <th>Solicitante</th>
                                           <th>Abertura</th>
                                           <th>Recusa</th>
                                           <th>Ações</th>
@@ -148,6 +152,10 @@
 @push('scripts')
 
 <script type="text/javascript">
+
+   // Variáveis que guardam as referências para as tablas com o propósito de autalizá-las programaticamente
+   let tabelas = [];
+
    $(function(){
       {{-- Testar se há algum erro, e mostrar a notificação --}}
       @if ($errors->any())
@@ -160,72 +168,77 @@
       //$.fn.dataTable.moment( 'DD/MM/YYYY' );
 
       $('a[data-toggle="tab"]').on( 'shown.bs.tab', function (e) {
-        $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
-      } );
+         $.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust();
+         } );
 
 
-      $("#tabela-solicitacoes-ativas").DataTable({
+         tabelas.push($("#tabela-solicitacoes-ativas").DataTable({
+            responsive : true,
+            processing: true,
+            serverSide: true,
+            ajax      : "{{ url('/solicitacao/datatables/2') }}",
+            columns   : [
+
+               { data : 'foto',        name : 'foto' },
+               { data : 'servico',     name : 'servico' },
+               { data : 'conteudo',    name : 'conteudo' },
+               { data : 'solicitante', name : 'solicitante' },
+               { data : 'status',      name : 'status' },
+               { data : 'abertura',    name : 'abertura' },
+               { data : 'prazo',       name : 'prazo' },
+               { data : 'acoes',       name : 'acoes' },
+            ],
+
+            order: [[ 5, 'asc' ]],
+            
+            language : 
+            {
+               "url":         "{{ asset('js/portugues.json') }}",
+               "decimal":     ",",
+               "thousands":   "."
+            }, 
+
+            stateSave: true,
+            //stateDuration: -1,
+            columnDefs: 
+            [
+               // { className:   "text-center", "targets": [0] },
+               // { className:   "text-center", "targets": [1] },
+               // { className:   "text-center", "targets": [3] },
+               // { className:   "text-center", "targets": [4] },
+               // { className:   "text-center", "targets": [5] },
+
+               /*{ type:        "date-eu",     "targets": [5] },*/
+
+               { width:       "5%",         "targets": [0] },
+               { width:       "10%",         "targets": [1] },
+               { width:       "10%",         "targets": [2] },
+               { width:       "10%",         "targets": [3] },
+               { width:       "5%",         "targets": [4] },
+               { width:       "10%",         "targets": [5] },
+               { width:       "10%",         "targets": [6] },
+               { width:       "5%",         "targets": [7] },
+
+            ],
+      }));
+
+      tabelas.push($("#tabela-solicitacoes-solucionada").DataTable({
          responsive : true,
          processing: true,
-         serverSide: true,
-         ajax      : "{{ url('/solicitacao/datatables/2') }}",
+         serverSide: true, 
+         ajax      : "{{ url('/solicitacao/datatables/3') }}",
          columns   : [
 
             { data : 'foto',        name : 'foto' },
             { data : 'servico',     name : 'servico' },
             { data : 'conteudo',    name : 'conteudo' },
-            { data : 'status',      name : 'status' },
+            { data : 'solicitante', name : 'solicitante' },
             { data : 'abertura',    name : 'abertura' },
-            { data : 'prazo',       name : 'prazo' },
+            { data : 'atualizacao', name : 'Fechamento' },            
             { data : 'acoes',       name : 'acoes' },
          ],
 
-         order: [[ 5, 'asc' ]],
-         
-         language : 
-         {
-            "url":         "{{ asset('js/portugues.json') }}",
-            "decimal":     ",",
-            "thousands":   "."
-         }, 
-
-         stateSave: false,
-         stateDuration: -1,
-         columnDefs: 
-         [
-            { className:   "text-center", "targets": [0] },
-            { className:   "text-center", "targets": [1] },
-            { className:   "text-center", "targets": [3] },
-            { className:   "text-center", "targets": [4] },
-            { className:   "text-center", "targets": [5] },
-
-            /*{ type:        "date-eu",     "targets": [5] },*/
-
-            { width:       "10%",         "targets": [1] },
-            { width:       "40%",         "targets": [2] },
-            { width:       "10%",         "targets": [4] },
-
-         ],
-
-         
-      });
-
-      $("#tabela-solicitacoes-solucionada").DataTable({
-         responsive : true,
-         processing: true,
-         serverSide: true,
-         ajax      : "{{ url('/solicitacao/datatables/3') }}",
-         columns   : [
-
-            { data : 'foto',       name : 'foto' },
-            { data : 'servico',    name : 'servico' },
-            { data : 'conteudo',   name : 'conteudo' },
-            { data : 'abertura',   name : 'abertura' },
-            { data : 'atualizacao',name : 'fechamento' },            
-            { data : 'acoes',      name : 'acoes' },
-         ],
-
-         order: [[ 3, 'asc' ]],
+         order: [[ 4, 'asc' ]],
          
          language : 
          {
@@ -235,34 +248,29 @@
          }, 
 
          stateSave: true,
-         stateDuration: -1,
+         //stateDuration: -1,
          columnDefs: 
          [
-            { className:   "text-center", "targets": [0] },
-            { className:   "text-center", "targets": [1] },
-            /*{ className: "text-center", "targets": [2] },*/
-            { className:   "text-center", "targets": [3] },
-            { className:   "text-center", "targets": [4] },
-            { className:   "text-center", "targets": [5] },
             { width:       "40%",         "targets": [2] },
             { width:       "10%",         "targets": [1] }
          ]
-      });
+      }));
 
 
-      $("#tabela-solicitacoes-nao-liberadas").DataTable({
+      tabelas.push($("#tabela-solicitacoes-nao-liberadas").DataTable({
          responsive : true,
          processing: true,
          serverSide: true,
          ajax      : "{{ url('/solicitacao/datatables/0') }}",
          columns   : [
 
-            { data : 'foto',       name : 'foto' },
-            { data : 'servico',    name : 'servico' },
-            { data : 'conteudo',   name : 'conteudo' },
-            { data : 'abertura',   name : 'abertura' },
-            { data : 'prazo',      name : 'prazo' },
-            { data : 'acoes',      name : 'acoes' },
+            { data : 'foto',        name : 'foto' },
+            { data : 'servico',     name : 'servico' },
+            { data : 'conteudo',    name : 'conteudo' },
+            { data : 'solicitante', name : 'solicitante' },
+            { data : 'abertura',    name : 'abertura' },
+            { data : 'prazo',       name : 'prazo' },
+            { data : 'acoes',       name : 'acoes' },
          ],
 
          order: [[ 4, 'asc' ]],
@@ -275,7 +283,7 @@
          }, 
 
          stateSave: true,
-         stateDuration: -1,
+         //stateDuration: -1,
          columnDefs: 
          [
             { className:   "text-center", "targets": [0] },
@@ -286,21 +294,22 @@
             { width:       "40%",         "targets": [2] },
 
          ]
-      });
+      }));
 
-      $("#tabela-solicitacoes-recusadas").DataTable({
+      tabelas.push($("#tabela-solicitacoes-recusadas").DataTable({
          responsive : true,
          processing: true,
          serverSide: true,
          ajax      : "{{ url('/solicitacao/datatables/4') }}",
          columns   : [
 
-            { data : 'foto',       name : 'foto' },
-            { data : 'servico',    name : 'servico' },
-            { data : 'conteudo',   name : 'conteudo' },
-            { data : 'abertura',   name : 'abertura' },
-            { data : 'atualizacao',name : 'atualizacao' },            
-            { data : 'acoes',      name : 'acoes' },
+            { data : 'foto',        name : 'foto' },
+            { data : 'servico',     name : 'servico' },
+            { data : 'conteudo',    name : 'conteudo' },
+            { data : 'solicitante', name : 'solicitante' },
+            { data : 'abertura',    name : 'abertura' },
+            { data : 'atualizacao', name : 'atualizacao' },            
+            { data : 'acoes',       name : 'acoes' },
          ],
 
          order: [[ 4, 'asc' ]],
@@ -313,7 +322,7 @@
          }, 
 
          stateSave: true,
-         stateDuration: -1,
+         //stateDuration: -1,
          columnDefs: 
          [
             { className:   "text-center", "targets": [0] },
@@ -324,7 +333,7 @@
             { width:       "40%",         "targets": [2] },
 
          ]
-      });
+      }));
 
 
    });

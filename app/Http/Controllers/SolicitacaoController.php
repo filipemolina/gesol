@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Models\Solicitacao;
 use App\Models\Solicitante;
 use App\Models\Funcionario;
+use App\Models\Comentario;
+use App\Models\FCM_Token;
 use App\Models\Movimento;
 use App\Models\Parametro;
 use App\Models\Endereco;
@@ -71,12 +73,13 @@ class SolicitacaoController extends Controller
 
                 case 70:
                     //"Ouvidor"
-                    dd($funcionario_logado->role->acesso);
+                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
                     break;
 
                 case 80:
                     //"Prefeito"
-                    dd($funcionario_logado->role->acesso);
+                    return view('solicitacoes.controle-funcionario', compact('funcionario_logado'));
+                    //dd($funcionario_logado->role->acesso);
                     break;                    
 
                 case 90:
@@ -155,11 +158,19 @@ class SolicitacaoController extends Controller
             $prazo_em_dias=$solicitacao->prazo;
         else
             $prazo_em_dias=$solicitacao->servico->prazo;*/
+
+        ////////////////////////////////////////////// Marcar todas as mensagens nessa solicitação como lidas e guardar na trilha de auditoria quem leu
+
+        $solicitacao->comentarios()->update(['lida' => '1']);
+
+        trilha($solicitacao->id, null, null, 'Leu', null, null);
+
+        /////////////////////////////////////////////// Cálculo do prazo
             
         $prazo_em_dias=$solicitacao->prazo;
         
         //cria o prazo com a data setada acima
-       $prazo_calculado = date('Ymd', strtotime($solicitacao->created_at." +$prazo_em_dias days"));
+        $prazo_calculado = date('Ymd', strtotime($solicitacao->created_at." +$prazo_em_dias days"));
 
 
         //pega os motivos de RECUSA de solicitação
@@ -183,6 +194,12 @@ class SolicitacaoController extends Controller
         
         // chama a view de acordo com o tipo de acesso do usuario logado
         //$funcionario_logado->role->acesso
+
+        
+        //testando usar apenas um arquivo de view para todos os utilizadores do sistema
+        // return view('solicitacoes.edit-solicitacao', compact('solicitacao','funcionario_logado','setores','motivos_recusa','motivos_transferencia','prazo_calculado','motivos_prazo','prazo_em_dias'));
+
+        
         if($funcionario_logado->role->peso == 10){
             return view('solicitacoes.edit-moderador', compact('solicitacao','funcionario_logado','setores','motivos_recusa','motivos_transferencia','prazo_calculado','motivos_prazo','prazo_em_dias'));
 
@@ -247,7 +264,7 @@ class SolicitacaoController extends Controller
                 // Gravar o valor antigo do ID do SERVIÇO da solicitação para utilizar na trilha de auditoria
                 $valor_antigo = $solicitacao->servico->id;
 
-                //salva na trilha
+                //salva na trilha (id do objeto sendo mudado, )
                 trilha($solicitacao->id, 'servico_id', $valor_antigo ,"Redirecionou",$request->motivo, null);
 
 
@@ -265,7 +282,16 @@ class SolicitacaoController extends Controller
                 $resposta->servico  = $solicitacao->servico->setor->nome;
                 $resposta->setor    = $solicitacao->servico->nome;
 
-                return json_encode($resposta);
+                //envia um comentario informando o redirecionamento
+                enviarComentarioSolicitacao(
+                    'Sua solicitação foi redirecionada pelo seguinte motivo: ' .$request->motivo,
+                    $solicitacao
+                );
+                
+                if($alterou){
+                    return json_encode(true);
+                }
+                //return json_encode($request->motivo);
 
             // recusa solicitação
             case 4:
@@ -275,7 +301,17 @@ class SolicitacaoController extends Controller
                 // Atualizar os dados
                 $solicitacao->fill($request->all());
                 $alterou = $solicitacao->save();
-                return json_encode($request->motivo);
+
+                //envia um comentario com o motivo da recusa
+                enviarComentarioSolicitacao(
+                    'Sua solicitação foi transferida pelo seguinte motivo: ' .$request->motivo,
+                    $solicitacao
+                );
+
+                if($alterou){
+                    return json_encode(true);
+                }
+                //return json_encode($request->motivo);
 
             case 5:
                 //salva na trilha as informações da mudança STATUS
@@ -284,9 +320,7 @@ class SolicitacaoController extends Controller
 
                 // Atualizar os dados
                 $solicitacao->fill($request->all());
-                
                 $alterou = $solicitacao->save();
-                
                 return json_encode($alterou);
 
             case 6:
@@ -355,19 +389,19 @@ class SolicitacaoController extends Controller
     public function dados($liberado)
     {
         // Obter o usuário atualmente logado
-
         $funcionario_logado = Funcionario::find(Auth::user()->funcionario_id);
-
 
         // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
         // Aqui  os botões PADRÃO serão criados, de acordo com a role do usuario será
         // atearada no SWITCH abaixo
         $padrao = "  <a href='" .url('solicitacao/{id}/edit')    
-                    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a><a href='" 
-                    .url('solicitacao/{id}')         
-                    ."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
+                    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a>";
 
+        // Vetor que vai guardar uma estrutura da seguinte forma:
+        //
+        // id_da_solicitacao => numero_de_comentarios_nao_lidos
 
+        $nao_lidas = [];
 
         //faz a buscas das solicitações de acordo com o filtro selecionado
         switch($liberado)
@@ -377,6 +411,12 @@ class SolicitacaoController extends Controller
                 $solicitacoes = Solicitacao::where('moderado','=', '0')
                                 ->where('status','<>', 'Recusada')
                                 ->with('solicitante','servico','servico.setor','endereco')->get();
+
+                foreach($solicitacoes as $solicitacao){
+
+                    $nao_lidas[$solicitacao->id] = $solicitacao->comentarios()->where('lida', 0)->get()->count();
+
+                }
                 // Os botões de ação da tabela variam de acordo com o 'role' do usuário atual.
                 $padrao = "  <a href='" .url('solicitacao/{id}/edit')    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a>";
 
@@ -387,6 +427,12 @@ class SolicitacaoController extends Controller
                 $solicitacoes = Solicitacao::where('moderado','=', '1')
                                 ->where('status','<>', 'Recusada')
                                 ->with('solicitante','servico','servico.setor','endereco')->get();
+
+                foreach($solicitacoes as $solicitacao){
+
+                    $nao_lidas[$solicitacao->id] = $solicitacao->comentarios()->where('lida', 0)->get()->count();
+
+                }
                 break;
 
             case 2:
@@ -395,6 +441,12 @@ class SolicitacaoController extends Controller
                                             ->where('status','<>','Recusada')    
                                             ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
+
+                foreach($solicitacoes as $solicitacao){
+
+                    $nao_lidas[$solicitacao->id] = $solicitacao->comentarios()->where('lida', 0)->get()->count();
+
+                }
                 break;
 
             case 3:
@@ -403,7 +455,15 @@ class SolicitacaoController extends Controller
                                             ->where('moderado','=', '1')
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
 
-                $padrao = "<a href='" .url('solicitacao/{id}')."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
+
+                foreach($solicitacoes as $solicitacao){
+
+                    $nao_lidas[$solicitacao->id] = $solicitacao->comentarios()->where('lida', 0)->get()->count();
+
+                }
+
+                $padrao = "  <a href='" .url('solicitacao/{id}/edit')    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a>";
+
 
                 break;
 
@@ -413,7 +473,13 @@ class SolicitacaoController extends Controller
                 $solicitacoes = Solicitacao::where('status','=','Recusada')    
                                             ->with('solicitante','servico','servico.setor','endereco')->get();
 
-                $padrao = "<a href='" .url('solicitacao/{id}')."' class='btn btn-simple btn-warning btn-icon edit'><i class='material-icons'>visibility</i></a>";
+                foreach($solicitacoes as $solicitacao){
+
+                    $nao_lidas[$solicitacao->id] = $solicitacao->comentarios()->where('lida', 0)->get()->count();
+
+                }
+
+                $padrao = "  <a href='" .url('solicitacao/{id}/edit')    ."' class='btn btn-simple btn-info btn-icon like'><i class='material-icons'>edit</i></a>";
 
 
                 break;
@@ -461,6 +527,14 @@ class SolicitacaoController extends Controller
             else
                 $moderado = "Não";
 
+            // Caso haja comentários não lidos nesta solicitação, colocar um badge ao lado da imagem indicando a 
+            // quantidade
+
+            if($nao_lidas[$solicitacao->id])
+                $foto = "<img src='$solicitacao->foto' style='height:60px; width:60px'><span class='badge nao_lidas' style='background-color: #3d276b'>".$nao_lidas[$solicitacao->id]."</span>";
+            else
+                $foto = "<img src='$solicitacao->foto' style='height:60px; width:60px'>";
+
             // Caso o usuário seja moderador, adicionar todas as solicitações à coleção sem fazer nenhum teste adicional
 
             //if($usuario->funcionario->role->acesso == "Moderador")
@@ -468,14 +542,22 @@ class SolicitacaoController extends Controller
             if(verificaAcesso($funcionario_logado) == "PREFEITURA")
             {
                 $colecao->push([
-                    'foto'          => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
+                    'foto'          => $foto,
                     'conteudo'      => $solicitacao->conteudo, 
+                    'solicitante'   => $solicitacao->solicitante->nome, 
                     'servico'       => $solicitacao->servico->nome,
                     'status'        => $solicitacao->status,
                     'moderado'      => $moderado,
+                    'atualizacao'    => \Carbon\Carbon::parse( $solicitacao->updated_at)->format('d/m/Y - H:i:s'),
                     'abertura'      => "<span style='display:none'>" .\Carbon\Carbon::parse( $solicitacao->created_at)->format('Ymd') ."</span>". \Carbon\Carbon::parse( $solicitacao->created_at)->format('d/m/Y - H:i:s'),
+                    'atualizacao'   => \Carbon\Carbon::parse( $solicitacao->updated_at)->format('d/m/Y - H:i:s'),
                     'acoes'         => $acoes,
-                    'prazo'         => $prazo,
+                    'prazo'         => "<span style='display:none; color:red'>"
+                                        .\Carbon\Carbon::parse( $prazo)->format('Ymd') 
+                                        ."</span>"
+                                        .$inspan 
+                                        . \Carbon\Carbon::parse( $prazo)->format('d/m/Y')
+                                        ."</span>",
                 ]);
 
             } elseif($solicitacao->servico->setor->secretaria->id == $funcionario_logado->setor->secretaria->id){ 
@@ -483,8 +565,9 @@ class SolicitacaoController extends Controller
                 // Caso contrário, adicionar à coleção apenas as solicitações que sejam da mesma secretaria que ele
 
                 $colecao->push([
-                    'foto'           => "<img src='$solicitacao->foto' style='height:60px; width:60px'>",
+                    'foto'           => $foto,
                     'conteudo'       => $solicitacao->conteudo, 
+                    'solicitante'   => $solicitacao->solicitante->nome, 
                     'servico'        => $solicitacao->servico->nome,
                     'status'         => $solicitacao->status,
                     'moderado'       => $moderado,
@@ -504,8 +587,7 @@ class SolicitacaoController extends Controller
                                         . \Carbon\Carbon::parse( $prazo)->format('d/m/Y')
                                         ."</span>",
                                                        
-
-                ]);
+                 ]);
             }
         }
 
@@ -544,12 +626,13 @@ class SolicitacaoController extends Controller
 
                 if (trilha($solicitacao->id, null , null ,"Liberou",null,null))
                 {
-                    // inserir código do FCM para enviar mensagem para todos os aplicativos dizendo 
-                    // que uma nova solicitação foi criada
-                    $tokens = Solicitante::all()->pluck('fcm_id')->toArray();
+                    // Obter todos os FCM Tokens dos navegadores
+
+                    $tokens = FCM_Token::whereNotNull('token')->where('celular', 0)->get()->pluck('token')->toArray();
 
                     $dados = [
-                        'acao' => 'recarregar',
+                        'operacao' => 'atualizar',
+                        'acao'     => 'atualizar',
                         'model' => 'solicitacoes'
                     ];
 
@@ -584,6 +667,42 @@ class SolicitacaoController extends Controller
         //trilha($solicitacao->id, null , null ,$request->status,null,null);
 
         return ("OK");
+    }
+
+    /**
+     * Retorna o número de solicitações com mensagens não lidas e um texto para cada uma delas
+     * para que seja colocado na lista de notificações dos funcionários 
+     */
+
+    public function naoLidas($setor_id){
+
+        // Obter as solicitações de um setor que possuam comentários não lidos
+
+        $nao_lidas = Solicitacao::whereHas('comentarios', function($query){
+
+            $query->where('lida', 0);
+
+        })->whereHas('servico.setor', function($q2) use ($setor_id){
+
+            $q2->where('id', $setor_id);
+
+        })->where('status', '<>', 'Solucionada')->where('status', '<>', 'Recusada')->get();
+
+        $qtd = $nao_lidas->count();
+
+        $links = [];
+
+        foreach($nao_lidas as $nao_lida){
+
+            $links[] = "<li><a href='https://gesol.mesquita.rj.gov.br/solicitacao/$nao_lida->id/edit'><i class='material-icons' style='margin-right: 5px'>message</i>Mensagens não lidas na Solicitação $nao_lida->id</a><li>";
+
+        }
+
+        return json_encode([
+            'qtd' => $qtd,
+            'links' => $links
+        ]);
+
     }
 
 

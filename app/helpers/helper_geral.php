@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Solicitacao;
 use App\Models\Solicitante;
 use App\Models\Funcionario;
+use App\Models\Comentario;
 use App\Models\Movimento;
 use App\Models\Endereco;
 use App\Models\Sys_log;
@@ -113,6 +114,21 @@ if (! function_exists('camelcase')) {
          return $movimento->save(); 
       }
    }
+
+   if (! function_exists('trilha_solicitante_exclui_solicitacao')) {
+      function trilha_solicitante_exclui_solicitacao($solicitante, $solicitacao)
+      {
+
+         $movimento = new Movimento([
+            'solicitante_id'  => $solicitante,
+            'solicitacao_id'  => $solicitacao,
+            'andamento'       => "Excluída",
+            'comentario_id'   => "Solicitante excluíu a própria solicitação",
+         ]);
+         
+         return $movimento->save(); 
+      }
+   }
   
    function pega_ip() 
    {
@@ -180,8 +196,6 @@ if(!function_exists("enviarNotificacao")){
 
    function enviarNotificacao($titulo, $subtitulo, $destinatarios, $dados){
 
-      // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
-
       $optionBuilder = new OptionsBuilder();
       $optionBuilder->setTimeToLive(60*20);
 
@@ -190,7 +204,8 @@ if(!function_exists("enviarNotificacao")){
          ->setTitle($titulo)
          ->setBody($subtitulo)
          ->setSound('default')
-         ->setIcon('https://360.mesquita.rj.gov.br/gesol/img/brasao.png');
+         ->setIcon('https://360.mesquita.rj.gov.br/gesol/img/brasao.png')
+         ->setClickAction("FCM_PLUGIN_ACTIVITY");
 
       $dataBuilder = new PayloadDataBuilder();
 
@@ -233,7 +248,12 @@ if(!function_exists("enviarDadosParaApp")){
       $optionBuilder->setTimeToLive(60*20);
 
       $dataBuilder = new PayloadDataBuilder();
-      $dataBuilder->addData($dados);
+      
+      foreach($dados as $key => $value){
+
+         $dataBuilder->addData([$key => $value]);
+
+      }
 
       $option = $optionBuilder->build();
       $data = $dataBuilder->build();
@@ -253,4 +273,69 @@ if(!function_exists("enviarDadosParaApp")){
 
    }
 
+}
+
+
+if(!function_exists("enviarComentarioSolicitacao")){
+   function enviarComentarioSolicitacao($texto, $solicitacao){   
+
+      $funcionario_logado   = Funcionario::find(Auth::user()->funcionario_id);
+
+      $comentario = Comentario::create([
+         'funcionario_id'    => $funcionario_logado->id,
+         'comentario'        => $texto, 
+         'solicitacao_id'    => $solicitacao->id,
+      ]);
+
+
+      //======================================================================================
+      //esse código foi extraido do comentarioController, linha 63
+      // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
+      $dados = [
+         'operacao'      => 'atualizar',
+         'model'         => 'comentario',
+         'solicitacao'   => $solicitacao->id, 
+         'comentario_id' => $comentario->id,
+         'acao'          => 'atualizar'
+      ];
+    
+      $token = $solicitacao->solicitante->fcm_id;
+
+      // Função que envia a notificação para o aparelho do usuário, definida no arquivo helper_geral.php
+      enviarNotificacao("Sua solicitação foi respondida", "Verifique na área 'Minhas Solicitações' no menu principal", $token, $dados);
+      // Fim do envio da notificação
+      //======================================================================================
+
+   }
+}
+
+/**
+ * Função que recebe um funcionário e um vetor de atribuições e retorna true caso o funcionário possua pelo menos
+ * uma dessas atribuições
+ * @param $funcionario: Instância do Model Funcionário
+ * @param $atribuições: Vetor de strings com as descrições das atribuições
+ * */
+
+if(!function_exists("verificaAtribuicoes")){
+   function verificaAtribuicoes($funcionario, $atribuicoes){
+
+      // Flag que indica se o usuário possui pelo menos uma das atribuições
+      $flag = false;
+
+      // Transformar o array em Collection para usar o método MAP do laravel
+      $atribuicoes = collect($atribuicoes);
+
+      $atribuicoes->map(function($atribuicao) use ($funcionario, &$flag){
+
+         // Iterar por todas as atribuições do funcionário procurando pela atribuição do vetor
+         $funcionario->atribuicoes->map(function($item) use ($atribuicao, &$flag){
+            
+            if($item->atribuicao == $atribuicao){
+               $flag = true;
+            }
+         });
+      });
+
+      return $flag;
+   }
 }

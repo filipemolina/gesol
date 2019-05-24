@@ -35,13 +35,13 @@ var helper = {
         }
     }, //Fim showSwal1
 }; //Fim Helper
-
-// Mascaras
-VMasker ($("#cpf")).maskPattern("999.999.999-99");
-VMasker ($("#matricula")).maskPattern("99/99.999-9");
-VMasker ($(".datepicker")).maskPattern("99/99/9999");
     
 $(function(){
+
+    // Mascaras
+    VMasker ($("#cpf")).maskPattern("999.999.999-99");
+    VMasker ($("#matricula")).maskPattern("99/99.999-9");
+    VMasker ($(".datepicker")).maskPattern("99/99/9999");
   
     // Apoiar publicação apenas logado
     $(".helper-apoio").click(function(){
@@ -49,7 +49,7 @@ $(function(){
 
         helper.showSwal1('info','Efetue o login para apoiar a publicação')
 
-    })
+    });
 
     // Criar publicação apenas logado
     $(".helper-criaPub").click(function(){
@@ -57,7 +57,7 @@ $(function(){
 
         helper.showSwal1('info','Efetue o login para criar uma publicação')
 
-    })
+    });
     
     // Botão editar, ocultar coment-fix e exibir coment-edit
     $('.btn-coment-edit').click(function() {
@@ -66,7 +66,7 @@ $(function(){
 
         $(this).parent().parent().parent().parent().find('.coment-fix').addClass('hide').parent().find('.coment-edit').removeClass('hide')
 
-    })
+    });
 
     $('.minhas_solicitacoes').click(function(e) {
         e.preventDefault();
@@ -76,7 +76,7 @@ $(function(){
             else
                 window.location.href='/minhassolicitacoes';
         })
-    })
+    });
     
     // Botão Excluir, ocultar coment-fix, exibir comentario com horário da "exclusão", demonstrar botão desfazer e oculstar botões editar e excluir
     $('.infinite-scroll').on('click', ".btn-coment-del", function () {
@@ -158,13 +158,13 @@ $(function(){
         $(this).parent().parent().parent().parent().find('.coment-fix-rem').addClass('hide');
         $(this).parent().parent().parent().parent().find('.coment-fix').removeClass('hide');
 
-    })
+    });
 
     // Enviar alteração, ocultar coment-edit e exibir coment-fix
     $('.btn-coment-alterar').click(function() {
         
         $(this).parent().parent().addClass('hide').parent().find('.coment-fix').removeClass('hide').find('span.label').removeClass('hide')
-    })
+    });
 
     // Ocultar coment-edit e exibir coment-fix
     $('.coment-desfazer').click(function() {
@@ -173,7 +173,7 @@ $(function(){
 
         $(this).parent().parent().addClass('hide').parent().find('.coment-fix').removeClass('hide')
 
-    })
+    });
 
     // Deslizar comentários
     $('div.infinite-scroll').on("click", ".slide-coment", function(){
@@ -211,7 +211,9 @@ $(function(){
         }else {
             $(isto).find('i').addClass('animated girar')
         }
-    })
+    });
+
+    atualizarNotificacoes();
 
 });
 
@@ -260,8 +262,8 @@ function enviarComentario(elem, e){
                      data_criacao:        dados.data,
                      nome_funcionario:    dados.nome_funcionario,
                      nome_setor:          dados.nome_setor,
-                     sigla:                   dados.sigla, 
-                     comentario:            dados.comentario, 
+                     sigla:               dados.sigla, 
+                     comentario:          dados.comentario, 
                   };
 
                   var html        = template(context);
@@ -270,7 +272,7 @@ function enviarComentario(elem, e){
 
                   //posiciona a div "scrolavel" para o final
                   var objDiv = document.getElementById("div-comentarios");
-                  objDiv.scrollTo(0, objDiv.scrollHeight);
+                  objDiv.scrollTop = objDiv.scrollHeight;
             }      
             ).fail(function(erro){
                demo.notificationRight("top", "right", "rose", "Sessão do usuário expirada. Você será redirecionado a tela de Login em alguns segundos!"); 
@@ -279,9 +281,6 @@ function enviarComentario(elem, e){
       }
    }
 }
-
-
-
 
 function comentarioAutomatico(sol, fun, com){
 
@@ -305,3 +304,40 @@ function comentarioAutomatico(sol, fun, com){
 }
 
 
+function atualizarNotificacoes(){
+
+  console.log("Chamou aualizar notificações");
+
+  // Mostrar o número correto de notificações
+
+    $.post(url_base + "/naolidas/" + setor_id, { _token: token }, function(data){
+      
+      let dados = JSON.parse(data);
+
+      // Atualizar o número de notificaçoes
+
+      if(dados.qtd){
+        $("<span class='notification'>"+dados.qtd+"</span>").insertAfter('#icone-notificacoes');
+      }
+
+      // Atualizar a lista de notificações
+
+      for(i=0; i < dados.links.length; i++){
+
+        $("#lista-notificacoes").append(dados.links[i]);
+
+      }
+
+    });
+
+}
+
+// Tocar o áudio da notificação
+
+function tocarAudio(){
+
+  let audio = document.getElementById("audio_notificacao");
+
+  audio.play();
+
+}

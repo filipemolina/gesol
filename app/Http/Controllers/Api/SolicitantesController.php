@@ -91,15 +91,15 @@ class SolicitantesController extends Controller
 
         ]);
 
-	if($request->has('solicitante.cpf')){
+    	if($request->has('solicitante.cpf')){
 
-		$this->validate($request, [
+    		$this->validate($request, [
 
-			'solicitante.cpf' => 'cpf'
-		
-		]);
-	
-	}
+    			'solicitante.cpf' => 'cpf'
+    		
+    		]);
+    	
+    	}
 
         // Obter o solicitante pelo id
 
@@ -167,9 +167,11 @@ class SolicitantesController extends Controller
     public function alteraFcmId(Request $request)
     {
 
-	$solicitante = Solicitante::find($request->solicitante_id);
-	$solicitante->fcm_id = $request->fcm_id;
-	$solicitante->save();
+    	$solicitante = Solicitante::find($request->solicitante_id);
+    	$solicitante->fcm_id = $request->fcm_id;
+    	$solicitante->save();
+
+        return $solicitante->toJson();
 
     }
 

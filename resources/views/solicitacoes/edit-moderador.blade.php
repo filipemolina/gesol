@@ -33,9 +33,20 @@ Andamento de Solicitação
                </div>
 
                <div class="data-inclusao-card info-solictante">
-                  Adicionado {{ $solicitacao->created_at->diffForHumans() 
-                     .' - ' 
-                     .'('. $solicitacao->created_at->format('H:i:s -- d/m/Y').')'}}  
+                  Abertura: {{ $solicitacao->created_at->format('H:i:s - d/m/Y')}}    
+                     <br>
+                     Prazo: 
+
+                        @if(date('Ymd') > date('Ymd', strtotime($prazo_calculado)) )
+                           <span id="span_prazo" class='badge' style='background-color:red'>     
+                        @elseif( date('Ymd') == date('Ymd', strtotime($prazo_calculado)) )
+                           <span id="span_prazo" class='badge' style='background-color:orange'>     
+                        @else
+                           <span id="span_prazo" class='badge' style='background-color:green'>     
+                        @endif
+
+                        {{ date('d/m/Y', strtotime($prazo_calculado)) }}  
+                     </span>
                </div>
 
                <div class="row">
@@ -104,7 +115,7 @@ Andamento de Solicitação
                <h4>Endereço</h4>
 
                @if($solicitacao->endereco)
-                  <span class="endereco" 
+                  <div class="endereco" 
                      onclick="mostraMapa({{ $solicitacao->endereco->latitude }},{{ $solicitacao->endereco->longitude }},{{ $solicitacao->id }});">
                      <i class="material-icons" style="font-size: 20px; margin-top: 5px;">place</i>  
 
@@ -112,7 +123,7 @@ Andamento de Solicitação
                      {{ $solicitacao->endereco->numero }} -
                      {{ $solicitacao->endereco->bairro }} -
                      {{ $solicitacao->endereco->cep }} 
-                  </span>
+                  </div>
                @endif
 
                <br><br>
@@ -226,16 +237,14 @@ Andamento de Solicitação
             cancelButtonColor: '#d33',
             confirmButtonText: 'Sim, está ok!'
          }).then(function () {
+            $("input#hidden_acao").val('1');
+
+            $("form#form-hidden").submit();
             swal(
                'Solicitação liberada!',
                '',
                'success'
-            ).then(function(){
-
-               $("input#hidden_acao").val('1');
-
-               $("form#form-hidden").submit();
-            });
+            )
          })
       });
 
@@ -360,27 +369,15 @@ Andamento de Solicitação
                cancelButtonColor: '#d33',
                confirmButtonText: 'Sim',
                cancelButtonText: 'Não',
-            }).then(function () {
-               swal(
-                  'Destino alterado!',
-                  '',
-                  'success'
-               ).then(function(){
-
+            }).then(function(){
                   // Estética
-
                   let id_servico = $("#select-servico").val();
-
                   let textoSelecionado = $("#select-servico option:selected").text();
-
                   $("#servico").css('display', 'block'); 
                   $("#botao-padrao").css('display', 'block'); 
-                  
                   $("#servico-edicao").css('display', 'none');             
                   $("#botao-servico").css('display', 'none');  
-
                   // Levantamento de peso
-
                   $.post('/solicitacao/{{ $solicitacao->id }}', {
                      _token :    '{{ csrf_token() }}',
                      _method:    'PUT',
@@ -389,28 +386,29 @@ Andamento de Solicitação
                      acao:       3
                   }, function(res){
                      let resposta = JSON.parse(res);
-
                      $("#servico-texto").html(  resposta.sigla +' - ' + 
                                                 resposta.servico +' - ' +
                                                 resposta.setor );
-
                      $("#setor-icone").removeClass().addClass('mdi '+ resposta.icone);
                      $("#setor-cor").css('background-color', resposta.cor + " !important");
 
                      ///////////////////////////// Enviar comentário padrão
-
-                     $.post(url_base+"/comentario",{
+/*                     $.post(url_base+"/comentario",{
                         comentario: "A solicitação foi transferida pelo seguinte motivo: "+$("#select-servico-motivo option:selected").html(),
                         solicitacao_id: {{ $solicitacao->id }}, 
                         funcionario_id: {{ $funcionario_logado->id }},  //definido na material.blade
                         _token: token,
                      });
-
+*/
                      console.log("Resposta", resposta);
-
+                  }).then(function () {
+                     swal(
+                        'Destino alterado!',
+                        '',
+                        'success'
+                     );
                   });
                });
-            })
          };
       });
 
@@ -423,12 +421,7 @@ Andamento de Solicitação
             input: 'select',
             inputOptions: JSON.parse('{!! json_encode($motivos_recusa) !!}'),
 
-   /*         inputOptions: {
-               'Imagem impropria':                       'Imagem impropria',
-               'Solicitação em duplicidade':             'Solicitação em duplicidade',
-               'Não é de resposabilidade da Prefeitura': 'Não é de resposabilidade da Prefeitura'
-            },
-   */         inputPlaceholder: 'Selecione um motivo',
+            inputPlaceholder: 'Selecione um motivo',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -446,24 +439,35 @@ Andamento de Solicitação
                })
             }
          }).then(function (result) {
-            swal(
-               'Solicitação recusada!',
-               '',
-               'success'
-            ).then(function(){
-               $.post('/solicitacao/{{ $solicitacao->id }}', {
+
+            $.post('/solicitacao/{{ $solicitacao->id }}', {
                   _token : '{{ csrf_token() }}',
                   _method: 'PUT',
                   motivo: result,
                   status: "Recusada",
                   acao:    4
-               }, function(resposta){
-                  console.log(resposta);
-                  window.location.href="{{ url("/") }}";
-               });
-            });
-         })
-      });
+               }, function (resposta) {
+                     console.log(resposta);
+                     if(resposta == "true"){
+                        swal(
+                           'Solicitação recusada!',
+                           '',
+                           'success'
+                        ).then(function(){
+                           
+                           window.location.href="{{ url("/solicitacao") }}";
+                        });
+
+                     }else{
+                        swal(
+                           'Falha na operação!',
+                           '',
+                           'error'
+                        );
+                     }
+                  });
+            });      
+         });
 
 
    </script>

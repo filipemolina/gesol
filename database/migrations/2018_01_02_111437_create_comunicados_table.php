@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSetoresTable extends Migration
+class CreateComunicadosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,18 @@ class CreateSetoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('setores', function (Blueprint $table) {
+        Schema::create('comunicados', function (Blueprint $table) {
             $table->increments('id');
-
-            $table->string('nome',50);
-
-	
-            $table->string('icone')->default("leaf");
-
-            $table->string('cor')->default('#3D276B');
-
-
+            $table->mediumText('imagem');
+            $table->string('titulo', 255);
+            $table->string('subtitulo', 255);
+            $table->text('texto');
+            $table->integer('num_dispositivos')->unsigned()->nullable();
 
             //------------------------FOREIGN--------------------------------
-            $table->integer('secretaria_id')->unsigned();
+            $table->integer('funcionario_id')->unsigned();
             //---------------------------------------------------------------
-
+            
             $table->timestamps();
         });
     }
@@ -40,6 +36,6 @@ class CreateSetoresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('setores');
+        Schema::dropIfExists('comunicados');
     }
 }

@@ -8,54 +8,8 @@
 
 @section('content')
 
- <div class="row tile_count">
-        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top">
-               <i class="material-icons" style="font-size: 14px">assignment</i> 
-               Total de Solicitações
-            </span>
-            <div class="count">{{ $resultados['solicitacoes']->count() }}</div>
-            {{-- <span class="count_bottom"><i class="dourado">4% </i> de aumento</span> --}}
-        </div>
-
-        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-bullhorn"></i> Total de Abertas</span>
-            <div class="count">{{ $resultados['abertas'] }}</div>
-            {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>3% </i> de aumento</span> --}}
-        </div>
-        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-check"></i> Total de Solucionadas</span>
-            <div class="count" style="color: green">{{ $resultados['solicitacoes']->where('status', 'Solucionada')->count() }}</div>
-            {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>34% </i> de aumento</span> --}}
-        </div>
-
-         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-calendar-times-o"></i> Atrasadas</span>
-            <div class="count" style="color: red">{{ $resultados['sol_prazo']["vencida"] }}</div>
-            {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>34% </i> de aumento</span> --}}
-         </div>
-
-         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-calendar-minus-o "></i> Vencendo hoje</span>
-            <div class="count" style="color: orange">{{ $resultados['sol_prazo']["vencendo"] }}</div>
-            {{-- <span class="count_bottom"><i class="dourado"><i class="fa fa-sort-asc"></i>34% </i> de aumento</span> --}}
-        </div>
+   @include('dashboard.dash-Top')
    
-         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-clock-o"></i> Tempo de solução</span>
-            <div class="count">{{ $resultados['sol_media'] }}</div>
-            <span class="count_bottom"><i class="dourado">dias</span>
-        </div>
-    </div>
-
-   <!-- <div id="sol_total" style="width: 600px;height:400px;"></div> -->
-
-
-
-
-
-
-
    <div class="row">
       <div class="col-md-12">
          <div class="card">
@@ -119,14 +73,27 @@
             <div class="card-content-grafico" style="padding-bottom: 20px">
                <h4 class="card-title-grafico" style="width: 100% !important;">Serviços mais solicitados</h4>
             </div>
+            {{-- <label class="control-label" style="margin-left: 20px;">Secretaria</label> --}}
+
+            <div class="col-lg-6 col-md-7 col-sm-3" style="margin-left: 20px;" >
+               <select style="margin-bottom: 0px;" name="select_secretaria" id="select_secretaria" class="selectpicker"  data-style="select-with-transition" data-size="7" >
+
+                  @foreach($secretarias_graficos as $secretaria)
+                     <option value="" >{!! $secretaria['nome'] !!}</option>  
+                  @endforeach
+
+               </select>
+            </div>
            
-            <div  id='sol_maiores' style="height:400px;" ></div>
+            <div  id='ser_mais_solicitados_secretaria' style="height:400px;" ></div>
    
+            <div>
+                   
+            </div>
+
          </div>
       </div>
    </div>
-
-
   
 
 
@@ -135,14 +102,73 @@
 
 
 @push('scripts')
-            {{-- {  "name": "{{ $resultados['ano_anterior'] }}",  --}}
-               {{-- "data":  [@foreach($resultados['sol_por_mes_ano_anterior']  as $mes => $qtd)  --}}
-                           {{-- {{ $qtd }},  --}}
-                        {{-- @endforeach]    --}}
-            {{-- }, --}}
-
+            
 
    <script type="text/javascript">
+
+      let secretarias_graficos = [];
+      
+      // Criar os vetores que irão abastecer o gráfico
+      let legendas = [];
+      let series = [];
+
+      @foreach($secretarias_graficos as $secretaria)
+
+         secretarias_graficos.push({!! json_encode($secretaria) !!});
+
+      @endforeach
+
+      $(function(){
+
+         
+         $("#select_secretaria").on("changed.bs.select", function(e){
+
+            //console.log($("#select_secretaria :selected").text());
+            legendas = [];
+            series = [];
+            data = [];
+
+            // Obter todos os serviços da secretaria
+
+            let secretaria_selecionada = secretarias_graficos.filter(function(valor){
+
+               return valor.nome == $("#select_secretaria :selected").text();
+
+            });
+
+            // Obter apenas o primeiro resultado da busca
+            secretaria_selecionada = secretaria_selecionada[0];
+
+            //console.log(secretaria_selecionada);
+            //console.log(secretarias_graficos);
+
+            // Iterar por todos os serviços da secretaria selecionada
+            for(var servico in secretaria_selecionada.servicos){
+
+               if(secretaria_selecionada.servicos.hasOwnProperty(servico)){
+
+                  // Colocar o nome do serviço no vetor de legendas
+                  legendas.push(servico);
+
+                  // Inserir os dados
+                  data.push({
+                    name : servico,
+                    value: secretaria_selecionada.servicos[servico]
+                  });
+
+               }
+
+            }
+
+            // Atualizar o gráfico com a função definida no arquivo functions.js
+
+            atualizaGrafico(maioresChart, legendas, data);
+
+         });
+
+         $("#select_secretaria").trigger("changed.bs.select");
+
+      });
 
 
 
@@ -162,12 +188,12 @@
             orient: 'horizontal',
             top : 30,
             left: 10,
-            data: ['{{ $resultados['ano_anterior'] }}','{{ $resultados['ano'] }}']
+            data: ['{{ $ano_anterior }}','{{ $ano }}']
          },
 
          // title : {
          //    text: 'Solicitações Registradas',
-         //    subtext: '{{ $resultados['ano_anterior'] }} e {{ $resultados['ano'] }}',
+         //    subtext: '{{ $ano_anterior }} e {{ $ano }}',
          //    x:'center'
          // },
 
@@ -209,23 +235,23 @@
          
          series: [
             {
-               name:'{{ $resultados['ano'] }}',
+               name:'{{ $ano }}',
                type:'line',
                smooth: true,
                data: 
                [ 
-                  @foreach($resultados['sol_por_mes'] as $mes => $qtd) 
+                  @foreach($sol_por_mes as $mes => $qtd) 
                      {{ $qtd }}, 
                   @endforeach
                ],
             },
             {
-               name:'{{ $resultados['ano_anterior'] }}',
+               name:'{{ $ano_anterior }}',
                type:'line',
                smooth: true,
                data: 
                [ 
-                  @foreach($resultados['sol_por_mes_ano_anterior'] as $mes => $qtd) 
+                  @foreach($sol_por_mes_ano_anterior as $mes => $qtd) 
                      {{ $qtd }}, 
                   @endforeach
                ],
@@ -236,174 +262,7 @@
       // use configuration item and data specified to show chart
       totalChart.setOption(option);
 
-      //=============================================================================================
-      //=============================================================================================
-      //=============================================================================================
-      //=============================================================================================
-      //=============================================================================================
-
-
-      // var dados2 = [];
-
-      // @foreach($resultados['sol_maiores'] as $sol) 
-      //    dados2.push("{value: {{ $sol->total }}, name: '{{ $sol->nome }}\'}," );
-
-      //    //          {value:335, name:'asdasd'},
-      // @endforeach
-               
-      // console.log(dados2);
-
-
-
-
-      var nameList = [];
-      var legendData = [];
-      var seriesData = [];
-      var teste = [];
-      var novo =[];
-      var seriesDataAnoAnterior =[];
-
-      @foreach($resultados['sol_maiores'] as $sol) 
-         nameList.push('{{ $sol->nome }}');
-         legendData.push('{{ $sol->nome }}');
-         //seriesData.push({{ $sol->total }});
-         //teste.push({{ $sol->total }}, '{{ $sol->nome }}');
-
-         seriesData.push({
-            name: '{{ $sol->nome }}',
-            value: {{ $sol->total }}
-        });
-
-         novo.push({
-            name: '{{ $sol->nome }}',
-            y: {{ $sol->total }}
-        });
-
-      @endforeach
-
-      @foreach($resultados['sol_maiores_ano_anterior'] as $sol) 
-
-         seriesDataAnoAnterior.push({
-            name: '{{ $sol->nome }}',
-            value: {{ $sol->total }}
-        });
-
-      @endforeach
-
-         
-    
-      // based on prepared DOM, initialize echarts instance
-      var maioresChart = echarts.init(document.getElementById('sol_maiores'));//,null, {renderer: 'svg'});
       
-      maioresOpcoes = {
-          
-          tooltip : {
-              trigger: 'item',
-              formatter: "{a} <br/>{b} : {c} ({d}%)"
-          },
-          legend: {
-              x : 'center',
-              y : 'bottom',
-              data: legendData
-          },
-          toolbox: {
-              show : true,
-              feature : {
-                  mark : {show: true},
-                  dataView : {show: true, readOnly: false},
-                  magicType : {
-                      show: true,
-                      type: ['pie', 'funnel']
-                  },
-                  restore : {show: true},
-                  saveAsImage : {show: true}
-              }
-          },
-          calculable : true,
-          series : [
-              // {
-              //     name: '{{ $resultados['ano_anterior'] }}',
-              //     type:'pie',
-              //     radius : [20, 110],
-              //     center : ['25%', '50%'],
-              //     roseType : 'radius',
-              //     label: {
-              //         normal: {
-              //             show: true
-              //         },
-              //         emphasis: {
-              //             show: true
-              //         }
-              //     },
-              //     lableLine: {
-              //         normal: {
-              //             show: false
-              //         },
-              //         emphasis: {
-              //             show: true
-              //         }
-              //     },
-              //     data: seriesDataAnoAnterior
-              // },
-              {
-                
-                  name: '{{ $resultados['ano'] }}',
-                  type:'pie',
-                  radius : [10, 110],
-                  //center : ['75%', '50%'],
-                  roseType : 'area',
-                  label: {
-                      normal: {
-                          show: false,
-                          fontsize: 10
-                      },
-                      emphasis: {
-                          show: false
-                      }
-                  },
-                  lableLine: {
-                      normal: {
-                          show: false
-                      },
-                      emphasis: {
-                          show: false
-                      }
-                  },
-                  data: seriesData
-              }
-          ]
-      };
-
-
-   
-   
-      maioresChart.setOption(maioresOpcoes);
-
-      // var currentIndex = -1;
-
-      // setInterval(function () {
-      //     var dataLen = option.series[0].data.length;
-
-      //     maioresChart.dispatchAction({
-      //         type: 'downplay',
-      //         seriesIndex: 0,
-      //         dataIndex: currentIndex
-      //     });
-      //     currentIndex = (currentIndex + 1) % dataLen;
-
-      //     maioresChart.dispatchAction({
-      //         type: 'highlight',
-      //         seriesIndex: 0,
-      //         dataIndex: currentIndex
-      //     });
-
-      //     maioresChart.dispatchAction({
-      //         type: 'showTip',
-      //         seriesIndex: 0,
-      //         dataIndex: currentIndex
-      //     });
-      // }, 1000);
-
 
 
       //=============================================================================================
@@ -417,7 +276,7 @@
       var seriesData = [];
       var seriesData2 = [];
 
-      @foreach($resultados['sol_secretaria_total'] as $sol) 
+      @foreach($solicitacoes_secretaria_total as $sol) 
          nameList.push('{{ $sol->sigla }}');
          legendData.push('{{ $sol->sigla }}');
 
@@ -429,7 +288,7 @@
 
       @endforeach
 
-      @foreach($resultados['sol_secretaria_aberta'] as $sol) 
+      @foreach($solicitacoes_secretaria_aberta as $sol) 
          seriesData2.push({
             name: '{{ $sol->sigla }}',
             value: {{ $sol->total }}
@@ -499,7 +358,7 @@
       var novo =[];
       var seriesDataAnoAnterior =[];
 
-      @foreach($resultados['sol_bairro'] as $sol) 
+      @foreach($solicitacoes_bairro as $sol) 
          nameList.push('{{ $sol->bairro }}');
          legendData.push('{{ $sol->bairro }}');
 
@@ -521,39 +380,46 @@
       var bairroChart = echarts.init(document.getElementById('sol_bairro'));//,null, {renderer: 'svg'});
       
       bairroOpcoes = {
-          
+         
+         
+
           tooltip : {
               trigger: 'item',
               formatter: "{b} : {c} <br/> ({d}%)"
           },
-          legend: {
+          {{--  legend: {
               type: 'scroll',
               orient: 'vertical',
               right: 10,
-              top: 20,
+              top: 10,
               bottom: 20,
               data: legendData
-          },
+          },  --}}
           calculable : true,
           series : [
              {
-                  
+                
                   type:'pie',
-                  radius : [20, 110],
+                  radius : [10, 130],
+
+                  hoverOffset: 20,
+                  selectedOffset: 30,
+
                   
-                  roseType : 'area',
+                  
                   label: {
                       normal: {
                           show: true,
-                          fontsize: 10
+                          fontsize: 10,
                       },
                       emphasis: {
                           show: true
                       }
+                      
                   },
                   lableLine: {
                       normal: {
-                          show: false
+                          show: true
                       },
                       emphasis: {
                           show: true
@@ -569,7 +435,90 @@
 
 
 
+      //=============================================================================================
+      //=============================================================================================
+      //===========  SERVIÇOS MAIS SOLICITADOS  POR SECRETARIAS         =============================
+      //=============================================================================================
+      //=============================================================================================
 
+
+      var legendData = [];
+      var seriesData = [];
+      
+      var seriesDataAnoAnterior =[];
+
+   
+      @foreach($servicos_mais_solicitados_secretaria as $sol) 
+            legendData.push('{{ $sol->secretaria }}');
+            seriesData.push({
+               name: '{{ $sol->nome }}',
+               value: {{ $sol->total }}
+           });
+         
+      @endforeach
+
+      /////////////////////////////////////////// CÓDIGO DO MOLINA        
+    
+      // based on prepared DOM, initialize echarts instance
+      var maioresChart = echarts.init(document.getElementById('ser_mais_solicitados_secretaria'));//,null, {renderer: 'svg'});
+      
+      maioresOpcoes = {
+
+         tooltip : {
+            trigger: 'axis',
+            axisPointer : {            
+               type : 'shadow'        
+            }
+          },
+
+         grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+         },
+
+         xAxis : [
+            {
+               type : 'category',
+
+               axisLabel : {
+                  rotate: -20,
+                  fontSize: 10
+               }
+               // data : legendData,
+
+            }
+         ],
+
+         yAxis : [
+            {
+               type : 'value'
+            }
+         ],
+
+        
+         series : [
+            {
+               barMaxWidth: 60,
+               type:'bar',
+               label: {
+                   normal: {
+                       show: false,
+                       fontsize: 10
+                   },
+                   emphasis: {
+                       show: false
+                   }
+               },
+
+               // data: seriesData
+            }
+         ]
+      };
+
+  
+      maioresChart.setOption(maioresOpcoes);
 
 
    </script>

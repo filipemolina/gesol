@@ -1,5 +1,5 @@
 <?php
-
+    
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -40,13 +40,15 @@ class ComentarioController extends Controller
     {
         
         // Validar
-
         $this->validate($request, [
             'comentario'     => 'required|min:2',
             'solicitacao_id' => 'required'
         ]);
 
         $comentario = new Comentario($request->all());
+        $comentario->lida = true;
+        $comentario->save();
+        
 	    $solicitacao = Solicitacao::find($request->solicitacao_id);
 
         // Associar com uma solicitação e um funcionário
@@ -61,11 +63,11 @@ class ComentarioController extends Controller
         // Enviar uma notificação para o dispositivo do usuário que criou a solicitação
 
         $dados = [
-            'operacao' => 'atualizar',
-            'model' => 'comentario',
-            'solicitacao' => $request->solicitacao_id, 
+            'operacao'      => 'atualizar',
+            'model'         => 'comentario',
+            'solicitacao'   => $request->solicitacao_id, 
             'comentario_id' => $comentario->id,
-            'acao' => 'atualizar'
+            'acao'          => 'atualizar'
         ];
 
         $token = $solicitacao->solicitante->fcm_id;
@@ -93,7 +95,7 @@ class ComentarioController extends Controller
     
     public function show($id)
     {
-        //
+        return Comentario::where('id', $id)->with('solicitacao.solicitante')->first()->toJson();
     }
 
     

@@ -1548,7 +1548,7 @@ z-index: -1;
 }
 
 .sidebar, .off-canvas-sidebar {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -1876,10 +1876,12 @@ div.data-inclusao-card{
   margin-bottom: 0px;  
 }
 
-span.endereco:hover {
-  text-shadow: 0px 0px 0px black, 0 0 20px #AD9A75;
+div.endereco:hover {
+  text-shadow: 0px 0px 0px red, 0 0 20px #AD9A75;
+  cursor:pointer;
 }
-span.endereco{ 
+
+div.endereco{ 
   font-size:  12px; 
   /* margin-left: 65px;  */
   color: #999999;
@@ -2298,12 +2300,40 @@ table.tile_info span.right {
 
 .copyright{
   text-align: center!important;
-=======
+}
+
 .icon-secretaria{
     background-color: #696969 !important;
     margin: -5px 68px !important;
     padding: 10px 10px !important;
     width: 50px !important;
     height: 50px !important;
->>>>>>> ee6461fd88545b4d7989da653a177d1a0487c2b1
+}
+
+.table td { position: relative; }
+
+/*  */
+span.badge.nao_lidas {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+.recupera_senha {
+  color: #426b96;
+}
+
+.btnfuncionario {
+height: 37px; 
+width: 37px;   
+box-shadow:  none;
+background-image:url('../img/mais.jpg');
+background-repeat:no-repeat;
+background-size:100%;
+}
+
+.brasaotop{
+background-image:url('../img/BrasaoTop.png'); 
+background-repeat:no-repeat;
+
 }
