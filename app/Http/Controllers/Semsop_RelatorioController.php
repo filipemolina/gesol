@@ -28,25 +28,27 @@ class Semsop_RelatorioController extends Controller
     public function index()
     {
         $logado = Auth::user();
-        $retorno = DB::connection('mysql2')->select("select consulta_role($logado->id , 'GESOL', 'SEMSOP_REL_GCMM') as retorno");
+        $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
         //dd($retorno);
-        return view ('relatorios.relatorios',compact('logado','retorno'));
+        return view ('relatorios.relatorios',compact('logado','guarda'));
     }
 
     
     public function create()
     {
-
-         
+        $logado = Auth::user();
+      
+        $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
+        $fiscal =  Auth::user()->hasRole('SEMSOP_REL_FISCAL'); 
+        //dd($fiscal);
+        
         //Retorna os Enums para seus respectivos campos
+        $origens = pegaValorEnum('semsop_relatorios','origem');
+        $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
+        $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
+        //$funcionarios = Funcionario::orderBy('nome','ASC')->get();
 
-        //  $origens = pegaValorEnum('semsop_relatorios','origem');
-
-        //  $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
-        //  $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
-        //  $funcionarios = Funcionario::orderBy('nome','ASC')->get();
-
-         return view ('relatorios.create');
+         return view ('relatorios.create',compact('logado','fiscal','guarda','origens','acoes_gcmm','acoes_cop'));
     }
 
     

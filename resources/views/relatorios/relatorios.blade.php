@@ -9,39 +9,38 @@
 @section('content')
 
 <div class="row">
-	<div class="col-md-12 col-md-offset-0">
+	<div class="col-md-12">
 		<div class="card">
-			<div class="card-header card-header-icon" data-background-color="dourado">
-				<i class="material-icons">chat bubble</i>
-			</div>
-			<div class="card-content">
+			<div class="card-header card-header-success card-header-icon">
+				<div class="card-icon" style="background: linear-gradient(60deg, #BFA15F, #ad7909);box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(191, 161, 95, 0.4);">
+					<i class="material-icons">chat bubble</i>
+				</div>
 				<h4 class="card-title">Relatorios</h4>
-				@if($retorno[0]->retorno)
-					<a href="{{ url("/semsop/create")}}" class="btn btn-dourado btn-just-icon btn-round fixo-direita"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Novo Relatorio"></i></a>					
-				@endif
+					@if($guarda)
+						<a href="{{ url("/semsop/create")}}" class="btn btn-dourado btn-just-icon btn-round" style="float: right;top: -33px;right: -13px;"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Novo Relatorio"></i></a>					
+					@endif
+			</div>
+			<div class="card-body">
 				<div class="toolbar"></div>
-					<div class="material-datatables">
-						<table id="relatorios" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
-							<thead>
-								<tr>
-									<th>Origem</th>
-								   <th>Local</th>
-									<th>Numero</th>
-									<th>Relato Sucinto</th>
-									<th>Data</th> 
-								   <th>Agente/Fiscal</th> 
-								   <th class="disabled-sorting text-right" style="width: 16%;">Ações</th>
-								</tr>
-							</thead>
-							 	{{-- Preenchido com DataTables --}}
-						</table>
-
-					</div> {{-- Fim Material-datatbles --}}
-
-			</div> {{-- Fim card-content --}}
-		</div> {{-- Fim card --}}
-	</div> {{-- Fim col-md-10 --}}
-</div> {{-- FIM ROW --}}
+				<div class="material-datatables">
+					<table id="relatorios" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+						<thead>
+							<tr>
+								<th>Origem</th>
+								<th>Local</th>
+								<th>Numero</th>
+								<th>Relato Sucinto</th>
+								<th>Data</th> 
+								<th>Agente/Fiscal</th> 
+								<th class="disabled-sorting text-right" style="width: 16%;">Ações</th>
+							</tr>
+						</thead>
+					</table>
+				</div> {{-- Fim Material-datatbles --}}
+			</div>
+		</div>
+	</div>
+</div>
 
 @endsection
 
