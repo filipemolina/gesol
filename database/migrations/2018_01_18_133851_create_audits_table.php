@@ -39,7 +39,7 @@ class CreateAuditsTable extends Migration
             $table->timestamps();
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users')
+                ->on('sisseg.funcionarios')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });

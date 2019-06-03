@@ -1,0 +1,6 @@
+- Em edição de funcionário: corrigir a inclusão/ alteração da foto
+
+DB_CONNECTION=mysql
+DB_HOST=192.168.0.18
+
+DB_PORT=3306

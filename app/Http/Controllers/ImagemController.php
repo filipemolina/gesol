@@ -78,8 +78,11 @@ class ImagemController extends Controller
      * @param  \App\Models\Imagem  $imagem
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Imagem $imagem)
+    public function destroy($id)
     {
-        //
+        $imagem = Imagem::find($id);
+        $imagem->delete();
+
+        return "IMAGEM DELETADA";
     }
 }

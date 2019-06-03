@@ -2,20 +2,19 @@
 
 @section('titulo')
 
-Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
+Novo Relatorio
 
 @endsection
 
 @section('content')
 
 <div class="card">
-	
 	<div class="card-header card-header-icon" data-background-color="dourado">
 		<i class="material-icons">chat bubble</i>
 	</div>
 
 	<div class="card-content">
-		<h4 class="card-title">Novo Relatorio</h4>
+		<h4 class="card-title">Novo Relatorio</h4><i style="float:right"><b>*</b> Campos obrigatorios</i>
 		<form action="{{ url('/semsop') }}" method="POST" id="form_relatorio">
 			{{ csrf_field() }}
   
@@ -46,16 +45,16 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-6">
 				<div class="input-group" >
-					<span class="input-group-addon">
+					*<span class="input-group-addon">
 						<i class="material-icons">swap_horiz</i>
 					</span>
 
 					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a origem do serviço</label>
-						<select name="origem" id=origem class="form-control form-control error">
+						<select name="origem" id=origem class="form-control form-control error" required>
 							<option value="" selected> </option>
 							@foreach($origens as $origem)
-						<option value="{{$origem}}"> {{$origem}} </option>    
+								<option value="{{$origem}}"> {{$origem}} </option> 
 							@endforeach
 						</select>
 						<span class="material-input"></span>
@@ -67,19 +66,19 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 			<div class="col-xs-12 col-sm-6 col-md-6">
 				<div class="input-group" >
-					<span class="input-group-addon">
+					*<span class="input-group-addon">
 						<i class="material-icons">card_membership</i>
 					</span>
 					<div class="form-group label-floating has-roxo is-empty">
 						<label class="control-label">Selecione a ação desenvolvida</label>
 			@if($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_FISCAL')->count() )  
-						<select name="acao_cop" id="acao_cop" class="form-control form-control error">
+						<select name="acao_cop" id="acao_cop" class="form-control form-control error" required>
 							<option value="">  </option>
 							@foreach($acoes_cop as $acao_cop)
 							<option value="{{$acao_cop}}"> {{$acao_cop}}</option>
 							@endforeach 
 			@elseif($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_GCMM')->count() )
-						<select name="acao_gcmm" id="acao_gcmm " class="form-control form-control error"> 	  <option value="">  </option>
+						<select name="acao_gcmm" id="acao_gcmm " class="form-control form-control error" required> 	  <option value="">  </option>
 							@foreach($acoes_gcmm as $acao_gcmm)
 							<option value="{{$acao_gcmm}}"> {{$acao_gcmm}}</option>
 							@endforeach
@@ -94,24 +93,24 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 col-md-3">
 				<div class="input-group">
-					<span class="input-group-addon" style="padding-left: 27px">
+					*<span class="input-group-addon" style="padding-left: 27px">
 						<i class="material-icons">event</i>
 					</span>
 					<div class="form-group label-floating has-roxo is-empty" >
 						<label class="label-control" style="color: #3d276b;">Data	</label>
-						<input id="data" name="data" type="date" class="form-control" value="">
+						<input id="data" name="data" type="date" class="form-control" value="" required>
 						<span class="material-input"></span>
 					</div>
 				</div>
 			</div>
 			<div class="col-xs-12 col-md-4 col-md-offset-3">
 				<div class="input-group">
-					<span class="input-group-addon">
+					*<span class="input-group-addon">
 						<i class="material-icons">access_time</i>
 					</span>
 					<div class="form-group label-floating has-roxo is-empty" style="padding-right: 84px">
 						<label class="label-control" style="color: #3d276b;">Hora	</label>
-						<input name="hora" type="time" class="form-control">
+						<input name="hora" type="time" class="form-control" required>
 						<span class="material-input"></span>
 					</div>
 				</div>
@@ -189,12 +188,12 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<div class="row">
 				<div class="card-content">
 					<div class="input-group">
-						<span class="input-group-addon">
+						*<span class="input-group-addon">
 							<i class="material-icons">group</i>
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Envolvidos</label>
-							<textarea id="envolvidos" name="envolvidos" type="text" class="form-control"  rows="2"></textarea>
+							<textarea id="envolvidos" name="envolvidos" type="text" class="form-control"  rows="2" required></textarea>
 							<span class="material-input"></span>
 						</div>
 					</div>
@@ -203,12 +202,12 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<div class="row">
 				<div class="card-content">
 					<div class="input-group">
-						<span class="input-group-addon">
+						*<span class="input-group-addon">
 							<i class="material-icons">insert_comment</i>
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Relato Sucinto</label>
-							<textarea id="relato" name="relato" type="text" class="form-control"  rows="2"></textarea>
+							<textarea id="relato" name="relato" type="text" class="form-control"  rows="2" required></textarea>
 			
 							<span class="material-input"></span>
 						</div>
@@ -219,12 +218,12 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<div class="row">
 				<div class="card-content">
 					<div class="input-group">
-						<span class="input-group-addon">
+						*<span class="input-group-addon">
 							<i class="material-icons">mode_edit</i>
 						</span>
 						<div class="form-group label-floating has-roxo is-empty">
 							<label class="control-label">Providências Adotadas</label>
-							<textarea id="providencia" name="providencia" type="text" class="form-control"  rows="2"></textarea>
+							<textarea id="providencia" name="providencia" type="text" class="form-control"  rows="2" required></textarea>
 							<span class="material-input"></span>
 						</div>
 					</div>
@@ -245,24 +244,28 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
     		 				<button type="button" class="small tiny alert clonador btnfuncionario"></button>
     		 			</center>
  					</div>
- 					<div class="row box_funcionario hide">
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<div class="input-group">
-								<span class="input-group-addon">
-									<i class="material-icons">perm_identity</i>
-								</span>
-								<div class="form-group label-floating has-roxo is-empty">
-									<label class="control-label">Adicionar Funcionarios</label>
-										<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
-											<option value=""></option>
-								    		@foreach($funcionarios as $funcionario)
-											<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }} </option> 
-											@endforeach
-										</select>
-									<span class="material-input"></span>
+ 					{{-- @foreach($relatorio->funcionarios as $funcionario_incluso)
+	 					@if(! $funcionario_incluso->pivot->relator ) --}}
+	 					<div class="row box_funcionario hide">
+							<div class="col-xs-12 col-sm-6 col-md-6">
+								<div class="input-group">
+									<span class="input-group-addon">
+										<i class="material-icons">perm_identity</i>
+									</span>
+									<div class="form-group label-floating has-roxo is-empty">
+										<label class="control-label">Adicionar Funcionarios</label>
+											<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
+												<option value=""></option>
+									    		@foreach($funcionarios as $funcionario)
+												<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }} </option> 
+												@endforeach
+											</select>
+										<span class="material-input"></span>
+									</div>
 								</div>
 							</div>
-						</div>
+						{{-- 	@endif
+						@endforeach --}}	
 						<div class="col-xs-12 col-md-2">
 							<div class="input-group">
         						<input type="button" class="button tiny success btn_remove" value="Remover"  />
@@ -303,12 +306,44 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 
 			<!-- ============================IMAGEM============================ -->
-			<center>
-				<h3>Imagens</h3>
-				<div class="row">
-				
-				</div>
-			</center>
+			
+			 <div >
+			 	<div id="imagens">
+					<div>
+						<div class="small-12 columns text-right">
+    		 				<center>
+    		 					<h4>ADICIONAR FOTOS AO FORMULARIO</h4>
+    		 					<button type="button" class="small tiny alert clonarfoto btnfuncionario"></button>
+    		 				</center>
+ 						</div>
+						<div class="fileinput fileinput-new box_imagens hide" data-provides="fileinput">
+							<div class="fileinput-new thumbnail" style="max-width: 285px;">
+								<img src="{{asset("img/image_placeholder.jpg")}}" alt="..." id="imagem_thumb">
+							</div>
+
+							<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 285px;"></div>
+
+							<div class="col-md-offset-4 col-sm-offset-4 col-md-12 col-sm-12">
+								<span class="btn btn-primary btn-round btn-file">
+									<span class="fileinput-new">Selecione</span>
+									<span class="fileinput-exists">Alterar</span>
+									<input type="file" name="foto">
+								</span>
+								<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class=></i>Excluir</a>
+							</div>
+
+							<input type="hidden" name="fotos[]" class="foto"/>
+							<input type="hidden" name="imagens[]" class="imagens"/>
+							<div class="col-xs-12 col-md-2">
+							<div class="input-group">
+        						<input type="button" class="button tiny success btn_remove" value="Remover"  />
+    						</div>
+    					</div>
+
+						</div>
+					</div>
+				</div>	
+			</div>  
 			<!-- ============================FIM IMAGEM============================ -->
 			
 
@@ -340,21 +375,72 @@ Novo Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 	<script type="text/javascript">
 		$(function(){
+
+			$('body').submit(function(event){
+				if ($(this).hasClass('enviar-relatorio')) {
+					event.preventDefault();
+				}
+				else {
+					$(this).find(':submit').html('<i class="fa fa-spinner fa-spin"></i>');
+					$(this).addClass('enviar-relatorio');
+				}
+			});
+
+			$('body').on('change.bs.fileinput', function(e){
+
+				// Executar apenas se o evento for disparado pelo plugin de imagens
+
+				if($(e.target).is("div.fileinput.box_imagens"))
+				{
+					let base64 = $(e.target).find(".fileinput-preview img").attr('src');
+
+					let input = $(e.target).find("input.imagens").first();
+
+					$(input).val(base64);
+				}
+
+			});
+
+			$('body').on('clear.bs.fileinput', function(e){
+
+				let base64 = $(e.target).find(".fileinput-preview img").attr('src');
+
+				let input = $(e.target).find("input.imagens").first();
+
+				$(input).val(base64);
+
+			});
+
 			// Mascara
 			VMasker ($("#cep")).maskPattern("99999-999");
-      });
-		 
 
-$(document).ready();
-$('.clonador').click(function(){
-    $clone = $('.box_funcionario.hide').clone(true);
-    $clone.removeClass('hide');
-    $('#funcionario').append($clone);
-});
+			$('.clonador').click(function(){
+			    $clone = $('.box_funcionario.hide').clone(true);
+			    $clone.removeClass('hide');
+			    $('#funcionario').append($clone);
+			});
 
-$('.btn_remove').click(function(){
-    $(this).parents('.box_funcionario').remove();
-});
+			$('.btn_remove').click(function(){
+			    $(this).parents('.box_funcionario').remove();
+			});
+
+			$('.clonarfoto').click(function(){
+			    $clone = $('.box_imagens.hide').clone(true);
+			    $clone.removeClass('hide');
+			    $('#imagens').append($clone);
+			});
+
+			$('.btn_remove').click(function(){
+			    $(this).parents('.box_imagens').remove();
+			});
+
+			$("#btn_cancelar").click(function(){
+		      event.preventDefault();
+		       window.history.back();
+	      });
+
+      	});
+		
 
     function limpa_formulário_cep() {
             //Limpa valores do formulário de cep.

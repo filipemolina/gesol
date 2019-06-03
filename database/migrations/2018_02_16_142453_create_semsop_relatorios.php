@@ -16,12 +16,14 @@ class CreateSemsopRelatorios extends Migration
         
          Schema::create('semsop_relatorios', function (Blueprint $table) {
             $table->increments('id');
+            $table->string("numero", 15);
 
             $table->boolean('notificacao')            ->nullable();
             $table->boolean('autuacao')               ->nullable();
             $table->boolean('multa')                  ->nullable();
             $table->boolean('registro_dp')            ->nullable();
             $table->boolean('auto_pf')                ->nullable();
+            $table->boolean('enviado')                ->default(false);
 
             // $table->string('local')                   ->nullable();
             //TODO: usar a tabela de endereço existente
@@ -33,7 +35,7 @@ class CreateSemsopRelatorios extends Migration
                                 'Ouvidoria',
                                 'Dever de oficio',
                                 'Ordem imediata',
-                                ])                    ->nullable();
+                                ]);
 
             $table->enum('acao_gcmm',[
                                 'Apoio em colisão de veiculos S/ vitima',
@@ -67,7 +69,7 @@ class CreateSemsopRelatorios extends Migration
                                 'Vandalismo / Pixação ao patrimônio',
                                 'Vias de fato em via pública/praças',
                                 'Segurança pública em jogos/estádios',
-                                ])                    ->nullable();
+                                ])->nullable();
             $table->enum('acao_cop',[
                                 'Notificação de irregularidades',
                                 'Apreensão de material, mercadoria ou equipamento irregular',
@@ -78,15 +80,17 @@ class CreateSemsopRelatorios extends Migration
                                 'Fiscalização de praças',
                                 'Serviços especiais (Feriados e afins)',
                                 'Retirada de material de propaganda irregular',
-                                ])                     ->nullable();
+                                ])->nullable();
             
             $table->enum('tipo',[
                             'GCMM',
                             'COP',
-                                ])                    ->nullable();
+                                ]);
 
-            $table->text('relato')                    ->nullable();
-            $table->text('providencia')               ->nullable();
+            $table->text('relato');
+            $table->text('providencia');
+            $table->date('data')                      ->nullable();
+            $table->time('hora')                      ->nullable();
             $table->mediumText('foto')                ->nullable();
 
 
@@ -100,9 +104,9 @@ class CreateSemsopRelatorios extends Migration
 
         });
 
-        // Schema::table('semsop_relatorios', function($table){
-        //     $table->foreign('endereco_id')->references('id')->on('enderecos')->onDelete('cascade');
-        // });
+        Schema::table('semsop_relatorios', function($table){
+            $table->foreign('endereco_id')->references('id')->on('enderecos')->onDelete('cascade');
+        });
 
     }
 

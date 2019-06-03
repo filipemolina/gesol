@@ -26,20 +26,44 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 			<div class="row col-md-offset-2 col-sm-offset-2 col-md-12 col-sm-12" >
 				<div class="card-content">
 					<label style="color: #000; margin-left: 15px">
-
-						<input value="notificacao" name="notificacao" type="checkbox"> Notificação
+					<input type="checkbox" name="notificacao" value="1" 
+					    @if(old('notificacao',$relatorio->notificacao))
+					        checked
+					    @endif
+					    > Notificacão<br>
+						{{-- <input value="notificacao" name="notificacao" type="checkbox"> Notificação --}}
 					</label>
 					<label style="color: #000; margin-left: 15px">
-						<input value="autuacao" name="autuacao" type="checkbox"> Autuação
+						<input type="checkbox" name="autuacao" value="1" 
+					    @if(old('autuacao',$relatorio->autuacao))
+					        checked
+					    @endif
+					    > Autuação<br>
+						{{-- <input value="autuacao" name="autuacao" type="checkbox"> Autuação --}}
 					</label>
 					<label style="color: #000; margin-left: 15px">
-						<input value="multa" name="multa" type="checkbox"> Multa
+						<input type="checkbox" name="multa" value="1" 
+					    @if(old('multa',$relatorio->multa))
+					        checked
+					    @endif
+					    > Multa<br>
+						{{-- <input value="multa" name="multa" type="checkbox"> Multa --}}
 					</label>
 					<label style="color: #000; margin-left: 15px">
-						<input value="registro_dp" name="registro_dp" type="checkbox"> Registo em DP
+						<input type="checkbox" name="registro_dp" value="1" 
+					    @if(old('registro_dp',$relatorio->registro_dp))
+					        checked
+					    @endif
+					    > Registo em DP<br>
+						{{-- <input value="registro_dp" name="registro_dp" type="checkbox"> Registo em DP --}}
 					</label>
 					<label style="color: #000; margin-left: 15px">
-						<input value="auto_pf" name="auto_pf" type="checkbox"> A.P.F
+						<input type="checkbox" name="auto_pf" value="1" 
+					    @if(old('auto_pf',$relatorio->auto_pf))
+					        checked
+					    @endif
+					    > A.P.F<br>
+						{{-- <input value="auto_pf" name="auto_pf" type="checkbox"> A.P.F --}}
 					</label>
 				</div>
 			</div>
@@ -146,7 +170,7 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 						</div>
 					</div>
 
-					<input name="municipio" type="text" id="municipio" size="40" class="hide" />
+					<input name="municipio" type="text" id="municipio" size="40" value="{{$relatorio->endereco->municipio}}" class="hide" />
 					
 					<div class="col-xs-12 col-sm-6 col-md-8">	
 						<div class="input-group">
@@ -260,38 +284,42 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
     		 			</center>
  					</div>
 					@foreach($relatorio->funcionarios as $funcionario_incluso)
-	 					<div class="row box_funcionario">
-							<div class="col-xs-12 col-sm-6 col-md-6">
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="material-icons">perm_identity</i>
-									</span>
-									<div class="form-group label-floating has-roxo is-empty">
-										<label class="control-label">Adicionar Funcionarios</label>
-											<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
-												<option value=""></option>
-									    		@foreach($funcionarios as $funcionario)
-													
+						{{-- {{ dd($relatorio->funcionarios) }} --}}
+						@if(! $funcionario_incluso->pivot->relator )
+		 					<div class="row box_funcionario">
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="material-icons">perm_identity</i>
+										</span>
+										<div class="form-group label-floating has-roxo is-empty">
+											<label class="control-label">Adicionar Funcionarios</label>
+												<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
+
+										    		@foreach($funcionarios as $funcionario)
+														
 										    		 	@if($funcionario->nome == $funcionario_incluso->nome)
-															<option value="{{ $funcionario->id }}" selected> {{ $funcionario->nome }}
+															<option 
+																value="{{ $funcionario->id }}" selected> {{ $funcionario->nome }}
+															</option>
 														@else
-															<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }}
+															<option 
+																value="{{ $funcionario->id }}"> {{ $funcionario->nome }}
+															</option> 
 														@endif
-													
-											    </option> 
-											
-												@endforeach
-											</select>
-										<span class="material-input"></span>
+													@endforeach
+												</select>
+											<span class="material-input"></span>
+										</div>
 									</div>
 								</div>
+								<div class="col-xs-12 col-md-2">
+									<div class="input-group" style="padding-top: 28px;" >
+		        						<input  type="button" class="button tiny success btn_remove" value="Remover" />
+		    						</div>
+		    					</div>
 							</div>
-							<div class="col-xs-12 col-md-2">
-								<div class="input-group" style="padding-top: 28px;" >
-	        						<input  type="button" class="button tiny success btn_remove" value="Remover" />
-	    						</div>
-	    					</div>
-						</div>
+						@endif
 
 					@endforeach
 					<div class="row box_funcionario hide">
@@ -304,15 +332,16 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 									<label class="control-label">Adicionar Funcionarios</label>
 									<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error">
 										<option value=""></option>
+
 										 @foreach($funcionarios as $funcionario)
-										<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }} </option> 
-										@endforeach
+											<option value="{{ $funcionario->id }}"> {{ $funcionario->nome }} </option> 
+										 @endforeach
 									</select>
 									<span class="material-input"></span>
 								</div>
 							</div>
-			    			</div>
-							<div class="col-xs-12 col-md-2">
+			    		</div>
+						<div class="col-xs-12 col-md-2">
 							<div class="input-group" style="padding-top: 28px;" >
         						<input type="button" class="button tiny success btn_remove" value="Remover" />
     						</div>
@@ -320,20 +349,62 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 					</div> 
 				</div>
 			</div>
-
-
-
-
 			<!-- =============FIM ADICIONAR OUTROS FUNCIONARIOS NO RELATORIO=========== -->
 
-
 			<!-- ============================IMAGEM============================ -->
-			<center>
-				<h3>Imagens</h3>
-				<div class="row">
-				
-				</div>
-			</center>
+			
+			 <div >
+			 	<div id="imagens">
+					<div>
+						<div class="small-12 columns text-right">
+    		 				<center>
+    		 					<h4>ADICIONAR FOTOS AO FORMULARIO</h4>
+    		 					<button type="button" class="small tiny alert clonarfoto btnfuncionario"></button>
+    		 				</center>
+ 						</div>
+
+ 						@foreach($imagens as $imagem)
+
+							<div class="imagem_relatorio imagem_{{$imagem->id}}">
+								<div class="fileinput-new thumbnail" style="max-width: 285px;">
+									<img src="{{$imagem->imagem}}" alt="" class="img_rel" />
+								</div>
+								<button data-id="{{$imagem->id}}" class="btn btn-dange btn_excluir_imagem">Deletar</button>
+
+							</div>
+
+						@endforeach
+
+						<div class="fileinput fileinput-new box_imagens hide" data-provides="fileinput">
+
+							<div class="fileinput-new thumbnail" style="max-width: 285px;">
+								<img src="{{asset("img/image_placeholder.jpg")}}" alt="..." id="imagem_thumb">
+							</div>
+
+							<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 285px;"></div>
+
+							<div class="col-md-offset-4 col-sm-offset-4 col-md-12 col-sm-12">
+								<span class="btn btn-primary btn-round btn-file">
+									<span class="fileinput-new">Selecione</span>
+									<span class="fileinput-exists">Alterar</span>
+									<input type="file" name="foto">
+								</span>
+								<a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class=></i>Excluir</a>
+							</div>
+
+							<input type="hidden" name="fotos[]" class="foto"/>
+							<input type="hidden" name="imagens[]" class="imagens"/>
+							<div class="col-xs-12 col-md-2">
+							<div class="input-group">
+        						<input type="button" class="button tiny success btn_remove" value="Remover"  />
+    						</div>
+    					</div>
+
+						</div>
+					</div>
+				</div>	
+			</div>
+			    
 			<!-- ============================FIM IMAGEM============================ -->
 			
 
@@ -367,11 +438,88 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 
 
 	$(function(){
-		//Fazer o label do input,select e textarea subir quando estiver preenchido
-		$("input, select, textarea").change();
-		// Mascara
-		VMasker ($("#cep")).maskPattern("99999-999");
-      });
+
+			$('body').on('change.bs.fileinput', function(e){
+
+				// Executar apenas se o evento for disparado pelo plugin de imagens
+
+				if($(e.target).is("div.fileinput.box_imagens"))
+				{
+					let base64 = $(e.target).find(".fileinput-preview img").attr('src');
+
+					let input = $(e.target).find("input.imagens").first();
+
+					$(input).val(base64);
+				}
+
+			});
+
+			$('body').on('clear.bs.fileinput', function(e){
+
+				let base64 = $(e.target).find(".fileinput-preview img").attr('src');
+
+				let input = $(e.target).find("input.imagens").first();
+
+				$(input).val(base64);
+
+			});
+
+			///////////////////// DELETAR UMA IMAGEM
+
+			$("button.btn_excluir_imagem").click(function(e){
+
+				e.preventDefault();
+
+				console.log("Chamou a função de deletar");
+
+				let id = $(this).data('id');
+
+				$.post("{{ url("/imagens/") }}/" + id, {
+					_token: token, // Variável definida no template material.blade
+					_method: "DELETE",
+				}, function(data) {
+
+					// Apagar a imagem na tela
+					$("div.imagem_relatorio.imagem_" + id).remove();
+
+					console.log("REQUEST ENVIADA", data);
+				});
+
+				return false;
+ 
+			})
+
+			///////////////////// DELETAR UMA IMAGEM
+
+			// Mascara
+			VMasker ($("#cep")).maskPattern("99999-999");
+
+			$('.clonador').click(function(){
+			    $clone = $('.box_funcionario.hide').clone(true);
+			    $clone.removeClass('hide');
+			    $('#funcionario').append($clone);
+			});
+
+			$('.btn_remove').click(function(){
+			    $(this).parents('.box_funcionario').remove();
+			});
+
+			$('.clonarfoto').click(function(){
+			    $clone = $('.box_imagens.hide').clone(true);
+			    $clone.removeClass('hide');
+			    $('#imagens').append($clone);
+			});
+
+			$('.btn_remove').click(function(){
+			    $(this).parents('.box_imagens').remove();
+			});
+
+			$("#btn_cancelar").click(function(){
+		      event.preventDefault();
+		       window.history.back();
+	      });
+
+      	});
 		 
 
 	$(document).ready();
@@ -387,6 +535,11 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 	$('.btn_remove').click(function(){
 	    $(this).parents('.box_funcionario').remove();
 	});
+
+	$("#btn_cancelar").click(function(){
+		      event.preventDefault();
+		       window.history.back();
+	      });
 
     function limpa_formulário_cep() {
             //Limpa valores do formulário de cep.
@@ -452,4 +605,3 @@ Editar Relatorio {{ mostraAcesso($funcionario_logado) }}
 	</script>
 
 @endpush
-   

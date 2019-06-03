@@ -105,19 +105,43 @@ Route::post('naolidas/{setor_id}', 'SolicitacaoController@naoLidas');
 Route::get('comunicado/datatables', 'ComunicadoController@dados');
 
 //========================================================================================
+// 										SEMSOP_RELATORIOS
+//========================================================================================
+// Imprimir PDF
+Route::get('semsop/pdf/{id}','Semsop_RelatorioController@imprimir');
+// Enviar Formulario
+Route::post('semsop/enviaformulario','Semsop_RelatorioController@envia');
+// DataTables
+Route::get('semsop/datatables', 'Semsop_RelatorioController@dados');
+
+//========================================================================================
+// 										SEMUS_RELATORIOS
+//========================================================================================
+// Imprimir PDF
+Route::get('semus/pdf/{id}','Semus_RelatorioController@imprimir');
+// Enviar Formulario
+Route::post('semus/enviaformulario','Semus_RelatorioController@envia');
+// Soluciona Ocorrencia
+Route::post('semus/solucionaformulario','Semus_RelatorioController@soluciona');
+
+
+
+//========================================================================================
 // 										RESOURCE
 //========================================================================================
 //resources
-Route::resource('solicitante',	   'SolicitanteController');
-Route::resource('funcionario',	   'FuncionarioController');
-Route::resource('solicitacao',	   'SolicitacaoController');
-Route::resource('comunicado',       'ComunicadoController');
-Route::resource('comentario',		   'ComentarioController');
-Route::resource('secretaria',		   'SecretariaController');
-Route::resource('atribuicao',		   'AtribuicaoController');
-Route::resource('setor',			   'SetorController');
-Route::resource('servico',			   'ServicoController');
-Route::resource('semsop',	         'Semsop_RelatorioController');
+Route::resource('solicitante',			'SolicitanteController');
+Route::resource('funcionario',			'FuncionarioController');
+Route::resource('solicitacao',			'SolicitacaoController');
+Route::resource('comunicado',   	 	'ComunicadoController');
+Route::resource('comentario',		   	'ComentarioController');
+Route::resource('secretaria',		   	'SecretariaController');
+Route::resource('atribuicao',		    'AtribuicaoController');
+Route::resource('setor',			   	'SetorController');
+Route::resource('servico',			    'ServicoController');
+Route::resource('semsop',	    	  	'Semsop_RelatorioController');
+Route::resource('semus',				'Semus_RelatorioController');
+Route::resource('imagens',              'ImagemController');
 
 
 // Password Reset Routes...

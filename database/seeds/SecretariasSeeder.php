@@ -638,10 +638,12 @@ class SecretariasSeeder extends Seeder
          DB::table('cargos')->insert(['nome' => 'Subsecretário Municipal de Tecnologia da Informação','secretaria_id' => $secretariaID ,'tipo' =>'E' ]);
 
          $funcionario = DB::table('funcionarios')->insertGetId([  'nome'      => 'Administrador',
-                                              'setor_id'  => $setorID,
-                                              'cargo_id'  => $cargoID,
-															 'role_id'   => 10,
-															 'tipo'   	 => 'Sistema',
+                                              'setor_id' 	=> $setorID,
+															 'cargo_id' 	=> $cargoID,
+															 'cpf'			=> '123.456.789-09',
+															 'matricula'	=> '1',
+															 'role_id'  	=> 10,
+															 'tipo'   		=> 'Sistema',
          ]);
           
 			$user = new User;

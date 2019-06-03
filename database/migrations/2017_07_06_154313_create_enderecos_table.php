@@ -24,17 +24,12 @@ class CreateEnderecosTable extends Migration
             $table->string('bairro',20)                     ->nullable();
             $table->string('logradouro',100)                ->nullable();
             $table->unsignedMediumInteger('numero')         ->nullable();
-            $table->string('complemento',20)                ->nullable();
+            $table->string('complemento',100)                ->nullable();
             $table->char('cep',10)                          ->nullable();
 
             $table->decimal('latitude',10,8)                ->nullable();
             $table->decimal('longitude',10,8)               ->nullable();
 
-            //------------------------FOREIGN--------------------------------
-            $table->integer('solicitante_id')->unsigned()->nullable();
-            $table->integer('solicitacao_id')->unsigned()->nullable();
-            $table->integer('secretaria_id')->unsigned()->nullable();
-            //---------------------------------------------------------------
 
             $table->softDeletes();
             $table->timestamps();

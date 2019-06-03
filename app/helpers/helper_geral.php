@@ -18,6 +18,35 @@ use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
 
 
+
+//retorna o proximo valor da sequence informada
+if (! function_exists('proximoValorSequence')) {
+   function proximoValorSequence($sequencia) {
+      $valor = DB::select(DB::raw(" SELECT nextval('$sequencia') "));
+      return $valor[0]->nextval;
+   }
+}
+
+
+//retorna o proximo valor da sequence já formatada para o RELATORIO DA SEMSOP 
+if (! function_exists('obtemNumeroRelatorioSemsop')) {
+   function obtemNumeroRelatorioSemsop($tipo) {
+      $valor = DB::select(DB::raw(" SELECT nextval('semsop_relatorios_numero') "));
+      $numero = $tipo . "." . date("Y") .".". str_pad($valor[0]->nextval,5,"0", STR_PAD_LEFT);
+      return $numero;
+   }
+}
+
+//retorna o proximo valor da sequence já formatada para o RELATORIO DA SEMUS
+if (! function_exists('obtemNumeroRelatorioSemus')) {
+   function obtemNumeroRelatorioSemus($tipo) {
+      $valor = DB::select(DB::raw(" SELECT nextval('semus_relatorios_numero') "));
+      $numero = "SEMUS" . "." . date("Y") .".". str_pad($valor[0]->nextval,5,"0", STR_PAD_LEFT);
+      return $numero;
+   }
+}
+
+
 //verifica o tipo de acesso que o usuário logado tem no sistema
 if (! function_exists('verificaAcesso')) {
    function verificaAcesso($funcionario_logado) {
@@ -62,13 +91,46 @@ if (! function_exists('mostraAcesso')) {
 //pega os valores enum em um campo
 if (! function_exists('pegaValorEnum')) {
    function pegaValorEnum($table, $column) {
-      $type = DB::select(DB::raw("SHOW COLUMNS FROM $table WHERE Field = '{$column}'"))[0]->Type ;
-      preg_match('/^enum\((.*)\)$/', $type, $matches);
-      $enum = array();
-      foreach( explode(',', $matches[1]) as $value )
-      {
-         $v = trim( $value, "'" );
-         $enum[] = $v;
+      //para usar no mysql
+      //$type = DB::select(DB::raw("SHOW COLUMNS FROM $table WHERE Field = '{$column}'"))[0]->Type ;
+      /* 
+      
+         preg_match('/^enum\((.*)\)$/', $type, $matches);
+         $enum = array();
+         foreach( explode(',', $matches[1]) as $value )
+         {
+            $v = trim( $value, "'" );
+            $enum[] = $v;
+         } 
+         
+      */
+
+
+      //para usar no postgres
+      //  SELECT enum_range(NULL::tp_status)
+
+      //$type = DB::select(DB::raw(" SELECT enum_range(NULL::$column) ")) ;
+
+      //$tipo = DB::select(DB::raw(' SELECT pg_typeof("'. $column .'") from '.$table . ' limit 1 '));
+
+      $tipo = DB::select(DB::raw("SELECT tipo 
+                                 FROM campos_tipos 
+                                 WHERE 
+                                    campos_tipos.tabela = '$table' AND 
+                                    campos_tipos.campo = '$column'
+                                 LIMIT 1"));
+
+      $tipo = $tipo[0]->tipo;
+
+      $valores = DB::select(DB::raw(" SELECT enumlabel AS label 
+                                    FROM pg_type t 
+                                    JOIN pg_enum e ON t.oid = e.enumtypid 
+                                    WHERE typname = '$tipo' ")) ;
+
+      $enum = [];
+
+      foreach($valores as $valor){
+         $enum[] = $valor->label;
       }
       
       return $enum;

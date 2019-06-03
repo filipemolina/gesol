@@ -10,7 +10,7 @@ class SolicitacaoSeeder extends Seeder
 	{
 
 
-		factory(App\Models\Solicitacao::class, 10)->create()->each(function($solicitacao)
+		factory(App\Models\Solicitacao::class, 2)->create()->each(function($solicitacao)
 		{
 			$solicitacao->endereco()->save(factory(App\Models\Endereco::class)->make());
                 // Criar comentarios

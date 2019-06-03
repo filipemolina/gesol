@@ -30,6 +30,7 @@ class Semsop_relatorio extends Model implements AuditableContract
             'foto',
             'data',
             'hora',
+            'enviado',
   ];
 
     public function endereco()
@@ -39,8 +40,13 @@ class Semsop_relatorio extends Model implements AuditableContract
     
     public function funcionarios()
     {
-    	return $this->belongsToMany('App\Models\Funcionario','semsop_funcionarios_relatorios')->withTimestamps();
+    	return $this->belongsToMany('App\Models\Funcionario','semsop_funcionarios_relatorios')
+        ->withPivot('relator')->withTimestamps();
     }
 
+    public function imagens()
+    {
+      return $this->belongsToMany('App\Models\Imagem', 'imagens_semsop_relatorios', 'semsop_relatorio_id', 'imagem_id');
+    }
 
 }

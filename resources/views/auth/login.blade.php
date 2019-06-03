@@ -72,7 +72,7 @@
                               </span>
                               <div class="form-group label-floating has-dourado">
                                  <label class="control-label">Senha</label>
-                                 <input type="password" class="form-control" name="senha">
+                                 <input type="password" class="form-control" name="password">
                               </div>
                               <div>
                                  <a href="{{ url("/password/reset")}}" class="recupera_senha texto-roxo">Esqueceu sua Senha?</a>   
@@ -95,7 +95,7 @@
 </div>
 
  <!-- Firebase - Enviar e receber notificações do google -->
-        <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script>
+        {{-- <script src="https://www.gstatic.com/firebasejs/4.8.0/firebase.js"></script> --}}
 
         <script src="https://maps.google.com/maps/api/js?key=AIzaSyDcdW2PsrS1fbsXKmZ6P9Ii8zub5FDu3WQ"></script>
 

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Funcionario;
-use App\Models\User;
+use Auth;
 
 class AuthController extends Controller
 {
@@ -16,84 +15,34 @@ class AuthController extends Controller
 
     public function login()
     {
-        //testa se o usuário já está logado e redireciona para a home
-
-        if(Auth::user())
-        {
-            loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logon');
-            return redirect()->intended('/');
-        }
-
+      
         return view('auth.login');
     }
 
-    public function logout()
+    public function entrar(Request $request)
     {
-        //logout apenas se estiver logado
-        if(Auth::user()){
-            loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logoff');
+        $credentials = ['email'=>$request->email,'password'=>$request->password];
+        if(Auth::attempt($credentials)){
+            $usuario_logado = Auth::user();
+            //dd($usuario_logado);
+            $retorno = DB::connection('mysql2')->select("select consulta_role($usuario_logado->id , 'GESOL', 'SEMSOP_REL_GCMM') as retorno");
+            if($retorno[0]->retorno){
+                //dd($retorno[0]->retorno);
+                return redirect()->intended('/');
+            }else{
+                return redirect()->back()->with('msg','Voce não tem acesso ao sistema');
+            }
+        }else{
+            return redirect()->back()->with('msg','Acesso Negado, Email ou senha invalida');
         }
-       
+        
+    }
+
+    public function logout()
+    {  
         Auth::logout();
         return redirect("/");
     }
-    
 
-    /**
-     * Gerenciar o login quando for enviado via POST
-     */
 
-    public function entrar(Request $request)
-    {
-
-    	// Obter o usuário 
-    	$usuario = User::where('email', $request->email)->first();
-
-        
-
-        //verifica se o email existe na base
-        if($usuario)
-        { 
-            //dd(bcrypt($request->senha), $usuario->password);
-
-            // Testar a senha
-        	if(Hash::check($request->senha, $usuario->password))
-        	{
-        		// Verificar se o usuário possui um funcionário relacionado
-        		if(count($usuario->funcionario))
-        		{
-        			// verifica se o status do usuário é "Ativo"
-                    if($usuario->status == 'Ativo')
-                    {
-                        // Logar o usuário
-            			if(Auth::attempt(['email' => $request->email, 'password' => $request->senha]))
-            			{
-            				// Redirecionar para o Painel Principal
-                            //dd("logou");
-                            loga('R', 'USERS', Auth::user()->id, '---','---' , 'Logon');
-            				return redirect()->intended('/');
-            			}
-
-                    } else {
-                        loga('R', 'USERS', '0', 'EMAIL',$request->email , 'Tentativa de Logon - Usuário com status INATIVO');
-                        return redirect("/login")->withErrors(['erros' => 'A conta de usuário não está ATIVA']);    
-                    }
-
-        		} else {
-                    loga('R', 'USERS',  '0', 'EMAIL', $request->email , 'Tentativa de Logon - não é funcionario');
-        			return redirect("/login")->withErrors(['erros' => 'Não é um funcionário']); //echo "Não é um funcionário<br/>";	
-        		}
-
-        		return redirect("/"); //echo "<h2>Senha Confere</h2>";
-
-        	} else {
-                loga('R', 'USERS',  '0', 'EMAIL',$request->email , 'Tentativa de Logon - senha errada');
-                return redirect("/login")->withErrors(['erros' => 'Senha não confere']);
-        	}
-        }else{
-            //dd("nao existe");
-            loga('R', 'USERS', '0', 'EMAIL',$request->email , 'Tentativa de Logon - email não cadastrado');
-            return redirect("/login")->withErrors(['erros' => 'Email não cadastrado']);    
-        }
-    }
 }
