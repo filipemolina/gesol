@@ -29,9 +29,15 @@ class Semsop_RelatorioController extends Controller
     public function index()
     {
         $logado = Auth::user();
+        //dd($logado);
         $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
         //dd($retorno);
-        return view ('relatorios.relatorios',compact('logado','guarda'));
+        
+        //$relatorios = Auth::user()->funcionario->relatorios_semsop;
+        // $relatorios = $logado::on('mysql')->get();
+        //$relatorios = 
+        //dd($relatorios);
+        return view ('relatorios.relatorios',compact('logado','guarda','relatorios'));
     }
 
     
@@ -320,14 +326,19 @@ class Semsop_RelatorioController extends Controller
     public function dados()
     {
 
-        if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"]))
+        if(Auth::user()->hasRole('SEMSOP_REL_GERENTE'))
         {
             // Obter todos os relatórios já enviados
             $relatorios = Semsop_relatorio::where('enviado', 1)->get();
+            //dd($relatorios);
         } else {
-
+            
+            
             // Obter apenas os meus próprios relatorios
-            $relatorios = Auth::user()->funcionario->relatorios_semsop;
+            //$relatorios = Auth::user()->funcionario->relatorios_semsop;
+            // $id = Auth::user()->id;
+            $relatorios = Semsop_relatorio::all();
+            //dd($relatorios);
         }
 
         // Montar a coleção que irá servir os dados à tabela
@@ -339,7 +350,7 @@ class Semsop_RelatorioController extends Controller
             // Montar a coluna de ações da tabela
             $acoes = "";
 
-            if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"]))
+            if(Auth::user()->hasRole('SEMSOP_REL_GERENTE'))
             {
             // 
             $acoes .= "<td style='width: 16%;''>
@@ -359,7 +370,7 @@ class Semsop_RelatorioController extends Controller
                         <i class='glyphicon glyphicon-print'></i>
                     </a>
                 </td>";
-            } else if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_FISCAL"])) {
+            } else if(Auth::user()->hasRole('SEMSOP_REL_GCMM')) {
             
                 $acoes .= "<td style='width: 16%;''>
                     <a href='".url("/semsop/$relatorio->id")."' 
@@ -414,7 +425,8 @@ class Semsop_RelatorioController extends Controller
                 'numero' => $relatorio->numero,
                 'relato' => mb_strimwidth($relatorio->relato, 0, 70,"..."),
                 'data'   => date('d-m-Y', strtotime($relatorio->data)),
-                'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,
+                'agente' => 'a',
+                //'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,
                 'acoes'  => $acoes
             ]);
         }
