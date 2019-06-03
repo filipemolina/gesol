@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Semsop_relatorio extends Model implements AuditableContract
+class Semsop_relatorio extends Model // implements AuditableContract
 {
 
-  use \OwenIt\Auditing\Auditable;
+  //use \OwenIt\Auditing\Auditable;
 
   protected $table = "semsop_relatorios";
 

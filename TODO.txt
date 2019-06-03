@@ -1,1 +1,3 @@
 // Comentei a linha 1018 do Material-dashboard.css
+
+//Linha 16888 do Material-dashboard.css Alterada

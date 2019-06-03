@@ -16886,8 +16886,8 @@ form .form-group select.form-control {
 }
 
 form .form-group .error {
-  font-size: 0.8rem;
-  color: #f44336;
+  font-size: 1.5rem;
+  /* color: #f44336; */
 }
 
 form .card .card-footer .form-check {

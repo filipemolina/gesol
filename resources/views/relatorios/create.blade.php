@@ -65,6 +65,7 @@ Novo Relatorio
 							</div>
 						</div>
 					</div>
+					<br><br><br><br>
 					<!-- ============================FIM CHECKBOX============================ -->
 					
 					<!-- ============================   SELECT   ============================ -->
@@ -74,12 +75,17 @@ Novo Relatorio
 								*<span class="input-group-text">
 									<i class="material-icons">swap_horiz</i>
 								</span>
-								<select name="origem" id=origem class="form-control form-control error" required>
-									<option value="" selected> </option>
-									@foreach($origens as $origem)
-										<option value="{{$origem}}"> {{$origem}} </option> 
-									@endforeach
-								</select>
+								<div class="col-xs-12 col-sm-12 col-md-12">
+									<div class="form-group label-floating has-roxo is-empty">
+										<label class="control-label" style="font-size: 11.7px;">Selecione a origem do serviço</label>
+										<select name="origem" id=origem class="form-control form-control error" style="position: inherit;" required>
+											<option value="" selected> </option>
+											@foreach($origens as $origem)
+												<option value="{{$origem}}"> {{$origem}} </option> 
+											@endforeach
+										</select>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-6 col-md-6">
@@ -87,23 +93,29 @@ Novo Relatorio
 								*<span class="input-group-text">
 									<i class="material-icons">card_membership</i>
 								</span>
-								@if($fiscal)
-									<select name="acao_cop" id="acao_cop" class="form-control form-control error" required>
-										<option value="">  </option>
-										@foreach($acoes_cop as $acao_cop)
-										<option value="{{$acao_cop}}"> {{$acao_cop}}</option>
-										@endforeach 
-								@elseif($guarda)
-									<select name="acao_gcmm" id="acao_gcmm " class="form-control form-control error" required> 	  <option value="">  </option>
-										@foreach($acoes_gcmm as $acao_gcmm)
-										<option value="{{$acao_gcmm}}"> {{$acao_gcmm}}</option>
-										@endforeach
-								@endif
-									</select>
-									<span class="material-input"></span>		
+								<div class="col-xs-12 col-sm-12 col-md-12">
+									<div class="form-group label-floating has-roxo is-empty">
+										<label class="control-label" style="font-size: 11.7px;">Selecione a ação desenvolvida</label>
+										@if($fiscal)
+											<select name="acao_cop" id="acao_cop" class="form-control form-control error" style="position: inherit;" required>
+												<option value="">  </option>
+												@foreach($acoes_cop as $acao_cop)
+													<option value="{{$acao_cop}}"> {{$acao_cop}}</option>
+												@endforeach 
+										@elseif($guarda)
+											<select name="acao_gcmm" id="acao_gcmm " class="form-control form-control error" style="position: inherit;" required> 	 
+												 <option value="">  </option>
+												@foreach($acoes_gcmm as $acao_gcmm)
+													<option value="{{$acao_gcmm}}"> {{$acao_gcmm}}</option>
+												@endforeach
+										@endif
+											</select>
+									</div>
+								</div>	
 							</div>
 						</div>
 					</div>
+					<br>
 					<!-- ============================ FIM SELECT ============================ -->
 					
 					<!-- =========================== DATA E HORA  =========================== -->
@@ -113,10 +125,9 @@ Novo Relatorio
 								*<span class="input-group-text">
 									<i class="material-icons">event</i>
 								</span>
-								<div class="form-group label-floating has-roxo is-empty" >
-									<label class="label-control" style="color: #3d276b;">Data	</label>
+								<div class="form-group label-floating has-roxo is-empty" style="padding-left: 10px;">
+									<label class="control-label" style="font-size: 11.7px;">Data</label>
 									<input id="data" name="data" type="date" class="form-control" value="" required>
-									<span class="material-input"></span>
 								</div>
 							</div>
 						</div>
@@ -125,14 +136,14 @@ Novo Relatorio
 								*<span class="input-group-text">
 									<i class="material-icons">access_time</i>
 								</span>
-								<div class="form-group label-floating has-roxo is-empty" style="padding-right: 84px">
-									<label class="label-control" style="color: #3d276b;">Hora	</label>
+								<div class="form-group label-floating has-roxo is-empty" style="padding-left: 10px;">
+									<label class="control-label" style="font-size: 11.7px;">Hora</label>
 									<input name="hora" type="time" class="form-control" required>
-									<span class="material-input"></span>
 								</div>
 							</div>
 						</div>
 					</div>
+					<br>
 					<!-- ========================= FIM DATA E HORA  ========================= -->
 
 					<!-- ========================     ENDEREÇO      ========================= -->
@@ -142,8 +153,12 @@ Novo Relatorio
 								<span class="input-group-text">
 									<i class="material-icons">mail_outline</i>
 								</span>
-								<input id="cep" name="cep" type="text" class="form-control error" value="" onblur="pesquisacep(this.value);">
-								<span class="material-input"></span>
+								<div class="col-xs-12 col-sm-12 col-md-12">
+									<div class="form-group label-floating has-roxo is-empty">
+										<label class="control-label" style="font-size: 11.7px;">CEP</label>
+										<input id="cep" name="cep" type="text" class="form-control error" value="" onblur="pesquisacep(this.value);">
+									</div>
+								</div>
 							</div>
 						</div>
 						<input name="municipio" type="text" id="municipio" size="40" class="hide" />		
@@ -152,18 +167,28 @@ Novo Relatorio
 								<span class="input-group-text">
 									<i class="material-icons">explore</i>
 								</span>
-								<input id="bairro" name="bairro" type="text" class="form-control error" value="">
-								<span class="material-input"></span>
+								<div class="col-xs-12 col-sm-12 col-md-12">
+									<div class="form-group label-floating has-roxo is-empty">
+										<label class="control-label" style="font-size: 11.7px;">Bairro</label>
+										<input id="bairro" name="bairro" type="text" class="form-control error" value="">
+									</div>
+								</div>
 							</div>
 						</div>			
 					</div>
+					<br>
 					<div class="row">
 						<div class="col-xs-12 col-sm-6 col-md-7">
 							<div class="input-group-prepend">
 								<span class="input-group-text">
 									<i class="material-icons">call_split</i>
-								</span>							
-								<input id="logradouro" name="logradouro" type="text" class="form-control error" value="">
+								</span>
+								<div class="col-xs-12 col-sm-12 col-md-12">
+									<div class="form-group label-floating has-roxo is-empty">
+										<label class="control-label" style="font-size: 11.7px;">Logradouro</label>
+										<input id="logradouro" name="logradouro" type="text" class="form-control error" value="">
+									</div>		
+								</div>					
 							</div>
 						</div>
 						<div class="col-xs-6 col-md-2">
@@ -171,7 +196,10 @@ Novo Relatorio
 								<span class="input-group-text">
 									<i class="material-icons">home</i>
 								</span>
-								<input id="numero" name="numero" type="text" class="form-control error" value="">
+								<div class="form-group label-floating has-roxo is-empty">
+									<label class="control-label" style="font-size: 11.7px;">Numero</label>
+									<input id="numero" name="numero" type="text" class="form-control error" value="">
+								</div>
 							</div>
 						</div>
 						<div class="col-xs-6 col-md-3">
@@ -179,10 +207,14 @@ Novo Relatorio
 								<span class="input-group-text">
 									<i class="material-icons">explore</i>
 								</span>
-								<input id="complemento" name="complemento" type="text" class="form-control error" value="">
+								<div class="form-group label-floating has-roxo is-empty">
+									<label class="control-label" style="font-size: 11.7px;">Complemento</label>
+									<input id="complemento" name="complemento" type="text" class="form-control error" value="">
+								</div>
 							</div>
 						</div>
 					</div>
+					<br>
 					<!-- ========================  FIM  ENDEREÇO    ========================= -->
 
 					<!-- ========================   AREA DE TEXTO   ========================= -->
@@ -192,36 +224,90 @@ Novo Relatorio
 								*<span class="input-group-text">
 									<i class="material-icons">group</i>
 								</span>
-								<textarea id="envolvidos" name="envolvidos" type="text" class="form-control"  rows="2" required></textarea>
-								<span class="material-input"></span>
+								<div class="col-xs-11 col-sm-11 col-md-11">
+									<div class="form-group label-floating has-roxo is-empty">
+										<label class="control-label" style="font-size: 11.7px;">Envolvidos</label>
+										<textarea id="envolvidos" name="envolvidos" type="text" class="form-control"  rows="2" required></textarea>
+										<span class="material-input"></span>
+										<span class="material-input"></span>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
+					<br>
 					<div class="row">
 						<div class="card-content">
 							<div class="input-group-prepend">
 								*<span class="input-group-text">
 									<i class="material-icons">insert_comment</i>
 								</span>
-								<textarea id="relato" name="relato" type="text" class="form-control"  rows="2" required></textarea>
-								<span class="material-input"></span>
+								<div class="col-xs-11 col-sm-11 col-md-11">
+									<div class="form-group label-floating has-roxo is-empty">
+										<label class="control-label" style="font-size: 11.7px;">Relato Sucinto</label>
+										<textarea id="relato" name="relato" type="text" class="form-control"  rows="2" required></textarea>
+										<span class="material-input"></span>
+										<span class="material-input"></span>
+									</div>
+								</div>
 							</div>	
 						</div>
 					</div>
+					<br>
 					<div class="row">
 						<div class="card-content">
 							<div class="input-group-prepend">
 								*<span class="input-group-text">
 									<i class="material-icons">mode_edit</i>
 								</span>
-								<textarea id="providencia" name="providencia" type="text" class="form-control"  rows="2" required></textarea>
-								<span class="material-input"></span>
+								<div class="col-xs-11 col-sm-11 col-md-11">
+									<div class="form-group label-floating has-roxo is-empty">
+										<label class="control-label" style="font-size: 11.7px;">Providências Adotadas</label>
+										<textarea id="providencia" name="providencia" type="text" class="form-control"  rows="2" required></textarea>
+										<span class="material-input"></span>
+										<span class="material-input"></span>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 					<!-- =========================  FIM AREA DE TEXTO  ========================= -->
 
 					<!-- =============  ADICIONAR OUTROS FUNCIONARIOS NO RELATORIO  ============ -->
+					<div class="row">
+						<div id="funcionario">
+							<div class="small-12 columns text-right">
+								<center>
+									<h4>ADICIONAR INTEGRANTES AO FORMULARIO</h4>
+									<button type="button" class="small tiny alert clonador btnfuncionario"></button>
+								</center>
+							</div>
+							<div class="row box_funcionario hide">
+								<div class="col-xs-12 col-sm-6 col-md-6">
+									<div class="input-group-prepend">
+										<span class="input-group-text">
+											<i class="material-icons">perm_identity</i>
+										</span>
+										<div class="form-group label-floating has-roxo is-empty">
+											<label class="control-label">Adicionar Funcionarios</label>
+											<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error" style="position: inherit;">
+												<option value=""></option>		
+												@foreach($funcionarios as $funcionario)
+													<option value="{{ $funcionario['id'] }}"> {{ $funcionario['nome'] }} </option>
+												@endforeach
+											</select>
+											<span class="material-input"></span>
+										</div>
+									</div>
+								</div>	
+								<div class="col-xs-12 col-md-2">
+									<div class="input-group">
+										<input type="button" class="button tiny success btn_remove" value="Remover"  />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
 					<!-- ===========  FIM ADICIONAR OUTROS FUNCIONARIOS NO RELATORIO  ========== -->
 
