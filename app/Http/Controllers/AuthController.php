@@ -25,8 +25,9 @@ class AuthController extends Controller
         if(Auth::attempt($credentials)){
             $usuario_logado = Auth::user();
             //dd($usuario_logado);
-            $retorno = DB::connection('mysql2')->select("select consulta_role($usuario_logado->id , 'GESOL', 'SEMSOP_REL_GCMM') as retorno");
-            if($retorno[0]->retorno){
+            $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
+            $guarda2 =  Auth::user()->hasRole('SEMSOP_REL_GERENTE');
+            if($guarda || $guarda2){
                 //dd($retorno[0]->retorno);
                 return redirect()->intended('/');
             }else{

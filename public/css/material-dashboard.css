@@ -1014,13 +1014,10 @@ pre code {
   margin-right: auto;
   margin-left: auto;
 }
-
-.row {
+/* 
+ .row {
   display: flex;
-  flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
-}
+} */
 
 .no-gutters {
   margin-right: 0;
@@ -16889,8 +16886,8 @@ form .form-group select.form-control {
 }
 
 form .form-group .error {
-  font-size: 0.8rem;
-  color: #f44336;
+  font-size: 1.5rem;
+  /* color: #f44336; */
 }
 
 form .card .card-footer .form-check {

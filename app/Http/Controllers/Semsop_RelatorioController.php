@@ -11,6 +11,7 @@ use App\Models\Atribuicao;
 use App\Models\Endereco;
 use App\Models\User;
 use App\Models\Imagem;
+use App\Models\Role;
 use PDF;
 use DataTables;
 
@@ -28,31 +29,48 @@ class Semsop_RelatorioController extends Controller
     public function index()
     {
         $logado = Auth::user();
-        $retorno = DB::connection('mysql2')->select("select consulta_role($logado->id , 'GESOL', 'SEMSOP_REL_GCMM') as retorno");
+        $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
         //dd($retorno);
-        return view ('relatorios.relatorios',compact('logado','retorno'));
+        return view ('relatorios.relatorios',compact('logado','guarda'));
     }
 
     
     public function create()
     {
+        $logado = Auth::user();
+      
+        $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
+        $fiscal =  Auth::user()->hasRole('SEMSOP_REL_FISCAL');
 
-         
+        $role = Role::where('nome','=','SEMSOP_REL_GCMM')->with('funcionarios')->get();
+        // $funcionarios = Funcionario::has('roles')->get();
+        //$funcionarios = Funcionario::with('roles')->first();
+        //dd($role);
+        // $funcionarios = pegaValorEnum('funcionarios','nome');
+        $teste = $role[0]->funcionarios;
+        //dd($teste);
+        $funcionarios = [];
+        $a = [];
+
+        foreach ($teste as $funcionario) {
+            $a = ['id'=>$funcionario->id,'nome'=>$funcionario->nome];
+            array_push($funcionarios,$a);  
+        }
+        //dd($funcionarios);
+        //dd($funcionarios[0]->roles[0]->nome);
         //Retorna os Enums para seus respectivos campos
+        $origens = pegaValorEnum('semsop_relatorios','origem');
+        $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
+        $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
+        //$funcionarios = Funcionario::orderBy('nome','ASC')->get();
 
-        //  $origens = pegaValorEnum('semsop_relatorios','origem');
-
-        //  $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
-        //  $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
-        //  $funcionarios = Funcionario::orderBy('nome','ASC')->get();
-
-         return view ('relatorios.create');
+         return view ('relatorios.create',compact('logado','fiscal','guarda','origens','acoes_gcmm','acoes_cop','funcionarios'));
     }
 
     
     public function store(Request $request)
     {
-             //dd($request->all());
+            //dd($request->all());
             $this->validate($request, [             
                 'envolvidos'            =>'required',
                 'origem'                =>'required',
@@ -62,27 +80,25 @@ class Semsop_RelatorioController extends Controller
                 'providencia'           =>'required',
                 'data'                  =>'required',
                 'hora'                  =>'required',
-            ]);
+                ]);
+            //dd($funcionario_logado);
 
-            $funcionario_logado = Auth::user()->funcionario;
-
-            if($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_FISCAL')->count() )  
+            $funcionario_logado = Auth::user();
+            // Auth::user()->hasRole('SEMSOP_REL_GCMM');
+            if($funcionario_logado->hasRole('SEMSOP_REL_GCMM'))  
             {
-                $request->merge(['tipo' => 'COP']);
-            }elseif($funcionario_logado->atribuicoes()->where('atribuicao', 'SEMSOP_REL_GCMM')->count() ){
                 $request->merge(['tipo' => 'GCMM']);
+            }elseif($funcionario_logado->hasRole('SEMSOP_REL_FISCAL')){
+                $request->merge(['tipo' => 'COP']);
             }
             
 
 
         // Criar o relatorio
         $Semsop_relatorio = new Semsop_relatorio($request->all());
-
+        
         // Relacionar com o funcionario
-        $relator_id = Auth::user()->funcionario->id;
-
-        // Relacionar a Atribuição com o Funcionario
-
+        $relator_id = Auth::user()->id;
 
         //Verifica se o CheckBox esta marcado 
         $Semsop_relatorio['notificacao']     = ( $Semsop_relatorio['notificacao'] == '') ? null : 1;
@@ -94,12 +110,15 @@ class Semsop_RelatorioController extends Controller
         // Criar o endereço
         $endereco = Endereco::create($request->all());
 
+        
         // Relacionar o endereço com o relatorio
         $Semsop_relatorio->endereco_id = $endereco->id;
-
+        
         //obtem o próximo valor da sequence de numeração do relatorio e coloca no campo numero
         //$Semsop_relatorio->numero = proximoValorSequence('semsop_relatorios_numero'); 
-        $Semsop_relatorio->numero = obtemNumeroRelatorioSemsop($request->tipo); 
+        //$Semsop_relatorio->numero = obtemNumeroRelatorioSemsop($request->tipo); 
+        $Semsop_relatorio->numero = 'xxx';
+        //dd($Semsop_relatorio);
         
         //dd($Semsop_relatorio->numero);
 
@@ -111,17 +130,19 @@ class Semsop_RelatorioController extends Controller
 
         // Testar se alguma imagem foi enviada
         if(count($request->imagens) > 1){
+            
+            //dd($request->imagens);
 
             // Vetor que vai armazenar todos os ids das imagens
             $imagens_ids = [];
-
+            
             // Iterar por todas as imagens
             foreach($request->imagens as $imagem){
-
                 // O vetor de imagens sempre possui uma posição nula referente ao campo
                 // hidden que é usado para clonar
                 if($imagem !== null){
-
+                    
+                    //dd($imagem);
                     $img = Imagem::create([
                         'imagem' => $imagem,
                     ]);
@@ -134,14 +155,26 @@ class Semsop_RelatorioController extends Controller
             $Semsop_relatorio->imagens()->sync($imagens_ids);
 
         }
-
-        // Relacionar o Relator com o Funcionario
-        $Semsop_relatorio->funcionarios()->attach($relator_id, ['relator' => true]);
-
-        // Salvar o cara que nao e relator caso haja
-        foreach ($request->funcionario_id as $key => $funcionario) {
-            $Semsop_relatorio->funcionarios()->attach($funcionario, ['relator' => false]);
-        }
+        
+        // Salva o Funcionario logado como relator
+        DB::table('semsop_funcionarios_relatorios')->insert(
+            ['funcionario_id' => $funcionario_logado->id ,'relator' => true,'semsop_relatorio_id' => $Semsop_relatorio->id]
+        );
+        
+        //Pega os outros funcionarios atribuidos no relatorio
+        $funcios_id = $request->funcionario_id;
+        
+        //Tira o primeiro campo que vem nulo
+        $filtrado = ( array_filter( $funcios_id , function( $value, $key ) {
+            return $value != null; // retorna todos os valores que forem diferentes de null
+        }, ARRAY_FILTER_USE_BOTH ) );
+        
+        //Itera pelos funcionarios e salva como não relator
+        foreach($filtrado as $key => $funcionarios){
+            DB::table('semsop_funcionarios_relatorios')->insert(
+                ['funcionario_id' => $funcionarios,'relator' => false,'semsop_relatorio_id' => $Semsop_relatorio->id]
+            );
+        }       
 
         return redirect(url('/semsop'));
 
@@ -287,14 +320,15 @@ class Semsop_RelatorioController extends Controller
     public function dados()
     {
 
-        if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"]))
+        if(Auth::user()->hasRole('SEMSOP_REL_GERENTE'))
         {
             // Obter todos os relatórios já enviados
             $relatorios = Semsop_relatorio::where('enviado', 1)->get();
         } else {
 
             // Obter apenas os meus próprios relatorios
-            $relatorios = Auth::user()->funcionario->relatorios_semsop;
+                // $relatorios = Auth::user()->funcionario->relatorios_semsop;
+            $relatorios = Semsop_relatorio::all();
         }
 
         // Montar a coleção que irá servir os dados à tabela
@@ -306,7 +340,7 @@ class Semsop_RelatorioController extends Controller
             // Montar a coluna de ações da tabela
             $acoes = "";
 
-            if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GERENTE"]))
+            if(Auth::user()->hasRole('SEMSOP_REL_GERENTE'))
             {
             // 
             $acoes .= "<td style='width: 16%;''>
@@ -326,7 +360,7 @@ class Semsop_RelatorioController extends Controller
                         <i class='glyphicon glyphicon-print'></i>
                     </a>
                 </td>";
-            } else if(verificaAtribuicoes(Auth::user()->funcionario,["SEMSOP_REL_GCMM","SEMSOP_REL_FISCAL"])) {
+            } else  if(Auth::user()->hasRole('SEMSOP_REL_GCMM')) {
             
                 $acoes .= "<td style='width: 16%;''>
                     <a href='".url("/semsop/$relatorio->id")."' 
@@ -381,7 +415,8 @@ class Semsop_RelatorioController extends Controller
                 'numero' => $relatorio->numero,
                 'relato' => mb_strimwidth($relatorio->relato, 0, 70,"..."),
                 'data'   => date('d-m-Y', strtotime($relatorio->data)),
-                'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,
+                // 'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,
+                'agente' => 'a',
                 'acoes'  => $acoes
             ]);
         }
