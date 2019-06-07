@@ -69,17 +69,17 @@
 	   	 	 		id: 		id,
 	   	 	 	},function(data){
 
-					 	btn.css('display', 'block').siblings('button.btnenviar').css('display', 'none');
+					btn.css('display', 'block').siblings('button.btnenviar').css('display', 'none');
 
-					 	btn.css('display', 'block').siblings('a.btn_deleta').css('display', 'none');
+					btn.css('display', 'block').siblings('a.btn_deleta').css('display', 'none');
 
-					 	btn.css('display', 'block').siblings('a.btn_edit').css('display', 'none');
-					 	
-					 	demo.notificationRight("top", "right", "success", "O relatório foi enviado");
-	 					//console.log(data)
+					btn.css('display', 'block').siblings('a.btn_edit').css('display', 'none');
+					
+					demo.notificationRight("top", "right", "success", "O relatório foi enviado");
+					//console.log(data)
 
-	 					btn.css("display", 'none');
-	 					btn.siblings(".btn_control").css("display", 'none');
+					btn.css("display", 'none');
+					btn.siblings(".btn_control").css("display", 'none');
 
 				 	})
 

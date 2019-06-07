@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\Semsop_funcionario_relatorio;
 use App\Models\Semsop_relatorio;
 use App\Models\Funcionario;
 use App\Models\Atribuicao;
@@ -31,13 +32,26 @@ class Semsop_RelatorioController extends Controller
         $logado = Auth::user();
         //dd($logado);
         $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
-        //dd($retorno);
+
+        //$relatorios = Auth::user()->relatorios_semsop;
+        $id = Auth::user()->id;
+
+        $a = Semsop_funcionario_relatorio::where('funcionario_id', $id)->get();
+
+        $b = Semsop_relatorio::find($a[0]->semsop_relatorio_id);
         
-        //$relatorios = Auth::user()->funcionario->relatorios_semsop;
-        // $relatorios = $logado::on('mysql')->get();
-        //$relatorios = 
-        //dd($relatorios);
-        return view ('relatorios.relatorios',compact('logado','guarda','relatorios'));
+        //dd($b);
+
+        $arr = [];
+        foreach($a as $relatorios){
+            $b = Semsop_relatorio::with('endereco','funcionarios')->find($relatorios->semsop_relatorio_id);
+
+           array_push($arr,$b);
+
+        }
+        //dd($arr[1]->funcionarios[0]->pivot->relator);
+        
+        return view ('relatorios.relatorios',compact('logado','guarda','dados'));
     }
 
     
@@ -332,22 +346,30 @@ class Semsop_RelatorioController extends Controller
             $relatorios = Semsop_relatorio::where('enviado', 1)->get();
             //dd($relatorios);
         } else {
-            
-            
             // Obter apenas os meus próprios relatorios
-            //$relatorios = Auth::user()->funcionario->relatorios_semsop;
-            // $id = Auth::user()->id;
-            $relatorios = Semsop_relatorio::all();
-            //dd($relatorios);
+            $id = Auth::user()->id;
+
+            $a = Semsop_funcionario_relatorio::where('funcionario_id', $id)->get();
+
+            $b = Semsop_relatorio::find($a[0]->semsop_relatorio_id);
+        
+            $arr = [];
+        
+            foreach($a as $relatorios){
+                $b = Semsop_relatorio::with('endereco','funcionarios')->find($relatorios->semsop_relatorio_id);
+                array_push($arr,$b);
+
+        }
+
         }
 
         // Montar a coleção que irá servir os dados à tabela
         $colecao = collect();
 
         // Montar a coleção
-        foreach($relatorios as $relatorio)
+        foreach($arr as $relatorio)
         {
-            // Montar a coluna de ações da tabela
+            //Montar a coluna de ações da tabela
             $acoes = "";
 
             if(Auth::user()->hasRole('SEMSOP_REL_GERENTE'))
@@ -392,6 +414,7 @@ class Semsop_RelatorioController extends Controller
 
                 if(!$relatorio->enviado)
                 {
+                    if($relatorio->funcionarios[0]->pivot->relator){
                     $acoes .= "<a href=".url("semsop/$relatorio->id/edit")."
                         class='btn btn-warning btn-xs action  pull-right botao_acao btn_control' 
                         data-toggle='tooltip' 
@@ -416,6 +439,7 @@ class Semsop_RelatorioController extends Controller
                         data-relatorio='".$relatorio->id."'> 
                         <i class='glyphicon glyphicon-trash'></i>
                     </a>";
+                    }
                 }
             }
 
@@ -425,8 +449,8 @@ class Semsop_RelatorioController extends Controller
                 'numero' => $relatorio->numero,
                 'relato' => mb_strimwidth($relatorio->relato, 0, 70,"..."),
                 'data'   => date('d-m-Y', strtotime($relatorio->data)),
-                'agente' => 'a',
-                //'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,
+                //'agente' => 'a',
+                'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,
                 'acoes'  => $acoes
             ]);
         }
