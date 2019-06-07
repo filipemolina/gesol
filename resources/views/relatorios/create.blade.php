@@ -198,7 +198,7 @@ Novo Relatorio
 								</span>
 								<div class="form-group label-floating has-roxo is-empty">
 									<label class="control-label" style="font-size: 11.7px;">Numero</label>
-									<input id="numero" name="numero" type="text" class="form-control error" value="">
+									<input id="numero" name="numero" type="number" class="form-control error" value="">
 								</div>
 							</div>
 						</div>

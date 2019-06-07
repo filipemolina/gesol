@@ -44,17 +44,17 @@
 
 @endsection
 
-{{-- @push('scripts')
-
+@push('scripts')
 	<script type="text/javascript"> 
-	$(document).ready(function() {
-		$("table#relatorios").on("click", ".btn_enviar",function(){
+		$(document).ready(function() {
+			$("table#relatorios").on("click", ".btn_enviar",function(){
 			
-			let id = $(this).data('relatorio');
-			let btn = $(this);
+				let id = $(this).data('relatorio');
+				// console.log(id);
+				let btn = $(this);
 
 				//console.log("botao btn_desativa -> ", $(this).data('funcionario'));
-		      swal({
+		      	swal({
 		         title: 'Confirma o ENVIO do Relatório?',
 		         type: 'question',
 		         showCancelButton: true,
@@ -62,7 +62,7 @@
 		         cancelButtonColor: '#d33',
 		         confirmButtonText: 'Sim',
 		         cancelButtonText: 'Não',
-		      }).then(function () {
+		      	}).then(function () {
 	      		//chama a rota
 	   	 	 	$.post('semsop/enviaformulario',{
 	               _token: 	'{{ csrf_token() }}',
@@ -147,4 +147,4 @@
 	<input type="hidden" name="_token" value="{{ csrf_token() }}" />
 </form>
 
-@endpush --}}
+@endpush

@@ -29,9 +29,38 @@ class Semsop_RelatorioController extends Controller
     public function index()
     {
         $logado = Auth::user();
+        // dd($logado);
         $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
-        //dd($retorno);
-        return view ('relatorios.relatorios',compact('logado','guarda'));
+        // dd($guarda);
+        
+         // $id = Auth::user()->id;
+
+         //    //$relatorios = Auth::user()->relatorios_semsop;
+         //    // $relatorios = Semsop_relatorio::with('funcionarios')->get();
+
+         //    $select = "select semsop_relatorios.*, semsop_funcionarios_relatorios.funcionario_id ";
+
+         //    $as = "as pivot_funcionario_id, semsop_funcionarios_relatorios.semsop_relatorio_id ";
+         //    $as2 = "as pivot_semsop_relatorio_id, semsop_funcionarios_relatorios.relator ";
+        
+
+         //    $from = "from semsop_relatorios ";
+
+         //    $inner_join = " inner join semsop_funcionarios_relatorios ";
+
+         //    $on = "on semsop_relatorios.id = semsop_funcionarios_relatorios.semsop_relatorio_id ";
+
+         //    $where = "where semsop_funcionarios_relatorios.funcionario_id = ". $id;
+
+         //    $sql = $select .$as .$as2 .$from .$inner_join .$on .$where;
+
+         //    $relatorios = DB::select($sql);
+
+        // $relatorios = Auth::user()->semsop_funcionario_relatorios;
+        // $relatorios = $logado::on('mysql2')->get();
+          // $relatorios = Semsop_relatorio::with('funcionario')->get('mysql2');
+        // dd($relatorios);
+        return view ('relatorios.relatorios',compact('logado','guarda','relatorios'));
     }
 
     
@@ -305,7 +334,7 @@ class Semsop_RelatorioController extends Controller
      public function envia(Request $request)
      {
         $relatorio = Semsop_relatorio::find($request->id);
-
+        dd($relatorio);
 
         $relatorio->enviado = 1;
         $relatorio->save();
@@ -319,16 +348,42 @@ class Semsop_RelatorioController extends Controller
 
     public function dados()
     {
-
+        
+       
         if(Auth::user()->hasRole('SEMSOP_REL_GERENTE'))
         {
             // Obter todos os relatórios já enviados
             $relatorios = Semsop_relatorio::where('enviado', 1)->get();
+            // dd($relatorios);
         } else {
+            
+          // $id = Auth::user()->id;
 
-            // Obter apenas os meus próprios relatorios
-                // $relatorios = Auth::user()->funcionario->relatorios_semsop;
-            $relatorios = Semsop_relatorio::all();
+          //   //$relatorios = Auth::user()->relatorios_semsop;
+          //   // $relatorios = Semsop_relatorio::with('funcionarios')->get();
+
+          //   $select = "select semsop_relatorios.*, semsop_funcionarios_relatorios.funcionario_id ";
+
+          //   $as = "as pivot_funcionario_id, semsop_funcionarios_relatorios.semsop_relatorio_id ";
+          //   $as2 = "as pivot_semsop_relatorio_id, semsop_funcionarios_relatorios.relator ";
+        
+
+          //   $from = "from semsop_relatorios ";
+
+          //   $inner_join = " inner join semsop_funcionarios_relatorios ";
+
+          //   $on = "on semsop_relatorios.id = semsop_funcionarios_relatorios.semsop_relatorio_id ";
+
+          //   $where = "where semsop_funcionarios_relatorios.funcionario_id = ". $id;
+
+          //   $sql = $select .$as .$as2 .$from .$inner_join .$on .$where;
+
+          //   $relatorios = DB::select($sql);
+
+            $relatorios = Semsop_relatorio::with('endereco')->get();
+            // $relatorios = Semsop_relatorio::with('funcionario')->get();
+
+
         }
 
         // Montar a coleção que irá servir os dados à tabela
@@ -360,7 +415,9 @@ class Semsop_RelatorioController extends Controller
                         <i class='glyphicon glyphicon-print'></i>
                     </a>
                 </td>";
-            } else  if(Auth::user()->hasRole('SEMSOP_REL_GCMM')) {
+
+            } else if(Auth::user()->hasRole('SEMSOP_REL_GCMM')) {
+
             
                 $acoes .= "<td style='width: 16%;''>
                     <a href='".url("/semsop/$relatorio->id")."' 
