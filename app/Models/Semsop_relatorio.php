@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
@@ -9,6 +10,7 @@ class Semsop_relatorio extends Model // implements AuditableContract
 {
 
   //use \OwenIt\Auditing\Auditable;
+  
 
   protected $table = "semsop_relatorios";
 
@@ -40,8 +42,17 @@ class Semsop_relatorio extends Model // implements AuditableContract
     
     public function funcionarios()
     {
-    	return $this->belongsToMany('App\Models\Funcionario','semsop_funcionarios_relatorios')
-        ->withPivot('relator')->withTimestamps();
+
+       //return $this->belongsToMany('App\Models\Funcionario','semsop_funcionarios_relatorios')->withPivot('relator')->withTimestamps();
+
+        //return $this->belongsToMany(Funcionario::class, env('mysql').'gesol.semsop_funcionarios_relatorios', 'funcionario_id', 'semsop_relatorio_id')->withPivot('relator');
+       
+       //ESSE AQUI
+       return $this->belongsToMany(Funcionario::class, env('mysql2').'gesol.semsop_funcionarios_relatorios')->withPivot('relator');
+        
+       
+       
+       //return $this->belongsToMany(Semsop_relatorio::class, env('mysql').'gesol.semsop_funcionarios_relatorios', 'funcionario_id', 'semsop_relatorio_id')->withPivot('relator');
     }
 
     public function imagens()
