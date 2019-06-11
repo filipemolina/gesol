@@ -13,13 +13,12 @@
 			<div style="font-size: 15px;padding-top: 10px;">
 				{{$logado->nome}}
 			</div>
-		 	{{--<div class="info">
+		 	<div class="info">
 				 <a data-toggle="collapse" href="#collapseExample" class="collapsed">
 			   	<span>
 				  		 {{ $funcionario_logado }} 
 				  		<b class="caret"></b>
 			   	</span> 
-			   	 <p style="font-size: 10px;">({{ $funcionario_logado->role->acesso }} - {{ $funcionario_logado->role->peso }})</p> 
 				</a>
 
 				<div class="clearfix"></div>
@@ -45,7 +44,7 @@
 					   </li> 
 				   </ul>
 				</div> 
-		 	</div> --}}
+		 	</div> 
 	  	 </div>
 
 	  {{-------------- Menu Principal --------------}}

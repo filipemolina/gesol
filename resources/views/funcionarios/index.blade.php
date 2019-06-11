@@ -57,7 +57,7 @@
 												<button  
 													class="btn_desativa btn btn-danger btn-xs action  pull-right  botao_acao" 
 													data-toggle="tooltip" 
-													data-funcionario = {{ $funcionario->id }}
+													data-funcionario = {{  }}
 													data-placement="bottom" 
 													title="Desativa a conta do funcionario" >  
 													<i class="glyphicon glyphicon-remove "></i>
@@ -66,7 +66,7 @@
 												<button  
 													class="btn_ativa btn btn-success btn-xs action  pull-right  botao_acao" 
 													data-toggle="tooltip" 
-													data-funcionario = {{ $funcionario->id }}
+													data-funcionario = {{ }}
 													data-placement="bottom" 
 													title="Ativa a conta do funcionario"
 													style="display: none">  

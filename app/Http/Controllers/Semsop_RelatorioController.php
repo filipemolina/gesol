@@ -31,7 +31,7 @@ class Semsop_RelatorioController extends Controller
     public function index()
     {
         $logado = Auth::user();
-        //dd($logado);
+        // dd($logado);
         $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
 
         $id = Auth::user()->id;
@@ -51,6 +51,7 @@ class Semsop_RelatorioController extends Controller
        //dd($arr[1]->funcionarios[1]->pivot->relator);
         
         return view ('relatorios.relatorios',compact('logado','guarda','dados'));
+
     }
 
     
@@ -370,13 +371,17 @@ class Semsop_RelatorioController extends Controller
 
     public function dados()
     {
-
+        
+       
         if(Auth::user()->hasRole('SEMSOP_REL_GERENTE'))
         {
             // Obter todos os relatórios já enviados
+
             $arr = Semsop_relatorio::where('enviado', 1)->get();
             //dd($relatorios);
+
         } else {
+
             // Obter apenas os meus próprios relatorios
             $id = Auth::user()->id;
 
@@ -393,6 +398,7 @@ class Semsop_RelatorioController extends Controller
 
         }
 
+
         }
 
         // Montar a coleção que irá servir os dados à tabela
@@ -407,26 +413,7 @@ class Semsop_RelatorioController extends Controller
             if(Auth::user()->hasRole('SEMSOP_REL_GERENTE'))
             {
             // 
-            $acoes .= "<td style='width: 16%;''>
-                    <a href='".url("/semsop/$relatorio->id")."' 
-                        class='btn btn-primary btn-xs  action  pull-right botao_acao' 
-                        data-toggle='tooltip'
-                        data-placement='bottom' 
-                        title='Visualiza o Relatorio detalhado'> 
-                        <i class='glyphicon glyphicon-eye-open'></i>
-                    </a> 
-                    
-                    <a href=".action('Semsop_RelatorioController@imprimir', $relatorio->id)." 
-                        class='btn btn-info btn-xs action pull-right botao_acao'
-                        data-toggle='tooltip'  
-                        data-placement='bottom'
-                        title='Imprimir Relatorio'> 
-                        <i class='glyphicon glyphicon-print'></i>
-                    </a>
-                </td>";
-            } else if(Auth::user()->hasRole('SEMSOP_REL_GCMM')) {
-            
-                $acoes .= "<td style='width: 16%;''>
+            $acoes .= "<td style='width: 16%;'>
                     <a href='".url("/semsop/$relatorio->id")."' 
                         class='btn btn-primary btn-xs  action  pull-right botao_acao' 
                         data-toggle='tooltip'
@@ -444,17 +431,37 @@ class Semsop_RelatorioController extends Controller
                     </a>
                 </td>";
 
+            } else if(Auth::user()->hasRole('SEMSOP_REL_GCMM')) {
+
+            
+                $acoes .= "<td style='width: 16%;'>
+                    <a href='".url("/semsop/$relatorio->id")."' 
+                        class='btn btn-primary btn-xs  action  pull-right botao_acao' 
+                        data-toggle='tooltip'
+                        data-placement='bottom' 
+                        title='Visualiza o Relatorio detalhado'> 
+                        <i class='glyphicon glyphicon-eye-open'></i>
+                    </a> 
+                    
+                    <a href=".action('Semsop_RelatorioController@imprimir', $relatorio->id)." 
+                        class='btn btn-info btn-xs action pull-right botao_acao'
+                        data-toggle='tooltip'  
+                        data-placement='bottom'
+                        title='Imprimir Relatorio'> 
+                        <i class='glyphicon glyphicon-print'></i>
+                    </a>
+                </td>";
                 
                 if(!$relatorio->enviado)
                 {
                     foreach ($relatorio->funcionarios as $key => $funcionario) {
+
                         if ($funcionario->pivot->relator){
                             $cabra_relator =  $funcionario->id;
                         }
                     }
                     //if(Auth::user()->id == $relatorio->funcionarios[0]->id){
                     if(Auth::user()->id == $cabra_relator){
-
                         if($relatorio->funcionarios[0]->pivot->relator){
                         $acoes .= "<a href=".url("semsop/$relatorio->id/edit")."
                             class='btn btn-warning btn-xs action  pull-right botao_acao btn_control' 
@@ -491,7 +498,6 @@ class Semsop_RelatorioController extends Controller
                 'numero' => $relatorio->numero,
                 'relato' => mb_strimwidth($relatorio->relato, 0, 70,"..."),
                 'data'   => date('d-m-Y', strtotime($relatorio->data)),
-                //'agente' => 'a',
                 'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,
                 'acoes'  => $acoes
             ]);

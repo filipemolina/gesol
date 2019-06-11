@@ -45,8 +45,14 @@
 @endsection
 
 @push('scripts')
+	
+    {{-- Sweet Alert --}}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 	<script type="text/javascript"> 
+
 		$(document).ready(function() {
+			
 			$("table#relatorios").on("click", ".btn_enviar",function(){
 			
 				let id = $(this).data('relatorio');
@@ -55,14 +61,27 @@
 
 				//console.log("botao btn_desativa -> ", $(this).data('funcionario'));
 		      	swal({
-		         title: 'Confirma o ENVIO do Relatório?',
-		         type: 'question',
-		         showCancelButton: true,
-		         confirmButtonColor: '#3085d6',
-		         cancelButtonColor: '#d33',
-		         confirmButtonText: 'Sim',
-		         cancelButtonText: 'Não',
-		      	}).then(function () {
+		         title: "Atenção!",
+		         text: 'Confirma o ENVIO do Relatório?',
+		       icon: "warning",
+                buttons: {
+                  cancel: {
+                    text: "Cancelar",
+                    value: "cancelar",
+                    visible: true,
+                    closeModal: true,
+                  },
+                  ok: {
+                    text: "Sim, Enviar!",
+                    value: 'enviar',
+                    visible: true,
+                    closeModal: true,
+                  }
+                }
+		      	}).then(function (resultado) {
+
+		      		 if(resultado === 'enviar'){
+
 	      		//chama a rota
 	   	 	 	$.post('semsop/enviaformulario',{
 	               _token: 	'{{ csrf_token() }}',
@@ -82,34 +101,62 @@
 					btn.css("display", 'none');
 					btn.siblings(".btn_control").css("display", 'none');
 
-				 	})
+				 	}).done(function(){
 
-	         });
-	      });
+                      //Recarregar a página
+                      location.reload();
+                    });
+
+                 };
+	      	});
+
+		});
 
 		$("body").on("click", "a.btn_deletar",function(e){
 
+			// Evitar que a página seja recarregada	
+				e.preventDefault();
 			// Obter o ID do relatório
 				let id_relatorio = $(this).data('relatorio');
 
-			// Evitar que a página seja recarregada	
-				e.preventDefault();
 
 			swal({
-		         title: 'Confirma a EXCLUSÃO do Relatório?',
-		         type: 'question',
-		         showCancelButton: true,
-		         confirmButtonColor: '#3085d6',
-		         cancelButtonColor: '#d33',
-		         confirmButtonText: 'Sim',
-		         cancelButtonText: 'Não',
-		      }).then(function(){
+		        title: "Atenção!",
+		        text: 'Confirma a EXCLUSÃO do Relatório?',
+		        icon: "warning",
+		        buttons: {
+                  cancel: {
+                    text: "Cancelar",
+                    value: "cancelar",
+                    visible: true,
+                    closeModal: true,
+                  },
+                  ok: {
+                    text: "Sim, excluir!",
+                    value: 'excluir',
+                    visible: true,
+                    closeModal: true,
+                  }
+                }
+		      }).then(function(resultado){
 
-				 $("#form_deletar_relatorio").attr('action', "{{url("/")}}/semsop/" + id_relatorio);
+		      	 if(resultado === 'excluir'){
 
-				 $("#form_deletar_relatorio").submit();
+		      	 	// Chamando a url /usuarios/id usando método DELETE e a token de segurança
+                    
+                    $.post("{{ url("/semsop/") }}/"+id_relatorio, {
+                      id : id_relatorio,
+                      _method : "DELETE",
+                      _token : "{{ csrf_token() }}",
+                    }).done(function(){
 
-				});
+                      //Recarregar a página
+                      location.reload();
+                    });
+
+                } 
+
+			});
 		});
 
 		$('#relatorios').DataTable({

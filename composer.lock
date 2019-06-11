@@ -1221,6 +1221,18 @@
         },
         {
             "name": "laravel/tinker",
+<<<<<<< HEAD
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/tinker.git",
+                "reference": "94f6daf2131508cebd11cd6f8632ba586d7ecc41"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/tinker/zipball/94f6daf2131508cebd11cd6f8632ba586d7ecc41",
+                "reference": "94f6daf2131508cebd11cd6f8632ba586d7ecc41",
+=======
             "version": "v1.0.7",
             "source": {
                 "type": "git",
@@ -1231,6 +1243,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/tinker/zipball/e3086ee8cb1f54a39ae8dcb72d1c37d10128997d",
                 "reference": "e3086ee8cb1f54a39ae8dcb72d1c37d10128997d",
+>>>>>>> 86414822061d804b13c60a67b8381fecbdb76438
                 "shasum": ""
             },
             "require": {
@@ -1280,6 +1293,7 @@
                 "laravel",
                 "psysh"
             ],
+
             "time": "2018-05-17T13:42:07+00:00"
         },
         {
@@ -1725,6 +1739,18 @@
         },
         {
             "name": "maatwebsite/excel",
+<<<<<<< HEAD
+            "version": "2.1.27",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
+                "reference": "ea758fe5a9d33e0d88b40f099d1df652a0c99d38"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/ea758fe5a9d33e0d88b40f099d1df652a0c99d38",
+                "reference": "ea758fe5a9d33e0d88b40f099d1df652a0c99d38",
+=======
             "version": "2.1.30",
             "source": {
                 "type": "git",
@@ -1735,6 +1761,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/f5540c4ba3ac50cebd98b09ca42e61f926ef299f",
                 "reference": "f5540c4ba3ac50cebd98b09ca42e61f926ef299f",
+>>>>>>> 86414822061d804b13c60a67b8381fecbdb76438
                 "shasum": ""
             },
             "require": {
@@ -1799,7 +1826,11 @@
                 "import",
                 "laravel"
             ],
+<<<<<<< HEAD
+            "time": "2018-03-09T13:14:19+00:00"
+=======
             "time": "2018-09-04T19:00:09+00:00"
+>>>>>>> 86414822061d804b13c60a67b8381fecbdb76438
         },
         {
             "name": "monolog/monolog",
@@ -1925,6 +1956,18 @@
         },
         {
             "name": "nesbot/carbon",
+<<<<<<< HEAD
+            "version": "1.24.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/briannesbitt/Carbon.git",
+                "reference": "bba6c6e410c6b4317e37a9474aeaa753808c3875"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/bba6c6e410c6b4317e37a9474aeaa753808c3875",
+                "reference": "bba6c6e410c6b4317e37a9474aeaa753808c3875",
+=======
             "version": "1.34.0",
             "source": {
                 "type": "git",
@@ -1935,6 +1978,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
                 "reference": "1dbd3cb01c5645f3e7deda7aa46ef780d95fcc33",
+>>>>>>> 86414822061d804b13c60a67b8381fecbdb76438
                 "shasum": ""
             },
             "require": {
@@ -1976,7 +2020,11 @@
                 "datetime",
                 "time"
             ],
+<<<<<<< HEAD
+            "time": "2018-03-10T10:10:14+00:00"
+=======
             "time": "2018-09-20T19:36:25+00:00"
+>>>>>>> 86414822061d804b13c60a67b8381fecbdb76438
         },
         {
             "name": "nikic/php-parser",
