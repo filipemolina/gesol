@@ -287,7 +287,8 @@ Novo Relatorio
 									<div class="input-group-prepend">
 										<span class="input-group-text">
 											<i class="material-icons">perm_identity</i>
-										</span>
+                              </span>
+                              <div class="col-xs-11 col-sm-11 col-md-11">
 										<div class="form-group label-floating has-roxo is-empty">
 											<label class="control-label">Adicionar Funcionarios</label>
 											<select name="funcionario_id[]" id="funcionario_id" class="form-control form-control error" style="position: inherit;">
@@ -298,6 +299,7 @@ Novo Relatorio
 											</select>
 											<span class="material-input"></span>
 										</div>
+                           </div>
 									</div>
 								</div>	
 								<div class="col-xs-12 col-md-2">
@@ -358,7 +360,7 @@ Novo Relatorio
 								<div class="ripple-container"></div>
 							</button>
 						
-							<button id="btn_cancelar" class="botoes-acao btn btn-round btn-primary" >
+							<button id="btn_cancelar" class="botoes-acao btn btn-round btn-primary">
 								<span class="icone-botoes-acao mdi mdi-backburger"></span>   
 								<span class="texto-botoes-acao"> CANCELAR </span>
 								<div class="ripple-container"></div>
@@ -439,7 +441,7 @@ Novo Relatorio
 
 			$("#btn_cancelar").click(function(){
 		      event.preventDefault();
-		       window.history.back();
+			  window.location.href='/semsop';
 	      });
 
       	});

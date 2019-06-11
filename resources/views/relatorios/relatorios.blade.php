@@ -69,6 +69,7 @@
 	   	 	 		id: 		id,
 	   	 	 	},function(data){
 
+					console.log(data);
 					btn.css('display', 'block').siblings('button.btnenviar').css('display', 'none');
 
 					btn.css('display', 'block').siblings('a.btn_deleta').css('display', 'none');

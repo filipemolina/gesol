@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Semsop_funcionario_relatorio;
 use App\Models\Semsop_relatorio;
+use App\Models\Sequencia;
 use App\Models\Funcionario;
 use App\Models\Atribuicao;
 use App\Models\Endereco;
@@ -33,13 +34,11 @@ class Semsop_RelatorioController extends Controller
         //dd($logado);
         $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
 
-        //$relatorios = Auth::user()->relatorios_semsop;
         $id = Auth::user()->id;
 
         $a = Semsop_funcionario_relatorio::where('funcionario_id', $id)->get();
-
+        //dd($a);
         $b = Semsop_relatorio::find($a[0]->semsop_relatorio_id);
-        
         //dd($b);
 
         $arr = [];
@@ -49,7 +48,7 @@ class Semsop_RelatorioController extends Controller
            array_push($arr,$b);
 
         }
-        //dd($arr[1]->funcionarios[0]->pivot->relator);
+       //dd($arr[1]->funcionarios[1]->pivot->relator);
         
         return view ('relatorios.relatorios',compact('logado','guarda','dados'));
     }
@@ -57,16 +56,17 @@ class Semsop_RelatorioController extends Controller
     
     public function create()
     {
+        //Pega o usuario logado
         $logado = Auth::user();
       
+        //Role de Guarda
         $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
+        //Role de fiscal
         $fiscal =  Auth::user()->hasRole('SEMSOP_REL_FISCAL');
 
+        //Testa se o funcionario tem a role GCMM
         $role = Role::where('nome','=','SEMSOP_REL_GCMM')->with('funcionarios')->get();
-        // $funcionarios = Funcionario::has('roles')->get();
-        //$funcionarios = Funcionario::with('roles')->first();
-        //dd($role);
-        // $funcionarios = pegaValorEnum('funcionarios','nome');
+       
         $teste = $role[0]->funcionarios;
         //dd($teste);
         $funcionarios = [];
@@ -76,13 +76,11 @@ class Semsop_RelatorioController extends Controller
             $a = ['id'=>$funcionario->id,'nome'=>$funcionario->nome];
             array_push($funcionarios,$a);  
         }
-        //dd($funcionarios);
-        //dd($funcionarios[0]->roles[0]->nome);
+
         //Retorna os Enums para seus respectivos campos
         $origens = pegaValorEnum('semsop_relatorios','origem');
         $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
         $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
-        //$funcionarios = Funcionario::orderBy('nome','ASC')->get();
 
          return view ('relatorios.create',compact('logado','fiscal','guarda','origens','acoes_gcmm','acoes_cop','funcionarios'));
     }
@@ -203,28 +201,51 @@ class Semsop_RelatorioController extends Controller
     
     public function show(Request $request, $id)
     { 
+        $logado = Auth::user();
         // dd($request);
         //Busca o relatorio pelo id
-        $relatorio = Semsop_relatorio::find($id);
+        $relatorio = Semsop_relatorio::with('endereco','funcionarios')->find($id);
+        //dd($relatorio);
         $imagens = $relatorio->imagens;
 
 
 
-        return view ('relatorios.show', compact('relatorio','imagens'));
+        return view ('relatorios.show', compact('relatorio','imagens','logado'));
     }
 
     
     public function edit($id)
     {
+        $logado = Auth::user();
+        //dd($logado);
+        $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
+        $fiscal =  Auth::user()->hasRole('SEMSOP_REL_FISCAL');
+
         $relatorio = Semsop_relatorio::find($id);
         $origens = pegaValorEnum('semsop_relatorios','origem');
         $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
         $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
-        $funcionarios = Funcionario::all();
+
+         //Testa se o funcionario tem a role GCMM
+         $role = Role::where('nome','=','SEMSOP_REL_GCMM')->with('funcionarios')->get();
+       
+         $teste = $role[0]->funcionarios;
+         //dd($teste);
+         $funcionarios = [];
+         $a = [];
+ 
+         foreach ($teste as $funcionario) {
+             $a = ['id'=>$funcionario->id,'nome'=>$funcionario->nome];
+             array_push($funcionarios,$a);  
+         }
+
+        
+         //dd($funcionarios);
+
         $imagens = $relatorio->imagens;
 
     
-        return view('relatorios.edit',compact('relatorio','origens','acoes_gcmm','acoes_cop','funcionarios','imagens'));
+        return view('relatorios.edit',compact('relatorio','origens','acoes_gcmm','acoes_cop','fiscal','funcionarios','imagens','logado','guarda'));
     }
 
     
@@ -324,12 +345,22 @@ class Semsop_RelatorioController extends Controller
     
      public function envia(Request $request)
      {
+        //Pega o valor da sequencia
+        $sequencia = Sequencia::first();
+        $numero =$sequencia->numero;
+
+        //Pega o Id do relatorio
         $relatorio = Semsop_relatorio::find($request->id);
-
-
         $relatorio->enviado = 1;
+        $relatorio->numero = $numero;
+
         $relatorio->save();
 
+        $numero++;
+
+        $sequencia->fill(['numero' => $numero] );
+
+        $sequencia->save();
 
      }
 
@@ -343,7 +374,7 @@ class Semsop_RelatorioController extends Controller
         if(Auth::user()->hasRole('SEMSOP_REL_GERENTE'))
         {
             // Obter todos os relatórios já enviados
-            $relatorios = Semsop_relatorio::where('enviado', 1)->get();
+            $arr = Semsop_relatorio::where('enviado', 1)->get();
             //dd($relatorios);
         } else {
             // Obter apenas os meus próprios relatorios
@@ -352,6 +383,7 @@ class Semsop_RelatorioController extends Controller
             $a = Semsop_funcionario_relatorio::where('funcionario_id', $id)->get();
 
             $b = Semsop_relatorio::find($a[0]->semsop_relatorio_id);
+            //dd($a);
         
             $arr = [];
         
@@ -412,33 +444,43 @@ class Semsop_RelatorioController extends Controller
                     </a>
                 </td>";
 
+                
                 if(!$relatorio->enviado)
                 {
-                    if($relatorio->funcionarios[0]->pivot->relator){
-                    $acoes .= "<a href=".url("semsop/$relatorio->id/edit")."
-                        class='btn btn-warning btn-xs action  pull-right botao_acao btn_control' 
-                        data-toggle='tooltip' 
-                        data-placement='bottom'
-                        title='Editar Relatorio'>  
-                        <i class='glyphicon glyphicon-pencil'></i>
-                    </a>
-                    
-                    <button
-                        class='btn btn-success btn-xs  action  pull-right botao_acao btn_control btn_enviar' 
-                        data-toggle='tooltip'
-                        data-placement='bottom'
-                        title='Enviar Relatorio'
-                        data-relatorio ='".$relatorio->id."'> 
-                        <i class='glyphicon glyphicon-ok'></i>
-                    </button>
-                            
-                    <a class='btn btn-danger btn-xs action pull-right botao_acao btn_deletar btn_control'
-                        data-toggle='tooltip'
-                        data-placement='bottom'
-                        title='Excluir Relatorio'
-                        data-relatorio='".$relatorio->id."'> 
-                        <i class='glyphicon glyphicon-trash'></i>
-                    </a>";
+                    foreach ($relatorio->funcionarios as $key => $funcionario) {
+                        if ($funcionario->pivot->relator){
+                            $cabra_relator =  $funcionario->id;
+                        }
+                    }
+                    //if(Auth::user()->id == $relatorio->funcionarios[0]->id){
+                    if(Auth::user()->id == $cabra_relator){
+
+                        if($relatorio->funcionarios[0]->pivot->relator){
+                        $acoes .= "<a href=".url("semsop/$relatorio->id/edit")."
+                            class='btn btn-warning btn-xs action  pull-right botao_acao btn_control' 
+                            data-toggle='tooltip' 
+                            data-placement='bottom'
+                            title='Editar Relatorio'>  
+                            <i class='glyphicon glyphicon-pencil'></i>
+                        </a>
+                        
+                        <button
+                            class='btn btn-success btn-xs  action  pull-right botao_acao btn_control btn_enviar' 
+                            data-toggle='tooltip'
+                            data-placement='bottom'
+                            title='Enviar Relatorio'
+                            data-relatorio ='".$relatorio->id."'> 
+                            <i class='glyphicon glyphicon-ok'></i>
+                        </button>
+                                
+                        <a class='btn btn-danger btn-xs action pull-right botao_acao btn_deletar btn_control'
+                            data-toggle='tooltip'
+                            data-placement='bottom'
+                            title='Excluir Relatorio'
+                            data-relatorio='".$relatorio->id."'> 
+                            <i class='glyphicon glyphicon-trash'></i>
+                        </a>";
+                        }
                     }
                 }
             }

@@ -2,7 +2,7 @@
 
 @section('titulo')
 
-	Relatorios {{ mostraAcesso($funcionario_logado) }}
+	Relatorios
 
 @endsection
 
@@ -17,14 +17,14 @@
 			</div>
 			
 				
-			<div class="row" style="padding-left: 80%;">
+			<div class="row" style="font-size: 17px;padding-left: 80%;">
 				<tr>
 					{{-- <td>{{ $relatorio->tipo }}</td> --}}
 					<td>{{ $relatorio->numero}}</td>
 				</tr>
 			</div>
 
-			<div class="row" style="text-align:center;display:  flex;justify-content: space-around;">
+			<div class="row" style="font-size: 17px;padding-top: 25px;text-align:center;display:  flex;justify-content: space-around;">
 			
 					@if($relatorio->notificacao==1 ) <div>  Notificado </div> @endif
 				
@@ -38,62 +38,62 @@
 								
 			</div>
 
-			<div class="row" style="padding-top: 7px;">
+			<div class="row" style="font-size: 17px;padding-top: 25px;">
 				
 				<strong>Ação Desenvolvida:</strong> {{ $relatorio->acao_cop }} {{ $relatorio->acao_gcmm }}
 				
 			</div>
-			<div class="row" style="padding-top: 7px;">
+			<div class="row" style="font-size: 17px;padding-top: 25px;">
 				
 				<strong>Origem do serviço:</strong> {{($relatorio->origem) }}
 				
 			</div>
-			<div class="row" style="padding-top: 7px;">
+			<div class="row" style="font-size: 17px;padding-top: 25px;">
 				
 				<strong>Data:</strong> {{ date('d-m-Y', strtotime($relatorio->data)) }} 
 				
 			</div>
-			<div class="row" style="padding-top: 7px;">
+			<div class="row" style="font-size: 17px;padding-top: 25px;">
 				
 				<strong>Hora:</strong> {{ $relatorio->hora }} 
 
 			</div>
-			<div class="row" style="padding-top: 7px;">
+			<div class="row" style="font-size: 17px;padding-top: 25px;">
 				
 				<strong>Local:</strong> {{$relatorio->endereco->bairro}}, {{ $relatorio->endereco->cep }}, {{ $relatorio->endereco->logradouro }}, {{ $relatorio->endereco->numero }} {{ $relatorio->endereco->complemento}}
 				   
 				
 			</div>
-			<div class="row" style="padding-top: 7px;">
+			<div class="row" style="font-size: 17px;padding-top: 25px;">
 				
 				<strong>Envolvidos:</strong> {{ $relatorio->envolvidos }}
 				
 			</div>
-			<div class="row" style="padding-top: 7px;">
+			<div class="row" style="font-size: 17px;padding-top: 25px;">
 				
 			    <strong>Relato Sucinto:</strong> {{ $relatorio->relato }} 
 				
 			</div>
-			<div class="row" style="padding-top: 7px;">
+			<div class="row" style="font-size: 17px;padding-top: 25px;">
 				
 				<strong>Providencias Adotadas:</strong> {{ $relatorio->providencia }} 
 				
 			</div>
-			<div class="row" style="padding-top: 7px;">
+			<div class="row" style="font-size: 17px;padding-top: 25px;">
 				
-				 <strong>Outros Funcionarios</strong>
+				 <strong>Outros Funcionarios:</strong><br><br>
 					@foreach($relatorio->funcionarios()->where("relator", false)->get() as $funcionario)
 						<div>{{ $funcionario->nome }}</div>
 					@endforeach
 				
 			</div>
-			<div class="row" style="padding-top: 7px;">
+			<div class="row" style="font-size: 17px;padding-top: 25px;">
 				 	
 				<strong>Nome:</strong> {{ $relatorio->funcionarios()->where("relator", true)->first()->nome }}
 
 			</div>
 			
-			<div class="row" style="padding-top: 7px;">
+			<div class="row" style="font-size: 17px;padding-top: 25px;">
 				<strong>Matrícula:</strong>{{ $relatorio->funcionarios()->where("relator", true)->first()->matricula }}
 				
 			</div>

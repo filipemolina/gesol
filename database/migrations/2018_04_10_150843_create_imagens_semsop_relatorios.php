@@ -18,7 +18,7 @@ class CreateImagensSemsopRelatorios extends Migration
             $table->integer('semsop_relatorio_id')->unsigned();
 
             $table->foreign('imagem_id')->references('id')->on('imagens')->onDelete('cascade');
-            $table->foreign('semsop_relatorio_id')->references('id')->on('imagens')->onDelete('cascade');
+            $table->foreign('semsop_relatorio_id')->references('id')->on('semsop_relatorios')->onDelete('cascade');
         });
     }
 
