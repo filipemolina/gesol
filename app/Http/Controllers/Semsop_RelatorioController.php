@@ -348,12 +348,13 @@ class Semsop_RelatorioController extends Controller
      {
         //Pega o valor da sequencia
         $sequencia = Sequencia::first();
-        $numero =$sequencia->numero;
+        $numero = $sequencia->numero;
 
         //Pega o Id do relatorio
         $relatorio = Semsop_relatorio::find($request->id);
+        $tipo = $relatorio->tipo;
         $relatorio->enviado = 1;
-        $relatorio->numero = $numero;
+        $relatorio->numero =  $tipo.".".date("Y").".".$numero;
 
         $relatorio->save();
 
