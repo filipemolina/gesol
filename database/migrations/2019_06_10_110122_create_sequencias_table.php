@@ -27,6 +27,6 @@ class CreateSequenciasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sequencias');
+        // Schema::dropIfExists('sequencias');
     }
 }

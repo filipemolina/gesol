@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateImagensTable extends Migration
+class CreateSetransCarrosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateImagensTable extends Migration
      */
     public function up()
     {
-        Schema::create('imagens', function (Blueprint $table) {
+        Schema::create('setrans_carros', function (Blueprint $table){
             $table->increments('id');
-            $table->mediumText('imagem');
-
-            $table->timestamps();
+            $table->string('placa',9);
+            $table->string('modelo');
         });
     }
 
@@ -28,6 +27,6 @@ class CreateImagensTable extends Migration
      */
     public function down()
     {
-        // Schema::dropIfExists('imagens');
+        //
     }
 }

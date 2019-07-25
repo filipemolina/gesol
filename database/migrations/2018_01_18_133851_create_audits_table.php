@@ -52,6 +52,6 @@ class CreateAuditsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('audits');
+        // Schema::drop('audits');
     }
 }

@@ -11,6 +11,20 @@ class Funcionario extends Authenticatable
 {
     protected $connection = "mysql2";
 
+     protected $fillable = [
+        'password'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password'
+    ];
+
+
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
@@ -44,6 +58,12 @@ class Funcionario extends Authenticatable
        
        
        //return $this->belongsToMany(Funcionario::class, env('mysql2').'gesol.semsop_funcionarios_relatorios')->withPivot('relator');
+
+    }
+
+    public function relatorios_setrans()
+    {
+        return $this->belongsToMany('App\Models\Setrans_relatorio', 'setrans_funcionarios_relatorios')->withPivot('relator')->withTimestamps();  
 
     }
 

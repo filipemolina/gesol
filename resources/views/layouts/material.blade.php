@@ -167,7 +167,7 @@
 		<script src="{{ asset('js/scripts.js') }}"></script>
 
 		{{-- Funções do Firebase --}}
-		<script src="{{ asset('js/firebase.js') }}"></script>
+		{{-- <script src="{{ asset('js/firebase.js') }}"></script> --}}
 
 		@stack('scripts')
 	</body>

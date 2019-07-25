@@ -15,6 +15,7 @@ use App\Models\Secretaria;
 use App\Models\Funcionario;
 use App\Models\Endereco;
 use App\Models\User;
+use App\Models\Role;
 use Carbon\Carbon;
 use DataTables;
 
@@ -32,9 +33,12 @@ class HomeController extends Controller
 	{
 		$logado = Auth::user();
 		//dd($funcionario_logado);
-				
+		$guardagcmm = Auth::user()->hasRole('SEMSOP_REL_GCMM');
+		$guardagerente = Auth::user()->hasRole('SEMSOP_REL_GERENTE');
+		$setrans = Auth::user()->hasRole('SETRANS_REL');
+		$setransgerente = Auth::user()->hasRole('SETRANS_REL_GERENTE');
 		//dd("Nenhuma solicitação cadastrada");
-		return view('dashboard.dash-Vazia', compact('logado'));
+		return view('dashboard.dash-Vazia', compact('logado','guardagcmm','guardagerente','setrans','setransgerente'));
 		
 	}
 

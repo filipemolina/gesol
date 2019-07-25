@@ -16,7 +16,7 @@
 					<i class="material-icons">chat bubble</i>
 				</div>
 				<h4 class="card-title">Relatorios</h4>
-					@if($guarda)
+					@if($guardagcmm)
 						<a href="{{ url("/semsop/create")}}" class="btn btn-dourado btn-just-icon btn-round" style="float: right;top: -33px;right: -13px;"><i class="mdi mdi-plus" rel="tooltip" data-placement="left" title="Novo Relatorio"></i></a>					
 					@endif
 			</div>
@@ -45,7 +45,7 @@
 @endsection
 
 @push('scripts')
-	
+
     {{-- Sweet Alert --}}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 

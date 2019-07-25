@@ -25,8 +25,8 @@ Route::get ('/register', 	function () {return view('solicitantes.create');})->na
 Route::get ('/pusher', 		'HomeController@pusher');
 
 //caminho para a tela de alteração de senha
-Route::get 	('/alterasenha',			'UserController@AlteraSenha');
-Route::post	('/salvasenha',   		'UserController@SalvarSenha');
+Route::get 	('/alterasenha',			'FuncionarioController@AlteraSenha');
+Route::post	('/salvasenha',   		'FuncionarioController@SalvarSenha');
 
 //caminho para a tela de alteração do avatar
 Route::get 	('/alteraavatar',			'UserController@AlteraAvatar');
@@ -114,6 +114,20 @@ Route::post('semsop/enviaformulario','Semsop_RelatorioController@envia');
 // DataTables
 Route::get('semsop/datatables', 'Semsop_RelatorioController@dados');
 
+
+//========================================================================================
+// 										SETRANS_RELATORIOS
+//========================================================================================
+// Imprimir PDF
+// Route::get('semsop/pdf/{id}','Semsop_RelatorioController@imprimir');
+// Enviar Formulario
+Route::post('setrans/enviaformulario','Setrans_RelatorioController@envia');
+// DataTables
+Route::get('setrans/datatables', 'Setrans_RelatorioController@dados');
+
+//
+
+
 //========================================================================================
 // 										SEMUS_RELATORIOS
 //========================================================================================
@@ -133,15 +147,16 @@ Route::post('semus/solucionaformulario','Semus_RelatorioController@soluciona');
 Route::resource('solicitante',			'SolicitanteController');
 Route::resource('funcionario',			'FuncionarioController');
 Route::resource('solicitacao',			'SolicitacaoController');
-Route::resource('comunicado',   	 	'ComunicadoController');
+Route::resource('comunicado',   	 	   'ComunicadoController');
 Route::resource('comentario',		   	'ComentarioController');
 Route::resource('secretaria',		   	'SecretariaController');
-Route::resource('atribuicao',		    'AtribuicaoController');
+Route::resource('atribuicao',		      'AtribuicaoController');
 Route::resource('setor',			   	'SetorController');
-Route::resource('servico',			    'ServicoController');
-Route::resource('semsop',	    	  	'Semsop_RelatorioController');
-Route::resource('semus',				'Semus_RelatorioController');
-Route::resource('imagens',              'ImagemController');
+Route::resource('servico',			      'ServicoController');
+Route::resource('semsop',	    	  	   'Semsop_RelatorioController');
+Route::resource('semus',				   'Semus_RelatorioController');
+Route::resource('imagens',             'ImagemController');
+Route::resource('setrans',             'Setrans_RelatorioController');
 
 
 // Password Reset Routes...

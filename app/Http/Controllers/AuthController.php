@@ -27,7 +27,9 @@ class AuthController extends Controller
             //dd($usuario_logado);
             $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
             $guarda2 =  Auth::user()->hasRole('SEMSOP_REL_GERENTE');
-            if($guarda || $guarda2){
+            $setrans = Auth::user()->hasRole('SETRANS_REL');
+            $setransgerente = Auth::user()->hasRole('SETRANS_REL_GERENTE');
+            if($guarda || $guarda2 || $setrans || $setransgerente){
                 //dd($retorno[0]->retorno);
                 return redirect()->intended('/');
             }else{

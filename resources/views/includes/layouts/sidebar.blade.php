@@ -49,22 +49,30 @@
 			</div>
  
 	   {{-------------- Menu Principal --------------}}
- 
-		   <ul class="nav">
-			  <li>
-				 <a href="{{ url("/") }}">
+		 
+	   	<ul class="nav">
+			<li>
+				<a href="{{ url("/") }}">
 					<i class="material-icons">dashboard</i>
 					<p>Painel</p>
-				 </a>
-			  </li>
-		 
-			 <li>
-				 <a href="{{ url("/semsop") }}">
-					 <i class="material-icons">assignment</i>
-					 <p>SEMSOP Relatórios</p>
-				 </a>
-			 </li>
-		 
+				</a>
+			</li>
+		
+			@if ($guardagcmm || $guardagerente )
+				<li>
+					<a href="{{ url("/semsop") }}">
+						<i class="material-icons">assignment</i>
+						<p>SEMSOP Relatórios</p>
+					</a>
+				</li>
+			@elseif ($setrans || $setransgerente )
+				<li>
+					<a href="{{ url("/setrans")}}">
+						<i class="material-icons">assignment</i>
+						<p>SETRANS Relatórios</p>
+					</a>
+				</li>
+			@endif
 		 </ul>
 		   
 		 <div id="footer">

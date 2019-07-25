@@ -102,7 +102,7 @@ Novo Relatorio
 												@foreach($acoes_cop as $acao_cop)
 													<option value="{{$acao_cop}}"> {{$acao_cop}}</option>
 												@endforeach 
-										@elseif($guarda)
+										@elseif($guardagcmm)
 											<select name="acao_gcmm" id="acao_gcmm " class="form-control form-control error" style="position: inherit;" required> 	 
 												 <option value="">  </option>
 												@foreach($acoes_gcmm as $acao_gcmm)

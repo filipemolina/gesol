@@ -18289,11 +18289,11 @@ a .material-icons {
   margin-bottom: 10px;
 }
 
-.perfect-scrollbar-on .sidebar,
+/* .perfect-scrollbar-on .sidebar,
 .perfect-scrollbar-on .main-panel {
   height: 100%;
   max-height: 100%;
-}
+} */
 
 .sidebar,
 .main-panel,
@@ -27960,7 +27960,7 @@ select.selectpicker {
 
 /* perfect-scrollbar v0.6.13 */
 
-.ps-container {
+/* .ps-container {
   -ms-touch-action: auto;
   touch-action: auto;
   overflow: hidden !important;
@@ -28121,7 +28121,7 @@ select.selectpicker {
 
 .ps-container:hover>.ps-scrollbar-y-rail:hover>.ps-scrollbar-y {
   background-color: #999;
-}
+} */
 
 /*
  * bootstrap-tagsinput v0.8.0

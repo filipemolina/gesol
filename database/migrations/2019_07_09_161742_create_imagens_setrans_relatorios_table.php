@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateImagensSemsopRelatorios extends Migration
+class CreateImagensSetransRelatoriosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateImagensSemsopRelatorios extends Migration
      */
     public function up()
     {
-        Schema::create('imagens_semsop_relatorios', function (Blueprint $table) {
+        Schema::create('imagens_setrans_relatorios', function (Blueprint $table) {
             $table->integer('imagem_id')->unsigned();
-            $table->integer('semsop_relatorio_id')->unsigned();
+            $table->integer('setrans_relatorio_id')->unsigned();
 
             $table->foreign('imagem_id')->references('id')->on('imagens')->onDelete('cascade');
-            $table->foreign('semsop_relatorio_id')->references('id')->on('semsop_relatorios')->onDelete('cascade');
+            $table->foreign('setrans_relatorio_id')->references('id')->on('setrans_relatorios')->onDelete('cascade');
         });
     }
 
@@ -29,6 +29,6 @@ class CreateImagensSemsopRelatorios extends Migration
      */
     public function down()
     {
-        // Schema::dropIfExists('imagens_semsop_relatorios');
+        //
     }
 }

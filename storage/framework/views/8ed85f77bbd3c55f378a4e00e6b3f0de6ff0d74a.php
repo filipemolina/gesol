@@ -18,22 +18,30 @@
 			</div>
  
 	   
- 
-		   <ul class="nav">
-			  <li>
-				 <a href="<?php echo e(url("/")); ?>">
+		 
+	   	<ul class="nav">
+			<li>
+				<a href="<?php echo e(url("/")); ?>">
 					<i class="material-icons">dashboard</i>
 					<p>Painel</p>
-				 </a>
-			  </li>
-		 
-			 <li>
-				 <a href="<?php echo e(url("/semsop")); ?>">
-					 <i class="material-icons">assignment</i>
-					 <p>SEMSOP Relatórios</p>
-				 </a>
-			 </li>
-		 
+				</a>
+			</li>
+		
+			<?php if($guardagcmm || $guardagerente ): ?>
+				<li>
+					<a href="<?php echo e(url("/semsop")); ?>">
+						<i class="material-icons">assignment</i>
+						<p>SEMSOP Relatórios</p>
+					</a>
+				</li>
+			<?php elseif($setrans || $setransgerente ): ?>
+				<li>
+					<a href="<?php echo e(url("/setrans")); ?>">
+						<i class="material-icons">assignment</i>
+						<p>SETRANS Relatórios</p>
+					</a>
+				</li>
+			<?php endif; ?>
 		 </ul>
 		   
 		 <div id="footer">

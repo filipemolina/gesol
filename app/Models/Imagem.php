@@ -27,5 +27,10 @@ class Imagem extends Model // implements AuditableContract
 	  return $this->belongsToMany('App\Models\Semus_relatorio', 'imagens_semus_relatorios', 'imagem_id', 'semus_relatorios_id');
 	}
 
+	public function setrans_relatorios()
+	{
+	  return $this->belongsToMany('App\Models\Setrans_relatorio', 'imagens_setrans_relatorios', 'imagem_id', 'setrans_relatorio_id');
+	}
+
 
 }

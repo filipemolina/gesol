@@ -32,7 +32,10 @@ class Semsop_RelatorioController extends Controller
     {
         $logado = Auth::user();
         // dd($logado);
-        $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
+
+        //Roles
+        $guardagcmm = Auth::user()->hasRole('SEMSOP_REL_GCMM');
+		$guardagerente = Auth::user()->hasRole('SEMSOP_REL_GERENTE');
 
         $id = Auth::user()->id;
 
@@ -50,7 +53,7 @@ class Semsop_RelatorioController extends Controller
         }
        //dd($arr[1]->funcionarios[1]->pivot->relator);
         
-        return view ('relatorios.relatorios',compact('logado','guarda','dados'));
+        return view ('relatorios.relatorios',compact('logado','guardagcmm','guardagerente'));
 
     }
 
@@ -60,9 +63,9 @@ class Semsop_RelatorioController extends Controller
         //Pega o usuario logado
         $logado = Auth::user();
       
-        //Role de Guarda
-        $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
-        //Role de fiscal
+        //Roles
+        $guardagcmm = Auth::user()->hasRole('SEMSOP_REL_GCMM');
+        $guardagerente = Auth::user()->hasRole('SEMSOP_REL_GERENTE');
         $fiscal =  Auth::user()->hasRole('SEMSOP_REL_FISCAL');
 
         //Testa se o funcionario tem a role GCMM
@@ -83,7 +86,7 @@ class Semsop_RelatorioController extends Controller
         $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
         $acoes_cop = pegaValorEnum('semsop_relatorios','acao_cop');
 
-         return view ('relatorios.create',compact('logado','fiscal','guarda','origens','acoes_gcmm','acoes_cop','funcionarios'));
+         return view ('relatorios.create',compact('logado','fiscal','guardagcmm','guardagerente','origens','acoes_gcmm','acoes_cop','funcionarios'));
     }
 
     
@@ -188,7 +191,7 @@ class Semsop_RelatorioController extends Controller
             return $value != null; // retorna todos os valores que forem diferentes de null
         }, ARRAY_FILTER_USE_BOTH ) );
         
-        //Itera pelos funcionarios e salva como não relator
+        //Itera pelos funcionarios e salva como não relatorl
         foreach($filtrado as $key => $funcionarios){
             DB::table('semsop_funcionarios_relatorios')->insert(
                 ['funcionario_id' => $funcionarios,'relator' => false,'semsop_relatorio_id' => $Semsop_relatorio->id]
@@ -204,6 +207,11 @@ class Semsop_RelatorioController extends Controller
     { 
         $logado = Auth::user();
         // dd($request);
+        //Roles
+
+        $guardagcmm = Auth::user()->hasRole('SEMSOP_REL_GCMM');
+        $guardagerente = Auth::user()->hasRole('SEMSOP_REL_GERENTE');
+        
         //Busca o relatorio pelo id
         $relatorio = Semsop_relatorio::with('endereco','funcionarios')->find($id);
         //dd($relatorio);
@@ -211,7 +219,7 @@ class Semsop_RelatorioController extends Controller
 
 
 
-        return view ('relatorios.show', compact('relatorio','imagens','logado'));
+        return view ('relatorios.show', compact('relatorio','imagens','logado','guardagcmm','guardagerente'));
     }
 
     
@@ -219,7 +227,10 @@ class Semsop_RelatorioController extends Controller
     {
         $logado = Auth::user();
         //dd($logado);
-        $guarda =  Auth::user()->hasRole('SEMSOP_REL_GCMM');
+        
+        //Roles
+        $guardagcmm = Auth::user()->hasRole('SEMSOP_REL_GCMM');
+		$guardagerente = Auth::user()->hasRole('SEMSOP_REL_GERENTE');
         $fiscal =  Auth::user()->hasRole('SEMSOP_REL_FISCAL');
 
         $relatorio = Semsop_relatorio::find($id);
@@ -246,7 +257,7 @@ class Semsop_RelatorioController extends Controller
         $imagens = $relatorio->imagens;
 
     
-        return view('relatorios.edit',compact('relatorio','origens','acoes_gcmm','acoes_cop','fiscal','funcionarios','imagens','logado','guarda'));
+        return view('relatorios.edit',compact('relatorio','origens','acoes_gcmm','acoes_cop','fiscal','funcionarios','imagens','logado','guardagcmm','guardagerente'));
     }
 
     

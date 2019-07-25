@@ -117,6 +117,6 @@ class CreateSemsopRelatorios extends Migration
      */
     public function down()
     {
-         Schema::dropIfExists('semsop_relatorios');
+        //  Schema::dropIfExists('semsop_relatorios');
     }
 }
