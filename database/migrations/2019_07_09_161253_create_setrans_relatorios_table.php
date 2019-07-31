@@ -15,6 +15,7 @@ class CreateSetransRelatoriosTable extends Migration
     {
         Schema::create('setrans_relatorios', function (Blueprint $table) {
             $table->increments('id');
+            $table->string("numero", 15);
             $table->date('data')                          ->nullable();
             $table->time('hora')                          ->nullable();
             $table->text('registro_ocorrencia');

@@ -57,30 +57,36 @@
                               <div class="social-line"><br><br><br></div>
                            </div>
                            <div class="card-content">
-                              <div class="input-group">
-                                 <span class="input-group-addon">
+                              <div class="input-group-prepend">
+                                 <span class="input-group-text">
                                     <i class="material-icons">perm_identity</i>
                                  </span>
-                                 <div class="form-group label-floating has-dourado">
-                                    <label class="control-label">Usuário(a)</label>
-                                    <input type="email" class="form-control" name="email">
+                                 <div class="col-xs-11 col-sm-11 col-md-11">                                  
+                                   <div class="form-group label-floating has-dourado">
+                                      <label class="control-label">Usuário(a)</label>
+                                      <input type="email" class="form-control" name="email">
+                                   </div>
                                  </div>
                               </div>
-                           <div class="input-group">
-                              <span class="input-group-addon">
+                           <div class="input-group-prepend">
+                              <span class="input-group-text">
                                  <i class="material-icons">lock_outline</i>
                               </span>
-                              <div class="form-group label-floating has-dourado">
+                              <div class="col-xs-11 col-sm-11 col-md-11">
+                                <div class="form-group label-floating has-dourado">
                                  <label class="control-label">Senha</label>
-                                 <input type="password" class="form-control" name="password">
+                                  <input type="password" class="form-control" name="password">
+                                </div>
                               </div>
-                              <div>
+                              {{-- <div>
                                  <a href="{{ url("/password/reset")}}" class="recupera_senha texto-roxo">Esqueceu sua Senha?</a>   
-                               </div>
+                               </div> --}}
                            </div>
                         </div>
-                        <div class="footer text-center">
-                           <button type="submit" class="btn btn-dourado btn-wd btn-lg">Acessar</button>
+                        <div class="row">
+                          <center>
+                            <button type="submit" class="btn btn-dourado btn-wd btn-lg">Acessar</button>
+                          </center>
                         </div>
                      </div> {{-- FIM DIV login --}}
                   </form>

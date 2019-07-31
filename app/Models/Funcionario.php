@@ -48,13 +48,13 @@ class Funcionario extends Authenticatable
     public function relatorios_semsop()
     {
         //return $this->belongsToMany('App\Models\Semsop_relatorio', env('mysql2').'gesol.semsop_funcionarios_relatorios')->withPivot('relator');
-        return $this->belongsToMany('App\Models\Semsop_relatorio', 'semsop_funcionarios_relatorios')->withPivot('relator')->withTimestamps();
+        //return $this->belongsToMany('App\Models\Semsop_relatorio', 'semsop_funcionarios_relatorios')->withPivot('relator')->withTimestamps();
         
         //return DB::connection('mysql')->table('semsop_funcionarios_relatorios')->where('funcionario_id', $this->id)->get();
         
        
         //ESSE AQUI
-        //return $this->belongsToMany(Semsop_relatorio::class , env('mysql').'gesol.semsop_funcionarios_relatorios')->withPivot('relator');
+        return $this->belongsToMany(Semsop_relatorio::class , env('mysql').'gesol.semsop_funcionarios_relatorios')->withPivot('relator');
        
        
        //return $this->belongsToMany(Funcionario::class, env('mysql2').'gesol.semsop_funcionarios_relatorios')->withPivot('relator');

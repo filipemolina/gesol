@@ -31,7 +31,7 @@ class Setrans_RelatorioController extends Controller
         $guardagerente = Auth::user()->hasRole('SEMSOP_REL_GCMM');
     
    //
-    
+
         return view ('setrans.relatorios',compact('logado','guardagcmm','guardagerente','setrans','setransgerente'));
     }
 
@@ -79,6 +79,8 @@ class Setrans_RelatorioController extends Controller
         ]);
         
         $Setrans_relatorio = new Setrans_relatorio($request->all());
+        
+        $Setrans_relatorio->numero = 'xxx';
 
         $Setrans_relatorio->save();
         
@@ -135,6 +137,40 @@ class Setrans_RelatorioController extends Controller
         return redirect(url('/setrans'));
     }
 
+    public function edit($id)
+    {
+           //Auth User 
+           $logado = Auth::user();
+    
+           //Teste de Roles
+            $setrans = Auth::user()->hasRole('SETRANS_REL');
+            $setransgerente = Auth::user()->hasRole('SETRANS_REL_GERENTE');
+            $guardagcmm = Auth::user()->hasRole('SEMSOP_REL_GERENTE');
+            $guardagerente = Auth::user()->hasRole('SEMSOP_REL_GCMM');
+
+        return view('setrans.edit', compact('logado','setrans','setransgerente','guardagcmm','guardagerente'));
+    }
+
+
+    public function show(Request $request, $id)
+    {
+        //Auth User 
+        $logado = Auth::user();
+    
+        //Teste de Roles
+         $setrans = Auth::user()->hasRole('SETRANS_REL');
+         $setransgerente = Auth::user()->hasRole('SETRANS_REL_GERENTE');
+         $guardagcmm = Auth::user()->hasRole('SEMSOP_REL_GERENTE');
+         $guardagerente = Auth::user()->hasRole('SEMSOP_REL_GCMM');
+
+          //Busca o relatorio pelo id
+        $relatorio = Setrans_relatorio::with('funcionarios')->find($id);
+        //dd($relatorio);
+        $imagens = $relatorio->imagens;
+
+         return view('setrans.show',compact('logado','setrans','setransgerente','guardagcmm','guardagerente','relatorio','imagens'));
+    }
+
     public function destroy($id)
     {
         //Pega o relatorio
@@ -149,13 +185,39 @@ class Setrans_RelatorioController extends Controller
 
     }
 
+    public function imprimir($id)
+    {
+
+        $relatorio = Setrans_relatorio::find($id);
+        $imagens = $relatorio->imagens;
+
+        //dd($relatorio->origem);
+        $pdf = PDF::loadView('setrans/pdf',compact('relatorio','imagens'));
+        
+        return $pdf->stream('Relatorio.pdf');
+
+      
+    }
+
 
     public function envia(Request $request)
     {
+        $sequencia = Sequencia::first();
+        $numero_setrans = $sequencia->numero_setrans;
+
         $relatorio = Setrans_relatorio::find($request->id);
         $relatorio->enviado = 1;
+        $relatorio->numero =  "SETRANS".".".date("Y").".".$numero_setrans;
         
         $relatorio->save();
+
+        $numero_setrans++;
+
+        $sequencia->fill(['numero_setrans' => $numero_setrans]);
+
+        $sequencia->save();
+
+
     }
 
     public function dados()
@@ -192,7 +254,7 @@ class Setrans_RelatorioController extends Controller
             if(Auth::user()->hasRole('SETRANS_REL_GERENTE'))
             {
                 $acoes .= "<td style='width: 16%;'>
-                <a
+                <a href='".url("/setrans/$relatorio->id")."'
                     class='btn btn-primary btn-xs  action  pull-right botao_acao' 
                     data-toggle='tooltip'
                     data-placement='bottom' 
@@ -200,19 +262,19 @@ class Setrans_RelatorioController extends Controller
                     <i class='glyphicon glyphicon-eye-open'></i>
                 </a> 
                 
-                <a
-                    class='btn btn-info btn-xs action pull-right botao_acao'
-                    data-toggle='tooltip'  
-                    data-placement='bottom'
-                    title='Imprimir Relatorio'> 
-                    <i class='glyphicon glyphicon-print'></i>
-                </a>
+                <a href=".action('Setrans_RelatorioController@imprimir', $relatorio->id)." 
+                        class='btn btn-info btn-xs action pull-right botao_acao'
+                        data-toggle='tooltip'  
+                        data-placement='bottom'
+                        title='Imprimir Relatorio xD'> 
+                        <i class='glyphicon glyphicon-print'></i>
+                    </a>
             </td>";
 
             } else if(Auth::user()->hasRole('SETRANS_REL')) {
                 
                 $acoes .= "<td style='width: 16%;'>
-                    <a 
+                    <a href='".url("/setrans/$relatorio->id")."'
                         class='btn btn-primary btn-xs  action  pull-right botao_acao' 
                         data-toggle='tooltip'
                         data-placement='bottom' 
@@ -220,11 +282,11 @@ class Setrans_RelatorioController extends Controller
                         <i class='glyphicon glyphicon-eye-open'></i>
                     </a> 
                     
-                    <a 
+                    <a href=".action('Setrans_RelatorioController@imprimir', $relatorio->id)." 
                         class='btn btn-info btn-xs action pull-right botao_acao'
                         data-toggle='tooltip'  
                         data-placement='bottom'
-                        title='Imprimir Relatorio'> 
+                        title='Imprimir Relatorio xd'> 
                         <i class='glyphicon glyphicon-print'></i>
                     </a>
                 </td>";
@@ -240,7 +302,7 @@ class Setrans_RelatorioController extends Controller
                     //if(Auth::user()->id == $relatorio->funcionarios[0]->id){
                     if(Auth::user()->id == $cabra_relator){
                         if($relatorio->funcionarios[0]->pivot->relator){
-                        $acoes .= "<a 
+                        $acoes .= "<a href=".url("setrans/$relatorio->id/edit")."
                             class='btn btn-warning btn-xs action  pull-right botao_acao btn_control' 
                             data-toggle='tooltip' 
                             data-placement='bottom'
@@ -272,7 +334,8 @@ class Setrans_RelatorioController extends Controller
             
             $colecao->push([
                 'data' => $relatorio->data,
-                'registro_ocorrencia' => $relatorio->registro_ocorrencia,
+                'numero' => $relatorio->numero,
+                'registro_ocorrencia' => mb_strimwidth($relatorio->registro_ocorrencia, 0, 50,"..."),
                 'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,
                 'acoes' => $acoes
             ]);

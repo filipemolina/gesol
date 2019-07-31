@@ -37,22 +37,8 @@ class Semsop_RelatorioController extends Controller
         $guardagcmm = Auth::user()->hasRole('SEMSOP_REL_GCMM');
 		$guardagerente = Auth::user()->hasRole('SEMSOP_REL_GERENTE');
 
-        $id = Auth::user()->id;
-
-        $a = Semsop_funcionario_relatorio::where('funcionario_id', $id)->get();
-        //dd($a);
-        $b = Semsop_relatorio::find($a[0]->semsop_relatorio_id);
-        //dd($b);
-
-        $arr = [];
-        foreach($a as $relatorios){
-            $b = Semsop_relatorio::with('endereco','funcionarios')->find($relatorios->semsop_relatorio_id);
-
-           array_push($arr,$b);
-
-        }
-       //dd($arr[1]->funcionarios[1]->pivot->relator);
-        
+        // $dados = Semsop_relatorio::with('endereco','funcionarios')->where('enviado', 1)->get();
+        // dd($dados[1]->funcionarios);
         return view ('relatorios.relatorios',compact('logado','guardagcmm','guardagerente'));
 
     }
@@ -76,11 +62,15 @@ class Semsop_RelatorioController extends Controller
         $funcionarios = [];
         $a = [];
 
-        foreach ($teste as $funcionario) {
-            $a = ['id'=>$funcionario->id,'nome'=>$funcionario->nome];
-            array_push($funcionarios,$a);  
-        }
 
+        foreach ($teste as $funcionario) {
+            if ($funcionario->id != Auth::user()->id) {
+                $a = ['id'=>$funcionario->id,'nome'=>$funcionario->nome];
+                array_push($funcionarios,$a);  
+            }
+            
+        }
+    //dd($funcionarios);
         //Retorna os Enums para seus respectivos campos
         $origens = pegaValorEnum('semsop_relatorios','origem');
         $acoes_gcmm = pegaValorEnum('semsop_relatorios','acao_gcmm');
@@ -510,12 +500,15 @@ class Semsop_RelatorioController extends Controller
                 'numero' => $relatorio->numero,
                 'relato' => mb_strimwidth($relatorio->relato, 0, 70,"..."),
                 'data'   => date('d-m-Y', strtotime($relatorio->data)),
-                'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,
+                 'agente' => $relatorio->funcionarios()->where("relator", true)->first()->nome,
+                // 'agente' => 'a',
                 'acoes'  => $acoes
             ]);
         }
 
         // Retornar a coleção como um objeto Datatables
+        
+        
         return DataTables::of($colecao)
                 ->rawColumns(['acoes'])
                 ->make(true);

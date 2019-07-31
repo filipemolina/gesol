@@ -119,7 +119,7 @@ Route::get('semsop/datatables', 'Semsop_RelatorioController@dados');
 // 										SETRANS_RELATORIOS
 //========================================================================================
 // Imprimir PDF
-// Route::get('semsop/pdf/{id}','Semsop_RelatorioController@imprimir');
+Route::get('setrans/pdf/{id}','Setrans_RelatorioController@imprimir');
 // Enviar Formulario
 Route::post('setrans/enviaformulario','Setrans_RelatorioController@envia');
 // DataTables

@@ -27,6 +27,7 @@
 						<thead>
 							<tr>
 								<th>Data</th>
+								<th>Numero</th>
 								<th>Registro da ocorrencia</th>
 								<th>Agente/Fiscal</th> 
 								<th class="disabled-sorting text-right" style="width: 16%;">Ações</th>
@@ -173,12 +174,13 @@ swal({
 			ajax: "{{ url('/setrans/datatables') }}",
 			columns: [
 				{ data : 'data',        				name : 'data' },
+				{ data : 'numero',						name : 'numero'},
 				{ data : 'registro_ocorrencia',     name : 'registro_ocorrencia' },
 				{ data : 'agente',        				name : 'agente' },
 				{ data : 'acoes',        				name : 'acoes' },
 			],
 			"columnDefs": [
-    			{ "width": "15%", "targets": 2 },
+    			{ "width": "10%", "targets": 3 },
     			{ className: "text-center", "targets": [2] },
   			]
 		});

@@ -1,3 +1,37 @@
 // Comentei a linha 1018 do Material-dashboard.css
 
 //Linha 16888 do Material-dashboard.css Alterada
+
+
+DB_CONNECTION=mysql
+DB_HOST=192.168.0.20
+DB_PORT=3307
+DB_DATABASE=gesol
+DB_USERNAME=gesol
+DB_PASSWORD=gesol#123
+
+DB_CONNECTION=mysql2
+DB_HOST2=192.168.0.20
+DB_PORT2=3307
+DB_DATABASE2=sisseg
+DB_USERNAME2=sisseg
+DB_PASSWORD2=dSh8RtlzCC99cbX3mncR2RwInYZUfXH8qo79ZjyclybDOz72dZ
+
+
+//////
+
+
+
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=gesol
+DB_USERNAME=root
+DB_PASSWORD=
+
+DB_CONNECTION=mysql2
+DB_HOST2=localhost
+DB_PORT2=3306
+DB_DATABASE2=sisseg
+DB_USERNAME2=root
+DB_PASSWORD2=

@@ -37,7 +37,35 @@
 						</thead>
 					</table>
 				</div> {{-- Fim Material-datatbles --}}
-			</div>
+				
+			{{-- 	<div class="material">
+					<table class="table table-striped table-no-bordered table-hover">
+						<thead>
+							<tr>
+								<th>Origem</th>
+								<th>Local</th>
+								<th>Numero</th>
+								<th>Relato Sucinto</th>
+								<th>Data</th> 
+								<th>Agente/Fiscal</th> 
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($dados as $dado)
+								<tr>
+									<td>{{$dado->origem}}</td>
+									<td>{{$dado->endereco_id}}</td>
+									<td>{{$dado->numero}}</td>
+									<td>{{$dado->relato}}</td>
+									<td>{{$dado->data}}</td>
+									<td>{{$dado}}</td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
+
+			</div> --}}
 		</div>
 	</div>
 </div>
@@ -170,16 +198,17 @@
 			responsive: true,
 			deferRender: true,
 			compact: true,
+			processing: true,
 			serverSide: true,
 			ajax: "{{ url('/semsop/datatables') }}",
 			columns: [
-				{ data : 'origem',        name : 'origem' },
-				{ data : 'local',        name : 'local' },
-				{ data : 'numero',        name : 'numero' },
-				{ data : 'relato',        name : 'relato' },
-				{ data : 'data',        name : 'data' },
-				{ data : 'agente',        name : 'agente' },
-				{ data : 'acoes',        name : 'acoes' },
+				{ data : 'origem',        	name : 'origem' },
+				{ data : 'local',        	name : 'local' },
+				{ data : 'numero',        	name : 'numero' },
+				{ data : 'relato',       	name : 'relato' },
+				{ data : 'data',        	name : 'data' },
+				{ data : 'agente',        	name : 'agente' },
+				{ data : 'acoes',        	name : 'acoes' },
 			],
 			"columnDefs": [
     			{ "width": "15%", "targets": 5 },

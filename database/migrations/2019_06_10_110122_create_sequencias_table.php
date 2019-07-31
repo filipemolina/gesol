@@ -16,6 +16,7 @@ class CreateSequenciasTable extends Migration
         Schema::create('sequencias', function (Blueprint $table) {
             $table->increments('id');
             $table->string('numero',20);
+            $table->string('numero_setrans',20);
             $table->timestamps();
         });
     }

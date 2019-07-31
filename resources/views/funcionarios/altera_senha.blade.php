@@ -30,33 +30,39 @@ Alteraração de senha
 				 <!-- Dados  -->
 				<div class="col-md-8">
 					<div class="card-content no-padding">
-						<div class="input-group">
-                  	<span class="input-group-addon">
+						<div class="input-group-prepend">
+                  	<span class="input-group-text">
                       	<i class="material-icons">lock_outline</i>
 							</span>
-                   	<div class="form-group label-floating has-dourado">
+							<div> 
+							<div class="form-group label-floating has-dourado">
 								<label class="control-label">Senha Atual</label>
 								<input type="password" name="password_atual" class="form-control error">
 							</div>
-						</div>
-
-						<div class="input-group">
-                  	<span class="input-group-addon">
-                      	<i class="material-icons">lock_outline</i>
-							</span>
-                   	<div class="form-group label-floating has-dourado">
-								<label class="control-label">Nova Senha</label>
-								<input type="password" name="password" class="form-control error">
 							</div>
 						</div>
 
-                  <div class="input-group">
-                  	<span class="input-group-addon">
+						<div class="input-group-prepend">
+                  	<span class="input-group-text">
                       	<i class="material-icons">lock_outline</i>
 							</span>
-                   	<div class="form-group label-floating has-dourado">
+							<div> 
+							<div class="form-group label-floating has-dourado">
+								<label class="control-label">Nova Senha</label>
+								<input type="password" name="password" class="form-control error">
+							</div>
+							</div>
+						</div>
+
+                  <div class="input-group-prepend">
+                  	<span class="input-group-text">
+                      	<i class="material-icons">lock_outline</i>
+							</span>
+							<div> 
+							<div class="form-group label-floating has-dourado">
 								<label class="control-label">Confirmar senha</label>
 								<input type="password" name="password_confirmation" type="password" class="form-control error" >
+							</div>
 							</div>
                   </div>
 					</div>

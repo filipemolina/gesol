@@ -10,7 +10,8 @@ class Sequencia extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'numero'
+        'numero',
+        'numero_setrans'
     ];
   
 }
